@@ -1,0 +1,63 @@
+.menu {
+    display: none;
+
+}
+
+@media (max-width: 840px) {
+    .menu {
+        display: flex;
+        position: sticky;
+        bottom: 0;
+        background-color: var(--menu-color);
+        height: 48px;
+        width: 100%;
+        z-index: 5;
+    }
+
+    .menulimit {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-left: auto;
+        margin-right: auto;
+        align-items: center;
+        padding: 24px;
+    }
+}
+
+.pointermenu {
+    opacity: 0.3;
+}
+
+.menulimit button {
+    background: none;
+    border: none;
+}
+
+.menu_logo{
+    display: flex;
+    width: 32px;
+    height: 32px;
+    background-image: var(--menu-icon);
+}
+
+.home_logo{
+    display: flex;
+    width: 32px;
+    height: 32px;
+    background-image: var(--home-icon);
+}
+
+.search_logo{
+    display: flex;
+    width: 32px;
+    height: 32px;
+    background-image: var(--search-icon);
+}
+
+.user_logo{
+    display: flex;
+    width: 32px;
+    height: 32px;
+    background-image: var(--user-icon);
+}

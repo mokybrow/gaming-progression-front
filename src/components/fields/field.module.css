@@ -1,0 +1,45 @@
+.form_input {
+    border-radius: 6px;
+    padding: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: #F5F5F5;
+
+}
+
+.input_wrapper {
+    position: relative;
+}
+
+.input_wrapper input {
+    width: 100%;
+    padding: 20px 50px 10px 10px;
+    border-radius: 6px;
+    /* border: 1px solid #1E1D1F; */
+    outline: none;
+    color: #1E1D1F;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.input_wrapper label {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    padding: 10px;
+    pointer-events: none;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.input_wrapper input:focus~label {
+    opacity: 0.6;
+    transform: translateY(-30px);
+    font-size: 12px;
+}
+
+.input_wrapper input:valid~label {
+    opacity: 0.6;
+    transform: translateY(-30px);
+    font-size: 12px;
+}

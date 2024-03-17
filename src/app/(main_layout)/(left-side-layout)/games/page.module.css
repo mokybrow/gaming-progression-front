@@ -1,0 +1,144 @@
+.cards_layout_three {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 18px;
+    row-gap: 18px;
+    align-items: flex-start;
+    grid-auto-rows: min-content;
+    width: 100%;
+}
+
+.cards_layout_two {
+    display: none;
+}
+
+
+.cards_layout_one {
+    display: none;
+}
+
+
+.filters_layout {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 216px;
+    height: calc(100vh - 168px);
+    position: sticky;
+    top: 89px;
+}
+
+.column_layout {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.help_line {
+    grid-column: 1/4;
+
+}
+
+.filters_wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 18px;
+}
+
+
+
+.popup_wrapper {
+    top: -40px;
+    position: relative;
+}
+
+.popup_elem {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+
+}
+
+.sort_button_wrapper {
+    display: flex;
+    align-items: flex-start;
+}
+
+.sort_button {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    cursor: pointer;
+    align-items: center;
+}
+
+.filter_button {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.filter_icon,
+.sort_icon {
+    height: 16px;
+    width: 16px;
+}
+
+.sort_icon {
+    background-image: var(--sort-icon);
+}
+
+.filter_icon {
+    background-image: var(--filter-icon);
+
+}
+
+.show_more_button {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    grid-column: 1/4;
+}
+
+.exit_button_wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: right;
+}
+
+.exit_button {
+    background-image: var(--x-icon);
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 1280px) {
+    .filters_block {
+        display: none;
+  
+    }
+
+    .filters_block_active {
+        display: block;
+
+    }
+
+    .filter_button {
+        cursor: pointer;
+    }
+}
+
+
+@media (max-width: 840px) {
+    .cards_layout_three {
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+}
