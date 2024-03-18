@@ -2,6 +2,8 @@
     width: 100%;
     position: relative;
     color: #E8E8ED;
+    background-color: #1E1D1F;
+    border-radius: 6px;
 }
 
 .item:hover {

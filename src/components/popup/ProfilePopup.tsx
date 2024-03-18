@@ -1,8 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react';
 import styles from './popup.module.css'
-import { useResize } from '@/hooks/useResize';
 
 export interface ModalProps {
     active: boolean,

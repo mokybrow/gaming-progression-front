@@ -1,14 +1,14 @@
-.submit_button{
+.submit_button {
     border: none;
     padding: 6px 12px;
     background-color: #0368CD;
-    color: #FFFFFF;
+    color: #E8E8ED;
     border-radius: 6px;
     font-size: 18px;
     cursor: pointer;
 }
 
-.square_button{
+.square_button {
     display: flex;
     border-radius: 6px;
     border: none;
@@ -23,7 +23,7 @@
     cursor: pointer;
 }
 
-.profile_button{
+.profile_button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,12 +37,28 @@
     font-size: 18px;
 }
 
-.filter_button{
+.filter_button {
     border: none;
     padding: 6px 12px;
     background-color: #0368CD;
-    color: #FFFFFF;
+    color: #E8E8ED;
     border-radius: 6px;
     font-size: 12px;
     cursor: pointer;
+}
+
+.func_button {
+    border: none;
+    padding: 6px 12px;
+    color: #1E1D1F;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.1s linear;
+}
+
+
+.func_button:hover {
+    opacity: 1;
 }

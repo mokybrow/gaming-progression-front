@@ -1,23 +1,24 @@
-// use-resize.js
-import { useState, useEffect } from 'react';
+// // use-resize.js
 
-export const useResize = () => {
-    if (typeof document !== 'undefined') {
-        const [width, setWidth] = useState(document.documentElement.clientWidth);
+// 'use client'
+// import { useState, useEffect } from 'react';
 
-        useEffect(() => {
-            const handleResize = (event: any) => {
-                setWidth(event.target.document.documentElement.clientWidth);
-            };
-            window.addEventListener('resize', handleResize);
-            return () => {
-                window.removeEventListener('resize', handleResize);
-            };
-        }, []);
+// export const useResize = () => {
 
-        return {
-            width,
+//     const [width, setWidth] = useState(window.innerWidth);
 
-        };
-    }
-};
+//     useEffect(() => {
+//         const handleResize = (event: any) => {
+//             setWidth(event.target.document.documentElement.clientWidth);
+//         };
+//         window.addEventListener('resize', handleResize);
+//         return () => {
+//             window.removeEventListener('resize', handleResize);
+
+//         };
+
+//     }, []);
+
+//     return width;
+
+// };

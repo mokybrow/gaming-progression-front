@@ -46,56 +46,56 @@ export function Header() {
                         <input type="text" />
                     </div>
 
-                    {auth_store.isLoading ? null :
-                        <div className={styles.profile_section}>
-                            {auth_store.isAuth ?
-                                <UserProfileButton type={'button'} onClick={() => setIsShow(!isShow)} height={32}>
-                                    {auth_store.user.username}
-                                    <Image
-                                        src={userpic}
-                                        width={24}
-                                        height={24}
-                                        alt="user"
-                                    />
-                                </UserProfileButton>
 
-                                :
-                                <Link href={'/sign-in'} className={styles.login_button}>
-                                    Войти
-                                </Link>
-                            }
-                            <ProfilePopup active={isShow} innerRef={popupRef}>
+                    <div className={styles.profile_section}>
+                        {auth_store.isAuth ?
+                            <UserProfileButton type={'button'} onClick={() => setIsShow(!isShow)} height={32}>
+                                {auth_store.user.username}
+                                <Image
+                                    src={userpic}
+                                    width={24}
+                                    height={24}
+                                    alt="user"
+                                />
+                            </UserProfileButton>
 
-
-                                <a href={'/' + auth_store.user.username} onClick={() => setIsShow(!isShow)}>
-
-                                    <div className={styles.user_icon}></div>
-                                    <span>
-                                        {auth_store.user.full_name}
-                                    </span>
-                                </a>
-                                <a href={auth_store.user.username + '/settings'} onClick={() => setIsShow(!isShow)}>
+                            :
+                            <Link href={'/sign-in'} className={styles.login_button}>
+                                Войти
+                            </Link>
+                        }
+                        <ProfilePopup active={isShow} innerRef={popupRef}>
 
 
-                                    <div className={styles.settings_icon}></div>
+                            <a href={'/' + auth_store.user.username} onClick={() => setIsShow(!isShow)}>
 
-                                    <span>
-                                        Настройки
-                                    </span>
-                                </a>
+                                <div className={styles.user_icon}></div>
+                                <span>
+                                    {auth_store.user.full_name}
+                                </span>
+                            </a>
+                            <a href={auth_store.user.username + '/settings'} onClick={() => setIsShow(!isShow)}>
 
-                                <a href={auth_store.user.username + '/'} onClick={() => { auth_store.logout(), setIsShow(!isShow) }}>
 
-                                    <div className={styles.leave_icon}></div>
+                                <div className={styles.settings_icon}></div>
 
-                                    <span>
-                                        Выход
-                                    </span>
-                                </a>
+                                <span>
+                                    Настройки
+                                </span>
+                            </a>
 
-                            </ProfilePopup>
-                        </div>
-                    }
+                            <a href={auth_store.user.username + '/'} onClick={() => { auth_store.logout(), setIsShow(!isShow) }}>
+
+                                <div className={styles.leave_icon}></div>
+
+                                <span>
+                                    Выход
+                                </span>
+                            </a>
+
+                        </ProfilePopup>
+                    </div>
+
                 </div>
 
             </header >

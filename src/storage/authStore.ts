@@ -1,6 +1,7 @@
 import { API_URL } from "@/api/api";
-import { AuthResponse, IUserModel } from "@/models/userModel";
+import { AuthResponse, IUserModel, UserActivity } from "@/models/userModel";
 import AuthService from "@/services/authService";
+import GameService from "@/services/gamesService";
 import { removeLocalToken, saveLocalToken } from "@/utils/tokenUtils";
 import { AxiosError, AxiosResponse } from "axios";
 import { makeAutoObservable } from "mobx";
@@ -23,6 +24,7 @@ export default class AuthStore {
     setUser(user: IUserModel) {
         this.user = user;
     }
+
     setLoading(bool: boolean) {
         this.isLoading = bool;
     }
@@ -34,6 +36,7 @@ export default class AuthStore {
             this.setAuth(true);
             const userProfile = await AuthService.getProfile();
             this.setUser(userProfile.data);
+
         } catch (e) {
             const error = e as AxiosError;
             return error
@@ -57,12 +60,41 @@ export default class AuthStore {
             const response = await AuthService.getProfile();
             this.setUser(response.data)
             this.setAuth(true);
+            this.setLoading(false);
         } catch (error) {
             this.setUser({} as IUserModel)
             removeLocalToken();
+        }
+    }
 
-        } finally {
+    async changeGameStatus(gameId: string, activityType: string) {
+        this.setLoading(true);
+        try {
+            await GameService.changeGameStatus(gameId, activityType);
+            const response = await AuthService.getProfile();
+            this.setUser(response.data)
+            this.setAuth(true);
+
             this.setLoading(false);
+        } catch (error) {
+            this.setUser({} as IUserModel)
+            removeLocalToken();
+        }
+    }
+
+    async addGameToFavorite(gameId: string) {
+        this.setLoading(true);
+        try {
+            await GameService.addGameToFavorite(gameId);
+            const response = await AuthService.getProfile();
+            this.setUser(response.data)
+            this.setAuth(true);
+
+            this.setLoading(false);
+
+        } catch (error) {
+            this.setUser({} as IUserModel)
+            removeLocalToken();
         }
     }
 

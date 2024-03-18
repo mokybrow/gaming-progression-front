@@ -4,6 +4,8 @@ import { Genre, Platform } from '@/models/gamesModel';
 import styles from './game.card.module.css'
 import Image from 'next/image'
 import Link from 'next/link';
+import { useContext } from 'react';
+import { Context } from '@/app/providers';
 
 export interface CardProps {
     title: string,
@@ -16,6 +18,7 @@ export interface CardProps {
 }
 
 export default function GameCard({ title, cover, release_date, avg_rate, platforms, genres, slug }: CardProps) {
+    const { games_store } = useContext(Context);
 
     return (
 
@@ -25,7 +28,7 @@ export default function GameCard({ title, cover, release_date, avg_rate, platfor
                     <img src={cover} alt={title} className={styles.game_cover} />
                 </div>
                 <div className={styles.flex}>
-                    <Link href={`/games/${slug}`} >
+                    <Link href={`/games/${slug}`} onClick={()=> games_store.getGamePage(slug)}>
                         <span className={styles.game_title}>{title}</span>
                     </Link>
                 </div>

@@ -21,6 +21,11 @@
   --filter-icon: url("../assets/icons/light/filter.svg");
   --x-icon: url("../assets/icons/light/x.svg");
 
+  --rocket-icon: url('../assets//icons/general/rocket.svg');
+  --finish-flag-icon: url('../assets//icons/general/finish.svg');
+  --heart-favorite-icon: url('../assets//icons/general/heart.svg');
+  --bag-icon: url('../assets//icons/general/bag.svg');
+
   --sidebar-hover: #fff;
 
   --header-color: #FFAD4A;
@@ -143,6 +148,8 @@ body {
   grid-template-columns: 712px 216px;
   width: 100%;
   justify-content: space-between;
+  align-items: flex-start;
+  grid-auto-rows: min-content;
   position: relative;
   column-gap: 48px;
 }
@@ -157,6 +164,8 @@ body {
 
 .content_wrapper {
   display: flex;
+  flex-direction: column;
+  gap: 12px;
   padding-top: 41px;
   padding-bottom: 24px;
 }
@@ -190,11 +199,12 @@ body {
     position: static;
     grid-row: 1/1;
     padding-top: 41px;
+    padding-bottom: 0;
     height: 100%;
   }
   .content_wrapper {
     display: flex;
-    padding-top: 10px;
+    padding-top: 0;
     padding-bottom: 24px;
   }
 }
