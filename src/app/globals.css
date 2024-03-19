@@ -27,10 +27,11 @@
   --bag-icon: url('../assets//icons/general/bag.svg');
 
   --sidebar-hover: #fff;
+  --popup-bg-color: rgba(255, 255, 255, 0.8);
 
   --header-color: #FFAD4A;
   --menu-color: #fff;
-
+  --link-color: #0071E3;
   --service-button-color: #0368CD;
   --selection-menu-color: #D9D9D9;
 }
@@ -61,7 +62,7 @@
     --x-icon: url("../assets/icons/dark/x.svg");
 
     --sidebar-hover: #333333;
-
+    --popup-bg-color: rgba(51, 51, 51, 0.8);
     --header-color: #333333;
 
     --menu-color: #333333;
@@ -97,6 +98,45 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.modal {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--popup-bg-color);
+  backdrop-filter: saturate(180%) blur(20px);
+  z-index: 999;
+  opacity: 0;
+  transition: 200ms all;
+}
+
+.modal.activemodal {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: all;
+}
+
+
+.modal_content {
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transform: scale(1.2);
+  transition: 400ms all;
+}
+
+.modal_content.activemodal {
+  transform: scale(1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -192,6 +232,7 @@ body {
     grid-template-columns: 1fr;
     max-width: 600px;
     margin: 0;
+    row-gap: 12px;
   }
 
   .right_side_wrapper {
@@ -202,6 +243,7 @@ body {
     padding-bottom: 0;
     height: 100%;
   }
+
   .content_wrapper {
     display: flex;
     padding-top: 0;
@@ -218,7 +260,7 @@ body {
   .nested_layout {
     grid-template-columns: 1fr;
     max-width: 100%;
-    padding: 0 24px;
+    padding: 0 12px;
     margin-left: auto;
     margin-right: auto;
   }

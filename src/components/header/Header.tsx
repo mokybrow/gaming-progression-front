@@ -84,7 +84,7 @@ export function Header() {
                                 </span>
                             </a>
 
-                            <a href={auth_store.user.username + '/'} onClick={() => { auth_store.logout(), setIsShow(!isShow) }}>
+                            <a href={'/'} onClick={() => { auth_store.logout(), setIsShow(!isShow) }}>
 
                                 <div className={styles.leave_icon}></div>
 

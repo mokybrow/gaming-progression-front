@@ -1,6 +1,7 @@
 import { API_URL } from "@/api/api";
 import { AuthResponse, IUserModel, UserActivity } from "@/models/userModel";
 import AuthService from "@/services/authService";
+import ContentService from "@/services/contentService";
 import GameService from "@/services/gamesService";
 import { removeLocalToken, saveLocalToken } from "@/utils/tokenUtils";
 import { AxiosError, AxiosResponse } from "axios";
@@ -97,5 +98,7 @@ export default class AuthStore {
             removeLocalToken();
         }
     }
+
+
 
 }

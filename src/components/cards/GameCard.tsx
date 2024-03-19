@@ -28,7 +28,7 @@ export default function GameCard({ title, cover, release_date, avg_rate, platfor
                     <img src={cover} alt={title} className={styles.game_cover} />
                 </div>
                 <div className={styles.flex}>
-                    <Link href={`/games/${slug}`} onClick={()=> games_store.getGamePage(slug)}>
+                    <Link href={`/games/${slug}`}>
                         <span className={styles.game_title}>{title}</span>
                     </Link>
                 </div>

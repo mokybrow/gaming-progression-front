@@ -1,4 +1,6 @@
 import { GamePageResponse, GamesResponse } from "@/models/gamesModel";
+import { CommentsResponse } from "@/models/serviceModel";
+import ContentService from "@/services/contentService";
 import GameService from "@/services/gamesService";
 import { makeAutoObservable } from "mobx"
 
@@ -10,6 +12,7 @@ export default class GamesStore {
     platforms = [] as string[]
     release_date = [] as number[]
     games = [] as GamesResponse[];
+    comments = [] as CommentsResponse[];
     gamePage = {} as GamePageResponse;
     slider_values = [1954, 2024]
 
@@ -30,6 +33,9 @@ export default class GamesStore {
 
     setGames(games: GamesResponse[]) {
         this.games = games;
+    }
+    setComments(comments: CommentsResponse[]) {
+        this.comments = comments;
     }
 
     setGamePage(games: GamePageResponse) {
@@ -78,6 +84,8 @@ export default class GamesStore {
         this.setLoading(true);
         try {
             const response = await GameService.getGamePage(slug);
+            const result = await ContentService.getComments(response.data.id)
+            this.setComments(result.data)
             this.setGamePage(response.data)
             this.setLoading(false);
 
@@ -86,5 +94,28 @@ export default class GamesStore {
         }
     }
 
+    async addNewComment(itemId: string, text: string, parentCommntId?: string | null) {
+        this.setLoading(true);
+        try {
+            await ContentService.addNewComment(itemId, text, parentCommntId)
+            const result = await ContentService.getComments(itemId)
+            this.setComments(result.data)
+            this.setLoading(false);
 
+        } catch (error) {
+
+        }
+    }
+
+    async getGameComments(itemId: string) {
+        this.setLoading(true);
+        try {
+            const result = await ContentService.getComments(itemId)
+            this.setComments(result.data)
+            this.setLoading(false);
+
+        } catch (error) {
+
+        }
+    }
 }

@@ -12,7 +12,7 @@ export function ProfilePopup({ active, children, innerRef, ...rest }: ModalProps
 
     if (!active) return null;
     return (
-        <div className={active ? styles.modal_content_active : styles.modal_content}
+        <div className={active ? styles.modal_content_active : styles.modal_hide}
             onClick={e => e.stopPropagation()}
             ref={innerRef} {...rest}>
             {children}
