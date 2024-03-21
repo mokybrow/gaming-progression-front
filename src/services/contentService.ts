@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import $api from "@/api/api";
-import { CommentsResponse } from "@/models/serviceModel";
+import { CommentsResponse, UserCommentsLikes } from "@/models/serviceModel";
 
 export default class ContentService {
 
@@ -23,5 +23,24 @@ export default class ContentService {
         )
     }
 
+    static async getUserCommentsLikes(itemId: string): Promise<AxiosResponse<UserCommentsLikes[]>> {
+        const url = process.env.API_URL + `comments/likes`
+        return $api.post<UserCommentsLikes[]>(url,
+            {
+                item_id: itemId,
+            }
+        )
+    }
+
+    static async likeContent(itemId: string, typeId: string, value: boolean): Promise<AxiosResponse> {
+        const url = process.env.API_URL + `likes`
+        return $api.post(url,
+            {
+                type_id: typeId,
+                item_id: itemId,
+                value: value,
+            }
+        )
+    }
 
 }

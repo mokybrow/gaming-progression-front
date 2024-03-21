@@ -1,13 +1,14 @@
 import { ComponentProps, FC } from "react";
 import styles from "./comment.module.css";
 
-const CommentField: FC<ComponentProps<"textarea">> = (props) => {
-    const { value, ...rest } = props;
+
+const CommentField: FC<ComponentProps<"textarea">> = ({ value, ...rest }) => {
 
     return (
         <div className={styles.textarea}>
             <div className={styles.textarea_control} data-view="fake">
-                {value} <br />
+                {value}
+                <br />
             </div>
             <textarea
                 {...rest}
@@ -15,6 +16,8 @@ const CommentField: FC<ComponentProps<"textarea">> = (props) => {
                 data-view="native"
                 value={value}
             />
+
+
         </div>
     );
 };

@@ -6,13 +6,13 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '@/app/providers';
 import { observer } from 'mobx-react-lite';
 import { FunctionalGameButton } from '@/components/buttons/FunctionalGameButton';
-import SkeletonLoader from '@/components/loader/loader';
 import useOutside from '@/hooks/useOutside';
 import LoginForm from '@/components/forms/login_form/LoginForm';
 import { FullScreenPopup } from '@/components/popup/FullScreenPopup';
 import CommentField from '@/components/fields/comment/CommentField';
 
 import Link from 'next/link';
+import LikeIcon from '@/components/icons/like';
 
 
 function GamePage() {
@@ -22,6 +22,7 @@ function GamePage() {
     const [showChildComments, setShowChildComments] = useState<{ [key: string]: number }>({})
     const [showMoreComments, setShowMoreComments] = useState(3)
     const [replyWindowIsOpen, setreplyWindowIsOpen] = useState('')
+    const [likeComment, setLikeComment] = useState(false)
     useOutside(popupRef, () => {
         if (isShow) {
             setTimeout(() => setIsShow(false), 50)
@@ -55,12 +56,10 @@ function GamePage() {
         auth_store.addGameToFavorite(games_store.gamePage.id)
     }
 
-
     const showMoreChildComments = (parendID: string, showLenght: number) => {
-        console.log(showLenght)
         if (!showChildComments.hasOwnProperty(parendID)) {
             const updatedValue: { [key: string]: number } = {};
-            updatedValue[parendID] = showLenght
+            updatedValue[parendID] = 5
             setShowChildComments(commentsToShow => ({
                 ...commentsToShow,
                 ...updatedValue
@@ -68,15 +67,21 @@ function GamePage() {
         }
         else {
             const updatedValue: { [key: string]: number } = {};
-            updatedValue[parendID] = showChildComments[parendID] + showLenght
+            updatedValue[parendID] = showChildComments[parendID] + 5
             setShowChildComments(commentsToShow => ({
                 ...commentsToShow,
                 ...updatedValue
             }))
         }
-
-
     }
+
+    const changeCommentsLikeValue = (commentId: string) => {
+
+        games_store.likeComment(commentId, '985449ce-ebe9-4214-a161-a6a51e9059bc', true)
+    }
+
+
+
     const showCommentsMore = () => {
         setShowMoreComments(showMoreComments + 5)
     }
@@ -110,25 +115,25 @@ function GamePage() {
                         <div className={styles.active_button_wrapper}>
 
 
-                            <FunctionalGameButton type={'button'} bg_color={findStatusStart ? '#FFFAA3' : '#D6D6D6'} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('start') }} fontSize={20}>
+                            <FunctionalGameButton type={'button'} bg_color={findStatusStart ? '#FFFAA3' : '#D6D6D6'} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('start') }} fontSize={18}>
                                 <div className={styles.button_data_wrapper}>
                                     <div className={styles.rocket_logo}></div>
                                     <span>Начал</span>
                                 </div>
                             </FunctionalGameButton>
-                            <FunctionalGameButton type={'button'} bg_color={findStatusComplete ? '#97E88A' : '#D6D6D6'} fontSize={20} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('complete') }}>
+                            <FunctionalGameButton type={'button'} bg_color={findStatusComplete ? '#97E88A' : '#D6D6D6'} fontSize={18} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('complete') }}>
                                 <div className={styles.button_data_wrapper}>
                                     <div className={styles.finish_logo}></div>
                                     <span>Прошёл</span>
                                 </div>
                             </FunctionalGameButton>
-                            <FunctionalGameButton type={'button'} bg_color={findStatusFavorite ? '#FFC0BA' : '#D6D6D6'} fontSize={20} onClick={() => { !auth_store.isAuth ? setIsShow(true) : addGameToFavorite() }}>
+                            <FunctionalGameButton type={'button'} bg_color={findStatusFavorite ? '#FFC0BA' : '#D6D6D6'} fontSize={18} onClick={() => { !auth_store.isAuth ? setIsShow(true) : addGameToFavorite() }}>
                                 <div className={styles.button_data_wrapper}>
                                     <div className={styles.heart_logo}></div>
                                     <span>Любимая</span>
                                 </div>
                             </FunctionalGameButton>
-                            <FunctionalGameButton type={'button'} bg_color={findStatusWish ? '#58B0CF' : '#D6D6D6'} fontSize={20} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('wish') }}>
+                            <FunctionalGameButton type={'button'} bg_color={findStatusWish ? '#58B0CF' : '#D6D6D6'} fontSize={18} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('wish') }}>
                                 <div className={styles.button_data_wrapper}>
                                     <div className={styles.bag_logo}></div>
                                     <span>Отложил</span>
@@ -165,8 +170,8 @@ function GamePage() {
 
                     </div>
 
-                    {games_store.comments == null ?
-                        <span>Информаци пока нет </span> : null}
+                    {/* {games_store.comments == null ?
+                        <span>Информаци пока нет </span> : null} */}
 
                     {games_store.comments.slice(0, showMoreComments).map(comment => (
                         <div key={comment.id} className={styles.parent_comment}>
@@ -179,8 +184,17 @@ function GamePage() {
                             </div>
                             <span>{comment.text}</span>
                             <div className={styles.like_and_reply_comment}>
-                                <span className={styles.reply_button} onClick={() => (setreplyWindowIsOpen(comment.id), setReply(''))}>
-                                    Ответить</span>
+                                <div className={styles.like_block}>
+                                    <div className="like-button" onClick={() => changeCommentsLikeValue(comment.id)}>
+
+                                        <LikeIcon className={games_store.commentsLikes.find(o => o.id === comment.id && o.hasAuthorLike === 1) ? "heart-icon liked" : "heart-icon"} />
+
+                                    </div>
+                                    <span >{comment.like_count}</span>
+                                </div>
+                                <span className={styles.reply_button} onClick={() => (setreplyWindowIsOpen(comment.id), setReply('[Skillbox Media](https://skillbox.ru/media/) без подсказки'))}>
+                                    Ответить
+                                </span>
 
                             </div>
                             {replyWindowIsOpen == comment.id ?
@@ -221,10 +235,20 @@ function GamePage() {
                                                 </div>
                                             </div>
                                             <span>{child.text}</span>
+
                                             <div className={styles.like_and_reply_comment}>
+                                                <div className={styles.like_block}>
+
+                                                    <div className="like-button" onClick={() => changeCommentsLikeValue(child.id)}>
+                                                        <LikeIcon className={games_store.commentsLikes.find(o => o.id === child.id && o.hasAuthorLike === 1) ? "heart-icon liked" : "heart-icon"} />
+                                                    </div>
+
+                                                    <span >{child.like_count}</span>
+                                                </div>
                                                 <span className={styles.reply_button}
-                                                    onClick={() => (setreplyWindowIsOpen(child.id), setReply(''))}>
-                                                    Ответить</span>
+                                                    onClick={() => (setreplyWindowIsOpen(child.id), setReply(comment.author_info.username))}>
+                                                    Ответить
+                                                </span>
                                             </div>
                                             {replyWindowIsOpen == child.id ?
                                                 <div className={styles.comment_field_wrapper}>
@@ -267,6 +291,12 @@ function GamePage() {
                                             </div>
                                             <span>{child.text}</span>
                                             <div className={styles.like_and_reply_comment}>
+                                                <div className="like-button">
+                                                    <div className="heart-bg">
+                                                        <div className={likeComment ? "heart-icon liked" : "heart-icon"} onClick={() => setLikeComment(!likeComment)}></div>
+                                                    </div>
+                                                </div>
+                                                <span >{comment.like_count}</span>
                                                 <span className={styles.reply_button}
                                                     onClick={() => (setreplyWindowIsOpen(child.id), setReply(''))}>
                                                     Ответить</span>
