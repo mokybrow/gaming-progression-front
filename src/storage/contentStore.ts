@@ -6,6 +6,7 @@ import { makeAutoObservable } from "mobx"
 export default class ContentStore {
     users = [{id: '123'}] as SearchUserModel[];
     isLoading = false;
+
     comment = '' as string;
     constructor() {
         makeAutoObservable(this);
@@ -20,7 +21,7 @@ export default class ContentStore {
     }
 
     setComment(comment: string) {
-        this.isLoading = comment;
+        this.comment = comment;
     }
 
     async searchUser(value: string) {
