@@ -1,7 +1,6 @@
 import { ComponentProps, FC } from "react";
 import styles from "./comment.module.css";
 
-
 const CommentField: FC<ComponentProps<"textarea">> = ({ value, ...rest }) => {
 
     return (

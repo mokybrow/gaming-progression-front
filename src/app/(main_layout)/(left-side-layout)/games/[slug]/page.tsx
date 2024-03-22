@@ -10,9 +10,14 @@ import useOutside from '@/hooks/useOutside';
 import LoginForm from '@/components/forms/login_form/LoginForm';
 import { FullScreenPopup } from '@/components/popup/FullScreenPopup';
 import CommentField from '@/components/fields/comment/CommentField';
+import ReactMarkdown from "react-markdown";
+import { MentionsInput, Mention } from "react-mentions";
+import MentionStyle from "@/components/forms/UserForm/MentionStyle";
+import debounce from "lodash/debounce";
 
 import Link from 'next/link';
 import LikeIcon from '@/components/icons/like';
+import ContentService from '@/services/contentService';
 
 
 function GamePage() {
@@ -45,6 +50,21 @@ function GamePage() {
         auth_store.checkAuth()
 
     }, [games_store, auth_store])
+
+
+    const [textAreaVal, setTextAreaVal] = useState("");
+    const [comment, setComment] = useState("");
+
+    function fetchUserSuggestions(query: string) {
+        return ContentService.SearchUser(query).then(users => users.data.map(myUser => ({
+            id: `${myUser.username}`,
+            display: `${myUser.username}`
+        })))
+    }
+
+    // const debouncedFetchUserSuggestions = debounce(fetchUserSuggestions, 50);
+
+
 
     const [commentText, setCommentText] = useState("");
     const [reply, setReply] = useState("");
@@ -80,21 +100,49 @@ function GamePage() {
         games_store.likeComment(commentId, '985449ce-ebe9-4214-a161-a6a51e9059bc', true)
     }
 
-
-
     const showCommentsMore = () => {
         setShowMoreComments(showMoreComments + 5)
     }
-    const replyToComment = (itemId: string, parentCommentId: string) => {
-        setReply('')
-        setreplyWindowIsOpen('')
-        games_store.addNewComment(itemId, reply, parentCommentId)
+
+    const saveComment = (itemId: string, parentCommentId?: string | null) => {
+        let newComment = textAreaVal;
+        newComment = newComment.split('@@@__').join('[@')
+        newComment = newComment.split('^^__').join(']')
+        newComment = newComment.split('@@^_^').join('(http://localhost:3000/')
+        newComment = newComment.split('@@@^^^').join(')');
+        if (newComment != '') {
+            let comment = newComment.trim();
+            console.log(comment)
+            // setComment(comment)
+            games_store.addNewComment(itemId, comment, parentCommentId)
+
+        }
     }
+
+    const saveNewComment = (itemId: string, parentCommentId?: string | null) => {
+        let newComment = commentText;
+        newComment = newComment.split('@@@__').join('[@')
+        newComment = newComment.split('^^__').join(']')
+        newComment = newComment.split('@@^_^').join('(http://localhost:3000/')
+        newComment = newComment.split('@@@^^^').join(')');
+        if (newComment != '') {
+            let comment = newComment.trim();
+            console.log(comment)
+            // setComment(comment)
+            games_store.addNewComment(itemId, comment, parentCommentId)
+
+        }
+    }
+
+    const addComment = (itemId: string, parentCommentId?: string | null) => {
+        setreplyWindowIsOpen('')
+        saveComment(itemId, parentCommentId)
+    }
+
 
     return (
         <>
             <FullScreenPopup active={isShow} setActive={setIsShow}>
-
                 <LoginForm />
             </FullScreenPopup>
             <main className="content_wrapper">
@@ -156,13 +204,24 @@ function GamePage() {
                     <span className={styles.block_header}>Рецензии</span>
 
                     <div className={styles.comment_field_wrapper}>
-                        <CommentField value={commentText}
-                            onChange={(e) => setCommentText(e.target.value)}
-                            placeholder="Ваш отзыв" />
+                        <MentionsInput
+                            style={MentionStyle}
+                            value={commentText}
+                            placeholder="Ваш отзыв"
+                            onChange={(e, value) => setCommentText(value)}>
+                            <Mention className={'mentions__mention'}
+                                trigger={"@"}
+                                data={(search, callback) => {
+                                    fetchUserSuggestions(search)?.then(users => callback(users));
+                                }}
+                                displayTransform={(id) => `@${id}`}
+                                markup='@@@____display__^^__@@^_^__id__@@@^^^' />
+
+                        </MentionsInput>
                         {commentText !== "" ? <>
                             <div className={styles.send_button_wrapper}>
                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                    onClick={() => (games_store.addNewComment(games_store.gamePage.id, commentText, null), setCommentText(''))}>
+                                    onClick={() => (saveNewComment(games_store.gamePage.id, null), setComment(''), setCommentText(''))}>
                                     Отправить
                                 </FunctionalGameButton>
                             </div>
@@ -170,8 +229,8 @@ function GamePage() {
 
                     </div>
 
-                    {/* {games_store.comments == null ?
-                        <span>Информаци пока нет </span> : null} */}
+                    {games_store.comments == null ?
+                        <span>Информаци пока нет </span> : null}
 
                     {games_store.comments.slice(0, showMoreComments).map(comment => (
                         <div key={comment.id} className={styles.parent_comment}>
@@ -182,7 +241,9 @@ function GamePage() {
                                     <span>{comment.created_at}</span>
                                 </div>
                             </div>
-                            <span>{comment.text}</span>
+
+                            <span className={styles.markdown_text}><ReactMarkdown>{comment.text}</ReactMarkdown></span>
+
                             <div className={styles.like_and_reply_comment}>
                                 <div className={styles.like_block}>
                                     <div className="like-button" onClick={() => changeCommentsLikeValue(comment.id)}>
@@ -192,33 +253,48 @@ function GamePage() {
                                     </div>
                                     <span >{comment.like_count}</span>
                                 </div>
-                                <span className={styles.reply_button} onClick={() => (setreplyWindowIsOpen(comment.id), setReply('[Skillbox Media](https://skillbox.ru/media/) без подсказки'))}>
+                                <span className={styles.reply_button} onClick={() => (setreplyWindowIsOpen(comment.id), setComment(''), setTextAreaVal(`@@@__${comment.author_info.username}^^__@@^_^${comment.author_info.username}@@@^^^`))}>
                                     Ответить
                                 </span>
 
                             </div>
                             {replyWindowIsOpen == comment.id ?
                                 <div className={styles.comment_field_wrapper}>
-                                    <CommentField value={reply}
-                                        onChange={(e) => setReply(e.target.value)}
-                                        placeholder="Ваш отзыв" />
+                                    <MentionsInput
+                                        style={MentionStyle}
+                                        value={textAreaVal}
+                                        placeholder="Ваш отзыв"
+                                        onChange={(e, value) => setTextAreaVal(value)}>
+                                        <Mention className={'mentions__mention'}
+                                            trigger={"@"}
+                                            data={(search, callback) => {
+                                                fetchUserSuggestions(search)?.then(users => callback(users));
+                                            }}
+                                            displayTransform={(id) => `@${id}`}
+                                            markup='@@@____display__^^__@@^_^__id__@@@^^^' />
 
+                                    </MentionsInput>
                                     <div className={styles.send_button_wrapper} id={comment.id}>
-                                        <div className={styles.func_button_wrapper}>
-                                            {reply !== "" ? <>
+
+                                        {textAreaVal !== "" ?
+                                            <div className={styles.func_button_wrapper}>
                                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                    onClick={() => replyToComment(games_store.gamePage.id, comment.id)}>
+                                                    onClick={() => addComment(games_store.gamePage.id, comment.id)}>
                                                     Отправить
                                                 </FunctionalGameButton>
                                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
                                                     onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
                                                     Отмена
                                                 </FunctionalGameButton>
-                                            </> : <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
-                                                Отмена
-                                            </FunctionalGameButton>}
-                                        </div>
+                                            </div>
+                                            :
+                                            <div className={styles.func_button_wrapper}>
+                                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
+                                                    onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
+                                                    Отмена
+                                                </FunctionalGameButton>
+                                            </div>
+                                        }
                                     </div>
 
                                 </div> : null}
@@ -234,7 +310,7 @@ function GamePage() {
                                                     <span>{child.created_at}</span>
                                                 </div>
                                             </div>
-                                            <span>{child.text}</span>
+                                            <span className={styles.markdown_text}><ReactMarkdown>{child.text}</ReactMarkdown></span>
 
                                             <div className={styles.like_and_reply_comment}>
                                                 <div className={styles.like_block}>
@@ -245,33 +321,48 @@ function GamePage() {
 
                                                     <span >{child.like_count}</span>
                                                 </div>
-                                                <span className={styles.reply_button}
-                                                    onClick={() => (setreplyWindowIsOpen(child.id), setReply(comment.author_info.username))}>
+                                                <span className={styles.reply_button} onClick={() => (setreplyWindowIsOpen(child.id), setComment(''),
+                                                    setTextAreaVal(`@@@__${child.author_info.username}^^__@@^_^${child.author_info.username}@@@^^^`))}>
                                                     Ответить
                                                 </span>
                                             </div>
                                             {replyWindowIsOpen == child.id ?
                                                 <div className={styles.comment_field_wrapper}>
-                                                    <CommentField value={reply}
-                                                        onChange={(e) => setReply(e.target.value)}
-                                                        placeholder="Ваш отзыв" />
+                                                    <MentionsInput
+                                                        style={MentionStyle}
+                                                        value={textAreaVal}
+                                                        placeholder="Ваш отзыв"
+                                                        onChange={(e, value) => setTextAreaVal(value)}>
+                                                        <Mention className={'mentions__mention'}
+                                                            trigger={"@"}
+                                                            data={(search, callback) => {
+                                                                fetchUserSuggestions(search)?.then(users => callback(users));
+                                                            }}
+                                                            displayTransform={(id) => `@${id}`}
+                                                            markup='@@@____display__^^__@@^_^__id__@@@^^^' />
 
-                                                    <div className={styles.send_button_wrapper} id={child.id}>
-                                                        <div className={styles.func_button_wrapper}>
-                                                            {reply !== "" ? <>
+                                                    </MentionsInput>
+                                                    <div className={styles.send_button_wrapper} id={comment.id}>
+
+                                                        {textAreaVal !== "" ?
+                                                            <div className={styles.func_button_wrapper}>
                                                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                                    onClick={() => replyToComment(games_store.gamePage.id, comment.id)}>
+                                                                    onClick={() => addComment(games_store.gamePage.id, comment.id)}>
                                                                     Отправить
                                                                 </FunctionalGameButton>
                                                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
                                                                     onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
                                                                     Отмена
                                                                 </FunctionalGameButton>
-                                                            </> : <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                                onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
-                                                                Отмена
-                                                            </FunctionalGameButton>}
-                                                        </div>
+                                                            </div>
+                                                            :
+                                                            <div className={styles.func_button_wrapper}>
+                                                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
+                                                                    onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
+                                                                    Отмена
+                                                                </FunctionalGameButton>
+                                                            </div>
+                                                        }
                                                     </div>
 
                                                 </div> : null}
@@ -298,7 +389,7 @@ function GamePage() {
                                                 </div>
                                                 <span >{comment.like_count}</span>
                                                 <span className={styles.reply_button}
-                                                    onClick={() => (setreplyWindowIsOpen(child.id), setReply(''))}>
+                                                    onClick={() => (setreplyWindowIsOpen(child.id), setReply(`[@${child.author_info.username}](http://localhost:3000/${child.author_info.username})`))}>
                                                     Ответить</span>
                                             </div>
                                             {replyWindowIsOpen == child.id ?
@@ -311,7 +402,7 @@ function GamePage() {
                                                         <div className={styles.func_button_wrapper}>
                                                             {reply !== "" ? <>
                                                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                                    onClick={() => replyToComment(games_store.gamePage.id, comment.id)}>
+                                                                    onClick={() => addComment(games_store.gamePage.id, comment.id)}>
                                                                     Отправить
                                                                 </FunctionalGameButton>
                                                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}

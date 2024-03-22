@@ -221,6 +221,10 @@
     gap: 6px;
 }
 
+.markdown_text a{
+    color: var(--link-color);
+}
+
 @media (max-width: 840px) {
     .main_info_wrapper {
         display: grid;

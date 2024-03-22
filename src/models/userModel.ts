@@ -88,3 +88,11 @@ export interface Playlists {
 	is_private: boolean
 	created_at: string
 }
+
+
+
+export interface SearchUserModel {
+	id: string,
+    username: string,
+    full_name: string,
+}

@@ -49,5 +49,14 @@
         width: 24px;
 
     }
-    
+
+}
+
+
+.mentions__mention {
+    color: #0071E3;
+    font-weight: 500;
+    z-index: 1;
+    position: relative;
+    background-color: #F5F5F5;
 }
