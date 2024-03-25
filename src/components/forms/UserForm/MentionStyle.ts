@@ -12,7 +12,7 @@ export default {
         minHeight: 63,
       },
       highlighter: {
-        padding: 9,
+        padding: '10px 6px',
         border: "2px solid transparent",
       },
       input: {

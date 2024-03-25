@@ -41,4 +41,20 @@ export default class GameService {
             }
         )
     }
+
+    static async addRateGame(gameId: string, grade: number): Promise<AxiosResponse> {
+        const url = process.env.API_URL + 'games/rate'
+        return $api.post(url,
+            {
+                game_id: gameId,
+                grade: grade,
+            }
+        )
+    }
+
+    static async delRateGame(gameId: string,): Promise<AxiosResponse> {
+        const url = process.env.API_URL + `games/rate/${gameId}`
+        return $api.delete(url,
+        )
+    }
 }

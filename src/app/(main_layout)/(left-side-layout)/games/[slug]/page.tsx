@@ -23,6 +23,7 @@ import ContentService from '@/services/contentService';
 function GamePage() {
     const pathname = usePathname()
     const [isShow, setIsShow] = useState(false);
+    const [isShowRating, setIsShowRating] = useState(false);
     const popupRef = useRef(null)
     const [showChildComments, setShowChildComments] = useState<{ [key: string]: number }>({})
     const [showMoreComments, setShowMoreComments] = useState(3)
@@ -31,6 +32,9 @@ function GamePage() {
     useOutside(popupRef, () => {
         if (isShow) {
             setTimeout(() => setIsShow(false), 50)
+        }
+        if (isShowRating) {
+            setTimeout(() => setIsShowRating(false), 50)
         }
 
     })
@@ -139,12 +143,51 @@ function GamePage() {
         saveComment(itemId, parentCommentId)
     }
 
+    const [rating, setRating] = useState<number>(0);
+    const [hover, setHover] = useState<number>(0);
 
+    const [rateButtonCount, setRateButtonCount] = useState<number>(0);
     return (
         <>
             <FullScreenPopup active={isShow} setActive={setIsShow}>
                 <LoginForm />
             </FullScreenPopup>
+            <FullScreenPopup active={isShowRating} setActive={setIsShowRating}>
+                <div className={styles.rate_wrapper}>
+
+                    {[...Array(10)].map((star, index) => {
+                        index += 1;
+                        return (
+                            <span
+                                id='rate-numbers'
+                                key={index}
+                                className={index <= (hover || rating) && index < 5 ? "red-rate" : index <= (hover || rating) && index <= 6 ? "gray-rate" : index <= (hover || rating) && index >= 6 ? "green-rate" : "off"}
+                                onClick={() => { { setRating(index) } }}
+                                onMouseEnter={() => setHover(index)}
+                                onMouseLeave={() => setHover(rating)}>
+                                {index}
+                            </span>
+                        );
+                    })}
+                    <div className={styles.rate_buttons_wrapper}>
+
+                        {rating != 0 ?
+                            <>
+                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={18}
+                                    onClick={() => (games_store.addGameGrade(games_store.gamePage.id, rating), setRateButtonCount(rateButtonCount + 1), setIsShowRating(false))}>
+                                    Отправить
+                                </FunctionalGameButton>
+                            </> : null}
+                        {games_store.rate || rating != 0 ? <>
+                            <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={18}
+                                onClick={() => (rateButtonCount > 0 || games_store.rate > 0 ? games_store.delGameGrade(games_store.gamePage.id) : null, 
+                                setHover(0), setRating(0), setRateButtonCount(0), games_store.setGameRate(0))}>
+                                Удалить
+                            </FunctionalGameButton>
+                        </> : null}
+                    </div>
+                </div>
+            </FullScreenPopup >
             <main className="content_wrapper">
                 <div className={styles.main_info_wrapper}>
                     <div className={styles.cover_wrapper}>
@@ -215,7 +258,7 @@ function GamePage() {
                                     fetchUserSuggestions(search)?.then(users => callback(users));
                                 }}
                                 displayTransform={(id) => `@${id}`}
-                                markup='@@@____display__^^__@@^_^__id__@@@^^^' />
+                                markup='@@@____display __^^__@@^_^__id__@@@^^^' />
 
                         </MentionsInput>
                         {commentText !== "" ? <>
@@ -246,7 +289,7 @@ function GamePage() {
 
                             <div className={styles.like_and_reply_comment}>
                                 <div className={styles.like_block}>
-                                    <div className="like-button" onClick={() => changeCommentsLikeValue(comment.id)}>
+                                    <div className="like-button" onClick={() => { changeCommentsLikeValue(comment.id), games_store.commentsLikes.find(o => o.id === comment.id && o.hasAuthorLike === 1) ? games_store.setCommentsLikeDecrease(comment.id) : games_store.setCommentsLikeIncrease(comment.id) }}>
 
                                         <LikeIcon className={games_store.commentsLikes.find(o => o.id === comment.id && o.hasAuthorLike === 1) ? "heart-icon liked" : "heart-icon"} />
 
@@ -315,7 +358,7 @@ function GamePage() {
                                             <div className={styles.like_and_reply_comment}>
                                                 <div className={styles.like_block}>
 
-                                                    <div className="like-button" onClick={() => changeCommentsLikeValue(child.id)}>
+                                                    <div className="like-button" onClick={() => { changeCommentsLikeValue(child.id), games_store.commentsLikes.find(o => o.id === child.id && o.hasAuthorLike === 1) ? games_store.setChildCommentsLikeDecrease(child.id) : games_store.setChildCommentsLikeIncrease(child.id) }}>
                                                         <LikeIcon className={games_store.commentsLikes.find(o => o.id === child.id && o.hasAuthorLike === 1) ? "heart-icon liked" : "heart-icon"} />
                                                     </div>
 
@@ -462,7 +505,8 @@ function GamePage() {
                             )}
                         </div>
                     </div>
-                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={20} onClick={() => console.log('ахах')}>
+
+                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={20} onClick={() => (setIsShowRating(true), games_store.rate != 0 ? (setHover(games_store.rate), setRating(games_store.rate)) : null)}>
                         <div className={styles.button_data_wrapper}>
                             {/* <div className={styles.bag_logo}></div> */}
                             <span>Оценить игру</span>

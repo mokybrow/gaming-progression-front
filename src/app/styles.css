@@ -60,3 +60,30 @@
     position: relative;
     background-color: #F5F5F5;
 }
+
+
+#rate-numbers {
+    font-size: 1.0em;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0.2em 0.2em;
+}
+
+#rate-numbers:hover {
+    transform: scale(1.1);
+    transition: all 100ms ease;
+}
+
+.red-rate {
+    color: #ff4800;
+}
+
+.gray-rate {
+    color: gray;
+}
+
+.green-rate {
+    color: green;
+}

@@ -16,7 +16,7 @@ export default class GamesStore {
     commentsLikes = [] as UserCommentsLikes[];
     gamePage = {} as GamePageResponse;
     slider_values = [1954, 2024]
-
+    rate = 0
     sort = {
         "name": "title",
         "type": "asc"
@@ -42,6 +42,9 @@ export default class GamesStore {
     setCommentsLikes(likes: UserCommentsLikes[]) {
         this.commentsLikes = likes;
     }
+    setGameRate(rate: number) {
+        this.rate = rate;
+    }
 
     setCommentsLikeIncrease(commentId: string) {
         this.comments.forEach(function (obj) {
@@ -50,12 +53,22 @@ export default class GamesStore {
 
             }
         });
+        this.commentsLikes.forEach(function(has){
+            if (has.id === commentId){
+                has.hasAuthorLike = 1
+            }
+        });
     }
+
     setCommentsLikeDecrease(commentId: string) {
         this.comments.forEach(function (obj) {
             if (obj.id === commentId) {
                 obj.like_count -= 1
-
+            }
+        });
+        this.commentsLikes.forEach(function(has){
+            if (has.id === commentId){
+                has.hasAuthorLike = 0
             }
         });
     }
@@ -70,6 +83,11 @@ export default class GamesStore {
             })
             
         });
+        this.commentsLikes.forEach(function(has){
+            if (has.id === commentId){
+                has.hasAuthorLike = 1
+            }
+        });
     }
     setChildCommentsLikeDecrease(commentId: string) {
         this.comments.forEach(function (obj) {
@@ -81,18 +99,9 @@ export default class GamesStore {
             })
             
         });
-    }
-
-    setCommentsLikesNewValue(commentId: string) {
-        this.commentsLikes.forEach(function (obj) {
-            if (obj.id === commentId) {
-                if (obj.hasAuthorLike == 1) {
-                    obj.hasAuthorLike = 0
-                }
-                else {
-                    obj.hasAuthorLike = 1
-
-                }
+        this.commentsLikes.forEach(function(has){
+            if (has.id === commentId){
+                has.hasAuthorLike = 0
             }
         });
     }
@@ -149,6 +158,8 @@ export default class GamesStore {
             this.setComments(result.data)
             const likes = await ContentService.getUserCommentsLikes(response.data.id)
             this.setCommentsLikes(likes.data)
+            const rate = await ContentService.getUserGameRate(response.data.id)
+            this.setGameRate(rate.data)
             
         } catch {
             this.setGamePage({} as GamePageResponse)
@@ -185,16 +196,33 @@ export default class GamesStore {
     async likeComment(itemId: string, typeId: string, value: boolean) {
         try {
             await ContentService.likeContent(itemId, typeId, value)
-            const likes = await ContentService.getUserCommentsLikes(this.gamePage.id)
-            this.setCommentsLikes(likes.data)
-            const result = await ContentService.getComments(this.gamePage.id)
-            this.setComments(result.data)
+            // const likes = await ContentService.getUserCommentsLikes(this.gamePage.id)
+            // this.setCommentsLikes(likes.data)
+            // const result = await ContentService.getComments(this.gamePage.id)
+            // this.setComments(result.data)
+
+        } catch (error) {
+
+        }
+    }
+    async addGameGrade(gameId: string, grade: number) {
+        try {
+            await GameService.addRateGame(gameId, grade)
+
 
         } catch (error) {
 
         }
     }
 
+    async delGameGrade(gameId: string) {
+        try {
+            await GameService.delRateGame(gameId)
+
+        } catch (error) {
+
+        }
+    }
 
 }
 

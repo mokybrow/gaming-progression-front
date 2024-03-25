@@ -33,6 +33,13 @@ export default class ContentService {
         )
     }
 
+    static async getUserGameRate(itemId: string): Promise<AxiosResponse> {
+        const url = process.env.API_URL + `games/rate/${itemId}`
+        return $api.get(url,
+
+        )
+    }
+
     static async likeContent(itemId: string, typeId: string, value: boolean): Promise<AxiosResponse> {
         const url = process.env.API_URL + `likes`
         return $api.post(url,
