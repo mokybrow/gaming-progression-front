@@ -1,16 +1,14 @@
 'use client'
 
-import { Genre, Platform } from '@/models/gamesModel';
 import styles from './filters.module.css'
 
 import { useContext, useState } from 'react';
 import { Context } from '@/app/providers';
 import { GENRES } from '@/constants/genres';
-import { YEARS } from '@/constants/years';
+import { FIVEYEARS, YEARS } from '@/constants/years';
 import { PLATFORMS } from '@/constants/platforms';
 import { observer } from 'mobx-react-lite';
 import { ServiceButton } from '@/components/buttons/ServiceButton';
-import VerticalSlider from '@/components/slider/YearSlider';
 
 
 function FiltersCard() {
@@ -18,7 +16,6 @@ function FiltersCard() {
 
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
     const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
-    const [selectedYear, setSelectedYear] = useState<number[]>([]);
 
     const handleGenresChange = (event: any) => {
         const checkedId = event.target.value;
@@ -38,16 +35,13 @@ function FiltersCard() {
     }
     const handleYearChange = (event: any) => {
         const checkedId = event.target.value;
-        if (event.target.checked) {
-            setSelectedYear([...selectedYear, Number(checkedId)])
-        } else {
-            setSelectedYear(selectedYear.filter(id => id !== checkedId))
-        }
+        const data = checkedId.split(',').map(Number)
+        games_store.setRelease([...data])
+
     }
     const SubmitFilter = () => {
         games_store.setGenre(selectedGenres)
         games_store.setPlatform(selectedPlatforms)
-        games_store.setRelease([...selectedYear, ...games_store.release_date])
         games_store.setLimit(21)
         games_store.getAllGames(games_store.genres, games_store.platforms, null, games_store.release_date, games_store.limit, 0, games_store.sort)
     }
@@ -97,26 +91,26 @@ function FiltersCard() {
                 </div>
                 <div className={styles.block_wrapper}>
                     <h4>
-                        Год Выхода
+                        Отрезок времени
                     </h4>
                     <div className={styles.choose_section}>
-                        {YEARS.map((key, index) => (
-                            <div key={index} className={styles.list_style} >
-                                <input type="checkbox" value={key}
+                        {Object.keys(FIVEYEARS).map(key => (
+                            <div key={key} className={styles.list_style} >
+                                <input type="radio" name="drone"
+                                    value={String(FIVEYEARS[key])}
                                     onChange={(event) => { handleYearChange(event) }}
-                                    defaultChecked={games_store.release_date.includes(key)} />
-                                <span>{key}</span>
+                                    defaultChecked={String(games_store.release_date) === String(FIVEYEARS[key]) ? true : false}
+
+                                /><span>{key}</span>
                             </div>
                         ))}
                     </div>
-                    <div className={styles.slider_block_wrapper}>
-                        <div className={styles.slider_wrapper}>
-                            <VerticalSlider />
-                        </div>
-                    </div>
                 </div>
-                <ServiceButton type={'button'} onClick={() => SubmitFilter()}>Применить фильтры</ServiceButton>
-                <ServiceButton type={'button'} onClick={() => {ClearFilter(), games_store.setSliderValues([1954, 2024])}}>Сбросить фильтры</ServiceButton>
+                <div className={styles.block_wrapper}>
+
+                    <ServiceButton type={'button'} onClick={() => SubmitFilter()}>Применить фильтры</ServiceButton>
+                    <ServiceButton type={'button'} onClick={() => ClearFilter()}>Сбросить фильтры</ServiceButton>
+                </div>
             </div>
         </ div>
     )

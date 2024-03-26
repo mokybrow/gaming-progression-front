@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #F5F5F5;
+    background-color: var(--card-bg-color);
     cursor: pointer;
     border-radius: 6px;
     border: none;

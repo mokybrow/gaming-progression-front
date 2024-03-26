@@ -1,4 +1,4 @@
-import { GamePageResponse, GamesResponse } from "@/models/gamesModel";
+import { GamePageResponse, GamesCount, GamesResponse } from "@/models/gamesModel";
 import { CommentsResponse, UserCommentsLikes } from "@/models/serviceModel";
 import ContentService from "@/services/contentService";
 import GameService from "@/services/gamesService";
@@ -12,6 +12,7 @@ export default class GamesStore {
     platforms = [] as string[]
     release_date = [] as number[]
     games = [] as GamesResponse[];
+    gamesCount = {} as GamesCount;
     comments = [] as CommentsResponse[];
     commentsLikes = [] as UserCommentsLikes[];
     gamePage = {} as GamePageResponse;
@@ -35,6 +36,9 @@ export default class GamesStore {
     setGames(games: GamesResponse[]) {
         this.games = games;
     }
+    setGamesCount(gamesCount: GamesCount) {
+        this.gamesCount = gamesCount;
+    }
     setComments(comments: CommentsResponse[]) {
         this.comments = comments;
     }
@@ -53,11 +57,14 @@ export default class GamesStore {
 
             }
         });
-        this.commentsLikes.forEach(function(has){
-            if (has.id === commentId){
+        this.commentsLikes.forEach(function (has) {
+            if (has.id === commentId) {
                 has.hasAuthorLike = 1
             }
         });
+        if (!this.commentsLikes.find((i) => i.id === commentId)) {
+            this.commentsLikes.push({ id: commentId, hasAuthorLike: 1 })
+        }
     }
 
     setCommentsLikeDecrease(commentId: string) {
@@ -66,8 +73,8 @@ export default class GamesStore {
                 obj.like_count -= 1
             }
         });
-        this.commentsLikes.forEach(function(has){
-            if (has.id === commentId){
+        this.commentsLikes.forEach(function (has) {
+            if (has.id === commentId) {
                 has.hasAuthorLike = 0
             }
         });
@@ -75,32 +82,35 @@ export default class GamesStore {
 
     setChildCommentsLikeIncrease(commentId: string) {
         this.comments.forEach(function (obj) {
-            obj.child_comment.forEach(function(child){
+            obj.child_comment.forEach(function (child) {
                 if (child.id === commentId) {
                     child.like_count += 1
-    
+
                 }
             })
-            
+
         });
-        this.commentsLikes.forEach(function(has){
-            if (has.id === commentId){
+        this.commentsLikes.forEach(function (has) {
+            if (has.id === commentId) {
                 has.hasAuthorLike = 1
             }
         });
+        if (!this.commentsLikes.find((i) => i.id === commentId)) {
+            this.commentsLikes.push({ id: commentId, hasAuthorLike: 1 })
+        }
     }
     setChildCommentsLikeDecrease(commentId: string) {
         this.comments.forEach(function (obj) {
-            obj.child_comment.forEach(function(child){
+            obj.child_comment.forEach(function (child) {
                 if (child.id === commentId) {
                     child.like_count -= 1
-    
+
                 }
             })
-            
+
         });
-        this.commentsLikes.forEach(function(has){
-            if (has.id === commentId){
+        this.commentsLikes.forEach(function (has) {
+            if (has.id === commentId) {
                 has.hasAuthorLike = 0
             }
         });
@@ -147,6 +157,14 @@ export default class GamesStore {
         } catch {
             this.setGames([] as GamesResponse[])
         }
+        try {
+            const gameCount = await GameService.getGamesCount(genre, platform, age, release);
+            this.setGamesCount(gameCount.data)
+
+        } catch (error) {
+            this.setGamesCount({game_count: 0})
+        }
+        
     }
 
     async getGamePage(slug: string) {
@@ -160,7 +178,7 @@ export default class GamesStore {
             this.setCommentsLikes(likes.data)
             const rate = await ContentService.getUserGameRate(response.data.id)
             this.setGameRate(rate.data)
-            
+
         } catch {
             this.setGamePage({} as GamePageResponse)
         }

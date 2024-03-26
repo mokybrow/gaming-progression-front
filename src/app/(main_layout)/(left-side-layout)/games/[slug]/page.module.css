@@ -33,7 +33,7 @@
     display: flex;
     flex-direction: column;
     gap: 26px;
-    background-color: var(--sidebar-hover);
+    background-color: var(--card-bg-color);
     border-radius: 6px;
     padding: 12px 24px;
 }
@@ -89,7 +89,7 @@
 .game_description {
     display: flex;
     flex-direction: column;
-    background-color: var(--sidebar-hover);
+    background-color: var(--card-bg-color);
     border-radius: 6px;
     padding: 12px 24px;
     gap: 12px;
@@ -99,7 +99,7 @@
     display: flex;
     flex-direction: column;
     max-height: 100%;
-    background-color: var(--sidebar-hover);
+    background-color: var(--card-bg-color);
     border-radius: 6px;
     padding: 12px 24px;
     gap: 24px;
@@ -109,7 +109,7 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    background-color: var(--sidebar-hover);
+    background-color: var(--card-bg-color);
     padding: 12px;
     border-radius: 6px;
 }
@@ -174,7 +174,7 @@
 
 .user_icon,
 .settings_icon,
-.leave_icon {
+.leave_icon{
     display: flex;
     width: 40px;
     height: 40px;
@@ -190,6 +190,15 @@
     cursor: pointer;
     font-size: 16px;
     color: var(--link-color);
+}
+
+.star_icon {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    background-image: var(--star-icon);
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .like_and_reply_comment {
@@ -225,7 +234,7 @@
     display: flex;
     font-size: 24px;
     font-weight: 800;
-    background-color: var(--sidebar-hover);
+    background-color: var(--card-bg-color);
     color: var(--font-color);
     border-radius: 6px;
     padding: 6px;
@@ -274,7 +283,7 @@
         flex-direction: column;
         font-size: 32px;
         font-weight: 800;
-        background-color: var(--sidebar-hover);
+        background-color: var(--card-bg-color);
         color: var(--font-color);
         border-radius: 6px;
         padding: 6px;

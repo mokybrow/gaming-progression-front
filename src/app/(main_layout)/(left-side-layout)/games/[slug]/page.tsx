@@ -29,6 +29,16 @@ function GamePage() {
     const [showMoreComments, setShowMoreComments] = useState(3)
     const [replyWindowIsOpen, setreplyWindowIsOpen] = useState('')
     const [likeComment, setLikeComment] = useState(false)
+    const [rating, setRating] = useState<number>(0);
+    const [hover, setHover] = useState<number>(0);
+
+    const [rateButtonCount, setRateButtonCount] = useState<number>(0);
+
+    const { games_store } = useContext(Context);
+    const { auth_store } = useContext(Context);
+    const [commentText, setCommentText] = useState("");
+    const [reply, setReply] = useState("");
+
     useOutside(popupRef, () => {
         if (isShow) {
             setTimeout(() => setIsShow(false), 50)
@@ -38,8 +48,7 @@ function GamePage() {
         }
 
     })
-    const { games_store } = useContext(Context);
-    const { auth_store } = useContext(Context);
+
 
     const findStatusStart = auth_store.user.user_activity?.find(product => product.game_data.id == games_store.gamePage.id && product.activity_data.code == 200000)
     const findStatusWish = auth_store.user.user_activity?.find(product => product.game_data.id == games_store.gamePage.id && product.activity_data.code == 210000)
@@ -70,8 +79,7 @@ function GamePage() {
 
 
 
-    const [commentText, setCommentText] = useState("");
-    const [reply, setReply] = useState("");
+
 
     const changeGameStatus = (activityType: string) => {
         auth_store.changeGameStatus(games_store.gamePage.id, activityType)
@@ -107,6 +115,7 @@ function GamePage() {
     const showCommentsMore = () => {
         setShowMoreComments(showMoreComments + 5)
     }
+   
 
     const saveComment = (itemId: string, parentCommentId?: string | null) => {
         let newComment = textAreaVal;
@@ -115,8 +124,8 @@ function GamePage() {
         newComment = newComment.split('@@^_^').join('(http://localhost:3000/')
         newComment = newComment.split('@@@^^^').join(')');
         if (newComment != '') {
-            let comment = newComment.trim();
-            console.log(comment)
+
+            let comment = newComment.replace(/\s+/g, ' ').trim();
             // setComment(comment)
             games_store.addNewComment(itemId, comment, parentCommentId)
 
@@ -130,8 +139,8 @@ function GamePage() {
         newComment = newComment.split('@@^_^').join('(http://localhost:3000/')
         newComment = newComment.split('@@@^^^').join(')');
         if (newComment != '') {
-            let comment = newComment.trim();
-            console.log(comment)
+    
+            let comment = newComment.replace(/\s+/g, ' ').trim();
             // setComment(comment)
             games_store.addNewComment(itemId, comment, parentCommentId)
 
@@ -143,10 +152,7 @@ function GamePage() {
         saveComment(itemId, parentCommentId)
     }
 
-    const [rating, setRating] = useState<number>(0);
-    const [hover, setHover] = useState<number>(0);
 
-    const [rateButtonCount, setRateButtonCount] = useState<number>(0);
     return (
         <>
             <FullScreenPopup active={isShow} setActive={setIsShow}>
@@ -180,8 +186,8 @@ function GamePage() {
                             </> : null}
                         {games_store.rate || rating != 0 ? <>
                             <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={18}
-                                onClick={() => (rateButtonCount > 0 || games_store.rate > 0 ? games_store.delGameGrade(games_store.gamePage.id) : null, 
-                                setHover(0), setRating(0), setRateButtonCount(0), games_store.setGameRate(0))}>
+                                onClick={() => (rateButtonCount > 0 || games_store.rate > 0 ? games_store.delGameGrade(games_store.gamePage.id) : null,
+                                    setHover(0), setRating(0), setRateButtonCount(0), games_store.setGameRate(0))}>
                                 Удалить
                             </FunctionalGameButton>
                         </> : null}
@@ -258,10 +264,10 @@ function GamePage() {
                                     fetchUserSuggestions(search)?.then(users => callback(users));
                                 }}
                                 displayTransform={(id) => `@${id}`}
-                                markup='@@@____display __^^__@@^_^__id__@@@^^^' />
+                                markup='@@@____display__^^__@@^_^__id__@@@^^^' />
 
                         </MentionsInput>
-                        {commentText !== "" ? <>
+                        {commentText !== "" && commentText.replace(/\s+/g, ' ').trim() !== "" ? <>
                             <div className={styles.send_button_wrapper}>
                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
                                     onClick={() => (saveNewComment(games_store.gamePage.id, null), setComment(''), setCommentText(''))}>
@@ -296,7 +302,7 @@ function GamePage() {
                                     </div>
                                     <span >{comment.like_count}</span>
                                 </div>
-                                <span className={styles.reply_button} onClick={() => (setreplyWindowIsOpen(comment.id), setComment(''), setTextAreaVal(`@@@__${comment.author_info.username}^^__@@^_^${comment.author_info.username}@@@^^^`))}>
+                                <span className={styles.reply_button} onClick={() => (setreplyWindowIsOpen(comment.id), setComment(''))}>
                                     Ответить
                                 </span>
 
@@ -319,7 +325,7 @@ function GamePage() {
                                     </MentionsInput>
                                     <div className={styles.send_button_wrapper} id={comment.id}>
 
-                                        {textAreaVal !== "" ?
+                                        {textAreaVal !== "" && textAreaVal.replace(/\s+/g, ' ').trim() !== ""  ?
                                             <div className={styles.func_button_wrapper}>
                                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
                                                     onClick={() => addComment(games_store.gamePage.id, comment.id)}>
@@ -364,8 +370,7 @@ function GamePage() {
 
                                                     <span >{child.like_count}</span>
                                                 </div>
-                                                <span className={styles.reply_button} onClick={() => (setreplyWindowIsOpen(child.id), setComment(''),
-                                                    setTextAreaVal(`@@@__${child.author_info.username}^^__@@^_^${child.author_info.username}@@@^^^`))}>
+                                                <span className={styles.reply_button} onClick={() => (setreplyWindowIsOpen(child.id), setComment(''))}>
                                                     Ответить
                                                 </span>
                                             </div>
@@ -387,7 +392,7 @@ function GamePage() {
                                                     </MentionsInput>
                                                     <div className={styles.send_button_wrapper} id={comment.id}>
 
-                                                        {textAreaVal !== "" ?
+                                                        {textAreaVal !== ""  && textAreaVal.replace(/\s+/g, ' ').trim() !== "" ?
                                                             <div className={styles.func_button_wrapper}>
                                                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
                                                                     onClick={() => addComment(games_store.gamePage.id, comment.id)}>
@@ -443,7 +448,7 @@ function GamePage() {
 
                                                     <div className={styles.send_button_wrapper} id={child.id}>
                                                         <div className={styles.func_button_wrapper}>
-                                                            {reply !== "" ? <>
+                                                            {reply !== "" && reply.replace(/\s+/g, ' ').trim() !== "" ? <>
                                                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
                                                                     onClick={() => addComment(games_store.gamePage.id, comment.id)}>
                                                                     Отправить
@@ -485,8 +490,14 @@ function GamePage() {
 
             <main className="right_side_wrapper">
                 <div className={styles.information_card_wrapper}>
+                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={20} onClick={() => (setIsShowRating(true), games_store.rate != 0 ? (setHover(games_store.rate), setRating(games_store.rate)) : null)}>
+                        <div className={styles.button_data_wrapper}>
+                            <div className={styles.star_icon}></div>
+                            <span>Оценить игру</span>
+                        </div>
+                    </FunctionalGameButton>
                     <div className={styles.other_info_card}>
-                        <h4>Жанр</h4>
+                        <h3>Жанр</h3>
                         <div className={styles.information_text}>
                             {games_store.gamePage.genres?.map((genre, index) =>
                                 <span key={genre.genre.id}>
@@ -496,7 +507,7 @@ function GamePage() {
                         </div>
                     </div>
                     <div className={styles.other_info_card}>
-                        <h4>Платформа</h4>
+                        <h3>Платформа</h3>
                         <div className={styles.information_text}>
                             {games_store.gamePage.platforms?.map((platform, index) =>
                                 <span key={platform.platform.id}>
@@ -506,12 +517,18 @@ function GamePage() {
                         </div>
                     </div>
 
-                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={20} onClick={() => (setIsShowRating(true), games_store.rate != 0 ? (setHover(games_store.rate), setRating(games_store.rate)) : null)}>
-                        <div className={styles.button_data_wrapper}>
-                            {/* <div className={styles.bag_logo}></div> */}
-                            <span>Оценить игру</span>
+                    <div className={styles.other_info_card}>
+                        <h3>Статистика</h3>
+                        <div>
+                            <span>Прошли</span> <span>{games_store.gamePage.completed_count != null ? games_store.gamePage.completed_count : 0}</span>
                         </div>
-                    </FunctionalGameButton>
+                        <div>
+                            <span>Понравилась</span> <span>{games_store.gamePage.favorite_count != null ? games_store.gamePage.favorite_count : 0}</span>
+                        </div>
+                        <div>
+                            <span>Отложили</span> <span>{games_store.gamePage.wishlist_count != null ? games_store.gamePage.wishlist_count : 0}</span>
+                        </div>
+                    </div>
                 </div>
 
             </main>

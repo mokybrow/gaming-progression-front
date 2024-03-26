@@ -1,5 +1,5 @@
 import $api from "@/api/api";
-import { GamePageResponse, GamesResponse } from "@/models/gamesModel";
+import { GamePageResponse, GamesCount, GamesResponse } from "@/models/gamesModel";
 import axios, { AxiosResponse } from "axios";
 
 export default class GameService {
@@ -15,6 +15,18 @@ export default class GameService {
                 limit: limit,
                 offset: offset,
                 sort: sort,
+            },
+        )
+    }
+    static async getGamesCount(genre: string[] | null, platform: string[] | null, age: string | null, release: number[] | null): Promise<AxiosResponse<GamesCount>> {
+        const url = process.env.API_URL + 'games/count'
+        return axios.post<GamesCount>(url,
+            {
+                genre: genre,
+                platform: platform,
+                age: age,
+                release: release,
+      
             },
         )
     }

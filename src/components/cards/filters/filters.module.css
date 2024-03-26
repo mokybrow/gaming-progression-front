@@ -11,8 +11,16 @@
 .filter {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: calc(100vh - 150px);
     padding: 12px 12px;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.block_wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
     gap: 10px;
 }
 
@@ -20,6 +28,7 @@
     display: flex;
     flex-direction: column;
     height: 120px;
+    max-height: 150px;
     overflow-y: scroll;
     background-color: var(--selection-menu-color);
     padding: 6px;
@@ -33,12 +42,7 @@
 
 }
 
-.block_wrapper {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    gap: 10px;
-}
+
 
 .block_wrapper span {
     font-weight: 400;

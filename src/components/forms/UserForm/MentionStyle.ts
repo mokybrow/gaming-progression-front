@@ -12,14 +12,15 @@ export default {
         minHeight: 63,
       },
       highlighter: {
-        padding: '10px 6px',
+        padding: 9,
+        paddingBottom: 34,
         border: "2px solid transparent",
       },
       input: {
         padding: 10,
         borderRadius: 6,
         border: '1px solid rgba(0, 0, 0, 0.2)',
-        backgroundColor: '#F5F5F5',
+        backgroundColor: 'var(--input-color)',
 
     },
     },
@@ -42,14 +43,13 @@ export default {
         overflowY: 'scroll',
       list: {
         borderRadius: 6,
-        backgroundColor: "white",
+        backgroundColor: "var(--card-bg-color)",
         fontSize: 18,
-        margin: 6,
       },
       item: {
         padding: "10px 20px",
         "&focused": {
-          backgroundColor: "#D9D9D9",
+          backgroundColor: "var(--sidebar-hover)",
           borderRadius: 6,
 
         },

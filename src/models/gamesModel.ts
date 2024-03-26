@@ -67,3 +67,10 @@ export interface Platform2 {
 
 
 
+export interface ReleaseDate {
+  [key: string]: Array<number>
+}
+
+export interface GamesCount {
+  game_count: number
+}

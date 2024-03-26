@@ -26,15 +26,19 @@
   --heart-favorite-icon: url('../assets//icons/general/heart.svg');
   --bag-icon: url('../assets//icons/general/bag.svg');
   --like-icon: url('../assets//icons/general/like.svg');
+  --star-icon: url('../assets//icons/light/star.svg');
 
   --sidebar-hover: #fff;
   --popup-bg-color: rgba(255, 255, 255, 0.8);
+  --card-bg-color: #fff;
 
   --header-color: #FFAD4A;
   --menu-color: #fff;
   --link-color: #0071E3;
   --service-button-color: #0368CD;
   --selection-menu-color: #D9D9D9;
+
+  --input-color: #F5F5F5;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -63,6 +67,7 @@
     --x-icon: url("../assets/icons/dark/x.svg");
 
     --sidebar-hover: #333333;
+    --card-bg-color: #1F1F1F;
     --popup-bg-color: rgba(51, 51, 51, 0.8);
     --header-color: #333333;
 
@@ -71,6 +76,8 @@
     --service-button-color: #4c4c4c;
 
     --selection-menu-color: #4c4c4c;
+
+    --input-color: #333333;
 
   }
 }

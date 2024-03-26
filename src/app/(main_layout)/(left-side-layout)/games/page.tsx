@@ -13,6 +13,7 @@ import { SubmitButton } from "@/components/buttons/SubmitButton";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import SkeletonLoader from "@/components/loader/loader";
+import { FullScreenPopup } from "@/components/popup/FullScreenPopup";
 
 
 
@@ -37,6 +38,7 @@ const getAnimalsContent = (start: number, every: number, games: string | any[]) 
 function Games() {
     const { games_store } = useContext(Context);
     const [isShow, setIsShow] = useState(false);
+
     const [isShowFilter, setIsShowFilter] = useState(false);
     const popupRef = useRef(null)
 
@@ -44,7 +46,9 @@ function Games() {
         if (isShow) {
             setTimeout(() => setIsShow(false), 50)
         }
-
+        if (isShowFilter) {
+            setTimeout(() => setIsShowFilter(false), 50)
+        }
     })
 
     useEffect(() => {
@@ -64,6 +68,9 @@ function Games() {
 
     return (
         <>
+            <FullScreenPopup active={isShowFilter} setActive={setIsShowFilter}>
+                <FiltersCard />
+            </FullScreenPopup>
             <main className="content_wrapper">
                 <div className={styles.sort_wrapper} >
                     <div className={styles.sort_button_wrapper} >
@@ -71,6 +78,8 @@ function Games() {
                             <div className={styles.sort_icon}></div>
                             <span>Сортировка</span>
                         </div>
+                        <div>Найденно игр {games_store.gamesCount.game_count}</div>
+
                     </div>
 
                     <div className={styles.popup_wrapper}>
@@ -81,6 +90,7 @@ function Games() {
                             <div className={styles.popup_elem} onClick={() => { SubmitSort('release_date', 'desc'), setIsShow(!isShow) }}>Сначала новые</div>
                         </ProfilePopup>
                     </div>
+
                 </div>
                 <div className={styles.cards_layout_three}>
                     <div className={styles.column_layout} id="firs_column">
@@ -106,28 +116,32 @@ function Games() {
                     <div className={styles.column_layout} id="second_column">
                         {getAnimalsContent(0, 1, games_store.games)}
                     </div>
-                  
+
                 </div >
                 <div className={styles.show_more_button}>
-                    <SubmitButton type={'button'} onClick={() => NewOffset()}>Показать ещё</SubmitButton>
+                    {games_store.gamesCount.game_count > 20 && games_store.limit < games_store.gamesCount.game_count ?
+                        <SubmitButton type={'button'} onClick={() => NewOffset()}>Показать ещё</SubmitButton>
+                        : null}
                 </div>
             </main >
 
             <main className="right_side_wrapper">
                 <div className={styles.right_side_flex}>
-                    <div className={styles.sort_button_wrapper} >
-                        <div className={styles.filter_button} onClick={() => setIsShowFilter(!isShowFilter)}>
+                    <div className={styles.filter_button_wrapper_desk} >
+                        <div className={styles.filter_button}>
                             <div className={styles.filter_icon}></div>
                             <span>Фильтры</span>
                         </div>
                     </div>
                     <div className={styles.filters_wrapper}>
-                        <div className={isShowFilter ? styles.filters_block_active : styles.filters_block}>
-                            {
-                                games_store.isLoading ?
-                                    <SkeletonLoader height={600} /> :
-                                    <FiltersCard />
-                            }
+                        <FiltersCard />
+                    </div>
+                </div>
+                <div className={styles.right_side_flex_mobile}>
+                    <div className={styles.filter_button_wrapper_desk} >
+                        <div className={styles.filter_button} onClick={() => setIsShowFilter(true)}>
+                            <div className={styles.filter_icon}></div>
+                            <span>Фильтры</span>
                         </div>
                     </div>
                 </div>

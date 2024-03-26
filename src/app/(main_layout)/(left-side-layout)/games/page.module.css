@@ -69,6 +69,7 @@
 .sort_button_wrapper {
     display: flex;
     align-items: flex-start;
+    justify-content: space-between;
 }
 
 .sort_button {
@@ -126,18 +127,30 @@
     flex-direction: column;
     gap: 12px;
 }
+.right_side_flex_mobile{
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filter_button_wrapper_desk {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
 
 @media (max-width: 1280px) {
-    .filters_block {
-        display: none;
-    }
-
-    .filters_block_active {
-        display: block;
-    }
 
     .filter_button {
         cursor: pointer;
+    }
+    .right_side_flex {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .right_side_flex_mobile{
+        display: flex;
     }
 }
 
@@ -156,6 +169,8 @@
         grid-auto-rows: min-content;
         width: 100%;
     }
+
+
 }
 
 @media (max-width: 460px) {
@@ -166,7 +181,8 @@
     .cards_layout_two {
         display: none;
     }
-    .cards_layout_one{
+
+    .cards_layout_one {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
         column-gap: 18px;
