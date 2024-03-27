@@ -152,6 +152,9 @@
     .right_side_flex_mobile{
         display: flex;
     }
+    .finded_games{
+        display: none;
+    }
 }
 
 

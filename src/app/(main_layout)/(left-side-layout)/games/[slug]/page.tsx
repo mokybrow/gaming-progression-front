@@ -18,6 +18,7 @@ import debounce from "lodash/debounce";
 import Link from 'next/link';
 import LikeIcon from '@/components/icons/like';
 import ContentService from '@/services/contentService';
+import { FormattedDate } from 'react-intl';
 
 
 function GamePage() {
@@ -115,7 +116,7 @@ function GamePage() {
     const showCommentsMore = () => {
         setShowMoreComments(showMoreComments + 5)
     }
-   
+
 
     const saveComment = (itemId: string, parentCommentId?: string | null) => {
         let newComment = textAreaVal;
@@ -139,7 +140,7 @@ function GamePage() {
         newComment = newComment.split('@@^_^').join('(http://localhost:3000/')
         newComment = newComment.split('@@@^^^').join(')');
         if (newComment != '') {
-    
+
             let comment = newComment.replace(/\s+/g, ' ').trim();
             // setComment(comment)
             games_store.addNewComment(itemId, comment, parentCommentId)
@@ -205,7 +206,12 @@ function GamePage() {
                                 {games_store.gamePage.title}
                             </h1>
                             <span>
-                                {games_store.gamePage.release_date}
+
+                                <FormattedDate
+                                    value={games_store.gamePage.release_date}
+                                    year='numeric'
+                                    month='long'
+                                    day='numeric' />
                             </span>
 
                         </div>
@@ -270,7 +276,7 @@ function GamePage() {
                         {commentText !== "" && commentText.replace(/\s+/g, ' ').trim() !== "" ? <>
                             <div className={styles.send_button_wrapper}>
                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                    onClick={() => (saveNewComment(games_store.gamePage.id, null), setComment(''), setCommentText(''))}>
+                                    onClick={() => { !auth_store.isAuth ? setIsShow(true) : (saveNewComment(games_store.gamePage.id, null), setComment(''), setCommentText(''))}}>
                                     Отправить
                                 </FunctionalGameButton>
                             </div>
@@ -286,8 +292,27 @@ function GamePage() {
                             <div className={styles.user_info_wrapper}>
                                 <div className={styles.user_icon}></div>
                                 <div className={styles.user_info_comment}>
-                                    <Link href={'/' + comment.author_info.username} >{comment.author_info.full_name}</Link>
-                                    <span>{comment.created_at}</span>
+                                    <div className={styles.user_info_block}>
+
+                                        {comment.author_info.full_name === null ?
+                                            <Link href={'/' + comment.author_info.username} className={styles.username_link}>
+                                                @{comment.author_info.username}</Link> :
+                                            <>
+                                                <Link href={'/' + comment.author_info.username} >
+                                                    {comment.author_info.full_name != null ? comment.author_info.full_name : comment.author_info.username}</Link>
+                                                <Link href={'/' + comment.author_info.username} className={styles.username_link}>
+                                                    @{comment.author_info.username}</Link>
+                                            </>
+                                        }
+                                    </div>
+
+                                    <span>
+                                        <FormattedDate
+                                            value={comment.created_at}
+                                            year='numeric'
+                                            month='long'
+                                            day='numeric' />
+                                    </span>
                                 </div>
                             </div>
 
@@ -295,14 +320,14 @@ function GamePage() {
 
                             <div className={styles.like_and_reply_comment}>
                                 <div className={styles.like_block}>
-                                    <div className="like-button" onClick={() => { changeCommentsLikeValue(comment.id), games_store.commentsLikes.find(o => o.id === comment.id && o.hasAuthorLike === 1) ? games_store.setCommentsLikeDecrease(comment.id) : games_store.setCommentsLikeIncrease(comment.id) }}>
+                                    <div className="like-button" onClick={() => { !auth_store.isAuth ? setIsShow(true) : (changeCommentsLikeValue(comment.id), games_store.commentsLikes.find(o => o.id === comment.id && o.hasAuthorLike === 1) ? games_store.setCommentsLikeDecrease(comment.id) : games_store.setCommentsLikeIncrease(comment.id)) }}>
 
                                         <LikeIcon className={games_store.commentsLikes.find(o => o.id === comment.id && o.hasAuthorLike === 1) ? "heart-icon liked" : "heart-icon"} />
 
                                     </div>
                                     <span >{comment.like_count}</span>
                                 </div>
-                                <span className={styles.reply_button} onClick={() => (setreplyWindowIsOpen(comment.id), setComment(''))}>
+                                <span className={styles.reply_button} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setreplyWindowIsOpen(comment.id), setComment(''))}}>
                                     Ответить
                                 </span>
 
@@ -325,7 +350,7 @@ function GamePage() {
                                     </MentionsInput>
                                     <div className={styles.send_button_wrapper} id={comment.id}>
 
-                                        {textAreaVal !== "" && textAreaVal.replace(/\s+/g, ' ').trim() !== ""  ?
+                                        {textAreaVal !== "" && textAreaVal.replace(/\s+/g, ' ').trim() !== "" ?
                                             <div className={styles.func_button_wrapper}>
                                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
                                                     onClick={() => addComment(games_store.gamePage.id, comment.id)}>
@@ -354,9 +379,25 @@ function GamePage() {
                                             <div className={styles.user_info_wrapper}>
                                                 <div className={styles.user_icon}></div>
                                                 <div className={styles.user_info_comment}>
-                                                    <Link href={'/' + child.author_info.username} >
-                                                        {child.author_info.full_name}</Link>
-                                                    <span>{child.created_at}</span>
+                                                    <div className={styles.user_info_block}>
+                                                        {child.author_info.full_name === null ?
+                                                            <Link href={'/' + child.author_info.username} className={styles.username_link}>
+                                                                @{child.author_info.username}</Link> :
+                                                            <>
+                                                                <Link href={'/' + child.author_info.username} >
+                                                                    {child.author_info.full_name != null ? child.author_info.full_name : child.author_info.username}</Link>
+                                                                <Link href={'/' + child.author_info.username} className={styles.username_link}>
+                                                                    @{child.author_info.username}</Link>
+                                                            </>
+                                                        }
+                                                    </div>
+                                                    <span>
+                                                        <FormattedDate
+                                                            value={child.created_at}
+                                                            year='numeric'
+                                                            month='long'
+                                                            day='numeric' />
+                                                    </span>
                                                 </div>
                                             </div>
                                             <span className={styles.markdown_text}><ReactMarkdown>{child.text}</ReactMarkdown></span>
@@ -364,13 +405,13 @@ function GamePage() {
                                             <div className={styles.like_and_reply_comment}>
                                                 <div className={styles.like_block}>
 
-                                                    <div className="like-button" onClick={() => { changeCommentsLikeValue(child.id), games_store.commentsLikes.find(o => o.id === child.id && o.hasAuthorLike === 1) ? games_store.setChildCommentsLikeDecrease(child.id) : games_store.setChildCommentsLikeIncrease(child.id) }}>
+                                                    <div className="like-button" onClick={() => { !auth_store.isAuth ? setIsShow(true) : (changeCommentsLikeValue(child.id), games_store.commentsLikes.find(o => o.id === child.id && o.hasAuthorLike === 1) ? games_store.setChildCommentsLikeDecrease(child.id) : games_store.setChildCommentsLikeIncrease(child.id)) }}>
                                                         <LikeIcon className={games_store.commentsLikes.find(o => o.id === child.id && o.hasAuthorLike === 1) ? "heart-icon liked" : "heart-icon"} />
                                                     </div>
 
                                                     <span >{child.like_count}</span>
                                                 </div>
-                                                <span className={styles.reply_button} onClick={() => (setreplyWindowIsOpen(child.id), setComment(''))}>
+                                                <span className={styles.reply_button} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setreplyWindowIsOpen(child.id), setComment(''))}}>
                                                     Ответить
                                                 </span>
                                             </div>
@@ -392,7 +433,7 @@ function GamePage() {
                                                     </MentionsInput>
                                                     <div className={styles.send_button_wrapper} id={comment.id}>
 
-                                                        {textAreaVal !== ""  && textAreaVal.replace(/\s+/g, ' ').trim() !== "" ?
+                                                        {textAreaVal !== "" && textAreaVal.replace(/\s+/g, ' ').trim() !== "" ?
                                                             <div className={styles.func_button_wrapper}>
                                                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
                                                                     onClick={() => addComment(games_store.gamePage.id, comment.id)}>
@@ -490,34 +531,36 @@ function GamePage() {
 
             <main className="right_side_wrapper">
                 <div className={styles.information_card_wrapper}>
-                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={20} onClick={() => (setIsShowRating(true), games_store.rate != 0 ? (setHover(games_store.rate), setRating(games_store.rate)) : null)}>
+                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={20} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setIsShowRating(true), games_store.rate != 0 ? (setHover(games_store.rate), setRating(games_store.rate)) : null)}}>
                         <div className={styles.button_data_wrapper}>
                             <div className={styles.star_icon}></div>
                             <span>Оценить игру</span>
                         </div>
                     </FunctionalGameButton>
-                    <div className={styles.other_info_card}>
-                        <h3>Жанр</h3>
-                        <div className={styles.information_text}>
-                            {games_store.gamePage.genres?.map((genre, index) =>
-                                <span key={genre.genre.id}>
-                                    {genre.genre.name + ((games_store.gamePage.genres.length > 0 && index !== games_store.gamePage.genres.length - 1) ? ', ' : '')}
-                                </span>
-                            )}
-                        </div>
-                    </div>
-                    <div className={styles.other_info_card}>
-                        <h3>Платформа</h3>
-                        <div className={styles.information_text}>
-                            {games_store.gamePage.platforms?.map((platform, index) =>
-                                <span key={platform.platform.id}>
-                                    {platform.platform.platform_name + ((games_store.gamePage.platforms.length > 0 && index !== games_store.gamePage.platforms.length - 1) ? ', ' : '')}
-                                </span>
-                            )}
-                        </div>
-                    </div>
+                    <div className={styles.other_information_grid}>
 
-                    <div className={styles.other_info_card}>
+                        <div className={styles.other_info_card}>
+                            <h3>Жанр</h3>
+                            <div className={styles.information_text}>
+                                {games_store.gamePage.genres?.map((genre, index) =>
+                                    <span key={genre.genre.id}>
+                                        {genre.genre.name + ((games_store.gamePage.genres.length > 0 && index !== games_store.gamePage.genres.length - 1) ? ', ' : '')}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                        <div className={styles.other_info_card}>
+                            <h3>Платформа</h3>
+                            <div className={styles.information_text}>
+                                {games_store.gamePage.platforms?.map((platform, index) =>
+                                    <span key={platform.platform.id}>
+                                        {platform.platform.platform_name + ((games_store.gamePage.platforms.length > 0 && index !== games_store.gamePage.platforms.length - 1) ? ', ' : '')}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.stats_info_card}>
                         <h3>Статистика</h3>
                         <div>
                             <span>Прошли</span> <span>{games_store.gamePage.completed_count != null ? games_store.gamePage.completed_count : 0}</span>

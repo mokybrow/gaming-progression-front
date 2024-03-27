@@ -152,7 +152,6 @@ export default class GamesStore {
         try {
             const response = await GameService.getAllGames(genre, platform, age, release, limit, offset, sort);
             this.setGames(response.data)
-            this.setLoading(false);
 
         } catch {
             this.setGames([] as GamesResponse[])
@@ -162,9 +161,13 @@ export default class GamesStore {
             this.setGamesCount(gameCount.data)
 
         } catch (error) {
-            this.setGamesCount({game_count: 0})
+            this.setGamesCount({ game_count: 0 })
         }
-        
+        finally {
+            this.setLoading(false);
+
+        }
+
     }
 
     async getGamePage(slug: string) {
@@ -174,15 +177,28 @@ export default class GamesStore {
             const result = await ContentService.getComments(response.data.id)
             this.setGamePage(response.data)
             this.setComments(result.data)
-            const likes = await ContentService.getUserCommentsLikes(response.data.id)
-            this.setCommentsLikes(likes.data)
-            const rate = await ContentService.getUserGameRate(response.data.id)
-            this.setGameRate(rate.data)
 
+          
         } catch {
             this.setGamePage({} as GamePageResponse)
         }
-        this.setLoading(false);
+        try {
+            const likes = await ContentService.getUserCommentsLikes(this.gamePage.id)
+            this.setCommentsLikes(likes.data)
+        } catch (error) {
+
+        }
+        try {
+            const rate = await ContentService.getUserGameRate(this.gamePage.id)
+            this.setGameRate(rate.data)
+
+        } catch (error) {
+            
+        }
+        finally {
+
+            this.setLoading(false);
+        }
     }
 
     async addNewComment(itemId: string, text: string, parentCommntId?: string | null) {

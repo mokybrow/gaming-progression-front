@@ -2,10 +2,9 @@
 
 import { Genre, Platform } from '@/models/gamesModel';
 import styles from './game.card.module.css'
-import Image from 'next/image'
 import Link from 'next/link';
-import { useContext } from 'react';
-import { Context } from '@/app/providers';
+import { FormattedMessage, FormattedDate } from 'react-intl';
+
 
 export interface CardProps {
     title: string,
@@ -18,7 +17,6 @@ export interface CardProps {
 }
 
 export default function GameCard({ title, cover, release_date, avg_rate, platforms, genres, slug }: CardProps) {
-    const { games_store } = useContext(Context);
 
     return (
 
@@ -39,8 +37,14 @@ export default function GameCard({ title, cover, release_date, avg_rate, platfor
                     <div className={styles.description}>
                         <span className={styles.nowrap_header}>Год:&nbsp;</span>
                         <span>
+
                             {release_date ?
-                                release_date.toString()
+                                <FormattedDate
+                                    value={release_date}
+                                    year='numeric'
+                                    month='long'
+                                    day='numeric'
+                                />
                                 : <>N/A</>}
                         </span>
                     </div>

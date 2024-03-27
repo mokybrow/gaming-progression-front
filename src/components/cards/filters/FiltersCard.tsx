@@ -50,68 +50,90 @@ function FiltersCard() {
         games_store.setPlatform([])
         games_store.setRelease([])
         games_store.setLimit(21)
-        games_store.getAllGames(games_store.genres, games_store.platforms, null, games_store.release_date, games_store.limit, 0, games_store.sort)
+        setSelectedGenres([])
+        setSelectedPlatforms([])
+
+        games_store.getAllGames([], [], null, [], games_store.limit, 0, games_store.sort)
+
     }
     return (
 
         <div className={styles.filters_wrapper} >
-            <div className={styles.filter}>
-                <div className={styles.block_wrapper}>
-                    <h4>
-                        Жанр
-                    </h4>
-                    <div className={styles.choose_section}>
-                        {Object.keys(GENRES).map((key, index) => (
-                            <div key={index} className={styles.list_style} >
-                                <input type="checkbox"
-                                    value={key}
-                                    onChange={(event) => { handleGenresChange(event) }}
-                                    defaultChecked={games_store.genres.includes(key)} />
-                                <span>{GENRES[key]}</span>
-                            </div>
-                        ))}
-                    </div>
+            <form action="
+            ">
+                <div className={styles.filter}>
+                    <div className={styles.block_wrapper}>
+                        <h4>
+                            Жанр
+                        </h4>
+                        <div className={styles.choose_section}>
+                            {Object.keys(GENRES).map((key, index) => (
+                                <div key={index} className={styles.list_style} >
+                                    <input type="checkbox"
+                                        value={key}
+                                        onChange={(event) => { handleGenresChange(event) }}
+                                        defaultChecked={games_store.genres.includes(key)} />
+                                    <span>{GENRES[key]}</span>
+                                </div>
+                            ))}
+                        </div>
 
-                </div>
-                <div className={styles.block_wrapper}>
-                    <h4>
-                        Платформа
-                    </h4>
-                    <div className={styles.choose_section}>
-                        {Object.keys(PLATFORMS).map(key => (
-                            <div key={key} className={styles.list_style} >
-                                <input type="checkbox"
-                                    value={key}
-                                    onChange={(event) => { handlePlatformsChange(event) }}
-                                    defaultChecked={games_store.platforms.includes(key)}
-                                /><span>{PLATFORMS[key]}</span>
-                            </div>
-                        ))}
                     </div>
-                </div>
-                <div className={styles.block_wrapper}>
-                    <h4>
-                        Отрезок времени
-                    </h4>
-                    <div className={styles.choose_section}>
-                        {Object.keys(FIVEYEARS).map(key => (
-                            <div key={key} className={styles.list_style} >
-                                <input type="radio" name="drone"
-                                    value={String(FIVEYEARS[key])}
-                                    onChange={(event) => { handleYearChange(event) }}
-                                    defaultChecked={String(games_store.release_date) === String(FIVEYEARS[key]) ? true : false}
-
-                                /><span>{key}</span>
-                            </div>
-                        ))}
+                    <div className={styles.block_wrapper}>
+                        <h4>
+                            Платформа
+                        </h4>
+                        <div className={styles.choose_section}>
+                            {Object.keys(PLATFORMS).map(key => (
+                                <div key={key} className={styles.list_style} >
+                                    <input type="checkbox"
+                                        value={key}
+                                        onChange={(event) => { handlePlatformsChange(event) }}
+                                    // defaultChecked={games_store.platforms.includes(key)}
+                                    /><span>{PLATFORMS[key]}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-                <div className={styles.block_wrapper}>
+                    <div className={styles.block_wrapper}>
+                        <h4>
+                            Десятилетие
+                        </h4>
+                        <div className={styles.choose_section}>
+                            {Object.keys(FIVEYEARS).map(key => (
+                                <div key={key} className={styles.list_style} >
+                                    <input type="radio" name="year"
+                                        value={String(FIVEYEARS[key])}
+                                        onChange={(event) => handleYearChange(event)}
+                                        onClick={(event) => handleYearChange(event)}
 
+                                    /><span>{key}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className={styles.block_wrapper}>
+                        <h4>
+                            Год
+                        </h4>
+                        <div className={styles.choose_section}>
+                            {YEARS.map((key, index) => (
+                                <div key={index} className={styles.list_style} >
+                                    <input type="radio" name="year"
+                                        value={key}
+                                        onChange={(event) => handleYearChange(event)}
+                                        onClick={(event) => handleYearChange(event)}
+                                    />
+                                    <span>{key}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                     <ServiceButton type={'button'} onClick={() => SubmitFilter()}>Применить фильтры</ServiceButton>
-                    <ServiceButton type={'button'} onClick={() => ClearFilter()}>Сбросить фильтры</ServiceButton>
+                    <ServiceButton type={'reset'} onClick={() => ClearFilter()}>Сбросить фильтры</ServiceButton>
                 </div>
-            </div>
+            </form>
+
         </ div>
     )
 

@@ -1,9 +1,10 @@
 'use client'
 
-import React, { createContext, ReactNode } from "react";
+import React, { createContext, ReactNode, useState } from "react";
 import AuthStore from "@/storage/authStore";
 import GamesStore from "@/storage/gamesStore";
 import ContentStore from "@/storage/contentStore";
+import { IntlProvider } from 'react-intl';
 
 
 interface State {
@@ -22,12 +23,18 @@ export const Context = createContext<State>({
     content_store: content_store,
 
 })
+if (typeof navigator !==  "undefined") {
+    var local = navigator.language;
+}
 
 export function Providers({ children }: { children: React.ReactNode }) {
+    // var local = navigator.language;
 
     return (
         <Context.Provider value={{ games_store: games_store, auth_store: auth_store, content_store: content_store }}>
-            {children}
+            <IntlProvider locale={'ru'}>
+                {children}
+            </IntlProvider>
         </Context.Provider>
 
     );

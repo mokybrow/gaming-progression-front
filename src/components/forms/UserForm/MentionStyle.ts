@@ -49,7 +49,7 @@ export default {
       item: {
         padding: "10px 20px",
         "&focused": {
-          backgroundColor: "var(--sidebar-hover)",
+          backgroundColor: "var(--input-color)",
           borderRadius: 6,
 
         },

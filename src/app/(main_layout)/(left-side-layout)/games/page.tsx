@@ -78,8 +78,16 @@ function Games() {
                             <div className={styles.sort_icon}></div>
                             <span>Сортировка</span>
                         </div>
-                        <div>Найденно игр {games_store.gamesCount.game_count}</div>
 
+                        <div className={styles.finded_games}>Найдено игр {games_store.gamesCount.game_count}</div>
+                        <div className={styles.right_side_flex_mobile}>
+                            <div className={styles.filter_button_wrapper_desk} >
+                                <div className={styles.filter_button} onClick={() => setIsShowFilter(true)}>
+                                    <div className={styles.filter_icon}></div>
+                                    <span>Фильтры</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div className={styles.popup_wrapper}>
@@ -138,13 +146,10 @@ function Games() {
                     </div>
                 </div>
                 <div className={styles.right_side_flex_mobile}>
-                    <div className={styles.filter_button_wrapper_desk} >
-                        <div className={styles.filter_button} onClick={() => setIsShowFilter(true)}>
-                            <div className={styles.filter_icon}></div>
-                            <span>Фильтры</span>
-                        </div>
-                    </div>
+                    <div>Найдено игр {games_store.gamesCount.game_count}</div>
+
                 </div>
+
             </main>
 
         </>

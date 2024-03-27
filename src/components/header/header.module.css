@@ -55,6 +55,11 @@
     background-repeat: no-repeat;
     background-image: var(--main-logo);
 }
+.reglink {
+    cursor: pointer;
+    font-size: 12px;
+    color: #0368CD;
+}
 
 .user_icon,
 .settings_icon,

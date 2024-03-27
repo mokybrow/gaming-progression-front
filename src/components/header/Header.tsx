@@ -12,9 +12,14 @@ import { observer } from 'mobx-react';
 import { getLocalToken } from '@/utils/tokenUtils';
 import userpic from '@/assets/icons/general/userpic.png'
 import { UserProfileButton } from '../buttons/UserProfileButton';
+import { FullScreenPopup } from '../popup/FullScreenPopup';
+import LoginForm from '../forms/login_form/LoginForm';
+import { RegistrationForm } from '../forms/reg_form/RegistrationForm';
 
 export function Header() {
     const [isShow, setIsShow] = useState(false);
+    const [isAuthShow, setIsAuthShow] = useState(false);
+    const [isRegShow, setIsRegShow] = useState(false);
     const { auth_store } = useContext(Context);
 
     useEffect(() => {
@@ -30,10 +35,27 @@ export function Header() {
         if (isShow) {
             setTimeout(() => setIsShow(false), 50)
         }
+        if (isAuthShow) {
+            setTimeout(() => setIsAuthShow(false), 50)
+        }
+        if (isRegShow) {
+            setTimeout(() => setIsRegShow(false), 50)
+        }
     })
 
     return (
         <>
+            <FullScreenPopup active={isRegShow} setActive={setIsRegShow}>
+                <RegistrationForm />
+
+            </FullScreenPopup>
+
+            <FullScreenPopup active={isAuthShow} setActive={setIsAuthShow}>
+                <LoginForm />
+                <div className={styles.form_elem}>
+                    <div className={styles.reglink} onClick={()=> (setIsAuthShow(false), setIsRegShow(true))}>Нет аккаунта? Зарегистрироваться.</div>
+                </div>
+            </FullScreenPopup>
             <header className={styles.header}>
                 <div className={styles.header_layout}>
                     <div className={styles.logo_wrapper}>
@@ -60,9 +82,9 @@ export function Header() {
                             </UserProfileButton>
 
                             :
-                            <Link href={'/sign-in'} className={styles.login_button}>
+                            <div onClick={() => setIsAuthShow(true)} className={styles.login_button}>
                                 Войти
-                            </Link>
+                            </div>
                         }
                         <ProfilePopup active={isShow} innerRef={popupRef}>
 

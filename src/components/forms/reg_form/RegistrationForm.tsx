@@ -32,7 +32,6 @@ export function RegistrationForm() {
         setMessage(null);
         try {
             const response = await AuthService.registration(data.username, data.email, data.password);
-            router.push('/')
 
         } catch (e) {
             const error = e as AxiosError<RegistrResponse>;
