@@ -19,6 +19,7 @@ import Link from 'next/link';
 import LikeIcon from '@/components/icons/like';
 import ContentService from '@/services/contentService';
 import { FormattedDate } from 'react-intl';
+import useDebounce from '@/hooks/useDebounce';
 
 
 function GamePage() {
@@ -32,9 +33,12 @@ function GamePage() {
     const [likeComment, setLikeComment] = useState(false)
     const [rating, setRating] = useState<number>(0);
     const [hover, setHover] = useState<number>(0);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const [rateButtonCount, setRateButtonCount] = useState<number>(0);
 
+    const [textAreaVal, setTextAreaVal] = useState("");
+    const [comment, setComment] = useState("");
     const { games_store } = useContext(Context);
     const { auth_store } = useContext(Context);
     const [commentText, setCommentText] = useState("");
@@ -56,6 +60,8 @@ function GamePage() {
     const findStatusComplete = auth_store.user.user_activity?.find(product => product.game_data.id == games_store.gamePage.id && product.activity_data.code == 220000)
     const findStatusFavorite = auth_store.user.user_favorite?.find(product => product.game_data.id == games_store.gamePage.id)
 
+    const debouncedSearch = useDebounce(searchQuery, 500);
+    const [data, setData] = useState<Promise<{ id: string; display: string; }[]>>();
 
     useEffect(() => {
         games_store.setLoading(true)
@@ -65,19 +71,27 @@ function GamePage() {
 
     }, [games_store, auth_store])
 
+    useEffect(() => {
+        //search the api
+        async function fetchUserSuggestions() {
+            if (debouncedSearch) {
+                setData(ContentService.SearchUser(String(debouncedSearch)).then(users => users.data.map(myUser => ({
+                    id: `${myUser.username}`,
+                    display: `${myUser.username}`
+                }))))
+            }
+            else{
+                setData(undefined)
+            }
+        }
+        if (debouncedSearch) {
+            fetchUserSuggestions()
+        }
+        else {
+            setData(undefined)
+        }
 
-    const [textAreaVal, setTextAreaVal] = useState("");
-    const [comment, setComment] = useState("");
-
-    function fetchUserSuggestions(query: string) {
-        return ContentService.SearchUser(query).then(users => users.data.map(myUser => ({
-            id: `${myUser.username}`,
-            display: `${myUser.username}`
-        })))
-    }
-
-    // const debouncedFetchUserSuggestions = debounce(fetchUserSuggestions, 50);
-
+    }, [debouncedSearch])
 
 
 
@@ -267,7 +281,7 @@ function GamePage() {
                             <Mention className={'mentions__mention'}
                                 trigger={"@"}
                                 data={(search, callback) => {
-                                    fetchUserSuggestions(search)?.then(users => callback(users));
+                                    setSearchQuery(search), data?.then(users => callback(users));
                                 }}
                                 displayTransform={(id) => `@${id}`}
                                 markup='@@@____display__^^__@@^_^__id__@@@^^^' />
@@ -276,7 +290,7 @@ function GamePage() {
                         {commentText !== "" && commentText.replace(/\s+/g, ' ').trim() !== "" ? <>
                             <div className={styles.send_button_wrapper}>
                                 <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                    onClick={() => { !auth_store.isAuth ? setIsShow(true) : (saveNewComment(games_store.gamePage.id, null), setComment(''), setCommentText(''))}}>
+                                    onClick={() => { !auth_store.isAuth ? setIsShow(true) : (saveNewComment(games_store.gamePage.id, null), setComment(''), setCommentText('')) }}>
                                     Отправить
                                 </FunctionalGameButton>
                             </div>
@@ -327,7 +341,7 @@ function GamePage() {
                                     </div>
                                     <span >{comment.like_count}</span>
                                 </div>
-                                <span className={styles.reply_button} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setreplyWindowIsOpen(comment.id), setComment(''))}}>
+                                <span className={styles.reply_button} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setreplyWindowIsOpen(comment.id), setComment('')) }}>
                                     Ответить
                                 </span>
 
@@ -342,7 +356,7 @@ function GamePage() {
                                         <Mention className={'mentions__mention'}
                                             trigger={"@"}
                                             data={(search, callback) => {
-                                                fetchUserSuggestions(search)?.then(users => callback(users));
+                                                setSearchQuery(search), data?.then(users => callback(users));
                                             }}
                                             displayTransform={(id) => `@${id}`}
                                             markup='@@@____display__^^__@@^_^__id__@@@^^^' />
@@ -411,7 +425,7 @@ function GamePage() {
 
                                                     <span >{child.like_count}</span>
                                                 </div>
-                                                <span className={styles.reply_button} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setreplyWindowIsOpen(child.id), setComment(''))}}>
+                                                <span className={styles.reply_button} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setreplyWindowIsOpen(child.id), setComment('')) }}>
                                                     Ответить
                                                 </span>
                                             </div>
@@ -425,7 +439,7 @@ function GamePage() {
                                                         <Mention className={'mentions__mention'}
                                                             trigger={"@"}
                                                             data={(search, callback) => {
-                                                                fetchUserSuggestions(search)?.then(users => callback(users));
+                                                                setSearchQuery(search), data?.then(users => callback(users));
                                                             }}
                                                             displayTransform={(id) => `@${id}`}
                                                             markup='@@@____display__^^__@@^_^__id__@@@^^^' />
@@ -531,7 +545,7 @@ function GamePage() {
 
             <main className="right_side_wrapper">
                 <div className={styles.information_card_wrapper}>
-                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={20} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setIsShowRating(true), games_store.rate != 0 ? (setHover(games_store.rate), setRating(games_store.rate)) : null)}}>
+                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={20} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setIsShowRating(true), games_store.rate != 0 ? (setHover(games_store.rate), setRating(games_store.rate)) : null) }}>
                         <div className={styles.button_data_wrapper}>
                             <div className={styles.star_icon}></div>
                             <span>Оценить игру</span>

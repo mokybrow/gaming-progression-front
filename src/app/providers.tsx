@@ -23,7 +23,7 @@ export const Context = createContext<State>({
     content_store: content_store,
 
 })
-if (typeof navigator !==  "undefined") {
+if (typeof navigator !== "undefined") {
     var local = navigator.language;
 }
 

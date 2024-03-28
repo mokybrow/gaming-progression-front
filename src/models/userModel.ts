@@ -96,3 +96,5 @@ export interface SearchUserModel {
     username: string,
     full_name: string,
 }
+
+

@@ -4,7 +4,7 @@ import { makeAutoObservable } from "mobx"
 
 
 export default class ContentStore {
-    users = [{id: '123'}] as SearchUserModel[];
+    users = [] as SearchUserModel[];
     isLoading = false;
 
     comment = '' as string;

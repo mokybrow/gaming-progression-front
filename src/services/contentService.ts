@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import $api from "@/api/api";
-import { CommentsResponse, UserCommentsLikes } from "@/models/serviceModel";
+import { CommentsResponse, SearchGamesModel, UserCommentsLikes } from "@/models/serviceModel";
 import { SearchUserModel } from "@/models/userModel";
 
 export default class ContentService {
@@ -54,6 +54,15 @@ export default class ContentService {
     static async SearchUser(value: string): Promise<AxiosResponse<SearchUserModel[]>> {
         const url = process.env.API_URL + `users/search/${value}`
         return axios.get<SearchUserModel[]>(url)
+    }
+
+
+    static async SearchGames(searchString: string): Promise<AxiosResponse<SearchGamesModel[]>> {
+        const url = process.env.API_URL + `search/games`
+        return axios.post<SearchGamesModel[]>(url, {
+            search_string: searchString
+
+        })
     }
 
 

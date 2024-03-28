@@ -6,7 +6,6 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import useOutside from '@/hooks/useOutside'
 import { ProfilePopup } from '../popup/ProfilePopup';
 import Image from 'next/image'
-import Link from 'next/link';
 import { Context } from '@/app/providers';
 import { observer } from 'mobx-react';
 import { getLocalToken } from '@/utils/tokenUtils';
@@ -15,6 +14,8 @@ import { UserProfileButton } from '../buttons/UserProfileButton';
 import { FullScreenPopup } from '../popup/FullScreenPopup';
 import LoginForm from '../forms/login_form/LoginForm';
 import { RegistrationForm } from '../forms/reg_form/RegistrationForm';
+import SearchField from '../fields/search/SearchField';
+
 
 export function Header() {
     const [isShow, setIsShow] = useState(false);
@@ -47,13 +48,11 @@ export function Header() {
         <>
             <FullScreenPopup active={isRegShow} setActive={setIsRegShow}>
                 <RegistrationForm />
-
             </FullScreenPopup>
-
             <FullScreenPopup active={isAuthShow} setActive={setIsAuthShow}>
                 <LoginForm />
                 <div className={styles.form_elem}>
-                    <div className={styles.reglink} onClick={()=> (setIsAuthShow(false), setIsRegShow(true))}>Нет аккаунта? Зарегистрироваться.</div>
+                    <div className={styles.reglink} onClick={() => (setIsAuthShow(false), setIsRegShow(true))}>Нет аккаунта? Зарегистрироваться.</div>
                 </div>
             </FullScreenPopup>
             <header className={styles.header}>
@@ -65,7 +64,7 @@ export function Header() {
                     </div>
 
                     <div className={styles.search_wrapper}>
-                        <input type="text" />
+                        <SearchField placeholder={'Поиск'} type={'text'} id={''} labelname={'Поиск'} height={32} />
                     </div>
 
 

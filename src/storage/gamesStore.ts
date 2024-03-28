@@ -1,8 +1,9 @@
 import { GamePageResponse, GamesCount, GamesResponse } from "@/models/gamesModel";
-import { CommentsResponse, UserCommentsLikes } from "@/models/serviceModel";
+import { CommentsResponse, SearchGamesModel, UserCommentsLikes } from "@/models/serviceModel";
 import ContentService from "@/services/contentService";
 import GameService from "@/services/gamesService";
 import { makeAutoObservable } from "mobx"
+import { date } from "yup";
 
 
 export default class GamesStore {
@@ -12,6 +13,7 @@ export default class GamesStore {
     platforms = [] as string[]
     release_date = [] as number[]
     games = [] as GamesResponse[];
+    searchedGames = [] as SearchGamesModel[];
     gamesCount = {} as GamesCount;
     comments = [] as CommentsResponse[];
     commentsLikes = [] as UserCommentsLikes[];
@@ -36,6 +38,11 @@ export default class GamesStore {
     setGames(games: GamesResponse[]) {
         this.games = games;
     }
+
+    setSearchedGames(games: SearchGamesModel[]) {
+        this.searchedGames = games;
+    }
+
     setGamesCount(gamesCount: GamesCount) {
         this.gamesCount = gamesCount;
     }
@@ -253,6 +260,15 @@ export default class GamesStore {
         try {
             await GameService.delRateGame(gameId)
 
+        } catch (error) {
+
+        }
+    }
+
+    async searchGames(searchString: string) {
+        try {
+            const result = await ContentService.SearchGames(searchString)
+            this.setSearchedGames(result.data)
         } catch (error) {
 
         }

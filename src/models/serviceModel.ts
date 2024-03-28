@@ -43,3 +43,11 @@ export interface UserCommentsLikes {
 }
 
 
+export interface SearchGamesModel {
+	id: string
+	title: string
+	cover: string
+	description: any
+	slug: string
+	release_date: string
+}

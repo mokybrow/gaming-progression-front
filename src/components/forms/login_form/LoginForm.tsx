@@ -9,6 +9,8 @@ import { useContext } from 'react';
 import { Context } from '@/app/providers';
 import { SubmitButton } from '@/components/buttons/SubmitButton';
 import InputField from '@/components/fields/InputField';
+import { API_URL } from '@/api/api';
+import { useRouter } from 'next/navigation';
 import AuthService from '@/services/authService';
 
 let validationSchema = yup.object({
@@ -18,6 +20,7 @@ let validationSchema = yup.object({
 
 const LoginForm = () => {
 	const { auth_store } = useContext(Context);
+	const router = useRouter();
 
 
 	const { setError, reset, register, handleSubmit, formState: { errors } } = useForm({
@@ -28,6 +31,7 @@ const LoginForm = () => {
 		try {
 			const response = await AuthService.login(data.username, data.password);
 			await auth_store.login(response);
+			router.refresh()
 		}
 		catch {
 			setError('username', { message: "Неверный логин или пароль", type: "error" })
