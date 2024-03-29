@@ -35,7 +35,7 @@ const SearchField = forwardRef<HTMLInputElement, TypeInputProps>(
             if (debouncedSearch) {
                 fetchData()
                 setIsShow(true)
-       
+
             }
             else {
                 games_store.setSearchedGames([])
@@ -43,18 +43,20 @@ const SearchField = forwardRef<HTMLInputElement, TypeInputProps>(
 
         }, [debouncedSearch])
 
+
+
         return (
             <>
                 <div className={styles.input_wrapper}>
                     <input ref={ref} {...rest} className={styles.form_input}
                         type={type}
                         id={id} style={{ width: `${width}px`, height: `${height}px` }} required
-                        onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} />
+                        onChange={(e) => setSearchQuery(e.target.value)} onClick={() => games_store.searchedGames.length > 0 ? setIsShow(true) : null} value={searchQuery} />
                     <label htmlFor={id}>{labelname}</label>
                     {searchQuery ?
 
                         <div className={styles.send_button_wrapper}>
-                            <div className={styles.clear_field_button} onClick={()=> setSearchQuery('')}>
+                            <div className={styles.clear_field_button} onClick={() => setSearchQuery('')}>
                             </div>
                         </div>
                         : null

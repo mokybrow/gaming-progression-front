@@ -61,6 +61,51 @@
     background-color: var(--input-color);
 }
 
+.p-mention {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.p-mention textarea {
+    display: flex;
+    width: 100%;
+    position: relative;
+    padding: 12px;
+    border-radius: 6px;
+    background-color: var(--input-color);
+    color: var(--font-color);
+    font-style: normal;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+}
+
+.p-mention-panel {
+    display: flex;
+    width: 100%;
+    position: relative;
+
+}
+
+.p-mention-items {
+    background-color: var(--card-bg-color);
+    padding: 6px;
+    border-radius: 6px;
+    max-height: 150px;
+    overflow-y: scroll;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+
+}
+
+.p-mention-item {
+    padding: 6px;
+}
+
+.p-mention-item:hover {
+    padding: 6px;
+    border-radius: 6px;
+    background-color: var(--input-color);
+}
 
 #rate-numbers {
     font-size: 1.0em;
