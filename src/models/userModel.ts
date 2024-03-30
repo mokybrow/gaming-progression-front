@@ -25,6 +25,20 @@ export interface IUserModel  {
     biography?: string
 }
 
+
+export interface IGeneralUserModel  {
+    id: string
+    username: string
+    full_name: string
+    biography?: string
+	created_at: Date
+    user_activity: UserActivity[]
+    user_favorite: UserFavorite[]
+    followers: Follower[]
+    subscriptions: Subscription[]
+    lists: List[]
+}
+
 export interface UserActivity {
 	game_data: GameData
 	activity_data: ActivityData

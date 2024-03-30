@@ -1,5 +1,5 @@
 import { API_URL } from "@/api/api";
-import { AuthResponse, IUserModel, UserActivity } from "@/models/userModel";
+import { AuthResponse, IGeneralUserModel, IUserModel, UserActivity } from "@/models/userModel";
 import AuthService from "@/services/authService";
 import ContentService from "@/services/contentService";
 import GameService from "@/services/gamesService";
@@ -11,6 +11,7 @@ import { makeAutoObservable } from "mobx";
 
 export default class AuthStore {
     user = {} as IUserModel;
+    anotherUsers = {} as IGeneralUserModel;
     isAuth = false;
     isLoading = false;
 
@@ -25,6 +26,10 @@ export default class AuthStore {
     setUser(user: IUserModel) {
         this.user = user;
     }
+    setAnotherUser(user: IGeneralUserModel) {
+        this.anotherUsers = user;
+    }
+
 
     setLoading(bool: boolean) {
         this.isLoading = bool;
@@ -55,16 +60,27 @@ export default class AuthStore {
         }
     }
 
-    async checkAuth() {
+    async checkAuth(username?: string) {
         this.setLoading(true);
         try {
             const response = await AuthService.getProfile();
             this.setUser(response.data)
             this.setAuth(true);
             this.setLoading(false);
+
         } catch (error) {
             this.setUser({} as IUserModel)
             removeLocalToken();
+        }
+        try {
+            if (username !== undefined) {
+                if (this.isAuth && username != this.user.username) {
+                    const response = await AuthService.getUser(String(username));
+                    this.setAnotherUser(response.data)
+                }
+            }
+        } catch (error) {
+
         }
     }
 
@@ -99,6 +115,20 @@ export default class AuthStore {
         }
     }
 
+
+    async getUsers(username: string) {
+        this.setLoading(true);
+        try {
+            const response = await AuthService.getUser(username);
+            this.setAnotherUser(response.data)
+
+
+            this.setLoading(false);
+
+        } catch (error) {
+            this.setAnotherUser({} as IGeneralUserModel)
+        }
+    }
 
 
 }

@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import $api from "@/api/api";
-import { AuthResponse, IUserModel, RegistrResponse } from "@/models/userModel";
+import { AuthResponse, IGeneralUserModel, IUserModel, RegistrResponse } from "@/models/userModel";
 
 export default class AuthService {
 
@@ -32,6 +32,11 @@ export default class AuthService {
 
     static async getProfile(): Promise<AxiosResponse<IUserModel>> {
         return $api.get<IUserModel>(`/auth/users/me`)
+    }
+
+
+    static async getUser(username: string): Promise<AxiosResponse<IGeneralUserModel>> {
+        return $api.get<IGeneralUserModel>(`/users/${username}`)
     }
 
 
