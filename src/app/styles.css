@@ -78,6 +78,7 @@
     font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
     font-style: normal;
     font-size: 16px;
+    outline: none;
 }
 
 .p-mention-panel {

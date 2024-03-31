@@ -6,6 +6,7 @@ export interface IButtonsProps {
     height?: number
     bg_color: string
     fontSize: number
+    color?: string
 }
 
 export type FuncTypeButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & IButtonsProps

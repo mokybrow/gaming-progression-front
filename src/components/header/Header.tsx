@@ -9,12 +9,13 @@ import Image from 'next/image'
 import { Context } from '@/app/providers';
 import { observer } from 'mobx-react';
 import { getLocalToken } from '@/utils/tokenUtils';
-import userpic from '@/assets/icons/general/userpic.png'
+import userpic from '@/assets/icons/general/userpic.svg'
 import { UserProfileButton } from '../buttons/UserProfileButton';
 import { FullScreenPopup } from '../popup/FullScreenPopup';
 import LoginForm from '../forms/login_form/LoginForm';
 import { RegistrationForm } from '../forms/reg_form/RegistrationForm';
 import SearchField from '../fields/search/SearchField';
+import { useRouter } from 'next/navigation';
 
 
 export function Header() {
@@ -29,6 +30,7 @@ export function Header() {
         }
     }, [auth_store])
 
+    const router = useRouter();
 
 
     const popupRef = useRef(null)
@@ -105,14 +107,14 @@ export function Header() {
                                 </span>
                             </a>
 
-                            <a href={'/'} onClick={() => { auth_store.logout(), setIsShow(!isShow) }}>
+                            <div onClick={() => { auth_store.logout(), router.refresh(), setIsShow(!isShow) }} className={styles.exit_button}>
 
                                 <div className={styles.leave_icon}></div>
 
                                 <span>
                                     Выход
                                 </span>
-                            </a>
+                            </div>
 
                         </ProfilePopup>
                     </div>

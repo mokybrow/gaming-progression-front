@@ -8,6 +8,9 @@ import { FormattedDate } from 'react-intl';
 import { observer } from "mobx-react-lite";
 import { Mention } from 'primereact/mention';
 import { SearchUserModel } from "@/models/userModel";
+import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
+import Image from 'next/image'
+import userpic from '@/assets/icons/general/userpic.svg'
 
 function UserProfile() {
 
@@ -65,7 +68,17 @@ function UserProfile() {
       </div>
     );
   }
-  
+
+  const createNesPost = (itemId: string, parentCommentId?: string | null) => {
+    // let newComment = postText;
+    // if (newComment != '') {
+    //     let comment = newComment.replace(/\s+/g, ' ').trim();
+    //     const result = comment.replace(/(^|\W)@(\w+)/g, function (_, $1, $2) { return `[@${$2}](/${$2})` })
+    //     auth_store.addNewComment(itemId, result, parentCommentId)
+
+    // }
+  }
+
   return (
     <>
       <main className="content_wrapper">
@@ -75,6 +88,13 @@ function UserProfile() {
             {
               !auth_store.isAuth || username !== auth_store.user.username ?
                 <>
+                  <div>
+                    <Image
+                      src={userpic}
+                      width={100}
+                      height={100}
+                      alt="user" />
+                  </div>
                   <h3>
                     {auth_store.anotherUsers.full_name != null ?
                       <>
@@ -100,6 +120,13 @@ function UserProfile() {
                 </>
                 :
                 <>
+                  <div>
+                    <Image
+                      src={userpic}
+                      width={100}
+                      height={100}
+                      alt="user" />
+                  </div>
                   <h3>
                     {auth_store.user.full_name != null ?
                       <>
@@ -126,15 +153,46 @@ function UserProfile() {
             }
           </div>
           <div className={styles.user_wrapper_buttons}>
-            <div>Ахаахх</div>
+            {
+              auth_store.isAuth && username !== auth_store.user.username ?
+                <div className={styles.buttons_wrapper}>
+                  <FunctionalGameButton type={'button'} bg_color={'#0368CD'} fontSize={12} color={'#E8E8ED'}
+                    onClick={() => console.log('as')}>
+                    Подписаться
+                  </FunctionalGameButton>
+                  <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12} color={'#E8E8ED'}
+                    onClick={() => console.log('as')}>
+                    <div className={styles.flag_icon}>
+                    </div>
+                  </FunctionalGameButton>
+                </div>
+                :
+                null
+            }
           </div>
 
         </div>
-        <Mention onChange={(e) => handleChangeForMainComment(e.target)}
-          value={postText} suggestions={suggestions} onSearch={onSearch} field="username"
-          placeholder="Что нового?" itemTemplate={itemTemplate}
-          style={{ height: '30px' }} className={styles.mention} autoResize />
+        {
+          !auth_store.isAuth || username !== auth_store.user.username ? null :
+            <div className={styles.post_text_filed}>
+              <Mention onChange={(e) => handleChangeForMainComment(e.target)}
+                value={postText} suggestions={suggestions} onSearch={onSearch} field="username"
+                placeholder="Что нового?" itemTemplate={itemTemplate}
+                className={styles.mention} rows={1} autoResize />
 
+
+              {postText !== "" && postText.replace(/\s+/g, ' ').trim() !== "" ? <>
+                <div className={styles.send_button_wrapper}>
+                  <hr />
+                  <FunctionalGameButton type={'button'} bg_color={'#0368CD'} fontSize={12} color={'#E8E8ED'}
+                    onClick={() => { (createNesPost('123', ''), setPostText('')) }}>
+                    Опубликовать
+                  </FunctionalGameButton>
+                </div>
+              </> : null}
+
+            </div>
+        }
 
       </main>
       <main className="right_side_wrapper">

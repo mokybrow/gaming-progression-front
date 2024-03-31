@@ -48,6 +48,7 @@
     border-radius: 6px;
 }
 
+
 @media (min-width: 1240px) {
     .modal_content_active a:hover {
         background-color: var(--popup-menu-hover);

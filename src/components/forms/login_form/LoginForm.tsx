@@ -44,13 +44,15 @@ const LoginForm = () => {
 		<form onSubmit={handleSubmit(handleFormSubmit)} autoComplete="on" className={styles.auth_form}>
 			<div className={styles.form_elem}>
 				<InputField {...register('username')} placeholder={'Начните вводить'}
-					type={'username'} id={'username'} width={280} labelname={'Имя пользователя'} />
+					type={'username'} id={'username'} width={280} labelname={'Имя пользователя'}
+					autoComplete="username" />
 
 			</div>
 
 			<div className={styles.form_elem}>
 				<InputField {...register('password')} placeholder={'Начните вводить'}
-					type={'password'} id={'password'} width={280} labelname={'Пароль'} />
+					type={'password'} id={'password'} width={280} labelname={'Пароль'} 
+					autoComplete="current-password"/>
 
 				{errors['password'] ? (
 					<div className={styles.errormsg}>{errors['password'].message}</div>

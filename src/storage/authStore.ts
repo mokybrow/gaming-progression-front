@@ -74,7 +74,7 @@ export default class AuthStore {
         }
         try {
             if (username !== undefined) {
-                if (this.isAuth && username != this.user.username) {
+                if (username != this.user.username) {
                     const response = await AuthService.getUser(String(username));
                     this.setAnotherUser(response.data)
                 }
