@@ -87,3 +87,39 @@
     background-size: 100%;
     background-image: var(--flag-icon);
 }
+
+.user_content_wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background-color: var(--card-bg-color);
+    border-radius: 6px;
+    padding: 12px 24px;
+}
+
+.motion_style {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: #F1F1F1;
+    mix-blend-mode: difference;
+}
+
+.motion_button {
+    position: relative;
+    /* outline: skyblue; */
+    transition: all 2ms linear;
+    border-radius: 9999px;
+    padding: 6px 12px;
+    /* border: none; */
+    border: 0 solid #e2e8f0;
+    font-size: 18px;
+    background-color: none;
+    background: none;
+    color: var(--font-color);
+}
+
+
+.motion_button:focus-visible {
+    outline: 2;
+}

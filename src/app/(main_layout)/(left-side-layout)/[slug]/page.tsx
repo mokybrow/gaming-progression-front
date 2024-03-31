@@ -11,6 +11,8 @@ import { SearchUserModel } from "@/models/userModel";
 import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 import Image from 'next/image'
 import userpic from '@/assets/icons/general/userpic.svg'
+import { motion } from "framer-motion";
+
 
 function UserProfile() {
 
@@ -23,6 +25,15 @@ function UserProfile() {
   const [postText, setPostText] = useState<string>('');
   const [suggestions, setSuggestions] = useState<SearchUserModel[]>([]);
   const [customers, setCustomers] = useState<any>([]);
+
+
+  let tabs = [
+    { id: "posts", label: "Посты" },
+    { id: "activity", label: "Активность" },
+    { id: "favorite", label: "Любимые" },
+  ];
+
+  let [activeTab, setActiveTab] = useState(tabs[0].id);
 
   useEffect(() => {
     auth_store.checkAuth(username)
@@ -193,7 +204,28 @@ function UserProfile() {
 
             </div>
         }
-
+        <div className={styles.user_content_wrapper}>
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={styles.motion_button}
+              style={{
+                WebkitTapHighlightColor: "transparent",
+              }}
+            >
+              {activeTab === tab.id && (
+                <motion.span
+                  layoutId="bubble"
+                  className={styles.motion_style}
+                  style={{ borderRadius: 9999 }}
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </main>
       <main className="right_side_wrapper">
         Йоу
