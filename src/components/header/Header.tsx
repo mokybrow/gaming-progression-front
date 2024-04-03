@@ -107,14 +107,14 @@ export function Header() {
                                 </span>
                             </a>
 
-                            <div onClick={() => { auth_store.logout(), router.refresh(), setIsShow(!isShow) }} className={styles.exit_button}>
+                            <a href={'/'} onClick={() => { auth_store.logout(), setIsShow(!isShow) }}>
 
                                 <div className={styles.leave_icon}></div>
 
                                 <span>
                                     Выход
                                 </span>
-                            </div>
+                            </a>
 
                         </ProfilePopup>
                     </div>

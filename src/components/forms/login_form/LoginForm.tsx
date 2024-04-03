@@ -32,6 +32,7 @@ const LoginForm = () => {
 			const response = await AuthService.login(data.username, data.password);
 			await auth_store.login(response);
 			router.refresh()
+			window.location.reload()
 		}
 		catch {
 			setError('username', { message: "Неверный логин или пароль", type: "error" })

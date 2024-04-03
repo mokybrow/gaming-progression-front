@@ -234,18 +234,7 @@ export default class GamesStore {
     }
 
 
-    async likeComment(itemId: string, typeId: string, value: boolean) {
-        try {
-            await ContentService.likeContent(itemId, typeId, value)
-            // const likes = await ContentService.getUserCommentsLikes(this.gamePage.id)
-            // this.setCommentsLikes(likes.data)
-            // const result = await ContentService.getComments(this.gamePage.id)
-            // this.setComments(result.data)
 
-        } catch (error) {
-
-        }
-    }
     async addGameGrade(gameId: string, grade: number) {
         try {
             await GameService.addRateGame(gameId, grade)

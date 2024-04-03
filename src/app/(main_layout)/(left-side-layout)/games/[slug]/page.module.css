@@ -102,7 +102,7 @@
     background-color: var(--card-bg-color);
     border-radius: 6px;
     padding: 12px 24px;
-    gap: 24px;
+    gap: 12px;
 }
 
 .other_info_card,

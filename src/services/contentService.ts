@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import $api from "@/api/api";
 import { CommentsResponse, SearchGamesModel, UserCommentsLikes } from "@/models/serviceModel";
 import { SearchUserModel } from "@/models/userModel";
+import { PostsCount, PostsResponseModel } from "@/models/postsModel";
 
 export default class ContentService {
 
@@ -64,6 +65,41 @@ export default class ContentService {
 
         })
     }
+    static async getUserPosts(username: string, offset: number): Promise<AxiosResponse<PostsResponseModel[]>> {
+        const url = process.env.API_URL
+        return axios.post<PostsResponseModel[]>(url + `posts/get`, {
+            username: username,
+            offset: offset
+        })
+    }
 
+    static async getAuthUserPosts(username: string, offset: number): Promise<AxiosResponse<PostsResponseModel[]>> {
+        return $api.post<PostsResponseModel[]>(`/posts/get/auth`, {
+            username: username,
+            offset: offset
+        })
+    }
+
+    static async CreateNewPost(id: string, parent_post_id: string | null, text: string): Promise<AxiosResponse> {
+        const url = process.env.API_URL + `posts`
+        return $api.post(url, {
+            id: id,
+            parent_post_id: parent_post_id,
+            text: text
+
+        })
+    }
+    static async getPostsCount(username: string): Promise<AxiosResponse<PostsCount>> {
+        const url = process.env.API_URL + `posts/count/${username}`
+        return $api.get<PostsCount>(url,)
+    }
+
+    static async getPostsData(id: string, user_id: string | null): Promise<AxiosResponse<PostsResponseModel>> {
+        const url = process.env.API_URL + `posts/post`
+        return axios.post<PostsResponseModel>(url,{
+            id: id,
+            user_id: user_id
+        })
+    }
 
 }

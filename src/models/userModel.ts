@@ -1,43 +1,44 @@
 export interface AuthResponse {
-    access_token: string
-    token_type: string
+	access_token: string
+	token_type: string
 }
 
 export interface RegistrResponse {
-    detail: string
-}
-
-export interface IUserModel  {
-    username: string
-    email: string
-    full_name: string
-    disabled: boolean
-    id: string
-    is_verified: boolean
-    is_superuser: boolean
-    is_moderator: boolean
-    user_activity: UserActivity[]
-    user_favorite: UserFavorite[]
-    followers: Follower[]
-    subscriptions: Subscription[]
-    lists: List[]
-    created_at: Date
-    biography?: string
+	detail: string
 }
 
 
-export interface IGeneralUserModel  {
-    id: string
-    username: string
-    full_name: string
-    biography?: string
+export interface IUserModel {
+	username: string
+	email: string
+	full_name: string
+	disabled: boolean
+	id: string
+	is_verified: boolean
+	is_superuser: boolean
+	is_moderator: boolean
+	user_activity: UserActivity[]
+	user_favorite: UserFavorite[]
+	followers: any[]
+	subscriptions: Subscription[]
+	lists: List[]
+	created_at: string
+	biography: string
+}
+
+export interface IGeneralUserModel {
+	id: string
+	username: string
+	full_name: string
+	biography?: string
 	created_at: Date
-    user_activity: UserActivity[]
-    user_favorite: UserFavorite[]
-    followers: Follower[]
-    subscriptions: Subscription[]
-    lists: List[]
+	user_activity: UserActivity[]
+	user_favorite: UserFavorite[]
+	followers: any[]
+	subscriptions: Subscription[]
+	lists: List[]
 }
+
 
 export interface UserActivity {
 	game_data: GameData
@@ -47,7 +48,8 @@ export interface UserActivity {
 export interface GameData {
 	id: string
 	title: string
-	description: string
+	slug: string
+	description: any
 	release_date: string
 	cover: string
 }
@@ -65,20 +67,12 @@ export interface UserFavorite {
 export interface GameData2 {
 	id: string
 	title: string
-	description: string
+	slug: string
+	description: any
 	release_date: string
 	cover: string
 }
 
-export interface Follower {
-	follower_data: FollowerData
-}
-
-export interface FollowerData {
-	id: string
-	username: string
-	full_name: string
-}
 
 export interface Subscription {
 	sub_data: SubData
@@ -98,7 +92,7 @@ export interface Playlists {
 	id: string
 	owner_id: string
 	name: string
-	about: string
+	about?: string
 	is_private: boolean
 	created_at: string
 }
@@ -107,8 +101,8 @@ export interface Playlists {
 
 export interface SearchUserModel {
 	id: string,
-    username: string,
-    full_name: string,
+	username: string,
+	full_name: string,
 }
 
 

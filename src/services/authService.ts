@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import $api from "@/api/api";
 import { AuthResponse, IGeneralUserModel, IUserModel, RegistrResponse } from "@/models/userModel";
+import { PostsResponseModel } from "@/models/postsModel";
 
 export default class AuthService {
 
@@ -36,8 +37,13 @@ export default class AuthService {
 
 
     static async getUser(username: string): Promise<AxiosResponse<IGeneralUserModel>> {
-        return $api.get<IGeneralUserModel>(`/users/${username}`)
+        const url = process.env.API_URL
+        return axios.get<IGeneralUserModel>(url + `users/${username}`)
     }
 
+    static async followOnUser(user_id: string): Promise<AxiosResponse> {
+        const url = process.env.API_URL
+        return $api.post(url + `users/follow/${user_id}`, )
+    }
 
 }
