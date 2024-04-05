@@ -244,6 +244,22 @@ export default class AuthStore {
         this.setLoading(true);
         try {
             await AuthService.followOnUser(user_id)
+            this.setLoading(false)
+        }
+
+        catch (error) {
+        }
+    }
+
+    async patchMe(email?: string | null, fullName?: string | null, biography?: string | null, birthdate?: string | null, password?: string | null) {
+        this.setLoading(true);
+        try {
+            await AuthService.PatchMe(email, fullName, biography, birthdate, password)
+            const response = await AuthService.getProfile();
+            this.setUser(response.data)
+            this.setAuth(true);
+
+            this.setLoading(false);
         }
 
         catch (error) {

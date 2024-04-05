@@ -1,0 +1,88 @@
+.main_wrapper {
+    background-color: var(--card-bg-color);
+    border-radius: 6px;
+}
+
+.settings_header {
+    font-weight: 600;
+    font-size: 20px;
+    padding: 24px;
+}
+
+.main_wrapper hr {
+    height: 2px;
+    border: 1px solid var(--hr-color);
+}
+
+.settings_content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+
+}
+
+.user_icon,
+.lock_icon,
+.mailing_icon,
+.theme_icon {
+    display: flex;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.user_icon {
+    background-image: var(--user-icon);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+}
+
+.lock_icon {
+    background-image: var(--lock-icon);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+
+}
+
+.mailing_icon {
+    background-image: var(--mailing-icon);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+
+}
+
+.theme_icon {
+    background-image: var(--theme-icon);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+
+}
+
+.settings_menu_item {
+    display: flex;
+    min-height: 36px;
+    align-items: center;
+    gap: 12px;
+    padding: 6px;
+}
+
+.settings_menu_item:hover{
+    background-color: var(--settings-item-hover);
+    border-radius: 6px;
+}
+
+.text_wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+/* .text_wrapper small{
+    font-size: 12px;
+} */

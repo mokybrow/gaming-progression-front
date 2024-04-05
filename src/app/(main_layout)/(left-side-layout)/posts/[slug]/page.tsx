@@ -44,7 +44,7 @@ function PostPage() {
     const [likeComment, setLikeComment] = useState(false)
 
     useEffect(() => {
-
+        
         content_store.getPostData(id)
 
 
@@ -161,7 +161,7 @@ function PostPage() {
                     <div className={styles.comment_field_wrapper}>
                         <Mention onChange={(e) => handleChangeForMainComment(e.target)}
                             value={commentText} suggestions={suggestions} onSearch={onSearch} field="username"
-                            placeholder="Ваш отзыв. Введите @ чтобы отметить человека" itemTemplate={itemTemplate}
+                            placeholder="Ваш комментарий. Введите @ чтобы отметить человека" itemTemplate={itemTemplate}
                             style={{ width: '100%' }} className={styles.mention} autoResize />
 
 
@@ -401,7 +401,7 @@ function PostPage() {
 
             </main >
             <main className="right_side_wrapper">
-                Йоу
+                Раздел на ремонте
             </main>
 
         </>

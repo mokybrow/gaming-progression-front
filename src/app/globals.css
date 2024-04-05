@@ -31,7 +31,15 @@
 
   --feed-big-icon: url("../assets/icons/light/feedbig.svg");
 
+  --lock-icon: url("../assets/icons/light/lock.svg");
+  --theme-icon: url("../assets/icons/light/theme.svg");
+  --mailing-icon: url("../assets/icons/light/mailing.svg");
+  --arrow-back-icon: url("../assets/icons/light/arrow-back.svg");
+
+
   --sidebar-hover: #fff;
+  --settings-item-hover: #F5F5F5;
+
   --popup-bg-color: rgba(255, 255, 255, 0.8);
   --search-popup-bg-color: rgba(255, 255, 255, 0.6);
   --card-bg-color: #fff;
@@ -51,6 +59,9 @@
 
   --stroke-color: rgba(30, 29, 31, 0.4);
   --box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
+
+  --hr-color: rgba(30, 29, 31, .6);
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -80,7 +91,16 @@
 
     --feed-big-icon: url("../assets/icons/dark/feedbig.svg");
 
+    --lock-icon: url("../assets/icons/dark/lock.svg");
+    --theme-icon: url("../assets/icons/dark/theme.svg");
+    --mailing-icon: url("../assets/icons/dark/mailing.svg");
+
+    --arrow-back-icon: url("../assets/icons/dark/arrow-back.svg");
+
+
     --sidebar-hover: #333333;
+    --settings-item-hover: #333333;
+
     --card-bg-color: #1F1F1F;
     --popup-bg-color: rgba(51, 51, 51, 0.8);
     --search-popup-bg-color: rgba(51, 51, 51, 0.6);
@@ -103,6 +123,8 @@
 
     --stroke-color: rgba(232, 232, 237, 0.4);
     --box-shadow: 5px 4px 24px 0px rgba(232, 232, 237, 0.2);
+
+    --hr-color: rgba(232, 232, 237, .6);
 
   }
 }

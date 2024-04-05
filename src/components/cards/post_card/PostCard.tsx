@@ -161,7 +161,7 @@ function PostCard({ text, like_count, created_at, postId, comment_count, full_na
 
                         <Mention onChange={(e) => handleChangeForMainComment(e.target)}
                             value={postText} suggestions={suggestions} onSearch={onSearch} field="username"
-                            placeholder="Ваше сообщение" itemTemplate={itemTemplate}
+                            placeholder="Ваше сообщение. Введите @ чтобы отметить человека" itemTemplate={itemTemplate}
                             className={styles.mention} rows={1} autoResize />
 
 

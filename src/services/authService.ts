@@ -46,4 +46,15 @@ export default class AuthService {
         return $api.post(url + `users/follow/${user_id}`, )
     }
 
+    static async PatchMe(email?: string | null, fullName?: string | null, biography?: string | null, birthdate?:string | null, password?: string | null): Promise<AxiosResponse> {
+        const url = process.env.API_URL
+        return $api.patch(url + `auth/users/me`, {
+            "email": email,
+            "full_name": fullName,
+            "biography": biography,
+            "birthdate": birthdate,
+            "password": password
+          })
+    }
+
 }

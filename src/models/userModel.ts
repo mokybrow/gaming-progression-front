@@ -17,13 +17,14 @@ export interface IUserModel {
 	is_verified: boolean
 	is_superuser: boolean
 	is_moderator: boolean
+	biography: string
+	birthdate: string
 	user_activity: UserActivity[]
 	user_favorite: UserFavorite[]
 	followers: any[]
 	subscriptions: Subscription[]
 	lists: List[]
 	created_at: string
-	biography: string
 }
 
 export interface IGeneralUserModel {

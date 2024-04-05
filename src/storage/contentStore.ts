@@ -108,12 +108,12 @@ export default class ContentStore {
 
     setPostsLikeDecrease(PostID: string) {
 
-        if (this.post.Posts.id === PostID) {
+        if (this.post.Posts?.id === PostID) {
             this.post.Posts.like_count -= 1
         }
 
 
-        if (this.post.Posts.id === PostID) {
+        if (this.post.Posts?.id === PostID) {
             this.post.hasAuthorLike = 0
         }
 
@@ -121,12 +121,12 @@ export default class ContentStore {
 
     setPostsLikeIncrease(PostID: string) {
 
-        if (this.post.Posts.id === PostID) {
+        if (this.post.Posts?.id === PostID) {
             this.post.Posts.like_count += 1
 
         }
 
-        if (this.post.Posts.id === PostID) {
+        if (this.post.Posts?.id === PostID) {
             this.post.hasAuthorLike = 1
         }
 
@@ -159,22 +159,17 @@ export default class ContentStore {
     async getPostData(id: string) {
         try {
             const response = await AuthService.getProfile();
-            const result = await ContentService.getPostsData(id, response.data.id)
-            this.setPost(result.data)
-
-        } catch (error) {
-
-        }
-        try {
-            if (this.post) {
-
-                const result = await ContentService.getPostsData(id, null)
+            if (response.status === 200) {
+                const result = await ContentService.getPostsData(id, response.data.id)
                 this.setPost(result.data)
             }
 
         } catch (error) {
-
+            const result = await ContentService.getPostsData(id, null)
+            this.setPost(result.data)
         }
+
+
         try {
             const result = await ContentService.getComments(id)
             this.setComments(result.data)
