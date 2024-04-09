@@ -91,6 +91,8 @@
 .sort_icon {
     height: 16px;
     width: 16px;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .sort_icon {
@@ -127,7 +129,8 @@
     flex-direction: column;
     gap: 12px;
 }
-.right_side_flex_mobile{
+
+.right_side_flex_mobile {
     display: none;
     flex-direction: column;
     gap: 12px;
@@ -139,20 +142,48 @@
     justify-content: space-between;
 }
 
+.sort_wrapper_mobile {
+    display: none;
+}
+
 @media (max-width: 1280px) {
 
     .filter_button {
         cursor: pointer;
     }
+
     .right_side_flex {
         display: none;
         flex-direction: column;
         gap: 12px;
     }
-    .right_side_flex_mobile{
+
+    .right_side_flex_mobile {
         display: flex;
     }
-    .finded_games{
+
+    .finded_games {
+        display: none;
+    }
+
+    .sort_wrapper_mobile {
+        display: block;
+        font-size: 20px;
+    }
+
+    .sort_wrapper_mobile .sort_button_wrapper {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .filter_icon,
+    .sort_icon {
+        height: 26px;
+        width: 26px;
+    }
+
+    .sort_wrapper {
         display: none;
     }
 }

@@ -34,30 +34,85 @@
     border: none;
 }
 
-.menu_logo{
+.menu_logo {
     display: flex;
     width: 32px;
     height: 32px;
     background-image: var(--menu-icon);
 }
 
-.home_logo{
+.home_logo {
     display: flex;
     width: 32px;
     height: 32px;
     background-image: var(--home-icon);
 }
 
-.search_logo{
+.search_logo {
     display: flex;
     width: 32px;
     height: 32px;
     background-image: var(--search-icon);
 }
 
-.user_logo{
+.user_logo {
+    display: flex;
+    background-size: contain;
+    width: 30px;
+    height: 30px;
+    background-image: var(--user-icon);
+}
+
+.popup_menu_items {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 24px;
+    font-size: 28px;
+    padding: 12px;
+}
+
+.popup_menu_items a {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.actve {
+    background-color: var(--input-color);
+    border-radius: 6px;
+}
+
+
+.gamepad_icon,
+.calendar_icon,
+.cup_icon,
+.feed_icon,
+.playlist_icon {
     display: flex;
     width: 32px;
     height: 32px;
-    background-image: var(--user-icon);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.gamepad_icon {
+    background-image: var(--gamepad-icon);
+}
+
+.calendar_icon {
+    background-image: var(--calendar-icon);
+}
+
+.cup_icon {
+    background-image: var(--cup-icon);
+}
+
+.feed_icon {
+    background-image: var(--feed-icon);
+}
+
+.playlist_icon {
+    background-image: var(--playlist-icon);
 }

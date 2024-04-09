@@ -11,7 +11,6 @@ import { SearchUserModel } from "@/models/userModel";
 import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 import Image from 'next/image'
 import userpic from '@/assets/icons/general/userpic.svg'
-import { motion } from "framer-motion";
 import ActivityCard from "@/components/cards/activity_card/ActivityCard";
 import FavoriteCard from "@/components/cards/favorite_card/FavoriteCard";
 import PostCard from "@/components/cards/post_card/PostCard";
@@ -122,7 +121,6 @@ function UserProfile() {
           !auth_store.isAuth || username !== auth_store.user.username ?
             <div className={styles.user_main_wrapper}>
               <div className={styles.user_info_wrapper}>
-
                 <div>
                   <Image
                     src={userpic}
@@ -153,8 +151,8 @@ function UserProfile() {
                   <span>{auth_store.anotherUsers.biography}</span>
                 </div>
               </div>
+              
               <div className={styles.user_wrapper_buttons}>
-
                 <div className={styles.buttons_wrapper}>
                   {auth_store.user?.subscriptions?.find((obj) => obj.sub_data.username == username) ?
                     <>
@@ -177,8 +175,34 @@ function UserProfile() {
                     </div>
                   </FunctionalGameButton>
                 </div>
-
               </div>
+
+              <hr className={styles.mobile_hr}/>
+              <div className={styles.cards_wrapper_mobile}>
+                {/* Вот тут идут иконки с цифрами */}
+                <div className={styles.stat_card_icons}>
+                  <div className={styles.button_data_wrapper}>
+                    <div className={styles.rocket_logo}></div>
+                    <span>{auth_store.anotherUsers.user_activity?.filter(function (el) { return el.activity_data.code === 200000 }).length}</span>
+                  </div>
+                  <div className={styles.button_data_wrapper}>
+                    <div className={styles.finish_logo}></div>
+                    <span>{auth_store.anotherUsers.user_activity?.filter(function (el) { return el.activity_data.code === 220000 }).length}</span>
+
+                  </div>
+                  <div className={styles.button_data_wrapper}>
+                    <div className={styles.heart_logo}></div>
+                    <span>{auth_store.anotherUsers.user_favorite?.length}</span>
+
+                  </div>
+                  <div className={styles.button_data_wrapper}>
+                    <div className={styles.bag_logo}></div>
+                    <span>{auth_store.anotherUsers.user_activity?.filter(function (el) { return el.activity_data.code === 210000 }).length}</span>
+
+                  </div>
+                </div>
+              </div>
+
             </div>
 
 
@@ -215,6 +239,32 @@ function UserProfile() {
                   <span>{auth_store.user.biography}</span>
                 </div>
               </div>
+              <hr className={styles.mobile_hr}/>
+              <div className={styles.cards_wrapper_mobile}>
+
+                <div className={styles.stat_card_icons}>
+                  <div className={styles.button_data_wrapper}>
+                    <div className={styles.rocket_logo}></div>
+                    <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 200000 }).length}</span>
+                  </div>
+                  <div className={styles.button_data_wrapper}>
+                    <div className={styles.finish_logo}></div>
+                    <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 220000 }).length}</span>
+
+                  </div>
+                  <div className={styles.button_data_wrapper}>
+                    <div className={styles.heart_logo}></div>
+                    <span>{auth_store.user.user_favorite?.length}</span>
+
+                  </div>
+                  <div className={styles.button_data_wrapper}>
+                    <div className={styles.bag_logo}></div>
+                    <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 210000 }).length}</span>
+
+                  </div>
+                </div>
+              </div>
+
             </div>
         }
         {
@@ -241,24 +291,15 @@ function UserProfile() {
         <div className={styles.user_content_wrapper}>
           <div className={styles.nav_buttons_wrapper}>
             {tabs.map((tab) => (
-              <button
+              <div
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={styles.motion_button}
-                style={{
-                  WebkitTapHighlightColor: "transparent",
-                }}
-              >
-                {activeTab === tab.id && (
-                  <motion.span
-                    layoutId="bubble"
-                    className={styles.motion_style}
-                    style={{ borderRadius: 9999 }}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
+                className={styles.motion_button}>
                 {tab.label}
-              </button>
+
+                {activeTab === tab.id ?
+                  <><hr className={styles.menu_underline} /></> : null}
+              </div>
             ))}
           </div>
           {activeTab === 'posts' ?
@@ -477,7 +518,6 @@ function UserProfile() {
                 <div className={styles.stat_card}>
                   <span>Списков {auth_store.user.lists?.length}</span>
                 </div>
-                {/* Вот тут идут иконки с цифрами */}
                 <div className={styles.stat_card_icons}>
                   <div className={styles.button_data_wrapper}>
                     <div className={styles.rocket_logo}></div>
@@ -500,6 +540,7 @@ function UserProfile() {
                   </div>
                 </div>
               </div>
+
             </>
         }
       </main>

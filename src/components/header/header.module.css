@@ -50,14 +50,18 @@
 
 .logo {
     display: flex;
-    height: 29px;
-    width: 150px;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    width: 104px;
     background-repeat: no-repeat;
     background-image: var(--main-logo);
 }
+
 .reglink {
     cursor: pointer;
-    font-size: 12px;
+    font-size: 16px;
+    font-weight: 400;
     color: #0368CD;
 }
 

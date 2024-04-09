@@ -1,6 +1,6 @@
 import { API_URL } from "@/api/api";
 import { PostsCount, PostsResponseModel } from "@/models/postsModel";
-import { AuthResponse, IGeneralUserModel, IUserModel, UserActivity } from "@/models/userModel";
+import { AuthResponse, IGeneralUserModel, IUserModel, MailingSettingsModel, UserActivity } from "@/models/userModel";
 import AuthService from "@/services/authService";
 import ContentService from "@/services/contentService";
 import GameService from "@/services/gamesService";
@@ -14,6 +14,7 @@ export default class AuthStore {
     user = {} as IUserModel;
     anotherUsers = {} as IGeneralUserModel;
     userPosts = [] as PostsResponseModel[];
+    mailingSettings = [] as MailingSettingsModel[];
     isAuth = false;
     isLoading = false;
     offset = 10
@@ -31,6 +32,10 @@ export default class AuthStore {
     }
     setAnotherUser(user: IGeneralUserModel) {
         this.anotherUsers = user;
+    }
+
+    setMailingSettings(mailings: MailingSettingsModel[]) {
+        this.mailingSettings = mailings;
     }
 
     setUserPosts(posts: PostsResponseModel[]) {
@@ -251,10 +256,35 @@ export default class AuthStore {
         }
     }
 
-    async patchMe(email?: string | null, fullName?: string | null, biography?: string | null, birthdate?: string | null, password?: string | null) {
+    async getMailingSettings() {
         this.setLoading(true);
         try {
-            await AuthService.PatchMe(email, fullName, biography, birthdate, password)
+            const response = await AuthService.getMailingSettings()
+            this.setMailingSettings(response.data)
+            this.setLoading(false)
+        }
+
+        catch (error) {
+        }
+    }
+
+    async updateMailingSettings(mailing_type: string[]) {
+        this.setLoading(true);
+        try {
+            await AuthService.updateMailingSettings(mailing_type)
+            const response = await AuthService.getMailingSettings()
+            this.setMailingSettings(response.data)
+            this.setLoading(false)
+        }
+
+        catch (error) {
+        }
+    }
+
+    async patchMe(fullName?: string | null, biography?: string | null, birthdate?: string | null) {
+        this.setLoading(true);
+        try {
+            await AuthService.PatchMe(fullName, biography, birthdate)
             const response = await AuthService.getProfile();
             this.setUser(response.data)
             this.setAuth(true);
@@ -263,6 +293,34 @@ export default class AuthStore {
         }
 
         catch (error) {
+        }
+    }
+
+    async changeEmailRequest(email: string) {
+        this.setLoading(true);
+        try {
+            await AuthService.changeEmailRequest(email)
+            this.setAuth(true);
+            this.setLoading(false);
+            return true
+        }
+
+        catch (error) {
+            return false
+        }
+    }
+
+    async changePasswordRequest() {
+        this.setLoading(true);
+        try {
+            await AuthService.changePasswordRequest()
+            this.setAuth(true);
+            this.setLoading(false);
+            return true
+        }
+
+        catch (error) {
+            return false
         }
     }
 

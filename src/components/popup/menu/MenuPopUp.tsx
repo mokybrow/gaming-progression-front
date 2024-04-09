@@ -2,15 +2,15 @@
 import { useState } from 'react';
 import styles from './popup.module.css'
 
-
 export interface ModalProps {
     active: boolean,
     children: any,
-    setActive: any,
+    innerRef: any,
+    setIsShow: any
 }
 
-export function FullScreenPopup({ active, children, setActive, ...rest }: ModalProps) {
-    const [isShow, setIsShow] = useState(false);
+export function MenuPopup({ active, children, setIsShow, innerRef, ...rest }: ModalProps) {
+
     if (active) {
         if (typeof document !== 'undefined') {
             const body = document.body;
@@ -28,14 +28,14 @@ export function FullScreenPopup({ active, children, setActive, ...rest }: ModalP
         }
     }
     return (
-        <div className={active ? 'modal activemodal' : 'modal'}
-            onClick={() => setActive(false)}>
-            <div className={styles.exit_button_wrapper}>
-                <div className={styles.exit_button} onClick={() => setIsShow(false)}>
+        <div className={active ? 'bottom_popup_content active_content' : 'bottom_popup_content'}>
 
+            <div className={active ? "bottom_popup menu_active" : "bottom_popup"}
+                ref={innerRef} {...rest}>
+                <div className={styles.exit_button_wrapper}>
+                    <div className={styles.exit_button} onClick={() => setIsShow(false)}>
+                    </div>
                 </div>
-            </div>
-            <div className={active ? 'modal_content activemodal' : 'modal_content'} onClick={e => e.stopPropagation()}>
                 {children}
             </div>
         </div>

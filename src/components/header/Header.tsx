@@ -19,6 +19,8 @@ import { useRouter } from 'next/navigation';
 
 
 export function Header() {
+
+
     const [isShow, setIsShow] = useState(false);
     const [isAuthShow, setIsAuthShow] = useState(false);
     const [isRegShow, setIsRegShow] = useState(false);
@@ -54,7 +56,7 @@ export function Header() {
             <FullScreenPopup active={isAuthShow} setActive={setIsAuthShow}>
                 <LoginForm />
                 <div className={styles.form_elem}>
-                    <div className={styles.reglink} onClick={() => (setIsAuthShow(false), setIsRegShow(true))}>Нет аккаунта? Зарегистрироваться.</div>
+                <div >Нет аккаунта? <span className={styles.reglink} onClick={() => (setIsAuthShow(false), setIsRegShow(true))}>Зарегистрироваться</span></div>
                 </div>
             </FullScreenPopup>
             <header className={styles.header}>
@@ -97,20 +99,15 @@ export function Header() {
                                     {auth_store.user.full_name}
                                 </span>
                             </a>
-                            <a href={auth_store.user.username + '/settings'} onClick={() => setIsShow(!isShow)}>
-
-
+                            <a href={'/settings'} onClick={() => setIsShow(!isShow)}>
                                 <div className={styles.settings_icon}></div>
-
                                 <span>
                                     Настройки
                                 </span>
                             </a>
 
                             <a href={'/'} onClick={() => { auth_store.logout(), setIsShow(!isShow) }}>
-
                                 <div className={styles.leave_icon}></div>
-
                                 <span>
                                     Выход
                                 </span>

@@ -8,8 +8,7 @@ import styles from './page.module.css'
 import axios, { AxiosError } from 'axios';
 import InputField from '@/components/fields/InputField';
 import { SubmitButton } from '@/components/buttons/SubmitButton';
-import $api, { API_URL } from '@/api/api';
-import { Context } from '@/app/providers';
+
 import AuthService from '@/services/authService';
 import { RegistrResponse } from '@/models/userModel';
 import { useRouter } from 'next/navigation';
@@ -26,12 +25,11 @@ export function RegistrationForm() {
     const { setError, reset, register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationSchema)
     });
-    const router = useRouter();
 
     const handleFormSubmit = async (data: any) => {
         setMessage(null);
         try {
-            const response = await AuthService.registration(data.username, data.email, data.password);
+            await AuthService.registration(data.username, data.email, data.password);
 
         } catch (e) {
             const error = e as AxiosError<RegistrResponse>;
@@ -50,7 +48,7 @@ export function RegistrationForm() {
 
     return (
         <>
-            <form onSubmit={handleSubmit(handleFormSubmit)} autoComplete="off" className={styles.auth_form}>
+            <form onSubmit={handleSubmit(handleFormSubmit)} autoComplete="on" className={styles.auth_form}>
 
                 <div className={styles.form_elem}>
                     <InputField {...register('email')} placeholder={'Начните вводить'}

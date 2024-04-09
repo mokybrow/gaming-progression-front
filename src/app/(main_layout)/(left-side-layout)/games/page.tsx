@@ -14,6 +14,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import SkeletonLoader from "@/components/loader/loader";
 import { FullScreenPopup } from "@/components/popup/FullScreenPopup";
+import CircleLoader from "@/components/loader/circle";
 
 
 
@@ -68,8 +69,11 @@ function Games() {
 
     return (
         <>
+           {games_store.isLoading ? <><div className='loader_wrapper'>
+                <CircleLoader />
+            </div></> : null}
             <FullScreenPopup active={isShowFilter} setActive={setIsShowFilter}>
-                <FiltersCard />
+                <FiltersCard setIsShow={setIsShowFilter}/>
             </FullScreenPopup>
             <main className="content_wrapper">
                 <div className={styles.sort_wrapper} >
@@ -99,6 +103,9 @@ function Games() {
                         </ProfilePopup>
                     </div>
 
+                </div>
+                <div className={styles.right_side_flex_mobile}>
+                    <div>Найдено игр {games_store.gamesCount.game_count}</div>
                 </div>
                 <div className={styles.cards_layout_three}>
                     <div className={styles.column_layout} id="firs_column">
@@ -142,13 +149,38 @@ function Games() {
                         </div>
                     </div>
                     <div className={styles.filters_wrapper}>
-                        <FiltersCard />
+                        <FiltersCard setIsShow={setIsShowFilter} />
                     </div>
                 </div>
-                <div className={styles.right_side_flex_mobile}>
-                    <div>Найдено игр {games_store.gamesCount.game_count}</div>
+                <div className={styles.sort_wrapper_mobile} >
+                    <div className={styles.sort_button_wrapper} >
+                        <div className={styles.sort_button} onClick={() => setIsShow(!isShow)}>
+                            <div className={styles.sort_icon}></div>
+                            <span>Сортировка</span>
+                        </div>
+
+                        <div className={styles.finded_games}>Найдено игр {games_store.gamesCount.game_count}</div>
+                        <div className={styles.right_side_flex_mobile}>
+                            <div className={styles.filter_button_wrapper_desk} >
+                                <div className={styles.filter_button} onClick={() => setIsShowFilter(true)}>
+                                    <div className={styles.filter_icon}></div>
+                                    <span>Фильтры</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={styles.popup_wrapper}>
+                        <ProfilePopup active={isShow} innerRef={popupRef}>
+                            <div className={styles.popup_elem} onClick={() => { SubmitSort('title', 'asc'), setIsShow(!isShow) }}>от А до Я</div>
+                            <div className={styles.popup_elem} onClick={() => { SubmitSort('title', 'desc'), setIsShow(!isShow) }}>от Я до А</div>
+                            <div className={styles.popup_elem} onClick={() => { SubmitSort('release_date', 'asc'), setIsShow(!isShow) }}>Сначала старые</div>
+                            <div className={styles.popup_elem} onClick={() => { SubmitSort('release_date', 'desc'), setIsShow(!isShow) }}>Сначала новые</div>
+                        </ProfilePopup>
+                    </div>
 
                 </div>
+           
 
             </main>
 

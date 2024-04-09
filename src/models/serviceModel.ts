@@ -38,16 +38,21 @@ export interface AuthorInfo2 {
 
 
 export interface UserCommentsLikes {
-    id: string
-    hasAuthorLike: number
+  id: string
+  hasAuthorLike: number
 }
 
 
 export interface SearchGamesModel {
-	id: string
-	title: string
-	cover: string
-	description: any
-	slug: string
-	release_date: string
+  id: string
+  title: string
+  cover: string
+  description: any
+  slug: string
+  release_date: string
+}
+
+
+export interface SearchGamesCountModel {
+  game_count: number
 }

@@ -28,6 +28,7 @@
     align-items: center;
     justify-content: center;
     background-color: var(--card-bg-color);
+    color: var(--font-color);
     cursor: pointer;
     border-radius: 6px;
     border: none;

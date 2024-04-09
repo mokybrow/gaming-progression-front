@@ -6,11 +6,23 @@
     border-radius: 6px;
 }
 
-.item:hover {
-    transform: scale(1.1);
-    transition: all 0.2s ease;
-    z-index: 5;
+@media (min-width: 1240px) {
+    .item:hover {
+        transform: scale(1.1);
+        transition: all 0.2s ease;
+        z-index: 5;
+    }
 }
+@media (max-width: 1240px) {
+    .item:hover {
+        transform: scale(1.05);
+        transition: all 0.2s ease;
+        z-index: 5;
+    }
+}
+
+
+
 
 .cover_wrapper {
     position: relative;

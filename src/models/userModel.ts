@@ -107,3 +107,14 @@ export interface SearchUserModel {
 }
 
 
+// Настройки почты
+export interface MailingSettingsModel {
+  user_id: string
+  type_data: TypeData
+}
+
+export interface TypeData {
+  id: string
+  name: string
+  code: number
+}

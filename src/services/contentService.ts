@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import $api from "@/api/api";
-import { CommentsResponse, SearchGamesModel, UserCommentsLikes } from "@/models/serviceModel";
+import { CommentsResponse, SearchGamesCountModel, SearchGamesModel, UserCommentsLikes } from "@/models/serviceModel";
 import { SearchUserModel } from "@/models/userModel";
 import { PostsCount, PostsResponseModel } from "@/models/postsModel";
 
@@ -58,10 +58,20 @@ export default class ContentService {
     }
 
 
-    static async SearchGames(searchString: string): Promise<AxiosResponse<SearchGamesModel[]>> {
+    static async SearchGames(searchString: string, limit: number): Promise<AxiosResponse<SearchGamesModel[]>> {
         const url = process.env.API_URL + `search/games`
         return axios.post<SearchGamesModel[]>(url, {
-            search_string: searchString
+            search_string: searchString,
+            limit: limit
+
+        })
+    }
+
+    static async SearchGamesCount(searchString: string): Promise<AxiosResponse<SearchGamesCountModel>> {
+        const url = process.env.API_URL + `search/games/count`
+        return axios.post<SearchGamesCountModel>(url, {
+            search_string: searchString,
+            limit: 1
 
         })
     }

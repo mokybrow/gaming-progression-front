@@ -11,7 +11,6 @@ import { SearchUserModel } from "@/models/userModel";
 import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 import Image from 'next/image'
 import userpic from '@/assets/icons/general/userpic.svg'
-import { motion } from "framer-motion";
 import ActivityCard from "@/components/cards/activity_card/ActivityCard";
 import FavoriteCard from "@/components/cards/favorite_card/FavoriteCard";
 import PostCard from "@/components/cards/post_card/PostCard";

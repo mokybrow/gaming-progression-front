@@ -59,6 +59,7 @@
     .modal_content_active div:hover {
         background-color: var(--popup-menu-hover);
     }
+
 }
 
 
@@ -67,9 +68,8 @@
     justify-content: right;
     margin-bottom: 6px;
     position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 2;
+    top: 30px;
+    right: 30px;
 }
 
 .exit_button {

@@ -2,7 +2,8 @@
     border-radius: 6px;
     padding: 5px;
     border: 1px solid rgba(0, 0, 0, 0.2);
-    background-color: #F5F5F5;
+    background-color: var(--input-color);
+    color: var(--font-color);
 
 }
 
@@ -16,7 +17,6 @@
     border-radius: 6px;
     /* border: 1px solid #1E1D1F; */
     outline: none;
-    color: #1E1D1F;
     font-weight: 500;
     font-size: 18px;
 }

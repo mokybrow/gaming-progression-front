@@ -30,20 +30,17 @@ const SearchField = forwardRef<HTMLInputElement, TypeInputProps>(
         useEffect(() => {
             //search the api
             async function fetchData() {
-                games_store.searchGames(String(debouncedSearch))
+                games_store.searchGames(String(debouncedSearch), 10)
             }
             if (debouncedSearch) {
                 fetchData()
                 setIsShow(true)
-
             }
             else {
                 games_store.setSearchedGames([])
             }
 
         }, [debouncedSearch])
-
-
 
         return (
             <>

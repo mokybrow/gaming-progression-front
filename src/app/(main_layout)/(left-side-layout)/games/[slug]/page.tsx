@@ -17,6 +17,7 @@ import Link from 'next/link';
 import LikeIcon from '@/components/icons/like';
 import { FormattedDate } from 'react-intl';
 import { SearchUserModel } from '@/models/userModel';
+import CircleLoader from '@/components/loader/circle';
 
 
 function GamePage() {
@@ -172,6 +173,9 @@ function GamePage() {
 
     return (
         <>
+            {games_store.isLoading ? <><div className='loader_wrapper'>
+                <CircleLoader />
+            </div></> : null}
             <FullScreenPopup active={isShow} setActive={setIsShow}>
                 <LoginForm />
             </FullScreenPopup>

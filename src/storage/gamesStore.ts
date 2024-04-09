@@ -1,5 +1,5 @@
 import { GamePageResponse, GamesCount, GamesResponse } from "@/models/gamesModel";
-import { CommentsResponse, SearchGamesModel, UserCommentsLikes } from "@/models/serviceModel";
+import { CommentsResponse, SearchGamesCountModel, SearchGamesModel, UserCommentsLikes } from "@/models/serviceModel";
 import ContentService from "@/services/contentService";
 import GameService from "@/services/gamesService";
 import { makeAutoObservable } from "mobx"
@@ -9,12 +9,14 @@ import { date } from "yup";
 export default class GamesStore {
     isLoading = false;
     limit = 20
+    searchLimit = 10
     genres = [] as string[]
     platforms = [] as string[]
     release_date = [] as number[]
     games = [] as GamesResponse[];
     searchedGames = [] as SearchGamesModel[];
     gamesCount = {} as GamesCount;
+    gamesSearchCount = {} as SearchGamesCountModel;
     comments = [] as CommentsResponse[];
     commentsLikes = [] as UserCommentsLikes[];
     gamePage = {} as GamePageResponse;
@@ -24,15 +26,25 @@ export default class GamesStore {
         "name": "title",
         "type": "asc"
     }
+
     incrementLimit = () => {
         this.limit += 20;
     };
+
+    incrementSearchLimit = () => {
+        this.searchLimit += 10;
+    };
+
     constructor() {
         makeAutoObservable(this);
     }
 
     setLimit(set: number) {
         this.limit = set
+    }
+
+    setSearchLimit(set: number) {
+        this.searchLimit = set
     }
 
     setGames(games: GamesResponse[]) {
@@ -45,6 +57,9 @@ export default class GamesStore {
 
     setGamesCount(gamesCount: GamesCount) {
         this.gamesCount = gamesCount;
+    }
+    setSearchGamesCount(count: SearchGamesCountModel) {
+        this.gamesSearchCount= count;
     }
     setComments(comments: CommentsResponse[]) {
         this.comments = comments;
@@ -185,7 +200,7 @@ export default class GamesStore {
             this.setGamePage(response.data)
             this.setComments(result.data)
 
-          
+
         } catch {
             this.setGamePage({} as GamePageResponse)
         }
@@ -200,7 +215,7 @@ export default class GamesStore {
             this.setGameRate(rate.data)
 
         } catch (error) {
-            
+
         }
         finally {
 
@@ -254,10 +269,12 @@ export default class GamesStore {
         }
     }
 
-    async searchGames(searchString: string) {
+    async searchGames(searchString: string, limit: number) {
         try {
-            const result = await ContentService.SearchGames(searchString)
+            const result = await ContentService.SearchGames(searchString, limit)
+            const count = await ContentService.SearchGamesCount(searchString)
             this.setSearchedGames(result.data)
+            this.setSearchGamesCount(count.data)
         } catch (error) {
 
         }

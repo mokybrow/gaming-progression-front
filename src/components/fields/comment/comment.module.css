@@ -5,6 +5,9 @@
   text-align: left;
   width: 100%;
   font-family: "Inter", sans-serif;
+  background-color: var(--input-color);
+  color: var(--font-color);
+  border-radius: 6px;
 
 }
 
@@ -18,7 +21,8 @@
   font: inherit;
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  background-color: #F5F5F5;
+  background-color: var(--input-color);
+  color: var(--font-color);
 }
 
 .textarea_control::placeholder {

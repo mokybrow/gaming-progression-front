@@ -1,0 +1,150 @@
+.main_wrapper {
+    background-color: var(--card-bg-color);
+    border-radius: 6px;
+}
+
+.settings_header {
+    font-weight: 600;
+    font-size: 20px;
+    padding: 24px;
+    display: flex;
+
+}
+
+.settings_header a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20;
+}
+
+
+.main_wrapper hr {
+    height: 2px;
+    border: 1px solid var(--hr-color);
+    /* border: none;
+    background-color: var(--hr-color);
+    height: 1px;
+    transform: scaleY(0.5); */
+}
+
+.settings_content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+
+}
+
+
+.arrow_back {
+    display: flex;
+    width: 22px;
+    height: 22px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.arrow_back {
+    background-image: var(--arrow-back-icon);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    width: 22px;
+    height: 22px;
+}
+
+.x_icon {
+    display: flex;
+    width: 18px;
+    height: 18px;
+    justify-content: center;
+    align-items: center;
+    background-image: var(--x-icon);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    cursor: pointer;
+}
+
+
+.mailing_checkbox{
+    width: 24px;
+    height: 24px;
+    background-color: var(--input-color);
+    background: var(--input-color);
+    color: var(--input-color);
+    border-radius: 6px;
+}
+
+.item_wrapper{
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    grid-auto-rows: min-content;
+
+    gap: 12px;
+    align-items: center;
+}
+
+.cards_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.stat_card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-bg-color);
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.button_data_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+}
+
+.button_data_wrapper span {
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.stat_card_icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: var(--card-bg-color);
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.rocket_logo,
+.finish_logo,
+.heart_logo,
+.bag_logo {
+    background-size: 28px 28px;
+    width: 28px;
+    height: 28px;
+}
+
+.rocket_logo {
+    background-image: var(--rocket-icon);
+}
+
+.finish_logo {
+    background-image: var(--finish-flag-icon);
+}
+
+.heart_logo {
+    background-image: var(--heart-favorite-icon);
+}
+
+.bag_logo {
+    background-image: var(--bag-icon);
+}

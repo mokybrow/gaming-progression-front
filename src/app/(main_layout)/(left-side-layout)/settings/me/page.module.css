@@ -1,0 +1,182 @@
+.main_wrapper {
+    background-color: var(--card-bg-color);
+    border-radius: 6px;
+}
+
+.settings_header {
+    font-weight: 600;
+    font-size: 20px;
+    padding: 24px;
+    display: flex;
+
+}
+
+.settings_header a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20;
+}
+
+
+.main_wrapper hr {
+    height: 2px;
+    border: 1px solid var(--hr-color);
+}
+
+.settings_content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+
+}
+
+.user_icon,
+.lock_icon,
+.mailing_icon,
+.theme_icon,
+.arrow_back {
+    display: flex;
+    width: 22px;
+    height: 22px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.arrow_back {
+    background-image: var(--arrow-back-icon);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    width: 22px;
+    height: 22px;
+}
+
+.x_icon {
+    display: flex;
+    width: 18px;
+    height: 18px;
+    justify-content: center;
+    align-items: center;
+    background-image: var(--x-icon);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    cursor: pointer;
+}
+
+.comment_field_wrapper {
+    display: flex;
+    position: relative;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.send_button_wrapper {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    z-index: 5;
+}
+
+.birth_date_header {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.birthdate_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.birth_close {
+    display: none;
+}
+
+.date_and_cross {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.birth_open {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.change_link_color {
+    color: var(--link-color);
+    cursor: pointer;
+}
+
+
+.cards_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.stat_card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-bg-color);
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.button_data_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+}
+
+.button_data_wrapper span {
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.stat_card_icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: var(--card-bg-color);
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.rocket_logo,
+.finish_logo,
+.heart_logo,
+.bag_logo {
+    background-size: 28px 28px;
+    width: 28px;
+    height: 28px;
+}
+
+.rocket_logo {
+    background-image: var(--rocket-icon);
+}
+
+.finish_logo {
+    background-image: var(--finish-flag-icon);
+}
+
+.heart_logo {
+    background-image: var(--heart-favorite-icon);
+}
+
+.bag_logo {
+    background-image: var(--bag-icon);
+}

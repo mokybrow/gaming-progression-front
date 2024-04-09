@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import $api from "@/api/api";
-import { AuthResponse, IGeneralUserModel, IUserModel, RegistrResponse } from "@/models/userModel";
+import { AuthResponse, IGeneralUserModel, IUserModel, MailingSettingsModel, RegistrResponse } from "@/models/userModel";
 import { PostsResponseModel } from "@/models/postsModel";
+import { Dayjs } from "dayjs";
 
 export default class AuthService {
 
@@ -43,18 +44,41 @@ export default class AuthService {
 
     static async followOnUser(user_id: string): Promise<AxiosResponse> {
         const url = process.env.API_URL
-        return $api.post(url + `users/follow/${user_id}`, )
+        return $api.post(url + `users/follow/${user_id}`,)
     }
 
-    static async PatchMe(email?: string | null, fullName?: string | null, biography?: string | null, birthdate?:string | null, password?: string | null): Promise<AxiosResponse> {
+    static async getMailingSettings(): Promise<AxiosResponse<MailingSettingsModel[]>> {
+        const url = process.env.API_URL
+        return $api.get<MailingSettingsModel[]>(url + `users/settings/mailing`,)
+    }
+    static async updateMailingSettings(mailing_type: string[]): Promise<AxiosResponse> {
+        const url = process.env.API_URL
+        return $api.patch(url + `users/settings/mailing`,{
+            mailing_type: mailing_type,
+        })
+    }
+
+    static async PatchMe(fullName?: string | null, biography?: string | null, birthdate?: string | null): Promise<AxiosResponse> {
         const url = process.env.API_URL
         return $api.patch(url + `auth/users/me`, {
-            "email": email,
             "full_name": fullName,
             "biography": biography,
             "birthdate": birthdate,
-            "password": password
-          })
+        })
+    }
+
+
+    static async changeEmailRequest(email: string): Promise<AxiosResponse> {
+        const url = process.env.API_URL
+        return $api.post(url + `auth/change/email/request`, {
+            "email": email,
+
+        })
+    }
+
+    static async changePasswordRequest(): Promise<AxiosResponse> {
+        const url = process.env.API_URL
+        return $api.post(url + `auth/change/password/request`,)
     }
 
 }
