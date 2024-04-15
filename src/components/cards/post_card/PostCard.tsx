@@ -43,7 +43,6 @@ function PostCard({ text, like_count, created_at, postId, comment_count, full_na
     const [suggestions, setSuggestions] = useState<SearchUserModel[]>([]);
     const [customers, setCustomers] = useState<any>([]);
 
-    const [likeComment, setLikeComment] = useState(false)
 
     const changePostLikeValue = (postId: string) => {
         content_store.likeContent(postId, '9cc629c8-898a-4d16-b65e-25d0d37f9633', true)
@@ -124,11 +123,11 @@ function PostCard({ text, like_count, created_at, postId, comment_count, full_na
                     </div>
                     <div className={styles.title_wrapper}>
 
-                        <p>
+                   
 
-                            <span className={styles.markdown_text}><ReactMarkdown>{text}</ReactMarkdown></span>
+                            <div className={styles.markdown_text}><ReactMarkdown>{text}</ReactMarkdown></div>
 
-                        </p>
+                 
                     </div>
                     <div className={styles.under_post_buttons}>
                         <div className={styles.item_wrapper}>
@@ -194,9 +193,9 @@ function PostCard({ text, like_count, created_at, postId, comment_count, full_na
                 </div>
                 <div className={styles.title_wrapper}>
 
-                    <p>
-                        <span className={styles.markdown_text}><ReactMarkdown>{text}</ReactMarkdown></span>
-                    </p>
+              
+                        <div className={styles.markdown_text}><ReactMarkdown>{text}</ReactMarkdown></div>
+                
                     {parentPostData != null ?
                         <>
                             <Link href={`/posts/${parentPostData.id}`}>
@@ -219,11 +218,9 @@ function PostCard({ text, like_count, created_at, postId, comment_count, full_na
 
                                     <div className={styles.title_wrapper}>
 
-                                        <p>
 
-                                            <span className={styles.markdown_text}><ReactMarkdown>{parentPostData?.text.toString()}</ReactMarkdown></span>
+                                            <div className={styles.markdown_text}><ReactMarkdown>{parentPostData?.text.toString()}</ReactMarkdown></div>
 
-                                        </p>
 
                                     </div>
                                 </div>

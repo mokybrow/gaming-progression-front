@@ -14,7 +14,9 @@ export default class AuthStore {
     user = {} as IUserModel;
     anotherUsers = {} as IGeneralUserModel;
     userPosts = [] as PostsResponseModel[];
+    userFeed = [] as PostsResponseModel[];
     mailingSettings = [] as MailingSettingsModel[];
+    totalPostCount = 0
     isAuth = false;
     isLoading = false;
     offset = 10
@@ -41,6 +43,15 @@ export default class AuthStore {
     setUserPosts(posts: PostsResponseModel[]) {
         this.userPosts = posts;
     }
+
+    setUserFeed(posts: PostsResponseModel[]) {
+        this.userFeed = posts;
+    }
+
+    setTotalPostCount(count: number) {
+        this.totalPostCount = count;
+    }
+
 
     setPostsCount(posts: PostsCount) {
         this.postsCount = posts;
@@ -324,4 +335,10 @@ export default class AuthStore {
         }
     }
 
+    async getUserFeed(page: number) {
+        const response = await AuthService.getUserFeed(page)
+        this.setUserPosts([...this.userPosts,...response.data])
+        this.setLoading(false);
+        return response
+    }
 }

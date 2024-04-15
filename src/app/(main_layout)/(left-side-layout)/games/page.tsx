@@ -80,7 +80,11 @@ function Games() {
                     <div className={styles.sort_button_wrapper} >
                         <div className={styles.sort_button} onClick={() => setIsShow(!isShow)}>
                             <div className={styles.sort_icon}></div>
-                            <span>Сортировка</span>
+                            {games_store.sort.name == 'title' && games_store.sort.type == "asc" ? <><span>Сначала на А</span></>
+                            : games_store.sort.name == 'title' && games_store.sort.type == "desc"? <><span>Сначала на Я</span></>
+                            : games_store.sort.name == 'release_date' && games_store.sort.type == "asc"? <><span>Сначала старые</span></>: 
+                            <><span>Сначала новые</span></> }
+                            {/* <span>Сортировка</span> */}
                         </div>
 
                         <div className={styles.finded_games}>Найдено игр {games_store.gamesCount.game_count}</div>

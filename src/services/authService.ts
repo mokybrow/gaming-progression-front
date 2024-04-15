@@ -3,6 +3,7 @@ import $api from "@/api/api";
 import { AuthResponse, IGeneralUserModel, IUserModel, MailingSettingsModel, RegistrResponse } from "@/models/userModel";
 import { PostsResponseModel } from "@/models/postsModel";
 import { Dayjs } from "dayjs";
+import { getLocalToken } from "@/utils/tokenUtils";
 
 export default class AuthService {
 
@@ -22,7 +23,8 @@ export default class AuthService {
         const formData = new FormData();
         formData.set('username', username);
         formData.set('password', password);
-        return axios.post('http://0.0.0.0:8000/auth/sign-up', {
+        const url = process.env.API_URL
+        return axios.post(url + 'auth/sign-up', {
             username: username,
             email: email,
             full_name: null,
@@ -53,7 +55,7 @@ export default class AuthService {
     }
     static async updateMailingSettings(mailing_type: string[]): Promise<AxiosResponse> {
         const url = process.env.API_URL
-        return $api.patch(url + `users/settings/mailing`,{
+        return $api.patch(url + `users/settings/mailing`, {
             mailing_type: mailing_type,
         })
     }
@@ -81,4 +83,14 @@ export default class AuthService {
         return $api.post(url + `auth/change/password/request`,)
     }
 
+    static async getUserFeed(page: number): Promise<AxiosResponse<PostsResponseModel[]>> {
+        const url = process.env.API_URL
+        return axios.get<PostsResponseModel[]>(url + `feeds/personal?page=${page}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${getLocalToken()}`,
+                },
+            }
+        )
+    }
 }
