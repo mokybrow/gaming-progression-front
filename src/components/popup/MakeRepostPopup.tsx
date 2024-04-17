@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import styles from './fullpop.module.css'
+import { observer } from 'mobx-react-lite';
 
 
 export interface ModalProps {
@@ -10,14 +11,51 @@ export interface ModalProps {
     setActive: any,
 }
 
-export function MakeRepostPopup({ active, children, setActive, ...rest }: ModalProps) {
+function MakeRepostPopup({ active, children, setActive, ...rest }: ModalProps) {
+
+
     if (active) {
         if (typeof document !== 'undefined') {
             const body = document.body;
             body.style.height = '100vh';
             body.style.overflowY = 'hidden';
 
+            const menu = document.getElementById('content_height')
+            
+            if (window.innerHeight > Number(menu?.scrollHeight)) {
+                // console.log('Высота скрола', menu?.scrollHeight)
+                // console.log('Высота окна', window.innerHeight)
+                return (
+                    <div className={active ? styles.modal_window_wrapper : styles.modal_window_wrapper_closed}
+                        onClick={e => (e.stopPropagation(), setActive(false))} onScroll={e => e.stopPropagation()}
+                        style={{ alignItems: `center` }}>
+                        <div className={styles.modal_content} onClick={e => e.stopPropagation()} id="content_height"
+                        >
+                            {children}
+                        </div>
+                    </div>
+    
+                )
+            }
+            else {
+                // console.log('Высота скрола', menu?.scrollHeight)
+                // console.log('Высота окна', window.innerHeight)
+                return (
+                    <div className={active ? styles.modal_window_wrapper : styles.modal_window_wrapper_closed}
+                        onClick={e => (e.stopPropagation(), setActive(false))} onScroll={e => e.stopPropagation()}
+                        style={{ alignItems: `flex-start` }}>
+                        <div className={styles.modal_content} onClick={e => e.stopPropagation()} id="content_height"
+                        >
+                            {children}
+                        </div>
+                    </div>
+    
+                )
+            }
+
+        
         }
+
     } else {
         if (typeof document !== 'undefined') {
             const body = document.body;
@@ -26,34 +64,11 @@ export function MakeRepostPopup({ active, children, setActive, ...rest }: ModalP
             body.style.height = '';
             body.style.overflowY = '';
         }
+
+
     }
 
-    const [offset, setOffset] = useState(0)
-
-    useEffect(() => {
-        if (typeof document !== 'undefined') {
-            const menu = document.getElementById('content_height')
-
-            console.log(menu?.scrollHeight)
-            console.log(window.innerHeight)
-            if (window.innerHeight < Number(menu?.scrollHeight)){
-
-                setOffset(Number(menu?.scrollHeight) - window.innerHeight - 500 )
-            }
-        }
-
-    }, []);
-
-
-    return (
-        <div className={active ? styles.modal_window_wrapper : styles.modal_window_wrapper_closed}
-            onClick={e => (e.stopPropagation(), setActive(false))} onScroll={e => e.stopPropagation()}>
-            <div className={styles.modal_content} onClick={e => e.stopPropagation()} id="content_height"
-                style={{ top: `${offset}px` }}>
-                {children}
-            </div>
-        </div>
-
-    )
-
 }
+
+
+export default observer(MakeRepostPopup)

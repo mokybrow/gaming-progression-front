@@ -1,5 +1,7 @@
+import { CommentsResponseModel } from "@/models/commentsModels";
 import { GamePageResponse, GamesCount, GamesResponse } from "@/models/gamesModel";
 import { CommentsResponse, SearchGamesCountModel, SearchGamesModel, UserCommentsLikes } from "@/models/serviceModel";
+import AuthService from "@/services/authService";
 import ContentService from "@/services/contentService";
 import GameService from "@/services/gamesService";
 import { makeAutoObservable } from "mobx"
@@ -17,7 +19,7 @@ export default class GamesStore {
     searchedGames = [] as SearchGamesModel[];
     gamesCount = {} as GamesCount;
     gamesSearchCount = {} as SearchGamesCountModel;
-    comments = [] as CommentsResponse[];
+    comments = [] as CommentsResponseModel[];
     commentsLikes = [] as UserCommentsLikes[];
     gamePage = {} as GamePageResponse;
     slider_values = [1954, 2024]
@@ -61,7 +63,7 @@ export default class GamesStore {
     setSearchGamesCount(count: SearchGamesCountModel) {
         this.gamesSearchCount= count;
     }
-    setComments(comments: CommentsResponse[]) {
+    setComments(comments: CommentsResponseModel[]) {
         this.comments = comments;
     }
 
@@ -72,71 +74,7 @@ export default class GamesStore {
         this.rate = rate;
     }
 
-    setCommentsLikeIncrease(commentId: string) {
-        this.comments.forEach(function (obj) {
-            if (obj.id === commentId) {
-                obj.like_count += 1
 
-            }
-        });
-        this.commentsLikes.forEach(function (has) {
-            if (has.id === commentId) {
-                has.hasAuthorLike = 1
-            }
-        });
-        if (!this.commentsLikes.find((i) => i.id === commentId)) {
-            this.commentsLikes.push({ id: commentId, hasAuthorLike: 1 })
-        }
-    }
-
-    setCommentsLikeDecrease(commentId: string) {
-        this.comments.forEach(function (obj) {
-            if (obj.id === commentId) {
-                obj.like_count -= 1
-            }
-        });
-        this.commentsLikes.forEach(function (has) {
-            if (has.id === commentId) {
-                has.hasAuthorLike = 0
-            }
-        });
-    }
-
-    setChildCommentsLikeIncrease(commentId: string) {
-        this.comments.forEach(function (obj) {
-            obj.child_comment.forEach(function (child) {
-                if (child.id === commentId) {
-                    child.like_count += 1
-
-                }
-            })
-
-        });
-        this.commentsLikes.forEach(function (has) {
-            if (has.id === commentId) {
-                has.hasAuthorLike = 1
-            }
-        });
-        if (!this.commentsLikes.find((i) => i.id === commentId)) {
-            this.commentsLikes.push({ id: commentId, hasAuthorLike: 1 })
-        }
-    }
-    setChildCommentsLikeDecrease(commentId: string) {
-        this.comments.forEach(function (obj) {
-            obj.child_comment.forEach(function (child) {
-                if (child.id === commentId) {
-                    child.like_count -= 1
-
-                }
-            })
-
-        });
-        this.commentsLikes.forEach(function (has) {
-            if (has.id === commentId) {
-                has.hasAuthorLike = 0
-            }
-        });
-    }
 
 
     setGamePage(games: GamePageResponse) {
@@ -195,11 +133,17 @@ export default class GamesStore {
     async getGamePage(slug: string) {
         this.setLoading(true);
         try {
-            const response = await GameService.getGamePage(slug);
-            const result = await ContentService.getComments(response.data.id)
-            this.setGamePage(response.data)
-            this.setComments(result.data)
+            const game = await GameService.getGamePage(slug);
+            try {
+                const userId = await AuthService.getProfile()
+                const result = await ContentService.getComments(game.data.id, userId.data.id)
+                this.setComments(result.data)
 
+            } catch (error) {
+                const result = await ContentService.getComments(game.data.id, null)
+                this.setComments(result.data)
+            }
+            this.setGamePage(game.data)
 
         } catch {
             this.setGamePage({} as GamePageResponse)
@@ -227,20 +171,8 @@ export default class GamesStore {
         this.setLoading(true);
         try {
             await ContentService.addNewComment(itemId, text, parentCommntId)
-            const result = await ContentService.getComments(itemId)
-            this.setComments(result.data)
-            this.setLoading(false);
-
-        } catch (error) {
-
-        }
-    }
-
-    async getGameComments(itemId: string) {
-        this.setLoading(true);
-        try {
-            const result = await ContentService.getComments(itemId)
-            this.setComments(result.data)
+            // const result = await ContentService.getComments(itemId)
+            // this.setComments(result.data)
             this.setLoading(false);
 
         } catch (error) {

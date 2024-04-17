@@ -5,17 +5,16 @@ import { usePathname } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import styles from './page.module.css'
 import Link from "next/link";
-import CommentField from "@/components/fields/comment/CommentField";
 import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { ruRU } from '@mui/x-date-pickers/locales';
-import { ukUA } from '@mui/x-date-pickers/locales';
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Dayjs } from "dayjs";
 import { FormattedDate } from "react-intl";
 import { observer } from "mobx-react-lite";
+import SettingsField from "@/components/fields/settins/SettingsField";
 
 function SettingsMe() {
     const [fullName, setFullName] = useState("");
@@ -39,7 +38,7 @@ function SettingsMe() {
                     <div className={styles.settings_content}>
 
                         <div className={styles.comment_field_wrapper}>
-                            <CommentField value={fullName}
+                            <SettingsField value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
                                 placeholder="Отображаемое имя"
                                 maxLength={25} />
@@ -60,7 +59,7 @@ function SettingsMe() {
                         </div>
 
                         <div className={styles.comment_field_wrapper}>
-                            <CommentField value={biography}
+                            <SettingsField value={biography}
                                 onChange={(e) => setBiography(e.target.value)}
                                 placeholder="Расскажите о себе"
                                 maxLength={50} />
@@ -111,39 +110,7 @@ function SettingsMe() {
 
             </main>
             <main className="right_side_wrapper">
-                <div className={styles.cards_wrapper}>
-                    <div className={styles.stat_card}>
-                        <span>Подписчиков {auth_store.user.followers?.length}</span>
-                    </div>
-                    <div className={styles.stat_card}>
-                        <span>Подписок {auth_store.user.subscriptions?.length}</span>
-                    </div>
-                    <div className={styles.stat_card}>
-                        <span>Списков {auth_store.user.lists?.length}</span>
-                    </div>
-                    {/* Вот тут идут иконки с цифрами */}
-                    <div className={styles.stat_card_icons}>
-                        <div className={styles.button_data_wrapper}>
-                            <div className={styles.rocket_logo}></div>
-                            <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 200000 }).length}</span>
-                        </div>
-                        <div className={styles.button_data_wrapper}>
-                            <div className={styles.finish_logo}></div>
-                            <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 220000 }).length}</span>
-
-                        </div>
-                        <div className={styles.button_data_wrapper}>
-                            <div className={styles.heart_logo}></div>
-                            <span>{auth_store.user.user_favorite?.length}</span>
-
-                        </div>
-                        <div className={styles.button_data_wrapper}>
-                            <div className={styles.bag_logo}></div>
-                            <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 210000 }).length}</span>
-
-                        </div>
-                    </div>
-                </div>
+           
             </main>
 
         </>

@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import $api from "@/api/api";
 import { AuthResponse, IGeneralUserModel, IUserModel, MailingSettingsModel, RegistrResponse } from "@/models/userModel";
-import { PostsResponseModel } from "@/models/postsModel";
 import { Dayjs } from "dayjs";
 import { getLocalToken } from "@/utils/tokenUtils";
+import { PostResponseModel } from "@/models/postsModel";
 
 export default class AuthService {
 
@@ -83,9 +83,9 @@ export default class AuthService {
         return $api.post(url + `auth/change/password/request`,)
     }
 
-    static async getUserFeed(page: number): Promise<AxiosResponse<PostsResponseModel[]>> {
+    static async getUserFeed(page: number): Promise<AxiosResponse<PostResponseModel[]>> {
         const url = process.env.API_URL
-        return axios.get<PostsResponseModel[]>(url + `feeds/personal?page=${page}`,
+        return axios.get<PostResponseModel[]>(url + `feeds/personal?page=${page}`,
             {
                 headers: {
                     'Authorization': `Bearer ${getLocalToken()}`,

@@ -24,14 +24,14 @@ export interface IUserModel {
 	followers: any[]
 	subscriptions: Subscription[]
 	lists: List[]
-	created_at: string
+	created_at: Date
 }
 
 export interface IGeneralUserModel {
 	id: string
 	username: string
 	full_name: string
-	biography?: string
+	biography: string
 	created_at: Date
 	user_activity: UserActivity[]
 	user_favorite: UserFavorite[]

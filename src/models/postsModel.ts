@@ -1,22 +1,21 @@
-export interface PostsResponseModel {
+export interface PostResponseModel {
   Posts: Posts
-  commentCount: number
-  hasAuthorLike: number | null
+  hasAuthorLike: number
 }
 
 export interface Posts {
   id: string
   user_id: string
   wall_id: string
-  parent_post_id?: string
+  parent_post_id: string
   text: string
-  like_count: number
+  likes_count: number
+  comments_count: number
   disabled: boolean
   created_at: string
   updated_at: string
-  parent_post_data?: ParentPostData
-  users: Users
-
+  parent_post_data: ParentPostData | null
+  author_data: AuthorData
 }
 
 export interface ParentPostData {
@@ -25,15 +24,15 @@ export interface ParentPostData {
   wall_id: string
   parent_post_id: any
   text: string
-  like_count: number
+  likes_count: number
+  comments_count: number
   disabled: boolean
   created_at: string
   updated_at: string
-  users: Users
-
+  author_data: AuthorData
 }
 
-export interface Users {
+export interface AuthorData {
   id: string
   username: string
   full_name: string
@@ -41,7 +40,16 @@ export interface Users {
   created_at: string
 }
 
-export interface PostsCount {
-  posts_count: number
 
+export interface PostCreateResponseModel {
+  id: string
+  user_id: string
+  wall_id: string
+  parent_post_id: string
+  text: string
+  likes_count: number
+  comments_count: number
+  disabled: boolean
+  created_at: string
+  updated_at: string
 }

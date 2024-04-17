@@ -13,11 +13,12 @@ import Image from 'next/image'
 import userpic from '@/assets/icons/general/userpic.svg'
 import ActivityCard from "@/components/cards/activity_card/ActivityCard";
 import FavoriteCard from "@/components/cards/favorite_card/FavoriteCard";
-import PostCard from "@/components/cards/post_card/PostCard";
 import { v4 as uuidv4 } from 'uuid';
-import { SubmitButton } from "@/components/buttons/SubmitButton";
 import Card from "@/components/cards/posts/Card";
-
+import AuthService from "@/services/authService";
+import PostField from "@/components/fields/post/PostField";
+import UserProfileCard from '@/components/cards/user_profile/UserProfile'
+import UserStatsCard from '@/components/cards/user_profile/UserStats'
 
 function UserProfile() {
 
@@ -25,12 +26,10 @@ function UserProfile() {
 
   const { auth_store } = useContext(Context);
   const { content_store } = useContext(Context);
+  const { user_store } = useContext(Context);
   const username = pathname.substring(pathname.lastIndexOf('/') + 1)
   const [isShowRepost, setIsShowRepost] = useState(false);
 
-  const [postText, setPostText] = useState<string>('');
-  const [suggestions, setSuggestions] = useState<SearchUserModel[]>([]);
-  const [customers, setCustomers] = useState<any>([]);
 
 
   let tabs = [
@@ -40,256 +39,59 @@ function UserProfile() {
   ];
 
   let [activeTab, setActiveTab] = useState(tabs[0].id);
-
+  const [isOwner, setIsOwner] = useState(false)
   useEffect(() => {
-    auth_store.checkAuth(username)
-
-  }, [auth_store])
-
-  const handleChangeForMainComment = (event: any) => {
-    setPostText(event.value)
-  }
-  const onSearch = (event: { query: any; }) => {
-    setTimeout(() => {
-      let suggestions;
-      if (event.query != '') {
-
-        content_store.searchUser(event.query)
-      }
-      else {
-        content_store.setSearchUsers([])
-      }
-
-      if (!content_store.users.length) {
-        suggestions = [...customers];
-      }
-      else {
-        suggestions = content_store.users.filter(customer => {
-          return customer.username;
-        })
+    AuthService.getProfile().then(function (response) {
+      if (response.data.id) {
+        content_store.getUserWall(username, response.data.id, 0)
 
       }
+      if (username == response.data.username) {
 
-      setSuggestions(suggestions);
-    }, 1000);
-  }
-  const itemTemplate = (suggestion: SearchUserModel) => {
+        setIsOwner(true)
+      }
+    }).catch(function (response) {
+      content_store.getUserWall(username, null, 0)
+    })
 
-    return (
-      <div>
-        <span className={styles.item_temlate_span}>
-          {suggestion.username}
-          <small style={{ fontSize: '.75rem' }}>@{suggestion.username}</small>
-        </span>
-      </div>
-    );
-  }
+    user_store.getUserProfile(username)
 
-  const createNewPost = () => {
-    let newComment = postText;
-    if (newComment != '') {
-      let comment = newComment.replace(/\s+/g, ' ').trim();
-      const result = comment.replace(/(^|\W)@(\w+)/g, function (_, $1, $2) { return `[@${$2}](/${$2})` })
+  }, [auth_store, content_store])
 
-      auth_store.createNewPost(uuidv4(), null, result, username)
-      setPostText('')
 
-    }
-  }
 
-  const NewOffset = () => {
-    auth_store.incrementOffset()
-    auth_store.postsOffset(username)
-
-  }
-
-  const followHandler = () => {
-    auth_store.followOnUser(auth_store.anotherUsers.id)
-    auth_store.user.subscriptions.push(...[{ sub_data: { id: auth_store.anotherUsers.id, username: auth_store.anotherUsers.username, full_name: auth_store.anotherUsers.full_name } }])
-  }
-  const unFollow = () => {
-    auth_store.followOnUser(auth_store.anotherUsers.id)
-    const index = auth_store.user.subscriptions.findIndex(n => n.sub_data.username === username);
-    if (index !== -1) {
-      auth_store.user.subscriptions.splice(index, 1);
-    }
-  }
 
   return (
     <>
       <main className="content_wrapper">
-
         {
-          !auth_store.isAuth || username !== auth_store.user.username ?
-            <div className={styles.user_main_wrapper}>
-              <div className={styles.user_info_wrapper}>
-                <div>
-                  <Image
-                    src={userpic}
-                    width={100}
-                    height={100}
-                    alt="user" />
-                </div>
-                <h3>
-                  {auth_store.anotherUsers.full_name != null ?
-                    <>
-                      {auth_store.anotherUsers.full_name}
-                    </>
-                    :
-                    <>
-                      {auth_store.anotherUsers.username}
-                    </>
-                  }
-                </h3>
-                <small>
-                  <span>На борту с </span>
-                  <FormattedDate
-                    value={auth_store.anotherUsers.created_at}
-                    year='numeric'
-                    month='short'
-                    day='numeric' />
-                </small>
-                <div>
-                  <span>{auth_store.anotherUsers.biography}</span>
-                </div>
-              </div>
-
-              <div className={styles.user_wrapper_buttons}>
-                <div className={styles.buttons_wrapper}>
-                  {auth_store.user?.subscriptions?.find((obj) => obj.sub_data.username == username) ?
-                    <>
-                      <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                        onClick={() => unFollow()}>
-                        Отписаться
-                      </FunctionalGameButton>
-                    </> :
-                    <>
-                      <FunctionalGameButton type={'button'} bg_color={'#0368CD'} fontSize={12} color={'#E8E8ED'}
-                        onClick={() => followHandler()}>
-                        Подписаться
-                      </FunctionalGameButton>
-                    </>
-                  }
-
-                  <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12} color={'#E8E8ED'}
-                    onClick={() => console.log('as')}>
-                    <div className={styles.flag_icon}>
-                    </div>
-                  </FunctionalGameButton>
-                </div>
-              </div>
-
-              <hr className={styles.mobile_hr} />
-              <div className={styles.cards_wrapper_mobile}>
-                {/* Вот тут идут иконки с цифрами */}
-                <div className={styles.stat_card_icons}>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.rocket_logo}></div>
-                    <span>{auth_store.anotherUsers.user_activity?.filter(function (el) { return el.activity_data.code === 200000 }).length}</span>
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.finish_logo}></div>
-                    <span>{auth_store.anotherUsers.user_activity?.filter(function (el) { return el.activity_data.code === 220000 }).length}</span>
-
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.heart_logo}></div>
-                    <span>{auth_store.anotherUsers.user_favorite?.length}</span>
-
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.bag_logo}></div>
-                    <span>{auth_store.anotherUsers.user_activity?.filter(function (el) { return el.activity_data.code === 210000 }).length}</span>
-
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-
+          isOwner ?
+            <UserProfileCard
+              username={auth_store.user.username}
+              fullName={auth_store.user.full_name}
+              biorgaphy={auth_store.user.biography}
+              createdAt={auth_store.user.created_at}
+              activity={auth_store.user.user_activity}
+              favorite={auth_store.user.user_favorite}
+              followersCount={auth_store.user.followers?.length}
+              subscriptionsCount={auth_store.user.subscriptions?.length}
+              isOwner={isOwner}  />
             :
-            <div className={styles.user_main_wrapper_owner}>
-              <div className={styles.user_info_wrapper}>
-                <div>
-                  <Image
-                    src={userpic}
-                    width={100}
-                    height={100}
-                    alt="user" />
-                </div>
-                <h3>
-                  {auth_store.user.full_name != null ?
-                    <>
-                      {auth_store.user.full_name}
-                    </>
-                    :
-                    <>
-                      {auth_store.user.username}
-                    </>
-                  }
-                </h3>
-                <small>
-                  <span>На борту с </span>
-                  <FormattedDate
-                    value={auth_store.user.created_at}
-                    year='numeric'
-                    month='short'
-                    day='numeric' />
-                </small>
-                <div>
-                  <span>{auth_store.user.biography}</span>
-                </div>
-              </div>
-              <hr className={styles.mobile_hr} />
-              <div className={styles.cards_wrapper_mobile}>
+            <UserProfileCard
+              username={user_store.user.username}
+              fullName={user_store.user.full_name}
+              biorgaphy={user_store.user.biography}
+              createdAt={user_store.user.created_at}
+              activity={user_store.user.user_activity}
+              favorite={user_store.user.user_favorite}
+              followersCount={user_store.user.followers?.length}
+              subscriptionsCount={user_store.user.subscriptions?.length}
+              isOwner={isOwner} isFollow={auth_store.user?.subscriptions?.find((obj) => obj.sub_data.username == username) ? true :  false} />
 
-                <div className={styles.stat_card_icons}>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.rocket_logo}></div>
-                    <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 200000 }).length}</span>
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.finish_logo}></div>
-                    <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 220000 }).length}</span>
-
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.heart_logo}></div>
-                    <span>{auth_store.user.user_favorite?.length}</span>
-
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.bag_logo}></div>
-                    <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 210000 }).length}</span>
-
-                  </div>
-                </div>
-              </div>
-
-            </div>
         }
-        {
-          !auth_store.isAuth || username !== auth_store.user.username ? null :
-            <div className={styles.post_text_filed}>
-              <Mention onChange={(e) => handleChangeForMainComment(e.target)}
-                value={postText} suggestions={suggestions} onSearch={onSearch} field="username"
-                placeholder="Что нового?" itemTemplate={itemTemplate}
-                className={styles.mention} rows={1} autoResize />
-
-
-              {postText !== "" && postText.replace(/\s+/g, ' ').trim() !== "" ? <>
-                <div className={styles.send_button_wrapper}>
-                  <hr />
-                  <FunctionalGameButton type={'button'} bg_color={'#0368CD'} fontSize={12} color={'#E8E8ED'}
-                    onClick={() => createNewPost()}>
-                    Опубликовать
-                  </FunctionalGameButton>
-                </div>
-              </> : null}
-
-            </div>
-        }
+        {isOwner ?
+          <PostField parentPostId={null} />
+          : null}
         <div className={styles.user_content_wrapper}>
           <div className={styles.nav_buttons_wrapper}>
             {tabs.map((tab) => (
@@ -307,234 +109,93 @@ function UserProfile() {
           {activeTab === 'posts' ?
             <>
               {
-                !auth_store.isAuth || username !== auth_store.user.username ?
+                content_store.userWall?.length > 0 ?
                   <>
-                    {
-                      auth_store.userPosts?.length > 0 ?
-                        <>
-
-                          <Card postData={auth_store.userPosts} setIsShowRepost={setIsShowRepost} isShowRepost={isShowRepost} />
-
-                        </>
-                        :
-                        <div className={styles.card_wrapper}>
-
-                          <div className={styles.feed_icon}></div>
-                          <span>Здесь пока ничего нет</span>
-                        </div>
-                    }
-
+                    <Card postData={content_store.userWall} setIsShowRepost={setIsShowRepost} isShowRepost={isShowRepost} />
                   </>
                   :
-                  <>
-                    {
-                      auth_store.userPosts?.length > 0 ?
-                        <>
+                  <div className={styles.card_wrapper}>
 
-                          <Card postData={auth_store.userPosts} setIsShowRepost={setIsShowRepost} isShowRepost={isShowRepost} />
-
-                        </>
-                        :
-                        <div className={styles.card_wrapper}>
-
-                          <div className={styles.feed_icon}></div>
-                          <span>Здесь пока ничего нет</span>
-                        </div>
-                    }
-                  </>}
-              {auth_store.postsCount.posts_count > 10 && auth_store.offset < auth_store.postsCount.posts_count ?
-                <div className={styles.button_wrapper}>
-
-                  <SubmitButton type={'button'} onClick={() => NewOffset()}>Показать ещё</SubmitButton>
-                </div>
-                :
-                null
+                    <div className={styles.feed_icon}></div>
+                    <span>Здесь пока ничего нет</span>
+                  </div>
               }
-
             </>
-            : null}
+            : null
+          }
           {activeTab === 'activity' ?
             <>
-              {
-                !auth_store.isAuth || username !== auth_store.user.username ?
-                  <>
-                    {
-                      auth_store.anotherUsers.user_activity?.length > 0 ?
-                        <>
-                          {auth_store.anotherUsers.user_activity?.map(item => (
-                            <div key={item.activity_data.id}>
-                              <ActivityCard title={item.game_data.title} cover={item.game_data.cover}
-                                release_date={item.game_data.release_date} slug={item.game_data.slug}
-                                description={item.game_data.description}
-                                activity_type={item.activity_data.name} />
+              {isOwner ?
+                <>
+                  {auth_store.user.user_activity.map(item => (
+                    < ActivityCard title={item.game_data.title} cover={item.game_data.cover}
+                      release_date={item.game_data.release_date} slug={item.game_data.slug}
+                      description={item.game_data.description} activity_type={item.activity_data.name} />
+                  ))
+                  }
+                </>
+                :
+                <>
 
-                            </div>
-                          ))}
-                        </>
-                        :
-                        <div className={styles.card_wrapper}>
-
-                          <div className={styles.feed_icon}></div>
-                          <span>Здесь пока ничего нет</span>
-                        </div>
-                    }
-                  </>
-                  :
-                  <>
-                    {
-                      auth_store.user.user_activity?.length > 0 ?
-                        <>
-                          {auth_store.user.user_activity.map(item => (
-                            <div key={item.game_data.id}>
-
-                              <ActivityCard title={item.game_data.title} cover={item.game_data.cover}
-                                release_date={item.game_data.release_date} slug={item.game_data.slug}
-                                description={item.game_data.description}
-                                activity_type={item.activity_data.name} />
-                            </div>
-                          ))}
-                        </>
-                        :
-                        <div className={styles.card_wrapper}>
-
-                          <div className={styles.feed_icon}></div>
-                          <span>Здесь пока ничего нет</span>
-                        </div>
-                    }
-                  </>}
+                  {
+                    user_store.user.user_activity.map(item => (
+                      < ActivityCard title={item.game_data.title} cover={item.game_data.cover}
+                        release_date={item.game_data.release_date} slug={item.game_data.slug}
+                        description={item.game_data.description} activity_type={item.activity_data.name} />
+                    ))
+                  }
+                </>
+              }
             </>
-            : null}
-          {
-            activeTab === 'favorite' ?
-              <>
-                {
-                  !auth_store.isAuth || username !== auth_store.user.username ?
-                    <>
-                      {
-                        auth_store.anotherUsers.user_favorite?.length > 0 ?
-                          <>
-                            {auth_store.anotherUsers.user_favorite?.map(item => (
-                              <div key={item.game_data.id}>
+            : null
+          }
+          {activeTab === 'favorite' ?
+            <>
+              {isOwner ?
+                <>
+                  {auth_store.user.user_favorite.map(item => (
+                    < FavoriteCard title={item.game_data.title} cover={item.game_data.cover}
+                      release_date={item.game_data.release_date} slug={item.game_data.slug}
+                      description={item.game_data.description} />
+                  ))
+                  }
+                </>
+                :
+                <>
 
-                                <FavoriteCard title={item.game_data.title} cover={item.game_data.cover}
-                                  release_date={item.game_data.release_date} slug={item.game_data.slug}
-                                  description={item.game_data.description} />
-
-                              </div>
-                            ))}
-                          </>
-                          :
-                          <div className={styles.card_wrapper}>
-
-                            <div className={styles.feed_icon}></div>
-                            <span>Здесь пока ничего нет</span>
-                          </div>
-                      }
-                    </>
-                    :
-                    <>
-                      {
-                        auth_store.user.user_favorite?.length > 0 ?
-                          <>
-                            {auth_store.user.user_favorite.map(item => (
-                              <div key={item.game_data.id}>
-                                <FavoriteCard title={item.game_data.title} cover={item.game_data.cover}
-                                  release_date={item.game_data.release_date} slug={item.game_data.slug}
-                                  description={item.game_data.description} />
-
-                              </div>
-                            ))}
-                          </>
-                          :
-                          <div className={styles.card_wrapper}>
-
-                            <div className={styles.feed_icon}></div>
-                            <span>Здесь пока ничего нет</span>
-                          </div>
-                      }
-                    </>}
-              </>
-              : null
+                  {
+                    user_store.user.user_favorite.map(item => (
+                      < FavoriteCard title={item.game_data.title} cover={item.game_data.cover}
+                        release_date={item.game_data.release_date} slug={item.game_data.slug}
+                        description={item.game_data.description} />
+                    ))
+                  }
+                </>
+              }
+            </>
+            : null
           }
         </div>
 
+
       </main >
       <main className="right_side_wrapper">
-        {
-          !auth_store.isAuth || username !== auth_store.user.username ?
-            <>
-              <div className={styles.cards_wrapper}>
-                <div className={styles.stat_card}>
-                  <span>Подписчиков {auth_store.anotherUsers.followers?.length}</span>
-                </div>
-                <div className={styles.stat_card}>
-                  <span>Подписок {auth_store.anotherUsers.subscriptions?.length}</span>
-                </div>
-                <div className={styles.stat_card}>
-                  <span>Списков {auth_store.anotherUsers.lists?.length}</span>
-                </div>
+        <div className={styles.user_stats_desk}>
 
-                {/* Вот тут идут иконки с цифрами */}
-                <div className={styles.stat_card_icons}>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.rocket_logo}></div>
-                    <span>{auth_store.anotherUsers.user_activity?.filter(function (el) { return el.activity_data.code === 200000 }).length}</span>
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.finish_logo}></div>
-                    <span>{auth_store.anotherUsers.user_activity?.filter(function (el) { return el.activity_data.code === 220000 }).length}</span>
 
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.heart_logo}></div>
-                    <span>{auth_store.anotherUsers.user_favorite?.length}</span>
+          {isOwner ?
+            <UserStatsCard
+              activity={auth_store.user.user_activity}
+              favorite={auth_store.user.user_favorite}
+            />
 
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.bag_logo}></div>
-                    <span>{auth_store.anotherUsers.user_activity?.filter(function (el) { return el.activity_data.code === 210000 }).length}</span>
-
-                  </div>
-                </div>
-              </div>
-            </>
             :
-            <>
-              <div className={styles.cards_wrapper}>
-                <div className={styles.stat_card}>
-                  <span>Подписчиков {auth_store.user.followers?.length}</span>
-                </div>
-                <div className={styles.stat_card}>
-                  <span>Подписок {auth_store.user.subscriptions?.length}</span>
-                </div>
-                <div className={styles.stat_card}>
-                  <span>Списков {auth_store.user.lists?.length}</span>
-                </div>
-                <div className={styles.stat_card_icons}>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.rocket_logo}></div>
-                    <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 200000 }).length}</span>
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.finish_logo}></div>
-                    <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 220000 }).length}</span>
-
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.heart_logo}></div>
-                    <span>{auth_store.user.user_favorite?.length}</span>
-
-                  </div>
-                  <div className={styles.button_data_wrapper}>
-                    <div className={styles.bag_logo}></div>
-                    <span>{auth_store.user.user_activity?.filter(function (el) { return el.activity_data.code === 210000 }).length}</span>
-
-                  </div>
-                </div>
-              </div>
-
-            </>
-        }
+            <UserStatsCard
+              activity={user_store.user.user_activity}
+              favorite={user_store.user.user_favorite}
+            />
+          }
+        </div>
       </main>
 
     </>

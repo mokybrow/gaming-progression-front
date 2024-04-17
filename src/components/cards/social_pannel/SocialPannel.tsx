@@ -8,7 +8,7 @@ import { Context } from '@/app/providers';
 
 import CommentIcon from '@/components/icons/comment';
 import RepostIcon from '@/components/icons/repost';
-import CommentField from '@/components/fields/comment_field/CommentField';
+import CommentField from '@/components/fields/comment/CommentField';
 import { observer } from 'mobx-react';
 
 
@@ -57,7 +57,7 @@ function SocialButtonCard({ postId, likeCount, commentCount, hasAuthorLike }: Ca
             </div>
             {
                 showComment ?
-                    <CommentField contentID={postId} parentCommentId={null} setShowComment={setShowComment}/>
+                    <CommentField contentID={postId} parentCommentId={null} setShowComment={setShowComment} />
                     : null
             }
         </>

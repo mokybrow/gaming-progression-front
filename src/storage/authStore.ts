@@ -1,5 +1,5 @@
 import { API_URL } from "@/api/api";
-import { PostsCount, PostsResponseModel } from "@/models/postsModel";
+import { FeedResponseModel } from "@/models/feedsModels";
 import { AuthResponse, IGeneralUserModel, IUserModel, MailingSettingsModel, UserActivity } from "@/models/userModel";
 import AuthService from "@/services/authService";
 import ContentService from "@/services/contentService";
@@ -12,15 +12,12 @@ import { makeAutoObservable } from "mobx";
 
 export default class AuthStore {
     user = {} as IUserModel;
-    anotherUsers = {} as IGeneralUserModel;
-    userPosts = [] as PostsResponseModel[];
-    userFeed = [] as PostsResponseModel[];
+    userFeed = [] as FeedResponseModel[];
     mailingSettings = [] as MailingSettingsModel[];
     totalPostCount = 0
     isAuth = false;
     isLoading = false;
     offset = 10
-    postsCount = {} as PostsCount
     constructor() {
         makeAutoObservable(this);
     }
@@ -32,19 +29,14 @@ export default class AuthStore {
     setUser(user: IUserModel) {
         this.user = user;
     }
-    setAnotherUser(user: IGeneralUserModel) {
-        this.anotherUsers = user;
-    }
+
 
     setMailingSettings(mailings: MailingSettingsModel[]) {
         this.mailingSettings = mailings;
     }
 
-    setUserPosts(posts: PostsResponseModel[]) {
-        this.userPosts = posts;
-    }
 
-    setUserFeed(posts: PostsResponseModel[]) {
+    setUserFeed(posts: FeedResponseModel[]) {
         this.userFeed = posts;
     }
 
@@ -53,9 +45,6 @@ export default class AuthStore {
     }
 
 
-    setPostsCount(posts: PostsCount) {
-        this.postsCount = posts;
-    }
 
     setLoading(bool: boolean) {
         this.isLoading = bool;
@@ -65,33 +54,7 @@ export default class AuthStore {
         this.offset += 10;
     }
 
-    setPostsLikeDecrease(PostID: string) {
-        this.userPosts.forEach(function (obj) {
-            if (obj.Posts.id === PostID) {
-                obj.Posts.like_count -= 1
-            }
-        });
-        this.userPosts.forEach(function (has) {
-            if (has.Posts.id === PostID) {
-                has.hasAuthorLike = 0
-            }
-        });
-    }
 
-    setPostsLikeIncrease(PostID: string) {
-        this.userPosts.forEach(function (obj) {
-            if (obj.Posts.id === PostID) {
-                obj.Posts.like_count += 1
-
-            }
-        });
-        this.userPosts.forEach(function (has) {
-            if (has.Posts.id === PostID) {
-                has.hasAuthorLike = 1
-            }
-        });
-
-    }
 
     async login(response: AxiosResponse<AuthResponse, any>) {
         try {
@@ -117,43 +80,7 @@ export default class AuthStore {
         }
     }
 
-    async checkAuth(username?: string) {
-        this.setLoading(true);
-        try {
-            const response = await AuthService.getProfile();
-            this.setUser(response.data)
-            this.setAuth(true);
-            this.setLoading(false);
-
-        } catch (error) {
-            this.setUser({} as IUserModel)
-            removeLocalToken();
-        }
-        try {
-            if (username !== undefined) {
-                if (username != this.user.username) {
-                    const response = await AuthService.getUser(String(username));
-                    this.setAnotherUser(response.data)
-                }
-                if (!this.isAuth) {
-                    const result = await ContentService.getUserPosts(String(username), this.offset)
-                    this.setUserPosts(result.data)
-                    const count = await ContentService.getPostsCount(String(username))
-                    this.setPostsCount(count.data)
-                }
-                if (this.isAuth) {
-                    const result = await ContentService.getAuthUserPosts(String(username), this.offset)
-                    this.setUserPosts(result.data)
-                    const count = await ContentService.getPostsCount(String(username))
-                    this.setPostsCount(count.data)
-                }
-            }
-
-        } catch (error) {
-
-        }
-
-    }
+  
 
     async changeGameStatus(gameId: string, activityType: string) {
         this.setLoading(true);
@@ -186,75 +113,21 @@ export default class AuthStore {
         }
     }
 
-
-    async getUsers(username: string) {
+  
+     async checkAuth() {
         this.setLoading(true);
         try {
-            const response = await AuthService.getUser(username);
-            this.setAnotherUser(response.data)
-
-
+            const response = await AuthService.getProfile();
+            this.setUser(response.data)
+            this.setAuth(true)
             this.setLoading(false);
 
         } catch (error) {
-            this.setAnotherUser({} as IGeneralUserModel)
+            this.setUser({} as IUserModel)
+            this.setAuth(false)
         }
     }
 
-    async createNewPost(id: string, parent_post_id: string | null, text: string, username: string) {
-        this.setLoading(true);
-        try {
-            await ContentService.CreateNewPost(id, parent_post_id, text);
-            if (username == this.user.username) {
-                const result = await ContentService.getAuthUserPosts(this.user.username, this.offset)
-                this.setUserPosts(result.data)
-                const count = await ContentService.getPostsCount(String(this.user.username))
-                this.setPostsCount(count.data)
-            }
-            this.setLoading(false);
-
-        } catch (error) {
-        }
-    }
-
-    async postsOffset(username: string) {
-        this.setLoading(true);
-        try {
-            if (username !== undefined) {
-
-                if (!this.isAuth) {
-                    const result = await ContentService.getUserPosts(String(username), this.offset)
-                    this.setUserPosts(result.data)
-                }
-                if (this.isAuth) {
-                    const result = await ContentService.getAuthUserPosts(String(username), this.offset)
-                    this.setUserPosts(result.data)
-                }
-            }
-
-        } catch (error) {
-        }
-    }
-
-
-    async getPostsCount(username: string) {
-        this.setLoading(true);
-        try {
-            if (username !== undefined) {
-
-                if (!this.isAuth) {
-                    const result = await ContentService.getPostsCount(String(username))
-                    this.setPostsCount(result.data)
-                }
-                if (this.isAuth) {
-                    const result = await ContentService.getPostsCount(String(username))
-                    this.setPostsCount(result.data)
-                }
-            }
-
-        } catch (error) {
-        }
-    }
 
     async followOnUser(user_id: string) {
         this.setLoading(true);
@@ -335,10 +208,4 @@ export default class AuthStore {
         }
     }
 
-    async getUserFeed(page: number) {
-        const response = await AuthService.getUserFeed(page)
-        this.setUserPosts([...this.userPosts,...response.data])
-        this.setLoading(false);
-        return response
-    }
 }

@@ -1,0 +1,26 @@
+.follow_button {
+    display: flex;
+    height: 28px;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    background-color: var(--follow-button-color);
+    font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
+    font-style: normal;
+    color: #e8e8ed;
+    cursor: pointer;
+}
+
+.follow_button_active {
+    display: flex;
+    height: 28px;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    background-color: var(--service-button-color);
+    font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
+    font-style: normal;
+    color: var(--font-color);
+    cursor: pointer;
+
+}

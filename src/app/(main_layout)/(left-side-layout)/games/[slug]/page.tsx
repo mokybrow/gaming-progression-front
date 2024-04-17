@@ -18,6 +18,8 @@ import LikeIcon from '@/components/icons/like';
 import { FormattedDate } from 'react-intl';
 import { SearchUserModel } from '@/models/userModel';
 import CircleLoader from '@/components/loader/circle';
+import CommentField from '@/components/fields/comment/CommentField';
+import CommentCard from '@/components/cards/comment/CommentCard';
 
 
 function GamePage() {
@@ -25,24 +27,16 @@ function GamePage() {
     const [isShow, setIsShow] = useState(false);
     const [isShowRating, setIsShowRating] = useState(false);
     const popupRef = useRef(null)
-    const [showChildComments, setShowChildComments] = useState<{ [key: string]: number }>({})
-    const [showMoreComments, setShowMoreComments] = useState(3)
-    const [replyWindowIsOpen, setreplyWindowIsOpen] = useState('')
-    const [likeComment, setLikeComment] = useState(false)
+
     const [rating, setRating] = useState<number>(0);
     const [hover, setHover] = useState<number>(0);
+    const [showComment, setShowComment] = useState(false)
 
     const [rateButtonCount, setRateButtonCount] = useState<number>(0);
 
     const { games_store } = useContext(Context);
     const { auth_store } = useContext(Context);
     const { content_store } = useContext(Context);
-
-    const [commentText, setCommentText] = useState<string>('');
-    const [reply, setReply] = useState("");
-
-    const [customers, setCustomers] = useState<any>([]);
-    const [suggestions, setSuggestions] = useState<SearchUserModel[]>([]);
 
     useOutside(popupRef, () => {
         if (isShow) {
@@ -63,10 +57,7 @@ function GamePage() {
 
 
     useEffect(() => {
-        games_store.setLoading(true)
         games_store.getGamePage(pathname.substring(pathname.lastIndexOf('/') + 1))
-
-        auth_store.checkAuth()
 
     }, [games_store, auth_store])
 
@@ -78,98 +69,7 @@ function GamePage() {
         auth_store.addGameToFavorite(games_store.gamePage.id)
     }
 
-    const showMoreChildComments = (parendID: string, showLenght: number) => {
-        if (!showChildComments.hasOwnProperty(parendID)) {
-            const updatedValue: { [key: string]: number } = {};
-            updatedValue[parendID] = 5
-            setShowChildComments(commentsToShow => ({
-                ...commentsToShow,
-                ...updatedValue
-            }))
-        }
-        else {
-            const updatedValue: { [key: string]: number } = {};
-            updatedValue[parendID] = showChildComments[parendID] + 5
-            setShowChildComments(commentsToShow => ({
-                ...commentsToShow,
-                ...updatedValue
-            }))
-        }
-    }
 
-    const changeCommentsLikeValue = (commentId: string) => {
-        content_store.likeContent(commentId, '985449ce-ebe9-4214-a161-a6a51e9059bc', true)
-    }
-
-    const showCommentsMore = () => {
-        setShowMoreComments(showMoreComments + 5)
-    }
-
-
-    const saveNewComment = (itemId: string, parentCommentId?: string | null) => {
-        let newComment = commentText;
-        if (newComment != '') {
-            let comment = newComment.replace(/\s+/g, ' ').trim();
-            const result = comment.replace(/(^|\W)@(\w+)/g, function (_, $1, $2) { return `[@${$2}](/${$2})` })
-            games_store.addNewComment(itemId, result, parentCommentId)
-
-        }
-    }
-    const saveNewChildComment = (itemId: string, parentCommentId?: string | null) => {
-        let newComment = reply;
-        if (newComment != '') {
-            let comment = newComment.replace(/\s+/g, ' ').trim();
-            const result = comment.replace(/(^|\W)@(\w+)/g, function (_, $1, $2) { return `[@${$2}](/${$2})` })
-            games_store.addNewComment(itemId, result, parentCommentId)
-
-        }
-    }
-
-    const onSearch = (event: { query: any; }) => {
-        //in a real application, make a request to a remote url with the query and return suggestions, for demo we filter at client side
-        setTimeout(() => {
-            let suggestions;
-            if (event.query != '') {
-
-                content_store.searchUser(event.query)
-            }
-            else {
-                content_store.setSearchUsers([])
-            }
-
-            if (!content_store.users.length) {
-                suggestions = [...customers];
-            }
-            else {
-                suggestions = content_store.users.filter(customer => {
-                    return customer.username;
-                })
-
-            }
-
-            setSuggestions(suggestions);
-        }, 1000);
-    }
-
-    const handleChangeForMainComment = (event: any) => {
-        setCommentText(event.value)
-    }
-    const handleChangeForReplyComment = (event: any) => {
-        setReply(event.value)
-    }
-
-
-    const itemTemplate = (suggestion: SearchUserModel) => {
-
-        return (
-            <div>
-                <span className={styles.item_temlate_span}>
-                    {suggestion.username}
-                    <small style={{ fontSize: '.75rem' }}>@{suggestion.username}</small>
-                </span>
-            </div>
-        );
-    }
 
     return (
         <>
@@ -278,245 +178,14 @@ function GamePage() {
                 <div className={styles.comments_block}>
                     <span className={styles.block_header}>Рецензии</span>
 
-                    <div className={styles.comment_field_wrapper}>
-                        <Mention onChange={(e) => handleChangeForMainComment(e.target)}
-                            value={commentText} suggestions={suggestions} onSearch={onSearch} field="username"
-                            placeholder="Ваш отзыв. Введите @ чтобы отметить человека" itemTemplate={itemTemplate}
-                            style={{ width: '100%' }} className={styles.mention} autoResize />
-
-
-                        {commentText !== "" && commentText.replace(/\s+/g, ' ').trim() !== "" ? <>
-                            <div className={styles.send_button_wrapper}>
-                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                    onClick={() => { !auth_store.isAuth ? setIsShow(true) : (saveNewComment(games_store.gamePage.id, null), setCommentText('')) }}>
-                                    Отправить
-                                </FunctionalGameButton>
-                            </div>
-                        </> : null}
-
-                    </div>
+                    <CommentField contentID={games_store.gamePage.id} parentCommentId={null} setShowComment={setShowComment} />
 
                     {games_store.comments == null ?
                         <span>Информаци пока нет </span> : null}
 
-                    {games_store.comments.slice(0, showMoreComments).map(comment => (
-                        <div key={comment.id} className={styles.parent_comment}>
-                            <div className={styles.user_info_wrapper}>
-                                <div className={styles.user_icon}></div>
-                                <div className={styles.user_info_comment}>
-                                    <div className={styles.user_info_block}>
+                    <CommentCard postId={games_store.gamePage.id} comments={games_store.comments} commentLikes={[]}  />
 
-                                        {comment.author_info.full_name === null ?
-                                            <Link href={'/' + comment.author_info.username} className={styles.username_link}>
-                                                @{comment.author_info.username}</Link> :
-                                            <>
-                                                <Link href={'/' + comment.author_info.username} >
-                                                    {comment.author_info.full_name != null ? comment.author_info.full_name : comment.author_info.username}</Link>
-                                                <Link href={'/' + comment.author_info.username} className={styles.username_link}>
-                                                    @{comment.author_info.username}</Link>
-                                            </>
-                                        }
-                                    </div>
-
-                                    <span>
-                                        <FormattedDate
-                                            value={comment.created_at}
-                                            year='numeric'
-                                            month='long'
-                                            day='numeric' />
-                                    </span>
-                                </div>
-                            </div>
-
-                            <span className={styles.markdown_text}><ReactMarkdown>{comment.text}</ReactMarkdown></span>
-
-                            <div className={styles.like_and_reply_comment}>
-                                <div className={styles.like_block}>
-                                    <div className="like-button" onClick={() => { !auth_store.isAuth ? setIsShow(true) : (changeCommentsLikeValue(comment.id), games_store.commentsLikes.find(o => o.id === comment.id && o.hasAuthorLike === 1) ? games_store.setCommentsLikeDecrease(comment.id) : games_store.setCommentsLikeIncrease(comment.id)) }}>
-
-                                        <LikeIcon className={games_store.commentsLikes.find(o => o.id === comment.id && o.hasAuthorLike === 1) ? "heart-icon liked" : "heart-icon"} />
-
-                                    </div>
-                                    <span >{comment.like_count}</span>
-                                </div>
-                                <span className={styles.reply_button} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setreplyWindowIsOpen(comment.id), setReply('')) }}>
-                                    Ответить
-                                </span>
-
-                            </div>
-                            {replyWindowIsOpen == comment.id ?
-                                <div className={styles.comment_field_wrapper}>
-                                    <Mention onChange={(e) => handleChangeForReplyComment(e.target)}
-                                        value={reply} suggestions={suggestions} onSearch={onSearch} field="username"
-                                        placeholder="Ваш отзыв. Введите @ чтобы отметить человека" itemTemplate={itemTemplate}
-                                        style={{ width: '100%' }} className={styles.mention} autoResize />
-                                    <div className={styles.send_button_wrapper} id={comment.id}>
-
-                                        {reply !== "" && reply.replace(/\s+/g, ' ').trim() !== "" ?
-                                            <div className={styles.func_button_wrapper}>
-                                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                    onClick={() => (saveNewChildComment(games_store.gamePage.id, comment.id), setReply(''))}>
-                                                    Отправить
-                                                </FunctionalGameButton>
-                                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                    onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
-                                                    Отмена
-                                                </FunctionalGameButton>
-                                            </div>
-                                            :
-                                            <div className={styles.func_button_wrapper}>
-                                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                    onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
-                                                    Отмена
-                                                </FunctionalGameButton>
-                                            </div>
-                                        }
-                                    </div>
-
-                                </div> : null}
-                            {showChildComments[comment.id] ?
-                                <>
-                                    {comment.child_comment.slice(0, showChildComments[comment.id]).map(child => (
-                                        <div key={child.id} className={styles.child_comment}>
-                                            <div className={styles.user_info_wrapper}>
-                                                <div className={styles.user_icon}></div>
-                                                <div className={styles.user_info_comment}>
-                                                    <div className={styles.user_info_block}>
-                                                        {child.author_info.full_name === null ?
-                                                            <Link href={'/' + child.author_info.username} className={styles.username_link}>
-                                                                @{child.author_info.username}</Link> :
-                                                            <>
-                                                                <Link href={'/' + child.author_info.username} >
-                                                                    {child.author_info.full_name != null ? child.author_info.full_name : child.author_info.username}</Link>
-                                                                <Link href={'/' + child.author_info.username} className={styles.username_link}>
-                                                                    @{child.author_info.username}</Link>
-                                                            </>
-                                                        }
-                                                    </div>
-                                                    <span>
-                                                        <FormattedDate
-                                                            value={child.created_at}
-                                                            year='numeric'
-                                                            month='long'
-                                                            day='numeric' />
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <span className={styles.markdown_text}><ReactMarkdown>{child.text}</ReactMarkdown></span>
-
-                                            <div className={styles.like_and_reply_comment}>
-                                                <div className={styles.like_block}>
-
-                                                    <div className="like-button" onClick={() => { !auth_store.isAuth ? setIsShow(true) : (changeCommentsLikeValue(child.id), games_store.commentsLikes.find(o => o.id === child.id && o.hasAuthorLike === 1) ? games_store.setChildCommentsLikeDecrease(child.id) : games_store.setChildCommentsLikeIncrease(child.id)) }}>
-                                                        <LikeIcon className={games_store.commentsLikes.find(o => o.id === child.id && o.hasAuthorLike === 1) ? "heart-icon liked" : "heart-icon"} />
-                                                    </div>
-
-                                                    <span >{child.like_count}</span>
-                                                </div>
-                                                <span className={styles.reply_button} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setreplyWindowIsOpen(child.id), setReply('')) }}>
-                                                    Ответить
-                                                </span>
-                                            </div>
-                                            {replyWindowIsOpen == child.id ?
-                                                <div className={styles.comment_field_wrapper}>
-                                                    <Mention onChange={(e) => handleChangeForReplyComment(e.target)}
-                                                        value={reply} suggestions={suggestions} onSearch={onSearch} field="username"
-                                                        placeholder="Ваш отзыв. Введите @ чтобы отметить человека" itemTemplate={itemTemplate}
-                                                        style={{ width: '100%' }} className={styles.mention} autoResize />
-                                                    <div className={styles.send_button_wrapper} id={comment.id}>
-
-                                                        {reply !== "" && reply.replace(/\s+/g, ' ').trim() !== "" ?
-                                                            <div className={styles.func_button_wrapper}>
-                                                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                                    onClick={() => (saveNewChildComment(games_store.gamePage.id, comment.id), setReply(''))}>
-                                                                    Отправить
-                                                                </FunctionalGameButton>
-                                                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                                    onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
-                                                                    Отмена
-                                                                </FunctionalGameButton>
-                                                            </div>
-                                                            :
-                                                            <div className={styles.func_button_wrapper}>
-                                                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                                    onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
-                                                                    Отмена
-                                                                </FunctionalGameButton>
-                                                            </div>
-                                                        }
-                                                    </div>
-
-                                                </div> : null}
-                                        </div>
-                                    ))}
-                                </>
-                                : <>
-                                    {comment.child_comment.slice(0, 0).map(child => (
-                                        <div key={child.id} className={styles.child_comment}>
-                                            <div className={styles.user_info_wrapper}>
-                                                <div className={styles.user_icon}></div>
-                                                <div className={styles.user_info_comment}>
-                                                    <Link href={'/' + child.author_info.username} >
-                                                        {child.author_info.full_name}</Link>
-                                                    <span>{child.created_at}</span>
-                                                </div>
-                                            </div>
-                                            <span>{child.text}</span>
-                                            <div className={styles.like_and_reply_comment}>
-                                                <div className="like-button">
-                                                    <div className="heart-bg">
-                                                        <div className={likeComment ? "heart-icon liked" : "heart-icon"} onClick={() => setLikeComment(!likeComment)}></div>
-                                                    </div>
-                                                </div>
-                                                <span >{comment.like_count}</span>
-                                                <span className={styles.reply_button}
-                                                    onClick={() => (setreplyWindowIsOpen(child.id), setReply(`[@${child.author_info.username}](http://localhost:3000/${child.author_info.username})`))}>
-                                                    Ответить</span>
-                                            </div>
-                                            {replyWindowIsOpen == child.id ?
-                                                <div className={styles.comment_field_wrapper}>
-                                                    <Mention onChange={(e) => handleChangeForReplyComment(e.target)}
-                                                        value={reply} suggestions={suggestions} onSearch={onSearch} field="username"
-                                                        placeholder="Ваш отзыв. Введите @ чтобы отметить человека" itemTemplate={itemTemplate}
-                                                        style={{ width: '100%' }} className={styles.mention} autoResize />
-
-                                                    <div className={styles.send_button_wrapper} id={child.id}>
-                                                        <div className={styles.func_button_wrapper}>
-                                                            {reply !== "" && reply.replace(/\s+/g, ' ').trim() !== "" ? <>
-                                                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                                    onClick={() => (saveNewChildComment(games_store.gamePage.id, comment.id), setReply(''))}>
-                                                                    Отправить
-                                                                </FunctionalGameButton>
-                                                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                                    onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
-                                                                    Отмена
-                                                                </FunctionalGameButton>
-                                                            </> : <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                                                onClick={() => (setreplyWindowIsOpen(''), setReply(''))}>
-                                                                Отмена
-                                                            </FunctionalGameButton>}
-                                                        </div>
-                                                    </div>
-
-                                                </div> : null}
-                                        </div>
-                                    ))}
-                                </>}
-                            {comment.child_comment.length > 0 && !showChildComments.hasOwnProperty(comment.id) || showChildComments[comment.id] < comment.child_comment.length ?
-
-                                <span onClick={() => showMoreChildComments(comment.id, comment.child_comment.length)}
-                                    className={styles.show_more_button}>Показать ответы</span>
-
-                                : null}
-                        </div>
-                    ))}
-                    {games_store.comments.length > 0 && showMoreComments < games_store.comments.length ?
-                        <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={20}
-                            onClick={() => showCommentsMore()} >
-                            <span >Показать ещё</span>
-                        </FunctionalGameButton>
-
-                        : null}
+                            
                 </div>
 
             </main >

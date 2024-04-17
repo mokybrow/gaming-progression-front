@@ -2,13 +2,16 @@ import axios, { AxiosResponse } from "axios";
 import $api from "@/api/api";
 import { CommentsResponse, SearchGamesCountModel, SearchGamesModel, UserCommentsLikes } from "@/models/serviceModel";
 import { SearchUserModel } from "@/models/userModel";
-import { PostsCount, PostsResponseModel } from "@/models/postsModel";
+import { WallResponseModel } from "@/models/wallsModels";
+import { FeedResponseModel } from "@/models/feedsModels";
+import { PostCreateResponseModel, PostResponseModel } from "@/models/postsModel";
+import { CommentsResponseModel, CommentModel } from "@/models/commentsModels";
 
 export default class ContentService {
 
-    static async addNewComment(itemId: string, text: string, parentCommntId?: string | null): Promise<AxiosResponse> {
+    static async addNewComment(itemId: string, text: string, parentCommntId?: string | null): Promise<AxiosResponse<CommentModel>> {
         const url = process.env.API_URL + 'comments'
-        return $api.post(url,
+        return $api.post<CommentModel>(url,
             {
                 item_id: itemId,
                 parent_comment_id: parentCommntId,
@@ -19,9 +22,15 @@ export default class ContentService {
         )
     }
 
-    static async getComments(itemId: string): Promise<AxiosResponse<CommentsResponse[]>> {
-        const url = process.env.API_URL + 'comments/'
-        return axios.get<CommentsResponse[]>(url + `${itemId}`
+    static async getComments(itemId: string, userId: string | null): Promise<AxiosResponse<CommentsResponseModel[]>> {
+        const url = process.env.API_URL + 'comments'
+        return axios.get<CommentsResponseModel[]>(url,
+            {
+                params: {
+                    id: itemId,
+                    user_id: userId
+                }
+            }
         )
     }
 
@@ -75,41 +84,45 @@ export default class ContentService {
 
         })
     }
-    static async getUserPosts(username: string, offset: number): Promise<AxiosResponse<PostsResponseModel[]>> {
-        const url = process.env.API_URL
-        return axios.post<PostsResponseModel[]>(url + `posts/get`, {
-            username: username,
-            offset: offset
-        })
-    }
 
-    static async getAuthUserPosts(username: string, offset: number): Promise<AxiosResponse<PostsResponseModel[]>> {
-        return $api.post<PostsResponseModel[]>(`/posts/get/auth`, {
-            username: username,
-            offset: offset
-        })
-    }
 
-    static async CreateNewPost(id: string, parent_post_id: string | null, text: string): Promise<AxiosResponse> {
+    static async CreateNewPost(id: string, parentPostId: string | null, text: string): Promise<AxiosResponse<PostCreateResponseModel>> {
         const url = process.env.API_URL + `posts`
-        return $api.post(url, {
+        return $api.post<PostCreateResponseModel>(url, {
             id: id,
-            parent_post_id: parent_post_id,
+            parent_post_id: parentPostId,
             text: text
 
         })
     }
-    static async getPostsCount(username: string): Promise<AxiosResponse<PostsCount>> {
-        const url = process.env.API_URL + `posts/count/${username}`
-        return $api.get<PostsCount>(url,)
+
+
+    static async getPostsData(id: string, user_id: string | null): Promise<AxiosResponse<PostResponseModel>> {
+        const url = process.env.API_URL + `posts`
+        return axios.get<PostResponseModel>(url,
+            {
+                params: {
+                    id: id,
+                    user_id: user_id
+                }
+            }
+        )
     }
 
-    static async getPostsData(id: string, user_id: string | null): Promise<AxiosResponse<PostsResponseModel>> {
-        const url = process.env.API_URL + `posts/post`
-        return axios.post<PostsResponseModel>(url,{
-            id: id,
-            user_id: user_id
+
+    static async getUserWall(username: string, user_id: string | null, page: number): Promise<AxiosResponse<WallResponseModel[]>> {
+        const url = process.env.API_URL + `walls/get-user-wall`
+        return axios.post<WallResponseModel[]>(url, {
+            username: username,
+            user_id: user_id,
+            page: page
         })
+    }
+
+
+    static async getUserFeed(page: number): Promise<AxiosResponse<WallResponseModel[]>> {
+        const url = process.env.API_URL
+        return $api.get<WallResponseModel[]>(url + `feeds?page=${page}`,)
     }
 
 }

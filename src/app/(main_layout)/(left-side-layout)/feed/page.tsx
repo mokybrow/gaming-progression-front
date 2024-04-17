@@ -2,15 +2,13 @@
 
 import $api from "@/api/api";
 import { Context } from "@/app/providers";
-import PostCard from "@/components/cards/post_card/PostCard";
 import Card from "@/components/cards/posts/Card";
-import { PostsResponseModel } from "@/models/postsModel";
-import AuthService from "@/services/authService";
 import { observer } from "mobx-react";
 import { useContext, useEffect, useState } from "react";
 
 function Feed() {
     const { auth_store } = useContext(Context);
+    const { content_store } = useContext(Context);
 
 
     const [page, setPage] = useState<number>(0)
@@ -20,16 +18,14 @@ function Feed() {
     useEffect(() => {
         if (fetching) {
             try {
-                auth_store.getUserFeed(page).then(resp => {
+                content_store.getUserFeed(page).then(resp => {
                     setPage(page + 10)
                     auth_store.setTotalPostCount(resp.headers['x-post-count'])
                 }).finally(() => setFetching(false))
             } catch (error) {
-                
-            }
-  
-        }
 
+            }
+        }
 
     }, [fetching])
 
@@ -43,9 +39,10 @@ function Feed() {
 
 
     const scrollHandler = (e: any) => {
-      
-        if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100 
-        && auth_store.userPosts.length < auth_store.totalPostCount) {
+
+        if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100
+            && content_store.userWall.length < content_store.totalPostCount
+        ) {
             setFetching(true)
         }
 
@@ -53,10 +50,10 @@ function Feed() {
 
     return (
         <>
-        
+
             <main className="content_wrapper" >
-         
-                <Card postData={auth_store.userPosts} setIsShowRepost={setIsShowRepost} isShowRepost={isShowRepost}/>
+
+                <Card postData={content_store.userWall} setIsShowRepost={setIsShowRepost} isShowRepost={isShowRepost} />
             </main >
             <main className="right_side_wrapper">
             </main >

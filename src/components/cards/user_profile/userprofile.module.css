@@ -1,0 +1,109 @@
+.user_card_wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: var(--card-bg-color);
+    padding: 12px 24px;
+    border-radius: 6px;
+    gap: 10px;
+}
+
+.general_user_info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.user_full_name {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+
+.user_reg_wrapper {
+    font-size: 10px;
+}
+
+.user_biography {
+    width: 100%;
+    grid-column: 1/3;
+}
+
+.buttons_wrapper {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    justify-content: right;
+}
+
+.border_line {
+    width: 100%;
+    background-color: var(--hr-color);
+    height: 1px;
+    transform: scaleY(0.8);
+    grid-column: 1/3;
+}
+
+/* Тут идёт карточка с достижениями пользователя */
+.user_stats_wrapper {
+    display: flex;
+    width: 100%;
+    grid-column: 1/3;
+}
+
+.stat_card_icons {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    background-color: var(--card-bg-color);
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.stats_button {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    gap: 2px;
+    font-weight: 600;
+}
+
+.rocket_logo,
+.finish_logo,
+.heart_logo,
+.bag_logo {
+    background-size: 28px 28px;
+    width: 28px;
+    height: 28px;
+}
+
+.rocket_logo {
+    background-image: var(--rocket-icon);
+}
+
+.finish_logo {
+    background-image: var(--finish-flag-icon);
+}
+
+.heart_logo {
+    background-image: var(--heart-favorite-icon);
+}
+
+.bag_logo {
+    background-image: var(--bag-icon);
+}
+
+
+@media (min-width: 1240px) {
+    .border_line {
+        display: none;
+    }
+
+    .user_stats_wrapper {
+        display: none;
+
+    }
+
+}

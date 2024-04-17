@@ -10,6 +10,19 @@
     width: 100%;
 }
 
+.one_card_wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--card-bg-color);
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 24px 24px 12px 24px;
+    border-radius: 6px;
+    gap: 12px;
+    width: 100%;
+}
+
 .post_header {
     width: 100%;
     display: grid;
@@ -22,13 +35,14 @@
     align-items: center;
 }
 
-.post_author_image{
+.post_author_image {
     display: flex;
     background-color: antiquewhite;
     border-radius: 100px;
     align-items: flex-start;
 }
-.user_data_wrapper{
+
+.user_data_wrapper {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -52,4 +66,114 @@
 
 .markdown_text a {
     color: var(--link-color);
-  }
+}
+
+
+
+/* ДАЛЬШЕ ИДЁТ ДЕРЕВО */
+
+
+
+/* ————————————————————–
+  Tree core styles
+*/
+.tree {
+
+    margin-left: 24px;
+    list-style: none;
+}
+
+
+/* ————————————————————–
+    Tree rows
+  */
+.tree li {
+    line-height: 1.2;
+    position: relative;
+    padding: 0 0 1em 1em;
+
+}
+
+
+
+.tree>li:last-child {
+    padding-bottom: 0;
+}
+
+/* ————————————————————–
+    Tree labels
+  */
+.tree_label {
+    position: relative;
+    display: inline-block;
+    background: #fff;
+    width: 100%;
+}
+
+label.tree_label {
+    cursor: pointer;
+}
+
+label.tree_label:hover {
+    color: #666;
+}
+
+
+
+/* ————————————————————–
+    Tree branches
+  */
+.tree li:before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -.5em;
+    display: block;
+    width: 0;
+    border-left: 1px solid #777;
+    content: "";
+}
+
+.tree_label:after {
+    position: absolute;
+    top: 0;
+    left: -1.5em;
+    display: block;
+    height: 0.5em;
+    width: 1em;
+    border-bottom: 1px solid #777;
+    border-left: 1px solid #777;
+    border-radius: 0 0 0 .3em;
+    content: '';
+}
+
+label.tree_label:after {
+    border-bottom: 0;
+}
+
+:checked~label.tree_label:after {
+    border-radius: 0 .3em 0 0;
+    border-top: 1px solid #777;
+    border-right: 1px solid #777;
+    border-bottom: 0;
+    border-left: 0;
+    bottom: 0;
+    top: 0.5em;
+    height: auto;
+}
+
+.tree li:last-child:before {
+    height: 1em;
+    bottom: auto;
+}
+
+.tree>li:last-child:before {
+    display: none;
+}
+
+.tree_custom {
+    display: block;
+    background: #eee;
+    padding: 1em;
+    border-radius: 0.3em;
+}

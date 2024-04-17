@@ -1,0 +1,60 @@
+.post_text_filed {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+    max-width: 100%;
+    background-color: var(--card-bg-color);
+    border-radius: 6px;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.border_line {
+    width: 100%;
+    background-color: var(--hr-color);
+    height: 1px;
+    transform: scaleY(0.8);
+}
+
+.button_wrapper {
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    padding-bottom: 12px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.item_temlate_span {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+}
+
+
+.game_item_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.game_item_wrapper img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    object-fit: cover;
+}
+
+
+.mention textarea {
+    background-color: var(--card-bg-color);
+    border: none;
+    padding: 12px 24px;
+    font-weight: 400;
+    font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
+}
+
+.mention textarea:focus {
+    outline: none;
+}

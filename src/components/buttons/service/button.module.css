@@ -1,0 +1,10 @@
+.service_button{
+    display: flex;
+    width: 28px;
+    height: 28px;
+    border:  none;
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+
+}

@@ -8,7 +8,7 @@ import Link from "next/link";
 import { FormattedDate } from "react-intl";
 import userImage from '@/assets/icons/general/user.png'
 import Image from 'next/image'
-import CommentField from "../comment_field/CommentField";
+import CommentField from "../../fields/comment/CommentField";
 import LikeIcon from "@/components/icons/like";
 import { observer } from "mobx-react";
 

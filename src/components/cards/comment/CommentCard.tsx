@@ -7,17 +7,17 @@ import { CommentsResponse, UserCommentsLikes } from "@/models/serviceModel";
 import CommentItem from "./CommentItem";
 import { useContext, useState } from "react";
 import { observer } from "mobx-react";
+import { CommentsResponseModel } from "@/models/commentsModels";
 
 
 export interface CommentProps {
     postId: string
-    comments: CommentsResponse[]
+    comments: CommentsResponseModel[]
     commentLikes: UserCommentsLikes[]
-
 }
 
 
-function CommentCard({ comments, commentLikes, postId }: CommentProps) {
+function CommentCard({ comments,  postId,  commentLikes }: CommentProps) {
 
 
     return (
@@ -30,10 +30,9 @@ function CommentCard({ comments, commentLikes, postId }: CommentProps) {
                         postId={postId}
                         commentId={comment.id}
                         parentCommentId={comment.id}
-
-                        fullName={comment.author_info.full_name}
-                        username={comment.author_info.username}
-                        text={comment.text} likeCount={comment.like_count}
+                        fullName={comment.author_data.full_name}
+                        username={comment.author_data.username}
+                        text={comment.text} likeCount={comment.likes_count}
                         created={comment.created_at}
                         hasAuthorLike={commentLikes.find(o => o.id === comment.id && o.hasAuthorLike === 1) ? true : false}
                     />
@@ -47,12 +46,11 @@ function CommentCard({ comments, commentLikes, postId }: CommentProps) {
                                             postId={postId}
                                             commentId={childComment.id}
                                             parentCommentId={comment.id}
-                                            fullName={childComment.author_info.full_name}
-                                            username={childComment.author_info.username}
-                                            text={childComment.text} likeCount={childComment.like_count}
+                                            fullName={childComment.author_data.full_name}
+                                            username={childComment.author_data.username}
+                                            text={childComment.text} likeCount={childComment.likes_count}
                                             created={childComment.created_at}
-                                            hasAuthorLike={commentLikes.find(o => o.id === comment.id && o.hasAuthorLike === 1) ? true : false}
-
+                                            hasAuthorLike={commentLikes.find(o => o.id === childComment.id && o.hasAuthorLike === 1) ? true : false}
                                         />
 
                                     </span>

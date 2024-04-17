@@ -1,232 +1,39 @@
-.textarea {
-  position: relative;
-  line-height: 21px;
-  font-size: 14px;
-  text-align: left;
-  width: 100%;
-  font-family: "Inter", sans-serif;
-  background-color: var(--input-color);
-  color: var(--font-color);
-  border-radius: 6px;
 
+.send_button_wrapper {
+    display: block;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    z-index: 5;
 }
 
-.textarea_control {
-  resize: none;
-  margin: 0;
-  padding: 16px;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  font: inherit;
-  border-radius: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background-color: var(--input-color);
-  color: var(--font-color);
+.func_button_wrapper {
+    display: flex;
+    gap: 6px;
 }
 
-.textarea_control::placeholder {
-  color: var(--font-color);
-  opacity: .6;
-  font-weight: 300;
-  font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
+.item_temlate_span{
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
 }
 
-.textarea_control[data-view="fake"] {
-  visibility: hidden;
-  user-select: none;
-  pointer-events: none;
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
+.comment_field_wrapper {
+    display: flex;
+    position: relative;
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
-.textarea_control[data-view="native"] {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  z-index: 1;
+.game_item_wrapper{
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-
-/* ОСНОВНЫЕ СТИЛИ */
-.coments_wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.card_wrapper {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  background-color: var(--card-bg-color);
-  border-radius: 6px;
-  gap: 12px;
-  width: 100%;
-}
-
-.comment_header {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.user_data_wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.post_author_image {
-  display: flex;
-  background-color: antiquewhite;
-  border-radius: 100px;
-  align-items: flex-start;
-}
-
-.comment_time_wrapper {
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.markdown_text a {
-  color: var(--link-color);
-}
-
-.social_pannel_wrapper {
-  display: flex;
-  /* align-items: flex-start; */
-
-}
-
-.social_pannel_grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-
-}
-
-.action_button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 100px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.icon_wrapper {
-  display: flex;
-  width: 18px;
-  height: 18px;
-}
-
-/* ДАЛЬШЕ ИДЁТ ДЕРЕВО */
-
-
-
-/* ————————————————————–
-  Tree core styles
-*/
-.tree {
-
-  margin-left: 24px;
-  list-style: none;
-}
-
-
-/* ————————————————————–
-  Tree rows
-*/
-.tree li {
-  line-height: 1.2;
-  position: relative;
-  padding: 0 0 1em 1em;
-  
-}
-
-
-
-.tree>li:last-child {
-  padding-bottom: 0;
-}
-
-/* ————————————————————–
-  Tree labels
-*/
-.tree_label {
-  position: relative;
-  display: inline-block;
-  background: #fff;
-  width: 100%;
-}
-
-label.tree_label {
-  cursor: pointer;
-}
-
-label.tree_label:hover {
-  color: #666;
-}
-
-
-
-/* ————————————————————–
-  Tree branches
-*/
-.tree li:before {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -.5em;
-  display: block;
-  width: 0;
-  border-left: 1px solid #777;
-  content: "";
-}
-
-.tree_label:after {
-  position: absolute;
-  top: 0;
-  left: -1.5em;
-  display: block;
-  height: 0.5em;
-  width: 1em;
-  border-bottom: 1px solid #777;
-  border-left: 1px solid #777;
-  border-radius: 0 0 0 .3em;
-  content: '';
-}
-
-label.tree_label:after {
-  border-bottom: 0;
-}
-
-:checked~label.tree_label:after {
-  border-radius: 0 .3em 0 0;
-  border-top: 1px solid #777;
-  border-right: 1px solid #777;
-  border-bottom: 0;
-  border-left: 0;
-  bottom: 0;
-  top: 0.5em;
-  height: auto;
-}
-
-.tree li:last-child:before {
-  height: 1em;
-  bottom: auto;
-}
-
-.tree>li:last-child:before {
-  display: none;
-}
-
-.tree_custom {
-  display: block;
-  background: #eee;
-  padding: 1em;
-  border-radius: 0.3em;
+.game_item_wrapper img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    object-fit: cover;
 }

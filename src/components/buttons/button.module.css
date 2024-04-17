@@ -57,7 +57,9 @@
     cursor: pointer;
     opacity: 1;
     transition: all 0.1s linear;
-    font-weight: 600;
+    font-weight: 500;
+    font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
+    font-style: normal;
 }
 
 
