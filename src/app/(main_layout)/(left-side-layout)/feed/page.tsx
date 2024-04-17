@@ -3,6 +3,7 @@
 import $api from "@/api/api";
 import { Context } from "@/app/providers";
 import PostCard from "@/components/cards/post_card/PostCard";
+import Card from "@/components/cards/posts/Card";
 import { PostsResponseModel } from "@/models/postsModel";
 import AuthService from "@/services/authService";
 import { observer } from "mobx-react";
@@ -14,6 +15,7 @@ function Feed() {
 
     const [page, setPage] = useState<number>(0)
     const [fetching, setFetching] = useState(true)
+    const [isShowRepost, setIsShowRepost] = useState(false);
 
     useEffect(() => {
         if (fetching) {
@@ -51,16 +53,10 @@ function Feed() {
 
     return (
         <>
+        
             <main className="content_wrapper" >
-                {auth_store.userPosts?.map(item => (
-                    <div key={item.Posts.id}>
-
-                        <PostCard text={item.Posts.text} like_count={item.Posts.like_count}
-                            created_at={item.Posts.created_at} postId={item.Posts.id}
-                            comment_count={item.commentCount} full_name={item.Posts.users.full_name}
-                            username={item.Posts.users.username} parentPostData={item.Posts.parent_post_data} />
-                    </div>
-                ))}
+         
+                <Card postData={auth_store.userPosts} setIsShowRepost={setIsShowRepost} isShowRepost={isShowRepost}/>
             </main >
             <main className="right_side_wrapper">
             </main >

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "./styles.css";
+import "./icon-styles.css";
 import Header from "@/components/header/Header";
 import { Providers } from "./providers";
 import BottomMenu from "@/components/menu/BottomMenu";

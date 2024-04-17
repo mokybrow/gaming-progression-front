@@ -1,0 +1,30 @@
+.social_pannel_wrapper {
+    display: flex;
+    /* align-items: flex-start; */
+
+}
+
+.social_pannel_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5px;
+
+}
+
+.icon_wrapper {
+    display: flex;
+    width: 18px;
+    height: 18px;
+}
+
+.action_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: bisque;
+    border-radius: 100px;
+    font-weight: 500;
+    cursor: pointer;
+}

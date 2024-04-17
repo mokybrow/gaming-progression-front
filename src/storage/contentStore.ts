@@ -9,7 +9,6 @@ import { makeAutoObservable } from "mobx"
 export default class ContentStore {
     users = [] as SearchUserModel[];
     isLoading = false;
-
     comment = '' as string;
     post = {} as PostsResponseModel;
     comments = [] as CommentsResponse[];
@@ -39,6 +38,7 @@ export default class ContentStore {
     setCommentsLikes(likes: UserCommentsLikes[]) {
         this.commentsLikes = likes;
     }
+
 
     setCommentsLikeIncrease(commentId: string) {
         this.comments.forEach(function (obj) {
@@ -157,18 +157,21 @@ export default class ContentStore {
     }
 
     async getPostData(id: string) {
+        this.setLoading(true)
         try {
             const response = await AuthService.getProfile();
             if (response.status === 200) {
                 const result = await ContentService.getPostsData(id, response.data.id)
                 this.setPost(result.data)
+                this.setLoading(false)
             }
 
         } catch (error) {
             const result = await ContentService.getPostsData(id, null)
             this.setPost(result.data)
-        }
+            this.setLoading(false)
 
+        }
 
         try {
             const result = await ContentService.getComments(id)

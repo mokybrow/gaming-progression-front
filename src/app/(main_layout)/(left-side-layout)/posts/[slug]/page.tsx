@@ -68,7 +68,6 @@ function PostPage() {
                 suggestions = content_store.users.filter(customer => {
                     return customer.username;
                 })
-
             }
 
             setSuggestions(suggestions);

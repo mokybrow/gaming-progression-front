@@ -16,6 +16,7 @@ import FavoriteCard from "@/components/cards/favorite_card/FavoriteCard";
 import PostCard from "@/components/cards/post_card/PostCard";
 import { v4 as uuidv4 } from 'uuid';
 import { SubmitButton } from "@/components/buttons/SubmitButton";
+import Card from "@/components/cards/posts/Card";
 
 
 function UserProfile() {
@@ -25,6 +26,7 @@ function UserProfile() {
   const { auth_store } = useContext(Context);
   const { content_store } = useContext(Context);
   const username = pathname.substring(pathname.lastIndexOf('/') + 1)
+  const [isShowRepost, setIsShowRepost] = useState(false);
 
   const [postText, setPostText] = useState<string>('');
   const [suggestions, setSuggestions] = useState<SearchUserModel[]>([]);
@@ -151,7 +153,7 @@ function UserProfile() {
                   <span>{auth_store.anotherUsers.biography}</span>
                 </div>
               </div>
-              
+
               <div className={styles.user_wrapper_buttons}>
                 <div className={styles.buttons_wrapper}>
                   {auth_store.user?.subscriptions?.find((obj) => obj.sub_data.username == username) ?
@@ -177,7 +179,7 @@ function UserProfile() {
                 </div>
               </div>
 
-              <hr className={styles.mobile_hr}/>
+              <hr className={styles.mobile_hr} />
               <div className={styles.cards_wrapper_mobile}>
                 {/* Вот тут идут иконки с цифрами */}
                 <div className={styles.stat_card_icons}>
@@ -239,7 +241,7 @@ function UserProfile() {
                   <span>{auth_store.user.biography}</span>
                 </div>
               </div>
-              <hr className={styles.mobile_hr}/>
+              <hr className={styles.mobile_hr} />
               <div className={styles.cards_wrapper_mobile}>
 
                 <div className={styles.stat_card_icons}>
@@ -310,14 +312,9 @@ function UserProfile() {
                     {
                       auth_store.userPosts?.length > 0 ?
                         <>
-                          {auth_store.userPosts?.map(item => (
-                            <div key={item.Posts.id}>
-                              <PostCard text={item.Posts.text} like_count={item.Posts.like_count}
-                                created_at={item.Posts.created_at} postId={item.Posts.id}
-                                comment_count={item.commentCount} full_name={item.Posts.users.full_name}
-                                username={item.Posts.users.username} parentPostData={item.Posts.parent_post_data} />
-                            </div>
-                          ))}
+
+                          <Card postData={auth_store.userPosts} setIsShowRepost={setIsShowRepost} isShowRepost={isShowRepost} />
+
                         </>
                         :
                         <div className={styles.card_wrapper}>
@@ -333,14 +330,9 @@ function UserProfile() {
                     {
                       auth_store.userPosts?.length > 0 ?
                         <>
-                          {auth_store.userPosts?.map(item => (
-                            <div key={item.Posts.id}>
-                              <PostCard text={item.Posts.text} like_count={item.Posts.like_count}
-                                created_at={item.Posts.created_at} postId={item.Posts.id}
-                                comment_count={item.commentCount} full_name={item.Posts.users.full_name}
-                                username={item.Posts.users.username} parentPostData={item.Posts.parent_post_data} />
-                            </div>
-                          ))}
+
+                          <Card postData={auth_store.userPosts} setIsShowRepost={setIsShowRepost} isShowRepost={isShowRepost} />
+
                         </>
                         :
                         <div className={styles.card_wrapper}>
