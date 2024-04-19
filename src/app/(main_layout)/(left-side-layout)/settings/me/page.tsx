@@ -14,7 +14,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Dayjs } from "dayjs";
 import { FormattedDate } from "react-intl";
 import { observer } from "mobx-react-lite";
-import SettingsField from "@/components/fields/settins/SettingsField";
+import SettingsField from "@/components/fields/settings/SettingsField";
 
 function SettingsMe() {
     const [fullName, setFullName] = useState("");

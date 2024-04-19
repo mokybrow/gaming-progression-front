@@ -19,10 +19,10 @@ export default class ContentStore {
     commentLikes = [] as UserCommentsLikes[];
     totalPostCount = 0
 
-  
-    // Пользовательская стена или лента новостей
+    // Лента новостей
+    userFeed = [] as WallResponseModel[];
 
-
+    // Пользовательская стена 
     userWall = [] as WallResponseModel[];
 
     constructor() {
@@ -32,6 +32,9 @@ export default class ContentStore {
 
     setUserWall(wall: WallResponseModel[]) {
         this.userWall = wall;
+    }
+    setUserFeed(posts: WallResponseModel[]) {
+        this.userFeed = posts;
     }
 
     setSearchUsers(users: SearchUserModel[]) {
@@ -76,6 +79,56 @@ export default class ContentStore {
         try {
             await ContentService.likeContent(itemId, typeId, value)
 
+
+            this.userFeed.forEach(function (obj) {
+                if (obj.Posts.id === itemId && obj.hasAuthorLike === 0 && typeId !== '985449ce-ebe9-4214-a161-a6a51e9059bc') {
+                    obj.hasAuthorLike = 1
+                    obj.Posts.likes_count += 1
+                    console.log('Прибавляем в ленте')
+                    return;
+                }
+                if (obj.Posts.id === itemId && obj.hasAuthorLike === 1 && typeId !== '985449ce-ebe9-4214-a161-a6a51e9059bc') {
+                    obj.hasAuthorLike = 0
+                    obj.Posts.likes_count -= 1
+                    console.log('Убавляем в ленте ')
+                    return;
+                }
+                return;
+
+            });
+            this.userWall.forEach(function (obj) {
+                if (obj.Posts.id === itemId && obj.hasAuthorLike === 0 && typeId !== '985449ce-ebe9-4214-a161-a6a51e9059bc') {
+                    obj.hasAuthorLike = 1
+                    obj.Posts.likes_count += 1
+                    console.log('Прибавляем в ленте')
+                    return;
+                }
+                if (obj.Posts.id === itemId && obj.hasAuthorLike === 1 && typeId !== '985449ce-ebe9-4214-a161-a6a51e9059bc') {
+                    obj.hasAuthorLike = 0
+                    obj.Posts.likes_count -= 1
+                    console.log('Убавляем в ленте ')
+                    return;
+                }
+                return;
+
+            });
+
+
+
+        } catch (error) {
+
+        }
+        try {
+            if (this.post.Posts.id == itemId && this.post.hasAuthorLike === 0 && typeId !== '985449ce-ebe9-4214-a161-a6a51e9059bc') {
+                this.post.Posts.likes_count += 1
+                this.post.hasAuthorLike = 1
+                return;
+
+            }
+            if (this.post.Posts.id == itemId && this.post.hasAuthorLike === 1 && typeId !== '985449ce-ebe9-4214-a161-a6a51e9059bc') {
+                this.post.Posts.likes_count -= 1
+                this.post.hasAuthorLike = 0
+            }
         } catch (error) {
 
         }
@@ -105,6 +158,24 @@ export default class ContentStore {
             this.setLoading(false)
 
         }
+    }
+
+    async getRepostData(id: string) {
+        this.setLoading(true)
+        try {
+            const response = await AuthService.getProfile();
+
+            const result = await ContentService.getPostsData(id, response.data.id)
+            this.setPost(result.data)
+
+
+            this.setLoading(false)
+        } catch (error) {
+            const result = await ContentService.getPostsData(id, null)
+            this.setPost(result.data)
+            this.setLoading(false)
+
+        }
 
 
     }
@@ -112,11 +183,15 @@ export default class ContentStore {
     async addNewComment(itemId: string, text: string, parentCommntId: string | null, user_id: string, username: string, full_name: string | null) {
         try {
             const newComment = await ContentService.addNewComment(itemId, text, parentCommntId)
-            if (parentCommntId == null) {
 
+            this.userWall.forEach(n => n.Posts.id === itemId && (n.Posts.comments_count += 1))
+            this.userFeed.forEach(n => n.Posts.id === itemId && (n.Posts.comments_count += 1))
+
+            this.post.Posts.comments_count += 1
+
+            if (parentCommntId == null) {
                 this.comments.unshift(
                     {
-
                         id: newComment.data.id,
                         user_id: newComment.data.user_id,
                         item_id: newComment.data.item_id,
@@ -131,7 +206,6 @@ export default class ContentStore {
                             full_name: full_name,
                         },
                         child_comment: []
-
                     }
                 )
             }
@@ -154,7 +228,6 @@ export default class ContentStore {
                                     full_name: full_name,
 
                                 }
-
                             }
                         )
                     }
@@ -175,20 +248,39 @@ export default class ContentStore {
         }
     }
 
-    async createNewPost(id: string, parentPostId: string | null, text: string, user_id: string, username: string, full_name: string) {
+    async createNewPost(id: string, parentPostId: string | null, text: string, user_id: string, username: string, full_name: string, url: string) {
         this.setLoading(true);
         try {
             const postData = await ContentService.CreateNewPost(id, parentPostId, text);
-            this.userWall.unshift({
-                Posts: {
-                    ...postData.data, parent_post_data: null, author_data: {
-                        id: user_id,
-                        username: username,
-                        full_name: full_name
-                    },
-                }, hasAuthorLike: 0,
-            })
+            if (parentPostId === null && url === username ) {
+                this.userWall.unshift({
+                    Posts: {
+                        ...postData.data, parent_post_data: null, author_data: {
+                            id: user_id,
+                            username: username,
+                            full_name: full_name
+                        },
+                    }, hasAuthorLike: 0,
+                })
+            }
+            if (parentPostId !== null && url === username) {
+                var foundObject = this.userWall.filter(function (item) {
+                    return item.Posts.id === parentPostId;
+                })[0];
+                this.userWall.unshift({
+                    Posts: {
+                        ...postData.data,
+                        parent_post_data: foundObject.Posts, author_data: {
+                            id: user_id,
+                            username: username,
+                            full_name: full_name
+                        },
 
+
+                    }, hasAuthorLike: 0,
+                })
+
+            }
             this.setLoading(false);
 
         } catch (error) {
@@ -210,7 +302,7 @@ export default class ContentStore {
 
     async getUserFeed(page: number) {
         const response = await ContentService.getUserFeed(page)
-        this.setUserWall([...this.userWall, ...response.data])
+        this.setUserFeed([...this.userWall, ...response.data])
         this.setLoading(false);
         return response
     }

@@ -4,21 +4,15 @@ import { Context } from "@/app/providers";
 import { usePathname } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import styles from './page.module.css'
-import { FormattedDate } from 'react-intl';
 import { observer } from "mobx-react-lite";
-import { Mention } from 'primereact/mention';
-import { SearchUserModel } from "@/models/userModel";
-import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
-import Image from 'next/image'
-import userpic from '@/assets/icons/general/userpic.svg'
+
 import ActivityCard from "@/components/cards/activity_card/ActivityCard";
 import FavoriteCard from "@/components/cards/favorite_card/FavoriteCard";
-import { v4 as uuidv4 } from 'uuid';
 import Card from "@/components/cards/posts/Card";
 import AuthService from "@/services/authService";
-import PostField from "@/components/fields/post/PostField";
 import UserProfileCard from '@/components/cards/user_profile/UserProfile'
 import UserStatsCard from '@/components/cards/user_profile/UserStats'
+import PostField from "@/components/fields/post/PostField";
 
 function UserProfile() {
 
@@ -29,6 +23,7 @@ function UserProfile() {
   const { user_store } = useContext(Context);
   const username = pathname.substring(pathname.lastIndexOf('/') + 1)
   const [isShowRepost, setIsShowRepost] = useState(false);
+  const [isShowPost, setIsShowPost] = useState(false);
 
 
 
@@ -66,28 +61,37 @@ function UserProfile() {
       <main className="content_wrapper">
         {
           isOwner ?
-            <UserProfileCard
-              username={auth_store.user.username}
-              fullName={auth_store.user.full_name}
-              biorgaphy={auth_store.user.biography}
-              createdAt={auth_store.user.created_at}
-              activity={auth_store.user.user_activity}
-              favorite={auth_store.user.user_favorite}
-              followersCount={auth_store.user.followers?.length}
-              subscriptionsCount={auth_store.user.subscriptions?.length}
-              isOwner={isOwner}  />
+            <>
+              {
+                auth_store.isLoading ? null :
+                  <UserProfileCard
+                    username={auth_store.user.username}
+                    fullName={auth_store.user.full_name}
+                    biorgaphy={auth_store.user.biography}
+                    createdAt={auth_store.user.created_at}
+                    activity={auth_store.user.user_activity}
+                    favorite={auth_store.user.user_favorite}
+                    followersCount={auth_store.user.followers?.length}
+                    subscriptionsCount={auth_store.user.subscriptions?.length}
+                    isOwner={isOwner} />
+              }
+            </>
             :
-            <UserProfileCard
-              username={user_store.user.username}
-              fullName={user_store.user.full_name}
-              biorgaphy={user_store.user.biography}
-              createdAt={user_store.user.created_at}
-              activity={user_store.user.user_activity}
-              favorite={user_store.user.user_favorite}
-              followersCount={user_store.user.followers?.length}
-              subscriptionsCount={user_store.user.subscriptions?.length}
-              isOwner={isOwner} isFollow={auth_store.user?.subscriptions?.find((obj) => obj.sub_data.username == username) ? true :  false} />
-
+            <>
+              {
+                user_store.isLoading ? null :
+                  <UserProfileCard
+                    username={user_store.user.username}
+                    fullName={user_store.user.full_name}
+                    biorgaphy={user_store.user.biography}
+                    createdAt={user_store.user.created_at}
+                    activity={user_store.user.user_activity}
+                    favorite={user_store.user.user_favorite}
+                    followersCount={user_store.user.followers?.length}
+                    subscriptionsCount={user_store.user.subscriptions?.length}
+                    isOwner={isOwner} isFollow={auth_store.user?.subscriptions?.find((obj) => obj.sub_data.username == username) ? true : false} />
+              }
+            </>
         }
         {isOwner ?
           <PostField parentPostId={null} />
@@ -111,7 +115,13 @@ function UserProfile() {
               {
                 content_store.userWall?.length > 0 ?
                   <>
-                    <Card postData={content_store.userWall} setIsShowRepost={setIsShowRepost} isShowRepost={isShowRepost} />
+                    <Card
+                      postData={content_store.userWall}
+                      setIsShowPost={setIsShowPost}
+                      isShowRepost={isShowRepost}
+                      setIsShowRepost={setIsShowRepost}
+                      isShowPost={isShowPost} />
+
                   </>
                   :
                   <div className={styles.card_wrapper}>

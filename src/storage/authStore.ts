@@ -12,7 +12,6 @@ import { makeAutoObservable } from "mobx";
 
 export default class AuthStore {
     user = {} as IUserModel;
-    userFeed = [] as FeedResponseModel[];
     mailingSettings = [] as MailingSettingsModel[];
     totalPostCount = 0
     isAuth = false;
@@ -36,9 +35,6 @@ export default class AuthStore {
     }
 
 
-    setUserFeed(posts: FeedResponseModel[]) {
-        this.userFeed = posts;
-    }
 
     setTotalPostCount(count: number) {
         this.totalPostCount = count;

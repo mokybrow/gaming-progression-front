@@ -22,7 +22,7 @@ function CommentCard({ comments,  postId,  commentLikes }: CommentProps) {
 
     return (
 
-        <div>
+        <div className={styles.comments_block}>
             {comments.map(comment => (
                 <div key={comment.id} className={styles.coments_wrapper}>
 

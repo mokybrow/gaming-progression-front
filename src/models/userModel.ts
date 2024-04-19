@@ -24,7 +24,7 @@ export interface IUserModel {
 	followers: any[]
 	subscriptions: Subscription[]
 	lists: List[]
-	created_at: Date
+	created_at: string
 }
 
 export interface IGeneralUserModel {
@@ -32,7 +32,7 @@ export interface IGeneralUserModel {
 	username: string
 	full_name: string
 	biography: string
-	created_at: Date
+	created_at: string
 	user_activity: UserActivity[]
 	user_favorite: UserFavorite[]
 	followers: any[]

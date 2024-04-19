@@ -18,6 +18,12 @@
     fill: none;
 }
 
+.heart-icon.liked{
+    stroke: none;
+
+    fill: red;
+}
+
 
 
 .heart-icon.liked {
@@ -25,7 +31,7 @@
 }
 
 
-/* hear animation */
+/* heart animation */
 @keyframes like {
     0% {
         transform: scale(1);

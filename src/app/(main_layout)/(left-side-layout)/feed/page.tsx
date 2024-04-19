@@ -14,6 +14,7 @@ function Feed() {
     const [page, setPage] = useState<number>(0)
     const [fetching, setFetching] = useState(true)
     const [isShowRepost, setIsShowRepost] = useState(false);
+    const [isShowPost, setIsShowPost] = useState(false);
 
     useEffect(() => {
         if (fetching) {
@@ -53,7 +54,13 @@ function Feed() {
 
             <main className="content_wrapper" >
 
-                <Card postData={content_store.userWall} setIsShowRepost={setIsShowRepost} isShowRepost={isShowRepost} />
+                <Card
+                    postData={content_store.userFeed}
+                    setIsShowPost={setIsShowPost}
+                    isShowRepost={isShowRepost}
+
+                    setIsShowRepost={setIsShowRepost}
+                    isShowPost={isShowPost} />
             </main >
             <main className="right_side_wrapper">
             </main >

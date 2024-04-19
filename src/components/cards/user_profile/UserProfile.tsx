@@ -15,7 +15,7 @@ export interface CardProps {
     username: string
     fullName: string
     biorgaphy: string
-    createdAt: Date
+    createdAt: string
     activity: UserActivity[]
     favorite: UserFavorite[]
     followersCount: number
@@ -55,11 +55,14 @@ function UserProfileCard({ username, fullName, biorgaphy, createdAt, activity, f
                 }
                 <div className={styles.user_reg_wrapper}>
                     <span>На борту с </span>
-                    <FormattedDate
-                        value={createdAt}
-                        year='numeric'
-                        month='short'
-                        day='numeric' />
+                    {auth_store.isLoading || user_store.isLoading ? null :
+
+                        <FormattedDate
+                            value={createdAt}
+                            year='numeric'
+                            month='short'
+                            day='numeric' />
+                    }
                 </div>
             </div>
             <div className={styles.service_block}>
@@ -67,7 +70,7 @@ function UserProfileCard({ username, fullName, biorgaphy, createdAt, activity, f
 
                     {!isOwner ?
                         <>
-                            {!isFollow && !follow?
+                            {!isFollow && !follow ?
                                 <FollowButton type={'button'} follow={false} onClick={() => (followHandler(), setFollow(true))}>
                                     <span>Отслеживать</span>
                                 </FollowButton>

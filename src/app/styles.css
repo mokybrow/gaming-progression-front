@@ -1,9 +1,27 @@
-.mentions__mention {
-  color: #0071E3;
-  font-weight: 500;
-  z-index: 1;
-  position: relative;
-  background-color: var(--input-color);
+#rate-numbers {
+  font-size: 1.0em;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.2em 0.2em;
+}
+
+#rate-numbers:hover {
+  transform: scale(1.1);
+  transition: all 100ms ease;
+}
+
+.red-rate {
+  color: #ff4800;
+}
+
+.gray-rate {
+  color: gray;
+}
+
+.green-rate {
+  color: green;
 }
 
 .p-mention {
@@ -26,8 +44,8 @@
   font-size: 16px;
   outline: none;
   border: none;
-
 }
+
 
 .p-mention-panel {
   display: flex;
@@ -56,31 +74,6 @@
   background-color: var(--input-color);
 }
 
-#rate-numbers {
-  font-size: 1.0em;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 0.2em 0.2em;
-}
-
-#rate-numbers:hover {
-  transform: scale(1.1);
-  transition: all 100ms ease;
-}
-
-.red-rate {
-  color: #ff4800;
-}
-
-.gray-rate {
-  color: gray;
-}
-
-.green-rate {
-  color: green;
-}
 
 .bottom_popup {
   width: 100vw;
@@ -244,4 +237,3 @@
   height: 100vh;
   width: 100vw;
 }
-

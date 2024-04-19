@@ -12,18 +12,25 @@
     overflow: auto;
     z-index: 500;
 }
-.modal_window_wrapper_closed{
+
+.modal_window_wrapper_closed {
     display: none;
 }
 
 .modal_content {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    left: 0;
+    flex-direction: column;
     width: 100%;
     max-width: 712px;
     margin-left: 12px;
     margin-right: 12px;
+}
+
+@media (max-width: 450px) {
+
+    .modal_content{
+        margin: 0;
+        min-height: 100%;
+        background-color: var(--card-bg-color);
+    }
 }

@@ -1,14 +1,13 @@
-.post_text_filed {
+.repost_text_filed {
     display: flex;
     flex-direction: column;
     position: relative;
     box-sizing: border-box;
     width: 100%;
     background-color: var(--card-bg-color);
-    border-radius: 6px;
     gap: 12px;
     align-items: flex-start;
-    min-height: 44px;
+
 }
 
 .border_line {
@@ -22,9 +21,7 @@
     display: flex;
     justify-content: right;
     width: 100%;
-    padding-bottom: 12px;
-    padding-left: 24px;
-    padding-right: 24px;
+
 }
 
 .item_temlate_span {
@@ -51,7 +48,6 @@
 .mention textarea {
     background-color: var(--card-bg-color);
     border: none;
-    padding: 12px 24px;
     font-weight: 400;
     font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
     height: auto;

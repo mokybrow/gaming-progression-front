@@ -5,9 +5,6 @@ import Link from 'next/link';
 import { FormattedDate } from 'react-intl';
 import Image from 'next/image'
 
-
-import { ParentPostData } from '@/models/postsModel';
-
 import userImage from '@/assets/icons/general/user.png'
 import SocialButtonCard from "@/components/cards/social_pannel/SocialPannel";
 import { useContext, useState } from 'react';
@@ -15,21 +12,27 @@ import { Context } from '@/app/providers';
 import OneCard from './OneCard';
 import ReactMarkdown from 'react-markdown';
 import { observer } from 'mobx-react';
-import MakeRepostPopup from '@/components/popup/MakeRepostPopup';
 import { WallResponseModel } from '@/models/wallsModels';
+import { PostPopUp } from '@/components/popup/posts/PostPopUp';
+import RepostPopUp from '@/components/popup/repost/RepostPopUp';
+import RepostCard from './RepostCard';
+import LeavePostCard from '../service/LeavePostCard';
+
 
 
 export interface CardProps {
     postData: WallResponseModel[]
+    isShowPost: any
+    setIsShowPost: any
     setIsShowRepost: any
     isShowRepost: any
 }
 
-function Card({ postData, setIsShowRepost, isShowRepost }: CardProps) {
+function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepost }: CardProps) {
     const { content_store } = useContext(Context);
 
     const getPostCommentsHandler = (postId: string) => {
-        setIsShowRepost(true)
+        setIsShowPost(true)
         content_store.getPostData(postId)
 
     }
@@ -37,12 +40,23 @@ function Card({ postData, setIsShowRepost, isShowRepost }: CardProps) {
 
     return (
         <>
-            {!content_store.isLoading ?
-                <MakeRepostPopup active={isShowRepost} setActive={setIsShowRepost}>
-                    <OneCard post={content_store.post} comments={content_store.comments} commentLikes={content_store.commentLikes} />
-                </MakeRepostPopup>
-                : null}
+
+            <PostPopUp active={isShowPost} setActive={setIsShowPost}>
+                <LeavePostCard setIsShow={setIsShowPost} />
+                <OneCard
+                    post={content_store.post}
+                    comments={content_store.comments}
+                    commentLikes={content_store.commentLikes}
+                    setIsShowRepost={setIsShowRepost}
+                    setIsShowPost={setIsShowPost} />
+            </PostPopUp>
+
+            <RepostPopUp active={isShowRepost} setActive={setIsShowRepost}>
+                <RepostCard post={content_store.post} setIsShowRepost={setIsShowRepost} />
+            </RepostPopUp>
+
             <div>
+
                 {postData.map(post => (
                     <div key={post.Posts.id} className={styles.card_wrapper}>
                         <div className={styles.post_header}>
@@ -85,13 +99,13 @@ function Card({ postData, setIsShowRepost, isShowRepost }: CardProps) {
                                                 <Image src={userImage} alt={''} width={40} height={40} />
                                             </div>
                                             <div className={styles.user_data_wrapper}>
-                                                <Link className={styles.author_name} href={`/${post.Posts.author_data.username}`}>
-                                                    {post.Posts.author_data.full_name ?
-                                                        post.Posts.author_data.full_name : post.Posts.author_data.username}
+                                                <Link className={styles.author_name} href={`/${post.Posts.parent_post_data.author_data.username}`}>
+                                                    {post.Posts.parent_post_data.author_data.full_name ?
+                                                        post.Posts.parent_post_data.author_data.full_name : post.Posts.author_data.username}
                                                 </Link>
-                                                <div className={styles.post_time_wrapper} onClick={() => getPostCommentsHandler(post.Posts.id)}>
+                                                <div className={styles.post_time_wrapper} onClick={() => getPostCommentsHandler(String(post.Posts.parent_post_id))}>
                                                     <FormattedDate
-                                                        value={post.Posts.created_at}
+                                                        value={post.Posts.parent_post_data.created_at}
                                                         year='numeric'
                                                         month='short'
                                                         day='numeric' />
@@ -99,13 +113,13 @@ function Card({ postData, setIsShowRepost, isShowRepost }: CardProps) {
                                             </div>
                                         </div>
                                         <div className={styles.service_wrapper}>
-                                            <span>Пожаловаться</span>
+
                                         </div>
                                     </div>
                                     <div>
                                         <div className={styles.markdown_text}>
                                             <ReactMarkdown>
-                                                {post.Posts.text}
+                                                {post.Posts.parent_post_data.text}
                                             </ReactMarkdown>
                                         </div>
 
@@ -120,8 +134,8 @@ function Card({ postData, setIsShowRepost, isShowRepost }: CardProps) {
                             postId={post.Posts.id}
                             likeCount={post.Posts.likes_count}
                             commentCount={post.Posts.comments_count}
-                            hasAuthorLike={post.hasAuthorLike == 1 ? true : false}
-                        />
+                            hasAuthorLike={post.hasAuthorLike}
+                            setIsShowRepost={setIsShowRepost} />
 
                     </div>
                 ))}

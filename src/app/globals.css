@@ -60,6 +60,7 @@
 
   --stroke-color: #1e1d1f66;
   --box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
+  --box-shadow-service:  0px 3px 7px -1px rgba(0, 0, 0, 0.2);
 
   --hr-color: rgba(30, 29, 31, .6);
 
@@ -124,6 +125,7 @@
 
     --stroke-color: rgba(232, 232, 237, 0.4);
     --box-shadow: 5px 4px 24px 0px rgba(232, 232, 237, 0.2);
+    --box-shadow-service:  0px 3px 7px -1px rgba(232, 232, 237, 0.2);
 
     --hr-color: rgba(232, 232, 237, .6);
 
@@ -144,11 +146,11 @@
 }
 
 body {
-  display: block;
+  /* display: block;
+  overflow-wrap: break-word;
+  height: 100%; */
   color: var(--font-color);
   background-color: var(--background-color);
-  overflow-wrap: break-word;
-  height: 100%;
 }
 
 a {

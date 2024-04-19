@@ -10,7 +10,7 @@ export default function MainLayout({
 }: PropsWithChildren<unknown>) {
     return (
         <>
-            <div className="layout">
+            <div className="layout" id='layout'>
                 <SideLeft />
                 {children}
             </div>

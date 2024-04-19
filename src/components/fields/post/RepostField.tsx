@@ -5,13 +5,14 @@ import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton"
 import { SearchUserModel } from "@/models/userModel";
 import { Mention, MentionItemTemplateOptions, MentionSearchEvent } from "primereact/mention";
 import { useContext, useState } from "react";
-import styles from './post.module.css'
+import styles from './repost.module.css'
 import { observer } from "mobx-react-lite";
 import { v4 as uuidv4 } from 'uuid';
 import { usePathname } from "next/navigation";
 
 export interface PostFieldProps {
     parentPostId: string | null
+    setIsShowRepost: any
 }
 
 const itemTemplate = (suggestion: SearchUserModel) => {
@@ -25,7 +26,7 @@ const itemTemplate = (suggestion: SearchUserModel) => {
     );
 }
 
-function PostField({ parentPostId }: PostFieldProps) {
+function RepostField({ parentPostId, setIsShowRepost }: PostFieldProps) {
 
     const { content_store } = useContext(Context);
     const { games_store } = useContext(Context);
@@ -34,9 +35,9 @@ function PostField({ parentPostId }: PostFieldProps) {
     const [postText, setPostText] = useState<string>('');
     const [customers, setCustomers] = useState<any>([]);
     const [multipleSuggestions, setMultipleSuggestions] = useState<any>([]);
+
     const pathname = usePathname()
     const url = pathname.substring(pathname.lastIndexOf('/') + 1)
-
 
     const setPostHandler = (event: any) => {
         setPostText(event.value)
@@ -44,13 +45,13 @@ function PostField({ parentPostId }: PostFieldProps) {
 
     const addPostHandler = () => {
         let newPost = postText;
-        if (newPost != '') {
-            let comment = newPost.replace(/\s+/g, ' ').trim();
-            const result = comment.replace(/(^|\W)@(\w+)/g, function (_, $1, $2) { return ` [@${$2}](/${$2})` })
-            const finalPost = result.replace(/(^|\W)#(\S*)/g, function (_, $1, $2) { return ` [#${$2}](/games/${$2})` })
-            content_store.createNewPost(uuidv4(), parentPostId, finalPost, auth_store.user.id, auth_store.user.username, auth_store.user.full_name, url)
 
-        }
+        let comment = newPost.replace(/\s+/g, ' ').trim();
+        const result = comment.replace(/(^|\W)@(\w+)/g, function (_, $1, $2) { return ` [@${$2}](/${$2})` })
+        const finalPost = result.replace(/(^|\W)#(\S*)/g, function (_, $1, $2) { return ` [#${$2}](/games/${$2})` })
+        content_store.createNewPost(uuidv4(), parentPostId, finalPost, auth_store.user.id, auth_store.user.username, auth_store.user.full_name, url)
+
+
     }
 
     const onMultipleSearch = (event: MentionSearchEvent) => {
@@ -126,28 +127,25 @@ function PostField({ parentPostId }: PostFieldProps) {
 
     return (
 
-        <div className={styles.post_text_filed}>
+        <div className={styles.repost_text_filed}>
             <Mention value={postText}
                 onChange={(e) => setPostHandler(e.target)} trigger={['@', '#']} suggestions={multipleSuggestions} onSearch={onMultipleSearch}
-                field={['username', 'slug']} placeholder="Попробуйте использовать @ и # 😉" itemTemplate={multipleItemTemplate} rows={1} autoResize
+                field={['username', 'slug']} placeholder="Напишите ваш ответ или сохраните на стену" itemTemplate={multipleItemTemplate} rows={3} autoResize
                 className={styles.mention} />
-            {
-                postText.replace(/\s+/g, ' ').trim() != '' ?
-                    <>
-                        <div className={styles.border_line}>
-                        </div>
-                        <div className={styles.button_wrapper}>
 
-                            <FunctionalGameButton type={'button'} bg_color={'#0368CD'} fontSize={14} color={'#E8E8ED'}
-                                onClick={() => (addPostHandler(), setPostText(''))}>
-                                Опубликовать
-                            </FunctionalGameButton>
-                        </div>
-                    </>
-                    : null}
+            <div className={styles.border_line}>
+            </div>
+            <div className={styles.button_wrapper}>
+
+                <FunctionalGameButton type={'button'} bg_color={'#0368CD'} fontSize={14} color={'#E8E8ED'}
+                    onClick={() => (addPostHandler(), setPostText(''), setIsShowRepost(false))}>
+                    Опубликовать
+                </FunctionalGameButton>
+            </div>
+
         </div>
     )
 
 }
 
-export default observer(PostField)
+export default observer(RepostField)
