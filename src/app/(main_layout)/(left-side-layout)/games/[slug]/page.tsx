@@ -15,11 +15,11 @@ import { Mention } from 'primereact/mention';
 
 import Link from 'next/link';
 import LikeIcon from '@/components/icons/like';
-import { FormattedDate } from 'react-intl';
 import { SearchUserModel } from '@/models/userModel';
 import CircleLoader from '@/components/loader/circle';
 import CommentField from '@/components/fields/comment/CommentField';
 import CommentCard from '@/components/cards/comment/CommentCard';
+import { formatDate } from '@/services/dateFormat';
 
 
 function GamePage() {
@@ -127,11 +127,9 @@ function GamePage() {
                             </h1>
                             <span>
 
-                                <FormattedDate
-                                    value={games_store.gamePage.release_date}
-                                    year='numeric'
-                                    month='long'
-                                    day='numeric' />
+                                <span>
+                                    {formatDate(games_store.gamePage.release_date)}
+                                </span>
                             </span>
 
                         </div>
@@ -183,9 +181,9 @@ function GamePage() {
                     {games_store.comments == null ?
                         <span>Информаци пока нет </span> : null}
 
-                    <CommentCard postId={games_store.gamePage.id} comments={games_store.comments} commentLikes={[]}  />
+                    <CommentCard postId={games_store.gamePage.id} comments={games_store.comments} commentLikes={[]} />
 
-                            
+
                 </div>
 
             </main >

@@ -14,18 +14,16 @@ export interface ModalProps {
 export const PostPopUp = observer(({ active, children, setActive, ...rest }: ModalProps) => {
 
     if (active) {
-            console.log('Запрещаем')
-            document.body.style.position = 'fixed'
-            document.body.style.width = '100vw'
-           
-        
-
+        if (typeof document !== 'undefined') {
+            console.log('Запрещаем скролл')    
+            document.body.classList.add('modal_open')
+        }
     } else {
+        if (typeof document !== 'undefined') {
             console.log('Разрешаем')
-            document.body.style.position = ''
-            document.body.style.width = ''
+            document.body.classList.remove('modal_open')
+        }
 
-        
     }
 
     return (

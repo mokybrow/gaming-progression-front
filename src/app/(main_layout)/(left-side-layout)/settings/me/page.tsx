@@ -12,9 +12,9 @@ import { ruRU } from '@mui/x-date-pickers/locales';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Dayjs } from "dayjs";
-import { FormattedDate } from "react-intl";
 import { observer } from "mobx-react-lite";
 import SettingsField from "@/components/fields/settings/SettingsField";
+import { formatDate } from "@/services/dateFormat";
 
 function SettingsMe() {
     const [fullName, setFullName] = useState("");
@@ -79,11 +79,10 @@ function SettingsMe() {
                             <span className={styles.birth_date_header}>Дата рождения</span>
                             {auth_store.user.birthdate ?
                                 <>
-                                    <FormattedDate
-                                        value={auth_store.user.birthdate}
-                                        year='numeric'
-                                        month='long'
-                                        day='numeric' />
+                             
+                                        <span>
+                                            {formatDate(auth_store.user.birthdate)}
+                                        </span>
 
                                 </> : <><span>Нет данных</span></>}
                             <small className={styles.change_link_color} onClick={() => setBirthOpen(true)}>Изменить</small>

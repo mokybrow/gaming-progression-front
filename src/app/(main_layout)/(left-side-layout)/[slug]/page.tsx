@@ -25,7 +25,9 @@ function UserProfile() {
   const [isShowRepost, setIsShowRepost] = useState(false);
   const [isShowPost, setIsShowPost] = useState(false);
 
-
+  const [isOwner, setIsOwner] = useState(false)
+  const [page, setPage] = useState<number>(0)
+  const [fetching, setFetching] = useState(true)
 
   let tabs = [
     { id: "posts", label: "Посты" },
@@ -34,27 +36,52 @@ function UserProfile() {
   ];
 
   let [activeTab, setActiveTab] = useState(tabs[0].id);
-  const [isOwner, setIsOwner] = useState(false)
+
+
   useEffect(() => {
-    AuthService.getProfile().then(function (response) {
-      if (response.data.id) {
-        content_store.getUserWall(username, response.data.id, 0)
+    console.log('забираем данные')
+
+    if (fetching) {
+      try {
+        content_store.getUserWall(username, page).then(resp => {
+          setPage(page + 10)
+          content_store.setTotalPostCount(resp?.headers['x-post-count'])
+        }).finally(() => setFetching(false))
+      } catch (error) {
 
       }
-      if (username == response.data.username) {
+    }
 
-        setIsOwner(true)
-      }
-    }).catch(function (response) {
-      content_store.getUserWall(username, null, 0)
-    })
-
+    AuthService.getProfile().then(response => response.data.username == username ? setIsOwner(true) : null)
     user_store.getUserProfile(username)
-
-  }, [auth_store, content_store])
-
+  }, [fetching,auth_store, content_store, user_store, username])
 
 
+  useEffect(() => {
+    document.addEventListener('scroll', scrollHandler)
+    return function () {
+      document.removeEventListener('scroll', scrollHandler)
+    }
+
+  }, [])
+
+  const scrollHandler = (e: any) => {
+
+    if (e.target.documentElement.scrollHeight -
+      (e.target.documentElement.scrollTop + window.innerHeight) < 100
+ 
+    ) {
+      if (isOwner && content_store.myWall.length < content_store.totalPostCount){
+        setFetching(true)
+
+      }
+      if (!isOwner && content_store.userWall.length < content_store.totalPostCount){
+
+        setFetching(true)
+      }
+    }
+
+  }
 
   return (
     <>
@@ -112,24 +139,47 @@ function UserProfile() {
           </div>
           {activeTab === 'posts' ?
             <>
-              {
-                content_store.userWall?.length > 0 ?
+
+              <>
+                {auth_store.user.username === username ?
                   <>
-                    <Card
-                      postData={content_store.userWall}
-                      setIsShowPost={setIsShowPost}
-                      isShowRepost={isShowRepost}
-                      setIsShowRepost={setIsShowRepost}
-                      isShowPost={isShowPost} />
+                    {
+                      content_store.myWall?.length > 0 ?
+                        <Card
+                          postData={content_store.myWall}
+                          setIsShowPost={setIsShowPost}
+                          isShowRepost={isShowRepost}
+                          setIsShowRepost={setIsShowRepost}
+                          isShowPost={isShowPost} />
+                        :
+                        <div className={styles.card_wrapper}>
 
+                          <div className={styles.feed_icon}></div>
+                          <span>Здесь пока ничего нет</span>
+                        </div>
+                    }
                   </>
-                  :
-                  <div className={styles.card_wrapper}>
+                  : <>
+                    {
+                      content_store.userWall?.length > 0 ?
+                        <Card
+                          postData={content_store.userWall}
+                          setIsShowPost={setIsShowPost}
+                          isShowRepost={isShowRepost}
+                          setIsShowRepost={setIsShowRepost}
+                          isShowPost={isShowPost} />
+                        :
+                        <div className={styles.card_wrapper}>
 
-                    <div className={styles.feed_icon}></div>
-                    <span>Здесь пока ничего нет</span>
-                  </div>
-              }
+                          <div className={styles.feed_icon}></div>
+                          <span>Здесь пока ничего нет</span>
+                        </div>
+                    }
+                  </>}
+
+
+              </>
+
             </>
             : null
           }
@@ -138,9 +188,12 @@ function UserProfile() {
               {isOwner ?
                 <>
                   {auth_store.user.user_activity.map(item => (
-                    < ActivityCard title={item.game_data.title} cover={item.game_data.cover}
-                      release_date={item.game_data.release_date} slug={item.game_data.slug}
-                      description={item.game_data.description} activity_type={item.activity_data.name} />
+                    <div key={item.game_data.id}>
+
+                      < ActivityCard title={item.game_data.title} cover={item.game_data.cover}
+                        release_date={item.game_data.release_date} slug={item.game_data.slug}
+                        description={item.game_data.description} activity_type={item.activity_data.name} />
+                    </div>
                   ))
                   }
                 </>
@@ -149,9 +202,12 @@ function UserProfile() {
 
                   {
                     user_store.user.user_activity.map(item => (
-                      < ActivityCard title={item.game_data.title} cover={item.game_data.cover}
-                        release_date={item.game_data.release_date} slug={item.game_data.slug}
-                        description={item.game_data.description} activity_type={item.activity_data.name} />
+                      <div key={item.game_data.id}>
+
+                        < ActivityCard title={item.game_data.title} cover={item.game_data.cover}
+                          release_date={item.game_data.release_date} slug={item.game_data.slug}
+                          description={item.game_data.description} activity_type={item.activity_data.name} />
+                      </div>
                     ))
                   }
                 </>
@@ -164,9 +220,11 @@ function UserProfile() {
               {isOwner ?
                 <>
                   {auth_store.user.user_favorite.map(item => (
-                    < FavoriteCard title={item.game_data.title} cover={item.game_data.cover}
-                      release_date={item.game_data.release_date} slug={item.game_data.slug}
-                      description={item.game_data.description} />
+                    <div key={item.game_data.id}>
+                      < FavoriteCard title={item.game_data.title} cover={item.game_data.cover}
+                        release_date={item.game_data.release_date} slug={item.game_data.slug}
+                        description={item.game_data.description} />
+                    </div>
                   ))
                   }
                 </>
@@ -175,9 +233,11 @@ function UserProfile() {
 
                   {
                     user_store.user.user_favorite.map(item => (
-                      < FavoriteCard title={item.game_data.title} cover={item.game_data.cover}
-                        release_date={item.game_data.release_date} slug={item.game_data.slug}
-                        description={item.game_data.description} />
+                      <div key={item.game_data.id}>
+                        < FavoriteCard title={item.game_data.title} cover={item.game_data.cover}
+                          release_date={item.game_data.release_date} slug={item.game_data.slug}
+                          description={item.game_data.description} />
+                      </div>
                     ))
                   }
                 </>

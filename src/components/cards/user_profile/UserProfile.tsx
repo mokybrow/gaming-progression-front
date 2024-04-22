@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import styles from './userprofile.module.css'
 import { UserActivity, UserFavorite } from '@/models/userModel'
-import { FormattedDate } from 'react-intl'
 import ServiceButton from '@/components/buttons/service/ServiceButton'
 import ReportIcon from '@/components/icons/reportFlag'
 import FollowButton from '@/components/buttons/follow/FollowButton'
@@ -9,6 +8,7 @@ import UserStatsCard from '@/components/cards/user_profile/UserStats'
 import { useContext, useState } from 'react'
 import { Context } from '@/app/providers'
 
+import { formatDate } from '@/services/dateFormat';
 
 
 export interface CardProps {
@@ -57,11 +57,11 @@ function UserProfileCard({ username, fullName, biorgaphy, createdAt, activity, f
                     <span>На борту с </span>
                     {auth_store.isLoading || user_store.isLoading ? null :
 
-                        <FormattedDate
-                            value={createdAt}
-                            year='numeric'
-                            month='short'
-                            day='numeric' />
+                        <>
+
+                            {formatDate(createdAt)}
+                        </>
+
                     }
                 </div>
             </div>

@@ -24,6 +24,7 @@ export default class ContentStore {
 
     // Пользовательская стена 
     userWall = [] as WallResponseModel[];
+    myWall = [] as WallResponseModel[];
 
     constructor() {
         makeAutoObservable(this);
@@ -32,6 +33,10 @@ export default class ContentStore {
 
     setUserWall(wall: WallResponseModel[]) {
         this.userWall = wall;
+    }
+
+    setMyWall(wall: WallResponseModel[]) {
+        this.myWall = wall;
     }
     setUserFeed(posts: WallResponseModel[]) {
         this.userFeed = posts;
@@ -164,10 +169,8 @@ export default class ContentStore {
         this.setLoading(true)
         try {
             const response = await AuthService.getProfile();
-
             const result = await ContentService.getPostsData(id, response.data.id)
             this.setPost(result.data)
-
 
             this.setLoading(false)
         } catch (error) {
@@ -183,9 +186,17 @@ export default class ContentStore {
     async addNewComment(itemId: string, text: string, parentCommntId: string | null, user_id: string, username: string, full_name: string | null) {
         try {
             const newComment = await ContentService.addNewComment(itemId, text, parentCommntId)
-
-            this.userWall.forEach(n => n.Posts.id === itemId && (n.Posts.comments_count += 1))
-            this.userFeed.forEach(n => n.Posts.id === itemId && (n.Posts.comments_count += 1))
+  
+            this.userWall.forEach(function (obj) {
+                if (obj.Posts.id === itemId) {
+                    obj.Posts.comments_count += 1
+                }
+            })
+            this.userFeed.forEach(function (obj) {
+                if (obj.Posts.id === itemId) {
+                    obj.Posts.comments_count += 1
+                }
+            })
 
             this.post.Posts.comments_count += 1
 
@@ -238,11 +249,18 @@ export default class ContentStore {
         }
     }
 
-    async getUserWall(username: string, user_id: string | null, page: number) {
-        console.log(username, user_id, page)
+    async getUserWall(username: string, page: number) {
         try {
-            const wall = await ContentService.getUserWall(username, user_id, page)
-            this.setUserWall(wall.data)
+            const user = await AuthService.getProfile();
+            if (user.data.username === username) {
+                const wall = await ContentService.getUserWall(username, user.data.id, page)
+                this.setMyWall([...this.myWall, ...wall.data])
+                return wall
+            } else {
+                const wall = await ContentService.getUserWall(username, null, page)
+                this.setUserWall([...this.userWall, ...wall.data])
+                return wall
+            }
         } catch (error) {
 
         }
@@ -252,8 +270,8 @@ export default class ContentStore {
         this.setLoading(true);
         try {
             const postData = await ContentService.CreateNewPost(id, parentPostId, text);
-            if (parentPostId === null && url === username ) {
-                this.userWall.unshift({
+            if (parentPostId === null) {
+                this.myWall.unshift({
                     Posts: {
                         ...postData.data, parent_post_data: null, author_data: {
                             id: user_id,
@@ -263,11 +281,11 @@ export default class ContentStore {
                     }, hasAuthorLike: 0,
                 })
             }
-            if (parentPostId !== null && url === username) {
-                var foundObject = this.userWall.filter(function (item) {
+            if (parentPostId !== null) {
+                var foundObject = this.myWall.filter(function (item) {
                     return item.Posts.id === parentPostId;
                 })[0];
-                this.userWall.unshift({
+                this.myWall.unshift({
                     Posts: {
                         ...postData.data,
                         parent_post_data: foundObject.Posts, author_data: {
@@ -275,8 +293,6 @@ export default class ContentStore {
                             username: username,
                             full_name: full_name
                         },
-
-
                     }, hasAuthorLike: 0,
                 })
 
@@ -302,7 +318,7 @@ export default class ContentStore {
 
     async getUserFeed(page: number) {
         const response = await ContentService.getUserFeed(page)
-        this.setUserFeed([...this.userWall, ...response.data])
+        this.setUserFeed([...this.userFeed, ...response.data])
         this.setLoading(false);
         return response
     }

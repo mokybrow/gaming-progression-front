@@ -2,7 +2,6 @@
 
 import styles from './card.module.css'
 import Link from 'next/link';
-import { FormattedDate } from 'react-intl';
 import Image from 'next/image'
 
 import userImage from '@/assets/icons/general/user.png'
@@ -17,6 +16,8 @@ import { PostPopUp } from '@/components/popup/posts/PostPopUp';
 import RepostPopUp from '@/components/popup/repost/RepostPopUp';
 import RepostCard from './RepostCard';
 import LeavePostCard from '../service/LeavePostCard';
+import DotsIcon from '@/components/icons/dots';
+import { formatDate } from '@/services/dateFormat';
 
 
 
@@ -36,7 +37,6 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
         content_store.getPostData(postId)
 
     }
-
 
     return (
         <>
@@ -70,16 +70,16 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
                                             post.Posts.author_data.full_name : post.Posts.author_data.username}
                                     </Link>
                                     <div className={styles.post_time_wrapper} onClick={() => getPostCommentsHandler(post.Posts.id)}>
-                                        <FormattedDate
-                                            value={post.Posts.created_at}
-                                            year='numeric'
-                                            month='short'
-                                            day='numeric' />
+                              
+                                        {formatDate(post.Posts.created_at)}
                                     </div>
                                 </div>
                             </div>
                             <div className={styles.service_wrapper}>
-                                <span>Пожаловаться</span>
+                                {/* <span>Пожаловаться</span> */}
+                                <div className={styles.icon_wrapper}>
+                                    <DotsIcon className='general-icon-fill' />
+                                </div>
                             </div>
                         </div>
                         <div>
@@ -104,11 +104,9 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
                                                         post.Posts.parent_post_data.author_data.full_name : post.Posts.author_data.username}
                                                 </Link>
                                                 <div className={styles.post_time_wrapper} onClick={() => getPostCommentsHandler(String(post.Posts.parent_post_id))}>
-                                                    <FormattedDate
-                                                        value={post.Posts.parent_post_data.created_at}
-                                                        year='numeric'
-                                                        month='short'
-                                                        day='numeric' />
+                                             
+                                                    {formatDate(post.Posts.created_at)}
+
                                                 </div>
                                             </div>
                                         </div>

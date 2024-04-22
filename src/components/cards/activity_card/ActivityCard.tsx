@@ -3,7 +3,6 @@
 import { Genre, Platform } from '@/models/gamesModel';
 import styles from './card.module.css'
 import Link from 'next/link';
-import { FormattedMessage, FormattedDate } from 'react-intl';
 import Image from 'next/image'
 
 

@@ -15,8 +15,6 @@ const SettingsField: FC<ComponentProps<"textarea">> = ({ value, ...rest }) => {
                 data-view="native"
                 value={value}
             />
-
-
         </div>
     );
 };

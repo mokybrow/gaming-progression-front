@@ -6,8 +6,9 @@
 @media (max-width: 840px) {
     .menu {
         display: flex;
-        position: sticky;
+        position: fixed;
         bottom: 0;
+        left: 0;
         background-color: var(--menu-color);
         height: 48px;
         width: 100%;

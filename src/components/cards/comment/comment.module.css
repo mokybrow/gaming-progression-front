@@ -56,9 +56,9 @@
 
 .social_pannel_grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-
+  grid-template-columns: auto auto auto;
+  gap: 22px;
+  opacity: 0.8;
 }
 
 .action_button {
@@ -72,14 +72,13 @@
 
 .icon_wrapper {
   display: flex;
+  align-items: center;
   width: 18px;
   height: 18px;
 }
 
+
 /* ДАЛЬШЕ ИДЁТ ДЕРЕВО */
-
-
-
 /* ————————————————————–
   Tree core styles
 */

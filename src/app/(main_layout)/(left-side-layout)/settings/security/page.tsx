@@ -8,12 +8,10 @@ import Link from "next/link";
 import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 import * as yup from 'yup';
 
-import { FormattedDate } from "react-intl";
 import { observer } from "mobx-react-lite";
 import InputField from "@/components/fields/InputField";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AuthService from "@/services/authService";
 
 
 function SettingsSecurity() {

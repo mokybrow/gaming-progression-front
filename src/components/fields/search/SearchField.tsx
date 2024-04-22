@@ -40,7 +40,7 @@ const SearchField = forwardRef<HTMLInputElement, TypeInputProps>(
                 games_store.setSearchedGames([])
             }
 
-        }, [debouncedSearch])
+        }, [debouncedSearch, games_store])
 
         return (
             <>

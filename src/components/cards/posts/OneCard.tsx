@@ -2,7 +2,6 @@
 
 import styles from './card.module.css'
 import Link from 'next/link';
-import { FormattedMessage, FormattedDate } from 'react-intl';
 import Image from 'next/image'
 
 
@@ -14,11 +13,13 @@ import SocialButtonCard from "@/components/cards/social_pannel/SocialPannel";
 import { CommentsResponse, UserCommentsLikes } from '@/models/serviceModel';
 import CommentCard from '@/components/cards/comment/CommentCard';
 import { observer } from 'mobx-react';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useRef } from 'react';
 import { CommentsResponseModel } from '@/models/commentsModels';
 import ReactMarkdown from 'react-markdown';
 import CrossIcon from '@/components/icons/cross';
+import { Context } from '@/app/providers';
+import { formatDate } from '@/services/dateFormat';
 
 
 export interface CardProps {
@@ -31,6 +32,7 @@ export interface CardProps {
 }
 
 function OneCard({ post, comments, commentLikes, setIsShowRepost, setIsShowPost }: CardProps) {
+
 
     return (
 
@@ -46,15 +48,14 @@ function OneCard({ post, comments, commentLikes, setIsShowRepost, setIsShowPost 
                                 post.Posts?.author_data?.full_name : post.Posts?.author_data?.username}
                         </Link>
                         <div className={styles.one_post_time_wrapper}>
-                            <FormattedDate
-                                value={post.Posts?.created_at}
-                                year='numeric'
-                                month='short'
-                                day='numeric' />
+
+                            {formatDate(post.Posts?.parent_post_data?.created_at)}
+
                         </div>
                     </div>
                 </div>
                 <div className={styles.service_wrapper}>
+                    <div className={styles.cross_icon} onClick={() => (setIsShowPost(false))}><CrossIcon className='general-icon' /></div>
                 </div>
             </div>
             <div>
@@ -76,11 +77,7 @@ function OneCard({ post, comments, commentLikes, setIsShowRepost, setIsShowPost 
                                             post.Posts.parent_post_data?.author_data?.full_name : post.Posts?.author_data?.username}
                                     </Link>
                                     <div className={styles.one_post_time_wrapper}>
-                                        <FormattedDate
-                                            value={post.Posts?.parent_post_data?.created_at}
-                                            year='numeric'
-                                            month='short'
-                                            day='numeric' />
+                                        {formatDate(post.Posts?.parent_post_data?.created_at)}
                                     </div>
                                 </div>
                             </div>
@@ -106,8 +103,8 @@ function OneCard({ post, comments, commentLikes, setIsShowRepost, setIsShowPost 
                 hasAuthorLike={post.hasAuthorLike}
                 setIsShowRepost={setIsShowRepost} />
             <div className={styles.comments_header}>Комментарии</div>
-            {comments.length == 0 ? <>Пока пусто</> : 
-            <CommentCard postId={post.Posts?.id} comments={comments} commentLikes={commentLikes} />
+            {comments.length == 0 ? <>Пока пусто</> :
+                <CommentCard postId={post.Posts?.id} comments={comments} commentLikes={commentLikes} />
             }
 
         </div>

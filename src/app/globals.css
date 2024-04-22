@@ -60,7 +60,7 @@
 
   --stroke-color: #1e1d1f66;
   --box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
-  --box-shadow-service:  0px 3px 7px -1px rgba(0, 0, 0, 0.2);
+  --box-shadow-service: 0px 3px 7px -1px rgba(0, 0, 0, 0.2);
 
   --hr-color: rgba(30, 29, 31, .6);
 
@@ -125,7 +125,7 @@
 
     --stroke-color: rgba(232, 232, 237, 0.4);
     --box-shadow: 5px 4px 24px 0px rgba(232, 232, 237, 0.2);
-    --box-shadow-service:  0px 3px 7px -1px rgba(232, 232, 237, 0.2);
+    --box-shadow-service: 0px 3px 7px -1px rgba(232, 232, 237, 0.2);
 
     --hr-color: rgba(232, 232, 237, .6);
 
@@ -146,11 +146,17 @@
 }
 
 body {
-  /* display: block;
+  display: block;
   overflow-wrap: break-word;
-  height: 100%; */
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
   color: var(--font-color);
   background-color: var(--background-color);
+}
+
+.modal_open {
+  overflow-y: hidden;
 }
 
 a {
@@ -244,6 +250,7 @@ body {
   gap: 48px;
   height: 100%;
   box-sizing: inherit;
+  margin-top: 48px;
 }
 
 .nested_layout {

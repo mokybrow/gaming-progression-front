@@ -1,7 +1,6 @@
 "use client"
 
 import { Context } from "@/app/providers";
-import { usePathname } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import styles from './page.module.css'
 import Link from "next/link";

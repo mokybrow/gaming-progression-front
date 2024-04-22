@@ -3,7 +3,7 @@
 import { Genre, Platform } from '@/models/gamesModel';
 import styles from './game.card.module.css'
 import Link from 'next/link';
-import { FormattedMessage, FormattedDate } from 'react-intl';
+import { formatDate } from '@/services/dateFormat';
 
 
 export interface CardProps {
@@ -39,12 +39,10 @@ export default function GameCard({ title, cover, release_date, avg_rate, platfor
                         <span>
 
                             {release_date ?
-                                <FormattedDate
-                                    value={release_date}
-                                    year='numeric'
-                                    month='long'
-                                    day='numeric'
-                                />
+                                <span>
+
+                                    {formatDate(release_date)}
+                                </span>
                                 : <>N/A</>}
                         </span>
                     </div>

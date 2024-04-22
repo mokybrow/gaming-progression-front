@@ -86,11 +86,19 @@
     gap: 12px;
 }
 
+.icon_wrapper{
+    display: flex;
+    height: 18px;
+    width: 18px;
+    opacity: 0.8;
+}
+
 .cross_icon{
     display: flex;
     width: 24px;
     height: 24px;
 }
+
 
 @media (max-width: 450px) {
     .one_card_wrapper{
@@ -99,6 +107,9 @@
         border-radius: 0;
         height: 100%;
         padding-bottom: 50px;
+    }
+    .cross_icon{
+        display: none;
     }
 }
 

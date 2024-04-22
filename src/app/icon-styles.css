@@ -20,7 +20,6 @@
 
 .heart-icon.liked{
     stroke: none;
-
     fill: red;
 }
 
@@ -28,6 +27,7 @@
 
 .heart-icon.liked {
     animation: like 0.3s steps(60) forwards;
+    -webkit-animation: like 0.3s steps(60) forwards;
 }
 
 
@@ -61,4 +61,17 @@
     stroke: var(--font-color);
     stroke-width: 2.5px;
     fill: none;
+}
+
+
+.general-icon-fill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    stroke: none;
+    stroke-width: 2.5px;
+    fill: var(--font-color);;
 }

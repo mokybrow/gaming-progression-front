@@ -21,12 +21,13 @@ function Feed() {
             try {
                 content_store.getUserFeed(page).then(resp => {
                     setPage(page + 10)
-                    auth_store.setTotalPostCount(resp.headers['x-post-count'])
+                    content_store.setTotalPostCount(resp.headers['x-post-count'])
                 }).finally(() => setFetching(false))
             } catch (error) {
 
             }
         }
+
 
     }, [fetching])
 
@@ -40,10 +41,13 @@ function Feed() {
 
 
     const scrollHandler = (e: any) => {
-
-        if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100
-            && content_store.userWall.length < content_store.totalPostCount
+        if (e.target.documentElement.scrollHeight - 
+            (e.target.documentElement.scrollTop + window.innerHeight) < 100
+            && content_store.userFeed.length < content_store.totalPostCount
         ) {
+            console.log('кручу')
+            console.log(content_store.myWall.length)
+            console.log(content_store.totalPostCount)
             setFetching(true)
         }
 
@@ -58,7 +62,6 @@ function Feed() {
                     postData={content_store.userFeed}
                     setIsShowPost={setIsShowPost}
                     isShowRepost={isShowRepost}
-
                     setIsShowRepost={setIsShowRepost}
                     isShowPost={isShowPost} />
             </main >

@@ -4,7 +4,6 @@ import React, { createContext, ReactNode, useState } from "react";
 import AuthStore from "@/storage/authStore";
 import GamesStore from "@/storage/gamesStore";
 import ContentStore from "@/storage/contentStore";
-import { IntlProvider } from 'react-intl';
 import UserStore from "@/storage/userStore";
 
 
@@ -36,9 +35,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
     return (
         <Context.Provider value={{ games_store: games_store, auth_store: auth_store, content_store: content_store , user_store: user_store}}>
-            <IntlProvider locale={'ru'}>
                 {children}
-            </IntlProvider>
         </Context.Provider>
 
     );

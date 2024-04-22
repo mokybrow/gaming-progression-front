@@ -2,7 +2,6 @@
 
 import styles from './repost.module.css'
 import Link from 'next/link';
-import { FormattedMessage, FormattedDate } from 'react-intl';
 import Image from 'next/image'
 
 
@@ -14,6 +13,7 @@ import { observer } from 'mobx-react';
 import ReactMarkdown from 'react-markdown';
 import RepostField from '@/components/fields/post/RepostField';
 import CrossIcon from '@/components/icons/cross';
+import { formatDate } from '@/services/dateFormat';
 
 
 export interface CardProps {
@@ -39,18 +39,15 @@ function RepostCard({ post, setIsShowRepost }: CardProps) {
                                     post.Posts?.author_data?.full_name : post.Posts?.author_data?.username}
                             </Link>
                             <div className={styles.post_time_wrapper}>
-                                <FormattedDate
-                                    value={post.Posts?.created_at}
-                                    year='numeric'
-                                    month='short'
-                                    day='numeric' />
+                     
+                                {formatDate(post.Posts?.created_at)}
+
+
                             </div>
                         </div>
                     </div>
                     <div className={styles.service_wrapper}>
-                        <div className={styles.service_wrapper}>
                             <div className={styles.cross_icon} onClick={() => (setIsShowRepost(false))}><CrossIcon className='general-icon' /></div>
-                        </div>
                     </div>
                 </div>
                 <div>

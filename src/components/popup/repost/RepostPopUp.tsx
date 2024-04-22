@@ -14,20 +14,16 @@ export interface ModalProps {
 function RepostPopUp({ active, children, setActive, ...rest }: ModalProps) {
 
     if (active) {
+        if (typeof document !== 'undefined') {
 
-
-        const app = document.getElementById('app')
-        app!.style.position = 'fixed'
-        app!.style.width = '100vw'
-
-
+            document.body.style.overflow = 'hidden'
+        }
 
     } else {
+        if (typeof document !== 'undefined') {
 
-        const app = document.getElementById('app')
-        app!.style.position = ''
-        app!.style.width = ''
-
+            document.body.style.overflow = ''
+        }
 
     }
 

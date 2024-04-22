@@ -1,16 +1,16 @@
 'use client'
 import { Context } from "@/app/providers";
 
-import { useContext,  useState } from "react";
+import { useContext, useState } from "react";
 import styles from './comment.module.css'
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
-import { FormattedDate } from "react-intl";
 import userImage from '@/assets/icons/general/user.png'
 import Image from 'next/image'
 import CommentField from "../../fields/comment/CommentField";
 import LikeIcon from "@/components/icons/like";
 import { observer } from "mobx-react";
+import DotsIcon from "@/components/icons/dots";
 
 
 export interface CommentProps {
@@ -53,11 +53,11 @@ function CommentItem({ commentId, fullName, username, text, likeCount, created, 
                             fullName : username}
                     </Link>
                     <div className={styles.comment_time_wrapper}>
-                        <FormattedDate
+                        {/* <FormattedDate
                             value={created}
                             year='numeric'
                             month='short'
-                            day='numeric' />
+                            day='numeric' /> */}
                     </div>
                 </div>
             </div>
@@ -65,19 +65,23 @@ function CommentItem({ commentId, fullName, username, text, likeCount, created, 
             <div className={styles.social_pannel_wrapper}>
                 <div className={styles.social_pannel_grid}>
                     <div className={styles.action_button}
-                        onClick={() => { changeCommentsLikeValue(commentId)}}>
+                        onClick={() => { changeCommentsLikeValue(commentId) }}>
                         <div className={styles.icon_wrapper}>
-                            <LikeIcon className={!hasAuthorLike && active || hasAuthorLike && !active  ? "heart-icon liked" : "heart-icon"} />
+                            <LikeIcon className={!hasAuthorLike && active || hasAuthorLike && !active ? "heart-icon liked" : "heart-icon"} />
                         </div>
                         <div>
                             <span>{hasAuthorLike && active ? likeCount - 1 : !hasAuthorLike && active ? likeCount + 1 : likeCount}</span>
 
                         </div>
+                    
                     </div>
                     <div className={styles.action_button}
                         onClick={() => setShowComment(true)}>
                         Ответить
                     </div>
+                    <div className={styles.icon_wrapper}>
+                            <DotsIcon className='general-icon-fill' />
+                        </div>
                 </div>
             </div>
             {
