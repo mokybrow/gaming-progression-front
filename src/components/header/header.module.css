@@ -63,7 +63,7 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: 400;
-    color: #0368CD;
+    color: var(--link-color);
 }
 
 .user_icon,

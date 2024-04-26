@@ -3,7 +3,7 @@
 import { FC, forwardRef, useContext, useEffect, useRef, useState } from 'react'
 import styles from './page.module.css'
 import { TypeInputProps } from './field.type'
-import { ProfilePopup } from '@/components/popup/ProfilePopup';
+import { ProfilePopup } from '@/components/popup/profile/ProfilePopup';
 import useOutside from '@/hooks/useOutside';
 import { Context } from '@/app/providers';
 import useDebounce from '@/hooks/useDebounce';

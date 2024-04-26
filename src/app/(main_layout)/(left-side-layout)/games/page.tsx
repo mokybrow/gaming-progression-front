@@ -7,7 +7,7 @@ import GameCard from "@/components/cards/GameCard";
 import React from "react";
 import FiltersCard from "@/components/cards/filters/FiltersCard";
 import { observer } from "mobx-react-lite";
-import { ProfilePopup } from "@/components/popup/ProfilePopup";
+import { ProfilePopup } from "@/components/popup/profile/ProfilePopup";
 import useOutside from "@/hooks/useOutside";
 import { SubmitButton } from "@/components/buttons/SubmitButton";
 import Skeleton from 'react-loading-skeleton'

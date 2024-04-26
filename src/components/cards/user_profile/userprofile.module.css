@@ -1,7 +1,7 @@
 .user_card_wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background-color: var(--card-bg-color);
+    background-color: var( --bg-card-color);
     padding: 12px 24px;
     border-radius: 6px;
     gap: 10px;
@@ -57,7 +57,7 @@
     align-items: center;
     text-align: center;
     justify-content: space-between;
-    background-color: var(--card-bg-color);
+    background-color: var( --bg-card-color);
     border-radius: 6px;
     padding: 12px;
 }

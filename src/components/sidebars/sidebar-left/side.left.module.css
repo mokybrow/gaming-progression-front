@@ -29,7 +29,7 @@
 }
 
 .sidebar_top a:hover {
-    background-color: var(--sidebar-hover);
+    background-color: var(--side-bar-hover);
     border-radius: 6px;
 }
 

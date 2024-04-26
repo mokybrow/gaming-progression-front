@@ -1,6 +1,41 @@
 :root {
+  --link-color: #0066CC;
+  --blue-button-color: #0071E3;
+  --blue-button-hover: #0077ED;
+  --complete-button-color: #30B63D;
+
+  --complete-button-hover: #97E88A;
+
+  --start-button-color: #FFF763;
+  --start-button-hover: #FFFAA3;
+
+  --favorite-button-color: #FF9C93;
+  --favorite-button-hover: #FFC0BA;
+  --wishlist-button-color: #34A1C7;
+  --wishlist-button-hover: #58B0CF;
+}
+
+
+html[data-theme='light'] {
+  /* Начал цвета заново */
   --font-color: #1E1D1F;
-  --background-color: #F1F1F1;
+  --bg-global-color: #F1F1F1;
+
+  --side-bar-hover: #FFFFFF;
+  --list-item-hover: #F6F6F6;
+
+  --input-color: #EFEFEF;
+  --input-hover: #FFFFFF;
+  --header-color: #7FC7FF;
+  --search-color: #B3DAF9;
+  --bg-card-color: #FFFFFF;
+  --profile-button: #F5F5F5;
+  --icon-color: #1E1D1F;
+  --social-button-color: #E6E6E6;
+  --service-button-color: #F0F0F0;
+  --service-button-hover: #E6E6E6;
+  --hr-color: rgba(30, 29, 31, .6);
+
 
   --menu-icon: url("../assets/icons/light/menu.svg");
   --home-icon: url("../assets/icons/light/home.svg");
@@ -37,100 +72,87 @@
   --arrow-back-icon: url("../assets/icons/light/arrow-back.svg");
 
 
-  --sidebar-hover: #fff;
   --settings-item-hover: #F5F5F5;
 
   --popup-bg-color: rgba(255, 255, 255, 0.8);
   --search-popup-bg-color: rgba(255, 255, 255, 0.6);
-  --card-bg-color: #fff;
 
-  --header-color: #7FC7FF;
-  --menu-color: #fff;
-  --link-color: #0071E3;
-  --service-button-color: #D9D9D9;
-  --follow-button-color: #0368CD;
-  --selection-menu-color: #D9D9D9;
-
-  --input-color: #F5F5F5;
-  --search-field-bg: #B3DAF9;
-  --search-field-hover: #F5F5F5;
-
-  --popup-menu-hover: rgb(238, 238, 238);
-  --search-popup-menu-hover: rgba(238, 238, 238, .4);
 
   --stroke-color: #1e1d1f66;
   --box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
   --box-shadow-service: 0px 3px 7px -1px rgba(0, 0, 0, 0.2);
 
-  --hr-color: rgba(30, 29, 31, .6);
+
+
 
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --font-color: #e8e8ed;
-    --background-color: #121212;
-
-    --menu-icon: url("../assets/icons/dark/menu.svg");
-    --home-icon: url("../assets/icons/dark/home.svg");
-    --search-icon: url("../assets/icons/dark/search.svg");
-    --user-icon: url("../assets/icons/dark/user.svg");
-    --main-logo: url("../assets/icons/dark/mbrw.svg");
+html[data-theme='dark'] {
 
 
-    --gamepad-icon: url("../assets/icons/dark/gamepad.svg");
-    --calendar-icon: url("../assets/icons/dark/calendar.svg");
-    --cup-icon: url("../assets/icons/dark/cup.svg");
-    --feed-icon: url("../assets/icons/dark/feed.svg");
-    --playlist-icon: url("../assets/icons/dark/playlist.svg");
-    --settings-icon: url("../assets/icons/dark/settings.svg");
-    --leave-icon: url("../assets/icons/dark/leave.svg");
-    --profile-icon: url("../assets/icons/dark/profile.svg");
-    --arrow-icon: url("../assets/icons/dark/arrow.svg");
-    --sort-icon: url("../assets/icons/dark/sort.svg");
-    --filter-icon: url("../assets/icons/dark/filter.svg");
-    --x-icon: url("../assets/icons/dark/x.svg");
+  /* Начал цвета заново */
+  --font-color: #E5E5E5;
+  --bg-global-color: #121212;
 
-    --feed-big-icon: url("../assets/icons/dark/feedbig.svg");
+  --side-bar-hover: #333333;
+  --list-item-hover: #333333;
 
-    --lock-icon: url("../assets/icons/dark/lock.svg");
-    --theme-icon: url("../assets/icons/dark/theme.svg");
-    --mailing-icon: url("../assets/icons/dark/mailing.svg");
-
-    --arrow-back-icon: url("../assets/icons/dark/arrow-back.svg");
+  --input-color: #333333;
+  --input-hover: #282828;
+  --header-color: #232628;
+  --search-color: #333333;
+  --bg-card-color: #1F1F1F;
+  --profile-button: #333333;
+  --icon-color: #E5E5E5;
+  --social-button-color: #2B2B2B;
+  --service-button-color: #333333;
+  --service-button-hover: #2B2B2B;
+  --hr-color: rgba(232, 232, 237, .6);
 
 
-    --sidebar-hover: #333333;
-    --settings-item-hover: #333333;
 
-    --card-bg-color: #1F1F1F;
-    --popup-bg-color: rgba(51, 51, 51, 0.8);
-    --search-popup-bg-color: rgba(51, 51, 51, 0.6);
+  --menu-icon: url("../assets/icons/dark/menu.svg");
+  --home-icon: url("../assets/icons/dark/home.svg");
+  --search-icon: url("../assets/icons/dark/search.svg");
+  --user-icon: url("../assets/icons/dark/user.svg");
+  --main-logo: url("../assets/icons/dark/mbrw.svg");
 
-    --header-color: #333333;
 
-    --menu-color: #333333;
+  --gamepad-icon: url("../assets/icons/dark/gamepad.svg");
+  --calendar-icon: url("../assets/icons/dark/calendar.svg");
+  --cup-icon: url("../assets/icons/dark/cup.svg");
+  --feed-icon: url("../assets/icons/dark/feed.svg");
+  --playlist-icon: url("../assets/icons/dark/playlist.svg");
+  --settings-icon: url("../assets/icons/dark/settings.svg");
+  --leave-icon: url("../assets/icons/dark/leave.svg");
+  --profile-icon: url("../assets/icons/dark/profile.svg");
+  --arrow-icon: url("../assets/icons/dark/arrow.svg");
+  --sort-icon: url("../assets/icons/dark/sort.svg");
+  --filter-icon: url("../assets/icons/dark/filter.svg");
+  --x-icon: url("../assets/icons/dark/x.svg");
 
-    --service-button-color: #4c4c4c;
+  --feed-big-icon: url("../assets/icons/dark/feedbig.svg");
 
-    --selection-menu-color: #4c4c4c;
+  --lock-icon: url("../assets/icons/dark/lock.svg");
+  --theme-icon: url("../assets/icons/dark/theme.svg");
+  --mailing-icon: url("../assets/icons/dark/mailing.svg");
 
-    --input-color: #333333;
-    --search-field-bg: #4C4C4C;
-    --search-field-hover: #1F1F1F;
+  --arrow-back-icon: url("../assets/icons/dark/arrow-back.svg");
 
-    --popup-menu-hover: rgb(31, 31, 31);
-    ;
-    --search-popup-menu-hover: rgba(31, 31, 31, .4);
 
-    --stroke-color: rgba(232, 232, 237, 0.4);
-    --box-shadow: 5px 4px 24px 0px rgba(232, 232, 237, 0.2);
-    --box-shadow-service: 0px 3px 7px -1px rgba(232, 232, 237, 0.2);
+  --popup-bg-color: rgba(51, 51, 51, 0.8);
+  --search-popup-bg-color: rgba(51, 51, 51, 0.6);
 
-    --hr-color: rgba(232, 232, 237, .6);
 
-  }
+
+
+  --stroke-color: rgba(232, 232, 237, 0.4);
+  --box-shadow: 5px 4px 24px 0px rgba(232, 232, 237, 0.2);
+  --box-shadow-service: 0px 3px 7px -1px rgba(232, 232, 237, 0.2);
+
+
 }
+
 
 * {
   box-sizing: border-box;
@@ -141,7 +163,7 @@
 
 
 .active {
-  background-color: var(--sidebar-hover);
+  background-color: var(--side-bar-hover);
   border-radius: 6px;
 }
 
@@ -152,7 +174,7 @@ body {
   width: 100%;
   overflow-x: hidden;
   color: var(--font-color);
-  background-color: var(--background-color);
+  background-color: var(--bg-global-color);
 }
 
 .modal_open {

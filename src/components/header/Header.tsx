@@ -4,22 +4,24 @@ import styles from './header.module.css'
 
 import { useContext, useEffect, useRef, useState } from 'react';
 import useOutside from '@/hooks/useOutside'
-import { ProfilePopup } from '../popup/ProfilePopup';
+import { ProfilePopup } from '../popup/profile/ProfilePopup';
 import Image from 'next/image'
 import { Context } from '@/app/providers';
 import { observer } from 'mobx-react';
 import { getLocalToken } from '@/utils/tokenUtils';
 import userpic from '@/assets/icons/general/userpic.svg'
-import { UserProfileButton } from '../buttons/UserProfileButton';
+import { UserProfileButton } from '../buttons/profile/UserProfileButton';
 import { FullScreenPopup } from '../popup/FullScreenPopup';
 import LoginForm from '../forms/login_form/LoginForm';
 import { RegistrationForm } from '../forms/reg_form/RegistrationForm';
 import SearchField from '../fields/search/SearchField';
 import { useRouter } from 'next/navigation';
+import { useTheme } from '@/hooks/useTheme';
 
 
 export function Header() {
 
+    const { theme, setTheme } = useTheme()
 
     const [isShow, setIsShow] = useState(false);
     const [isAuthShow, setIsAuthShow] = useState(false);

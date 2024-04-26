@@ -26,12 +26,9 @@ export const Context = createContext<State>({
     user_store: user_store,
 
 })
-if (typeof navigator !== "undefined") {
-    var local = navigator.language;
-}
+
 
 export function Providers({ children }: { children: React.ReactNode }) {
-    // var local = navigator.language;
 
     return (
         <Context.Provider value={{ games_store: games_store, auth_store: auth_store, content_store: content_store , user_store: user_store}}>
