@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react';
 import styles from './popup.module.css'
+import CrossIcon from '@/components/icons/cross';
 
 export interface ModalProps {
     active: boolean,
@@ -33,7 +34,8 @@ export function MenuPopup({ active, children, setIsShow, innerRef, ...rest }: Mo
             <div className={active ? "bottom_popup menu_active" : "bottom_popup"}
                 ref={innerRef} {...rest}>
                 <div className={styles.exit_button_wrapper}>
-                    <div className={styles.exit_button} onClick={() => setIsShow(false)}>
+                    <div className={styles.icon_wrapper} onClick={() => setIsShow(false)}>
+                        <CrossIcon className='general-icon'/>
                     </div>
                 </div>
                 {children}

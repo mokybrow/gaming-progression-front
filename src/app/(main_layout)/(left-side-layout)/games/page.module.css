@@ -87,21 +87,11 @@
     align-items: center;
 }
 
-.filter_icon,
-.sort_icon {
-    height: 16px;
-    width: 16px;
+.icon_wrapper {
+    height: 22px;
+    width: 22px;
     background-repeat: no-repeat;
     background-size: cover;
-}
-
-.sort_icon {
-    background-image: var(--sort-icon);
-}
-
-.filter_icon {
-    background-image: var(--filter-icon);
-
 }
 
 .show_more_button {

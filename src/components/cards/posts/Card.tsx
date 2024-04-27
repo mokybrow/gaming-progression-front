@@ -18,6 +18,7 @@ import RepostCard from './RepostCard';
 import LeavePostCard from '../service/LeavePostCard';
 import DotsIcon from '@/components/icons/dots';
 import { formatDate } from '@/services/dateFormat';
+import UserIcon from '@/components/icons/user';
 
 
 
@@ -62,7 +63,9 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
                         <div className={styles.post_header}>
                             <div className={styles.post_data_wrapper}>
                                 <div className={styles.post_author_image}>
-                                    <Image src={userImage} alt={''} width={40} height={40} />
+                                    <div className={styles.icon_wrapper}>
+                                        <UserIcon className='general-icon' />
+                                    </div>
                                 </div>
                                 <div className={styles.user_data_wrapper}>
                                     <Link className={styles.author_name} href={`/${post.Posts.author_data.username}`}>
@@ -70,7 +73,7 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
                                             post.Posts.author_data.full_name : post.Posts.author_data.username}
                                     </Link>
                                     <div className={styles.post_time_wrapper} onClick={() => getPostCommentsHandler(post.Posts.id)}>
-                              
+
                                         {formatDate(post.Posts.created_at)}
                                     </div>
                                 </div>
@@ -96,7 +99,9 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
                                     <div className={styles.post_header}>
                                         <div className={styles.post_data_wrapper}>
                                             <div className={styles.post_author_image}>
-                                                <Image src={userImage} alt={''} width={40} height={40} />
+                                                <div className={styles.icon_wrapper}>
+                                                    <UserIcon className='general-icon' />
+                                                </div>
                                             </div>
                                             <div className={styles.user_data_wrapper}>
                                                 <Link className={styles.author_name} href={`/${post.Posts.parent_post_data.author_data.username}`}>
@@ -104,7 +109,7 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
                                                         post.Posts.parent_post_data.author_data.full_name : post.Posts.author_data.username}
                                                 </Link>
                                                 <div className={styles.post_time_wrapper} onClick={() => getPostCommentsHandler(String(post.Posts.parent_post_id))}>
-                                             
+
                                                     {formatDate(post.Posts.created_at)}
 
                                                 </div>

@@ -1,14 +1,17 @@
 .service_button{
     display: flex;
-    width: 28px;
-    height: 28px;
+    align-items: center;
+    justify-content: center;
+    min-width: fit-content;
+    width: 100%;
     border:  none;
     border-radius: 6px;
+    font-size: 18px;
     padding: 6px;
     cursor: pointer;
     background-color: var(--service-button-color);
+    color: var(--font-color);
     transition: all .2s linear;
-
 }
 
 .service_button:hover{

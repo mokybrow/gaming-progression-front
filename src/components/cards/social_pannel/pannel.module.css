@@ -23,7 +23,9 @@
     justify-content: center;
     gap: 6px;
     padding: 6px 12px;
-    background-color: var(--input-color);
+    background-color: var(--social-button-color);
+    transition:  background-color 0.2s linear;
+
     border-radius: 100px;
     font-weight: 500;
     cursor: pointer;

@@ -17,6 +17,10 @@ import { RegistrationForm } from '../forms/reg_form/RegistrationForm';
 import SearchField from '../fields/search/SearchField';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/hooks/useTheme';
+import MainLogoIcon from '../icons/MainLogo';
+import SettingsIcon from '../icons/settings';
+import LeaveIcon from '../icons/leave';
+import UserIcon from '../icons/user';
 
 
 export function Header() {
@@ -26,23 +30,20 @@ export function Header() {
     const [isShow, setIsShow] = useState(false);
     const [isAuthShow, setIsAuthShow] = useState(false);
     const [isRegShow, setIsRegShow] = useState(false);
-    const [isDark, setIsDark] = useState(false);
     const { auth_store } = useContext(Context);
 
     useEffect(() => {
         if (getLocalToken()) {
             auth_store.checkAuth()
         }
-        if (theme ==' light'){
-            setIsDark(false)
-        }
+
     }, [auth_store])
 
-    function themeToggle(){
-        if (theme =='light'){
+    function themeToggle() {
+        if (theme == 'light') {
             setTheme('dark')
         }
-        else{
+        else {
             setTheme('light')
         }
     }
@@ -75,25 +76,40 @@ export function Header() {
                 <div className={styles.header_layout}>
                     <div className={styles.logo_wrapper}>
                         <a href="/">
-                            <div className={styles.logo}></div>
+                            <MainLogoIcon className='main-logo' />
                         </a>
                     </div>
 
                     <div className={styles.search_wrapper}>
                         <SearchField placeholder={'Поиск'} type={'text'} id={''} labelname={'Поиск'} height={32} />
                     </div>
-
-
+                    <div className={styles.toggle_wrapper_mobile}>
+                        <div className={styles.container}>
+                            {typeof window !== "undefined" ?
+                                <label id="switch" className={styles.switch}>
+                                    <input type="checkbox" id="slider" onChange={() => themeToggle()} defaultChecked={localStorage!.getItem('app-theme') === 'light' ? true : false} />
+                                    <span className={styles.slider} ></span>
+                                </label>
+                                : null}
+                        </div>
+                    </div>
                     <div className={styles.profile_section}>
+                        <div className={styles.toggle_wrapper}>
+                            <div className={styles.container}>
+                                {typeof window !== "undefined" ?
+                                    <label id="switch" className={styles.switch}>
+                                        <input type="checkbox" id="slider" onChange={() => themeToggle()} defaultChecked={localStorage!.getItem('app-theme') === 'light' ? true : false} />
+                                        <span className={styles.slider} ></span>
+                                    </label>
+                                    : null}
+                            </div>
+                        </div>
                         {auth_store.isAuth ?
                             <UserProfileButton type={'button'} onClick={() => setIsShow(!isShow)} height={32}>
                                 {auth_store.user.username}
-                                <Image
-                                    src={userpic}
-                                    width={24}
-                                    height={24}
-                                    alt="user"
-                                />
+                                <div className={styles.icon_wrapper}>
+                                    <UserIcon className='general-icon' />
+                                </div>
                             </UserProfileButton>
 
                             :
@@ -101,36 +117,32 @@ export function Header() {
                                 Войти
                             </div>
                         }
-                        <div className={styles.toggle_wrapper}>
 
-
-                            <div className={styles.container}>
-                                <label id="switch" className={styles.switch}>
-                                    <input type="checkbox"  id="slider" onChange={() => themeToggle()} defaultChecked={!isDark}/>
-                                        <span className={styles.slider} ></span>
-                                </label>
-                                {/* <!-- <button id="switch" onclick="toggleTheme()">Switch</button> --> */}
-                            </div>
-                        </div>
                         <ProfilePopup active={isShow} innerRef={popupRef}>
 
 
                             <a href={'/' + auth_store.user.username} onClick={() => setIsShow(!isShow)}>
-
-                                <div className={styles.user_icon}></div>
+                                <div className={styles.icon_wrapper}>
+                                    <UserIcon className='general-icon' />
+                                </div>
                                 <span>
                                     {auth_store.user.full_name}
                                 </span>
                             </a>
                             <a href={'/settings'} onClick={() => setIsShow(!isShow)}>
-                                <div className={styles.settings_icon}></div>
+                                <div className={styles.icon_wrapper}>
+                                    <SettingsIcon className="general-icon" />
+                                </div>
                                 <span>
                                     Настройки
                                 </span>
                             </a>
 
                             <a href={'/'} onClick={() => { auth_store.logout(), setIsShow(!isShow) }}>
-                                <div className={styles.leave_icon}></div>
+
+                                <div className={styles.icon_wrapper}>
+                                    <LeaveIcon className="general-icon" />
+                                </div>
                                 <span>
                                     Выход
                                 </span>

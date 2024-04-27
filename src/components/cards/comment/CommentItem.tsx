@@ -11,6 +11,7 @@ import CommentField from "../../fields/comment/CommentField";
 import LikeIcon from "@/components/icons/like";
 import { observer } from "mobx-react";
 import DotsIcon from "@/components/icons/dots";
+import UserIcon from "@/components/icons/user";
 
 
 export interface CommentProps {
@@ -45,7 +46,9 @@ function CommentItem({ commentId, fullName, username, text, likeCount, created, 
         <div className={styles.card_wrapper}>
             <div className={styles.comment_header}>
                 <div className={styles.post_author_image}>
-                    <Image src={userImage} alt={''} width={40} height={40} />
+                    <div className={styles.icon_wrapper}>
+                        <UserIcon className='general-icon' />
+                    </div>
                 </div>
                 <div className={styles.user_data_wrapper}>
                     <Link className={styles.author_name} href={`/${username}`}>
@@ -73,15 +76,15 @@ function CommentItem({ commentId, fullName, username, text, likeCount, created, 
                             <span>{hasAuthorLike && active ? likeCount - 1 : !hasAuthorLike && active ? likeCount + 1 : likeCount}</span>
 
                         </div>
-                    
+
                     </div>
                     <div className={styles.action_button}
                         onClick={() => setShowComment(true)}>
                         Ответить
                     </div>
                     <div className={styles.icon_wrapper}>
-                            <DotsIcon className='general-icon-fill' />
-                        </div>
+                        <DotsIcon className='general-icon-fill' />
+                    </div>
                 </div>
             </div>
             {

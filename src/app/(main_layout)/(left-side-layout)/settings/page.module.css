@@ -1,6 +1,7 @@
 .main_wrapper {
-    background-color: var(--card-bg-color);
+    background-color: var(--bg-card-color);
     border-radius: 6px;
+    transition: background-color 0.2s linear;
 }
 
 .settings_header {
@@ -22,10 +23,8 @@
 
 }
 
-.user_icon,
-.lock_icon,
-.mailing_icon,
-.theme_icon {
+
+.icon_wrapper {
     display: flex;
     width: 28px;
     height: 28px;
@@ -34,36 +33,7 @@
 
 }
 
-.user_icon {
-    background-image: var(--user-icon);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-}
 
-.lock_icon {
-    background-image: var(--lock-icon);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-
-}
-
-.mailing_icon {
-    background-image: var(--mailing-icon);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-
-}
-
-.theme_icon {
-    background-image: var(--theme-icon);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-
-}
 
 .settings_menu_item {
     display: flex;
@@ -74,7 +44,7 @@
 }
 
 .settings_menu_item:hover{
-    background-color: var(--settings-item-hover);
+    background-color: var(--list-item-hover);
     border-radius: 6px;
 }
 

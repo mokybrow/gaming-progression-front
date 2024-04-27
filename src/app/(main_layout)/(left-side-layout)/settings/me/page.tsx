@@ -15,6 +15,7 @@ import { Dayjs } from "dayjs";
 import { observer } from "mobx-react-lite";
 import SettingsField from "@/components/fields/settings/SettingsField";
 import { formatDate } from "@/services/dateFormat";
+import ArrowLeftIcon from "@/components/icons/arrowLeft";
 
 function SettingsMe() {
     const [fullName, setFullName] = useState("");
@@ -30,7 +31,9 @@ function SettingsMe() {
                 <div className={styles.main_wrapper}>
                     <div className={styles.settings_header}>
                         <Link href={'/settings/'}>
-                            <div className={styles.arrow_back}></div>
+                            <div className={styles.icon_wrapper}>
+                                <ArrowLeftIcon className='general-icon'/>
+                            </div>
                             <span>Назад</span>
                         </Link>
                     </div>

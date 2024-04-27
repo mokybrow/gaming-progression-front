@@ -20,6 +20,8 @@ import CircleLoader from '@/components/loader/circle';
 import CommentField from '@/components/fields/comment/CommentField';
 import CommentCard from '@/components/cards/comment/CommentCard';
 import { formatDate } from '@/services/dateFormat';
+import ServiceButtonLong from '@/components/buttons/servicelong/ServiceButtonLong';
+import StarIcon from '@/components/icons/star';
 
 
 function GamePage() {
@@ -100,17 +102,17 @@ function GamePage() {
 
                         {rating != 0 ?
                             <>
-                                <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={18}
+                                <ServiceButtonLong type={'button'}
                                     onClick={() => (games_store.addGameGrade(games_store.gamePage.id, rating), games_store.setGameRate(rating), setRateButtonCount(rateButtonCount + 1), setIsShowRating(false))}>
                                     Отправить
-                                </FunctionalGameButton>
+                                </ServiceButtonLong>
                             </> : null}
                         {games_store.rate || rating != 0 ? <>
-                            <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={18}
+                            <ServiceButtonLong type={'button'} 
                                 onClick={() => (rateButtonCount > 0 || games_store.rate > 0 ? games_store.delGameGrade(games_store.gamePage.id) : null,
                                     setHover(0), setRating(0), setRateButtonCount(0), games_store.setGameRate(0))}>
                                 Удалить
-                            </FunctionalGameButton>
+                            </ServiceButtonLong>
                         </> : null}
                     </div>
                 </div>
@@ -191,12 +193,14 @@ function GamePage() {
 
             <main className="right_side_wrapper">
                 <div className={styles.information_card_wrapper}>
-                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={20} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setIsShowRating(true), games_store.rate != 0 ? (setHover(games_store.rate), setRating(games_store.rate)) : null) }}>
+                    <ServiceButtonLong type={'button'} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setIsShowRating(true), games_store.rate != 0 ? (setHover(games_store.rate), setRating(games_store.rate)) : null) }}>
                         <div className={styles.button_data_wrapper}>
-                            <div className={styles.star_icon}></div>
+                            <div className={styles.star_icon}>
+                                <StarIcon className='general-icon'/>
+                            </div>
                             <span>Оценить игру</span>
                         </div>
-                    </FunctionalGameButton>
+                    </ServiceButtonLong>
                     <div className={styles.other_information_grid}>
 
                         <div className={styles.other_info_card}>

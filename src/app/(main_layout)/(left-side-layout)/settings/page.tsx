@@ -5,6 +5,9 @@ import { useContext, useEffect, useState } from "react";
 import styles from './page.module.css'
 import Link from "next/link";
 import { observer } from "mobx-react-lite";
+import UserIcon from "@/components/icons/user";
+import LockIcon from "@/components/icons/lock";
+import MailIcon from "@/components/icons/mail";
 
 
 
@@ -23,7 +26,9 @@ function Settings() {
                     <div className={styles.settings_content}>
 
                         <Link className={styles.settings_menu_item} href={'/settings/me'}>
-                            <div className={styles.user_icon}>
+                            <div className={styles.icon_wrapper}>
+                                <UserIcon className='general-icon' />
+
                             </div>
                             <div className={styles.text_wrapper}>
                                 <span className={styles.point_header}>Обо мне</span>
@@ -32,7 +37,8 @@ function Settings() {
                         </Link>
 
                         <Link className={styles.settings_menu_item} href={'/settings/security'}>
-                            <div className={styles.lock_icon}>
+                            <div className={styles.icon_wrapper}>
+                                <LockIcon className="general-icon"/>
                             </div>
                             <div className={styles.text_wrapper}>
                                 <span className={styles.point_header}>Безопасность</span>
@@ -41,7 +47,8 @@ function Settings() {
                         </Link>
 
                         <Link className={styles.settings_menu_item} href={'/settings/mailing'}>
-                            <div className={styles.mailing_icon}>
+                            <div className={styles.icon_wrapper}>
+                                <MailIcon className="general-icon"/>
                             </div>
                             <div className={styles.text_wrapper}>
                                 <span className={styles.point_header}>Рассылка</span>
@@ -49,17 +56,12 @@ function Settings() {
                             </div>
                         </Link>
 
-                        {/* <div className={styles.settings_menu_item}>
-                            <div className={styles.theme_icon}>
-                            </div>
-                            <span>Тема</span>
-                        </div> */}
                     </div>
                 </div>
 
             </main>
             <main className="right_side_wrapper">
-           
+
             </main>
 
         </>

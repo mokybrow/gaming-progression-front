@@ -9,6 +9,7 @@ import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton"
 
 import { observer } from "mobx-react-lite";
 import 'react-toastify/dist/ReactToastify.css';
+import ArrowLeftIcon from "@/components/icons/arrowLeft";
 
 
 const SettingsMailing = observer(() => {
@@ -34,7 +35,9 @@ const SettingsMailing = observer(() => {
                 <div className={styles.main_wrapper}>
                     <div className={styles.settings_header}>
                         <Link href={'/settings/'}>
-                            <div className={styles.arrow_back}></div>
+                            <div className={styles.icon_wrapper}>
+                                <ArrowLeftIcon className='general-icon' />
+                            </div>
                             <span>Назад</span>
                         </Link>
                     </div>
@@ -64,7 +67,7 @@ const SettingsMailing = observer(() => {
 
             </main>
             <main className="right_side_wrapper">
-          
+
             </main>
 
         </>

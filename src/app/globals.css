@@ -16,6 +16,10 @@
   --favorite-button-hover: #FFC0BA;
   --wishlist-button-color: #34A1C7;
   --wishlist-button-hover: #58B0CF;
+  --slider-bg-color: #EFEFEF;
+  --sun-color: #EBB50D;
+
+  
 }
 
 
@@ -37,44 +41,17 @@ html[data-theme='light'] {
   --profile-button: #F5F5F5;
   --icon-color: #1E1D1F;
   --social-button-color: #E6E6E6;
-  --service-button-color: #F0F0F0;
+  --service-button-color: #DADADA;
   --service-button-hover: #E6E6E6;
   --hr-color: rgba(30, 29, 31, .6);
+  --main-logo-color: #000;
+  --mobile-menu-color: #FFFFFF;
 
-
-  --menu-icon: url("../assets/icons/light/menu.svg");
-  --home-icon: url("../assets/icons/light/home.svg");
-  --search-icon: url("../assets/icons/light/search.svg");
-  --user-icon: url("../assets/icons/light/user.svg");
-  --main-logo: url("../assets/icons/light/mbrw.svg");
-
-  --gamepad-icon: url("../assets/icons/light/gamepad.svg");
-  --calendar-icon: url("../assets/icons/light/calendar.svg");
-  --cup-icon: url("../assets/icons/light/cup.svg");
-  --feed-icon: url("../assets/icons/light/feed.svg");
-  --playlist-icon: url("../assets/icons/light/playlist.svg");
-  --settings-icon: url("../assets/icons/light/settings.svg");
-  --leave-icon: url("../assets/icons/light/leave.svg");
-  --profile-icon: url("../assets/icons/light/profile.svg");
-  --arrow-icon: url("../assets/icons/light/arrow.svg");
-  --sort-icon: url("../assets/icons/light/sort.svg");
-  --filter-icon: url("../assets/icons/light/filter.svg");
-  --x-icon: url("../assets/icons/light/x.svg");
 
   --rocket-icon: url('../assets//icons/general/rocket.svg');
   --finish-flag-icon: url('../assets//icons/general/finish.svg');
   --heart-favorite-icon: url('../assets//icons/general/heart.svg');
   --bag-icon: url('../assets//icons/general/bag.svg');
-  --like-icon: url('../assets//icons/general/like.svg');
-  --star-icon: url('../assets//icons/light/star.svg');
-  --flag-icon: url('../assets//icons/general/flag.svg');
-
-  --feed-big-icon: url("../assets/icons/light/feedbig.svg");
-
-  --lock-icon: url("../assets/icons/light/lock.svg");
-  --theme-icon: url("../assets/icons/light/theme.svg");
-  --mailing-icon: url("../assets/icons/light/mailing.svg");
-  --arrow-back-icon: url("../assets/icons/light/arrow-back.svg");
 
 
   --settings-item-hover: #F5F5F5;
@@ -103,7 +80,7 @@ html[data-theme='dark'] {
   --list-item-hover: #333333;
 
   --input-color: #333333;
-  --input-hover: #282828;
+  --input-hover: #000000;
   --post-input-color: #1F1F1F;
   --header-color: #232628;
   --search-color: #333333;
@@ -115,36 +92,14 @@ html[data-theme='dark'] {
   --service-button-hover: #2B2B2B;
   --hr-color: rgba(232, 232, 237, .6);
 
+  --main-logo-color: #FFAD4A;
+  --mobile-menu-color: #1F1F1F;
 
-
-  --menu-icon: url("../assets/icons/dark/menu.svg");
-  --home-icon: url("../assets/icons/dark/home.svg");
-  --search-icon: url("../assets/icons/dark/search.svg");
-  --user-icon: url("../assets/icons/dark/user.svg");
-  --main-logo: url("../assets/icons/dark/mbrw.svg");
-
-
-  --gamepad-icon: url("../assets/icons/dark/gamepad.svg");
-  --calendar-icon: url("../assets/icons/dark/calendar.svg");
-  --cup-icon: url("../assets/icons/dark/cup.svg");
-  --feed-icon: url("../assets/icons/dark/feed.svg");
-  --playlist-icon: url("../assets/icons/dark/playlist.svg");
-  --settings-icon: url("../assets/icons/dark/settings.svg");
-  --leave-icon: url("../assets/icons/dark/leave.svg");
-  --profile-icon: url("../assets/icons/dark/profile.svg");
-  --arrow-icon: url("../assets/icons/dark/arrow.svg");
-  --sort-icon: url("../assets/icons/dark/sort.svg");
-  --filter-icon: url("../assets/icons/dark/filter.svg");
-  --x-icon: url("../assets/icons/dark/x.svg");
-
-  --feed-big-icon: url("../assets/icons/dark/feedbig.svg");
-
-  --lock-icon: url("../assets/icons/dark/lock.svg");
-  --theme-icon: url("../assets/icons/dark/theme.svg");
-  --mailing-icon: url("../assets/icons/dark/mailing.svg");
-
-  --arrow-back-icon: url("../assets/icons/dark/arrow-back.svg");
-
+ 
+  --rocket-icon: url('../assets//icons/general/rocket.svg');
+  --finish-flag-icon: url('../assets//icons/general/finish.svg');
+  --heart-favorite-icon: url('../assets//icons/general/heart.svg');
+  --bag-icon: url('../assets//icons/general/bag.svg');
 
   --popup-bg-color: rgba(51, 51, 51, 0.8);
   --search-popup-bg-color: rgba(51, 51, 51, 0.6);
@@ -181,7 +136,7 @@ body {
   overflow-x: hidden;
   color: var(--font-color);
   background-color: var(--bg-global-color);
-  transition: background-color 200ms  ease-out;
+  transition: 0.2s linear;
 }
 
 .modal_open {
@@ -279,7 +234,7 @@ body {
   gap: 48px;
   height: 100%;
   box-sizing: inherit;
-  margin-top: 48px;
+  margin-top: 58px;
 }
 
 .nested_layout {

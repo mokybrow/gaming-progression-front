@@ -1,8 +1,8 @@
 .sidebar_left {
     display: block;
     position: sticky;
-    top: 48px;
-    height: calc(100vh - 48px);
+    top: 58px;
+    height: calc(100vh - 58px);
     padding: 41px 0 16px 0;
     font-weight: 300;
 }
@@ -55,25 +55,7 @@
     height: 24px;
 }
 
-.gamepad_icon {
-    background-image: var(--gamepad-icon);
-}
 
-.calendar_icon {
-    background-image: var(--calendar-icon);
-}
-
-.cup_icon {
-    background-image: var(--cup-icon);
-}
-
-.feed_icon {
-    background-image: var(--feed-icon);
-}
-
-.playlist_icon {
-    background-image: var(--playlist-icon);
-}
 
 @media (max-width: 840px) {
     .sidebar_left {

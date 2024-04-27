@@ -8,7 +8,8 @@ import { GENRES } from '@/constants/genres';
 import { FIVEYEARS, YEARS } from '@/constants/years';
 import { PLATFORMS } from '@/constants/platforms';
 import { observer } from 'mobx-react-lite';
-import { ServiceButton } from '@/components/buttons/ServiceButton';
+import ServiceButton from '@/components/buttons/service/ServiceButton';
+import ServiceButtonLong from '@/components/buttons/servicelong/ServiceButtonLong';
 
 
 export interface ModalProps {
@@ -150,8 +151,8 @@ function FiltersCard({ setIsShow }: ModalProps) {
                         ))}
                     </div>
                 </div>
-                <ServiceButton type={'button'} onClick={() => (SubmitFilter(), setIsShow(false))}>Применить фильтры</ServiceButton>
-                <ServiceButton type={'reset'} onClick={() => (ClearFilter(), setIsShow(false))}>Сбросить фильтры</ServiceButton>
+                <ServiceButtonLong type={'button'} onClick={() => (SubmitFilter(), setIsShow(false))}>Применить фильтры</ServiceButtonLong>
+                <ServiceButtonLong type={'reset'} onClick={() => (ClearFilter(), setIsShow(false))}>Сбросить фильтры</ServiceButtonLong>
             </form>
         </div>
 

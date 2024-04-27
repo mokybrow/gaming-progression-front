@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react';
 import styles from './popup.module.css'
+import CrossIcon from '../icons/cross';
 
 
 export interface ModalProps {
@@ -32,7 +33,7 @@ export function FullScreenPopup({ active, children, setActive, ...rest }: ModalP
             onClick={() => setActive(false)}>
             <div className={styles.exit_button_wrapper}>
                 <div className={styles.exit_button} onClick={() => setIsShow(false)}>
-
+                    <CrossIcon className='general-icon' />
                 </div>
             </div>
             <div className={active ? 'modal_content activemodal' : 'modal_content'} onClick={e => e.stopPropagation()}>

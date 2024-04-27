@@ -9,6 +9,15 @@ import { useRef, useState } from "react";
 import useOutside from "@/hooks/useOutside";
 import { MenuPopup } from "../popup/menu/MenuPopUp";
 import CircleLoader from "../loader/circle";
+import GamepadIcon from "../icons/gamepad";
+import CalendarIcon from "../icons/calendar";
+import PlaylistIcon from "../icons/playlist";
+import FeedIcon from "../icons/feed";
+import CupIcon from "../icons/cup";
+import HomeIcon from "../icons/home";
+import SearchIcon from "../icons/search";
+import UserIcon from "../icons/user";
+import MenuIcon from "../icons/menu";
 
 
 const BottomMenu = () => {
@@ -30,11 +39,11 @@ const BottomMenu = () => {
         <>
             <MenuPopup active={isShow} innerRef={popupRef} setIsShow={setIsShow}>
                 <div className={styles.popup_menu_items}>
-                    <Link href={"/games"} className={isActive('/games') ? styles.actve : ""} onClick={() => setIsShow(false)}><div className={styles.gamepad_icon}></div> <span>Все игры</span> </Link>
-                    <Link href={"/calendar"} className={isActive('/calendar') ? styles.actve : ""} onClick={() => setIsShow(false)}><div className={styles.calendar_icon}></div> <span>Календарь игр</span></Link>
-                    <Link href={"/goty"} className={isActive('/goty') ? styles.actve : ""} onClick={() => setIsShow(false)}><div className={styles.cup_icon}></div> <span>Игры года</span></Link>
-                    <Link href={"/feed"} className={isActive('/feed') ? styles.actve : ""} onClick={() => setIsShow(false)}><div className={styles.feed_icon}></div> <span>Лента новостей</span></Link>
-                    <Link href={"/playlists"} className={isActive('/playlists') ? styles.actve: ""} onClick={() => setIsShow(false)}><div className={styles.playlist_icon}></div> <span>Плейлисты</span></Link>
+                <Link href={"/games"} className={isActive('/games') ? "active" : ""}><div className={styles.gamepad_icon}><GamepadIcon className='general-icon'/></div> <span>Все игры</span> </Link>
+                    <Link href={"/calendar"} className={isActive('/calendar') ? "active" : ""}><div className={styles.calendar_icon}><CalendarIcon  className='general-icon-fill'/></div> <span>Календарь игр</span></Link>
+                    <Link href={"/goty"} className={isActive('/goty') ? "active" : ""}><div className={styles.cup_icon}> <CupIcon className='general-icon'/></div> <span>Игры года</span></Link>
+                    <Link href={"/feed"} className={isActive('/feed') ? "active" : ""}><div className={styles.feed_icon}><FeedIcon className='general-icon'/></div> <span>Лента новостей</span></Link>
+                    <Link href={"/playlists"} className={isActive('/playlists') ? "active" : ""}><div className={styles.playlist_icon}><PlaylistIcon className='general-icon'/></div> <span>Плейлисты</span></Link>
                 </div>
 
             </MenuPopup>
@@ -43,12 +52,14 @@ const BottomMenu = () => {
                 <div className={styles.menulimit}>
 
                     <div className={styles.menu_logo} onClick={() => setIsShow(true)}>
+                        <MenuIcon className='general-icon'/>
                     </div>
 
                     <Link href={"/"} className={currentRoute === "/"
                         ? styles.pointermenu
                         : "notpointer"}>
                         <div className={styles.home_logo}>
+                            <HomeIcon className="general-icon-fill"/>
                         </div>
 
                     </Link>
@@ -56,12 +67,14 @@ const BottomMenu = () => {
                         ? styles.pointermenu
                         : "notpointer"}>
                         <div className={styles.search_logo}>
+                            <SearchIcon className='general-icon'/>
                         </div>
                     </Link>
                     <Link href={"/account"} className={currentRoute === "/account"
                         ? styles.pointermenu
                         : "notpointer"}>
                         <div className={styles.user_logo}>
+                            <UserIcon className='general-icon'/>
                         </div>
                     </Link>
 

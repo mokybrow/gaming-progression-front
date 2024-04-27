@@ -72,9 +72,7 @@
     right: 30px;
 }
 
-.exit_button {
-
-    background-image: var(--x-icon);
+.icon_wrapper {
     width: 24px;
     height: 24px;
     background-repeat: no-repeat;

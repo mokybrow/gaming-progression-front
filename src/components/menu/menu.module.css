@@ -9,10 +9,11 @@
         position: fixed;
         bottom: 0;
         left: 0;
-        background-color: var(--menu-color);
+        background-color: var(--mobile-menu-color);
         height: 48px;
         width: 100%;
         z-index: 5;
+        transition: background-color 0.2s linear;
     }
 
     .menulimit {
@@ -46,22 +47,19 @@
     display: flex;
     width: 32px;
     height: 32px;
-    background-image: var(--home-icon);
 }
 
 .search_logo {
     display: flex;
     width: 32px;
     height: 32px;
-    background-image: var(--search-icon);
 }
 
 .user_logo {
     display: flex;
     background-size: contain;
-    width: 30px;
-    height: 30px;
-    background-image: var(--user-icon);
+    width: 32px;
+    height: 32px;
 }
 
 .popup_menu_items {

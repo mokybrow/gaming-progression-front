@@ -20,6 +20,7 @@ import ReactMarkdown from 'react-markdown';
 import CrossIcon from '@/components/icons/cross';
 import { Context } from '@/app/providers';
 import { formatDate } from '@/services/dateFormat';
+import UserIcon from '@/components/icons/user';
 
 
 export interface CardProps {
@@ -40,7 +41,9 @@ function OneCard({ post, comments, commentLikes, setIsShowRepost, setIsShowPost 
             <div className={styles.post_header}>
                 <div className={styles.post_data_wrapper}>
                     <div className={styles.post_author_image}>
-                        <Image src={userImage} alt={''} width={40} height={40} />
+                        <div className={styles.icon_wrapper}>
+                            <UserIcon className='general-icon' />
+                        </div>
                     </div>
                     <div className={styles.user_data_wrapper}>
                         <Link className={styles.author_name} href={`/${post.Posts?.author_data?.username}`}>
@@ -69,7 +72,9 @@ function OneCard({ post, comments, commentLikes, setIsShowRepost, setIsShowPost 
                         <div className={styles.post_header}>
                             <div className={styles.post_data_wrapper}>
                                 <div className={styles.post_author_image}>
-                                    <Image src={userImage} alt={''} width={40} height={40} />
+                                    <div className={styles.icon_wrapper}>
+                                        <UserIcon className='general-icon' />
+                                    </div>
                                 </div>
                                 <div className={styles.user_data_wrapper}>
                                     <Link className={styles.author_name} href={`/${post.Posts?.parent_post_data?.author_data?.username}`}>

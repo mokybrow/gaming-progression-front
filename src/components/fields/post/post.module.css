@@ -17,6 +17,7 @@
     border-radius: 6px;
     background-color: var(--post-input-color);
     transition: 140ms all ease-out;
+    transition:  background-color 0.2s linear;
 }
 
 .input:hover {
@@ -65,7 +66,6 @@
     box-sizing: border-box;
     max-width: 100%;
     gap: 12px;
-    background-color: var(--bg-card-color);
     border-radius: 6px;
 }
 

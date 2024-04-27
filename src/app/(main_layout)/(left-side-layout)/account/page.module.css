@@ -23,9 +23,7 @@
     font-size: 20px;
 }
 
-.user_icon,
-.settings_icon,
-.leave_icon {
+.icon_wrapper{
     display: flex;
     background-repeat: no-repeat;
     background-size: cover;
@@ -33,17 +31,7 @@
     height: 28px;
 }
 
-.user_icon {
-    background-image: var(--profile-icon);
-}
 
-.settings_icon {
-    background-image: var(--settings-icon);
-}
-
-.leave_icon {
-    background-image: var(--leave-icon);
-}
 
 
 .reglink {

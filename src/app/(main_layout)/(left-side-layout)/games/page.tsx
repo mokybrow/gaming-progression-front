@@ -15,6 +15,8 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import SkeletonLoader from "@/components/loader/loader";
 import { FullScreenPopup } from "@/components/popup/FullScreenPopup";
 import CircleLoader from "@/components/loader/circle";
+import FilterIcon from "@/components/icons/filter";
+import SortIcon from "@/components/icons/sort";
 
 
 
@@ -69,21 +71,23 @@ function Games() {
 
     return (
         <>
-           {games_store.isLoading ? <><div className='loader_wrapper'>
+            {games_store.isLoading ? <><div className='loader_wrapper'>
                 <CircleLoader />
             </div></> : null}
             <FullScreenPopup active={isShowFilter} setActive={setIsShowFilter}>
-                <FiltersCard setIsShow={setIsShowFilter}/>
+                <FiltersCard setIsShow={setIsShowFilter} />
             </FullScreenPopup>
             <main className="content_wrapper">
                 <div className={styles.sort_wrapper} >
                     <div className={styles.sort_button_wrapper} >
                         <div className={styles.sort_button} onClick={() => setIsShow(!isShow)}>
-                            <div className={styles.sort_icon}></div>
+                            <div className={styles.icon_wrapper}>
+                                <SortIcon className="general-icon" />
+                            </div>
                             {games_store.sort.name == 'title' && games_store.sort.type == "asc" ? <><span>Сначала на А</span></>
-                            : games_store.sort.name == 'title' && games_store.sort.type == "desc"? <><span>Сначала на Я</span></>
-                            : games_store.sort.name == 'release_date' && games_store.sort.type == "asc"? <><span>Сначала старые</span></>: 
-                            <><span>Сначала новые</span></> }
+                                : games_store.sort.name == 'title' && games_store.sort.type == "desc" ? <><span>Сначала на Я</span></>
+                                    : games_store.sort.name == 'release_date' && games_store.sort.type == "asc" ? <><span>Сначала старые</span></> :
+                                        <><span>Сначала новые</span></>}
                             {/* <span>Сортировка</span> */}
                         </div>
 
@@ -91,7 +95,9 @@ function Games() {
                         <div className={styles.right_side_flex_mobile}>
                             <div className={styles.filter_button_wrapper_desk} >
                                 <div className={styles.filter_button} onClick={() => setIsShowFilter(true)}>
-                                    <div className={styles.filter_icon}></div>
+                                    <div className={styles.icon_wrapper}>
+                                        <FilterIcon className="general-icon" />
+                                    </div>
                                     <span>Фильтры</span>
                                 </div>
                             </div>
@@ -148,7 +154,9 @@ function Games() {
                 <div className={styles.right_side_flex}>
                     <div className={styles.filter_button_wrapper_desk} >
                         <div className={styles.filter_button}>
-                            <div className={styles.filter_icon}></div>
+                            <div className={styles.icon_wrapper}>
+                                <FilterIcon className="general-icon" />
+                            </div>
                             <span>Фильтры</span>
                         </div>
                     </div>
@@ -159,15 +167,23 @@ function Games() {
                 <div className={styles.sort_wrapper_mobile} >
                     <div className={styles.sort_button_wrapper} >
                         <div className={styles.sort_button} onClick={() => setIsShow(!isShow)}>
-                            <div className={styles.sort_icon}></div>
-                            <span>Сортировка</span>
+
+                            <div className={styles.icon_wrapper}>
+                                <SortIcon className="general-icon" />
+                            </div>
+                            {games_store.sort.name == 'title' && games_store.sort.type == "asc" ? <><span>Сначала на А</span></>
+                                : games_store.sort.name == 'title' && games_store.sort.type == "desc" ? <><span>Сначала на Я</span></>
+                                    : games_store.sort.name == 'release_date' && games_store.sort.type == "asc" ? <><span>Сначала старые</span></> :
+                                        <><span>Сначала новые</span></>}
                         </div>
 
                         <div className={styles.finded_games}>Найдено игр {games_store.gamesCount.game_count}</div>
                         <div className={styles.right_side_flex_mobile}>
                             <div className={styles.filter_button_wrapper_desk} >
                                 <div className={styles.filter_button} onClick={() => setIsShowFilter(true)}>
-                                    <div className={styles.filter_icon}></div>
+                                    <div className={styles.icon_wrapper}>
+                                        <FilterIcon className="general-icon" />
+                                    </div>
                                     <span>Фильтры</span>
                                 </div>
                             </div>
@@ -184,7 +200,7 @@ function Games() {
                     </div>
 
                 </div>
-           
+
 
             </main>
 

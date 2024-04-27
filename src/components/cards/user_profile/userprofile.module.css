@@ -5,6 +5,8 @@
     padding: 12px 24px;
     border-radius: 6px;
     gap: 10px;
+    transition: 0.2s linear;
+
 }
 
 .general_user_info {

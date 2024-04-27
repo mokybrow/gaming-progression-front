@@ -5,12 +5,13 @@
   gap: 12px;
 }
 
-.comments_block{
+.comments_block {
   display: flex;
   gap: 12px;
   flex-direction: column;
 
 }
+
 .card_wrapper {
   display: flex;
   flex-direction: column;
@@ -34,10 +35,13 @@
 }
 
 .post_author_image {
+  width: 40px;
+  height: 40px;
   display: flex;
-  background-color: antiquewhite;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--profile-button);
   border-radius: 100px;
-  align-items: flex-start;
 }
 
 .comment_time_wrapper {
@@ -96,7 +100,7 @@
   line-height: 1.2;
   position: relative;
   padding: 0 0 1em 1em;
-  
+
 }
 
 

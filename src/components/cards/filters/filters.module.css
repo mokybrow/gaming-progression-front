@@ -4,11 +4,11 @@
     top: 48px;
     height: calc(100vh - 150px);
     font-weight: 300;
-    background-color: var(--menu-color);
+    background-color: var(--bg-card-color);
     border-radius: 6px;
     padding: 12px 12px;
     gap: 10px;
-
+    transition: background-color 0.2s linear;
 }
 
 .filters_wrapper form {
@@ -30,13 +30,14 @@
 .block_wrapper {
     width: 100%;
     flex-grow: 1;
-    border: 1px solid;
     border-radius: 6px;
     background-color: var(--input-color);
     padding: 6px;
     overflow-y: scroll;
     min-height: 100px;
     gap: 6px;
+    transition: background-color 0.2s linear;
+
 }
 
 .choose_section {
@@ -85,7 +86,6 @@
     .block_wrapper {
         width: 100%;
         flex-grow: 1;
-        border: 1px solid;
         overflow-y: scroll;
         min-height: 100px;
         gap: 6px;

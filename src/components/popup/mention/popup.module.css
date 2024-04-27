@@ -6,8 +6,8 @@
 .modal_content_active {
     display: flex;
     flex-direction: column;
-    
-    background: var(--sidebar-hover);
+    position: absolute;
+    background: var(--bg-card-color);
     -webkit-box-shadow: 0px 3px 4px 0px rgba(0,0,0,0.52);
     -moz-box-shadow: 0px 3px 4px 0px rgba(0,0,0,0.52);
     box-shadow: 0px 3px 4px 0px rgba(0,0,0,0.52);
