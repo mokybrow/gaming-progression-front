@@ -23,7 +23,6 @@ export interface CommentProps {
 
 
 function CommentField({ contentID, parentCommentId, setShowComment }: CommentProps) {
-  const textRef = React.useRef() as React.MutableRefObject<HTMLInputElement>;
 
   const { content_store } = useContext(Context);
   const { auth_store } = useContext(Context);

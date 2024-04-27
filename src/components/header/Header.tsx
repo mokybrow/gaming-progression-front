@@ -26,16 +26,26 @@ export function Header() {
     const [isShow, setIsShow] = useState(false);
     const [isAuthShow, setIsAuthShow] = useState(false);
     const [isRegShow, setIsRegShow] = useState(false);
+    const [isDark, setIsDark] = useState(false);
     const { auth_store } = useContext(Context);
 
     useEffect(() => {
         if (getLocalToken()) {
             auth_store.checkAuth()
         }
+        if (theme ==' light'){
+            setIsDark(false)
+        }
     }, [auth_store])
 
-    const router = useRouter();
-
+    function themeToggle(){
+        if (theme =='light'){
+            setTheme('dark')
+        }
+        else{
+            setTheme('light')
+        }
+    }
 
     const popupRef = useRef(null)
     useOutside(popupRef, () => {
@@ -58,7 +68,7 @@ export function Header() {
             <FullScreenPopup active={isAuthShow} setActive={setIsAuthShow}>
                 <LoginForm />
                 <div className={styles.form_elem}>
-                <div >Нет аккаунта? <span className={styles.reglink} onClick={() => (setIsAuthShow(false), setIsRegShow(true))}>Зарегистрироваться</span></div>
+                    <div >Нет аккаунта? <span className={styles.reglink} onClick={() => (setIsAuthShow(false), setIsRegShow(true))}>Зарегистрироваться</span></div>
                 </div>
             </FullScreenPopup>
             <header className={styles.header}>
@@ -91,6 +101,17 @@ export function Header() {
                                 Войти
                             </div>
                         }
+                        <div className={styles.toggle_wrapper}>
+
+
+                            <div className={styles.container}>
+                                <label id="switch" className={styles.switch}>
+                                    <input type="checkbox"  id="slider" onChange={() => themeToggle()} defaultChecked={!isDark}/>
+                                        <span className={styles.slider} ></span>
+                                </label>
+                                {/* <!-- <button id="switch" onclick="toggleTheme()">Switch</button> --> */}
+                            </div>
+                        </div>
                         <ProfilePopup active={isShow} innerRef={popupRef}>
 
 

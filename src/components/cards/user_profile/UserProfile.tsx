@@ -68,7 +68,7 @@ function UserProfileCard({ username, fullName, biorgaphy, createdAt, activity, f
             <div className={styles.service_block}>
                 <div className={styles.buttons_wrapper}>
 
-                    {!isOwner ?
+                    {!isOwner && auth_store.isAuth ?
                         <>
                             {!isFollow && !follow ?
                                 <FollowButton type={'button'} follow={false} onClick={() => (followHandler(), setFollow(true))}>

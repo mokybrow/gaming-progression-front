@@ -2,6 +2,9 @@
   --link-color: #0066CC;
   --blue-button-color: #0071E3;
   --blue-button-hover: #0077ED;
+  --red-button-color: #FF0A15;
+  --red-button-hover: #FF4049;
+  --ligth-button-font-color: #E5E5E5;
   --complete-button-color: #30B63D;
 
   --complete-button-hover: #97E88A;
@@ -26,6 +29,8 @@ html[data-theme='light'] {
 
   --input-color: #EFEFEF;
   --input-hover: #FFFFFF;
+  --post-input-color: #FFFFFF;
+
   --header-color: #7FC7FF;
   --search-color: #B3DAF9;
   --bg-card-color: #FFFFFF;
@@ -99,6 +104,7 @@ html[data-theme='dark'] {
 
   --input-color: #333333;
   --input-hover: #282828;
+  --post-input-color: #1F1F1F;
   --header-color: #232628;
   --search-color: #333333;
   --bg-card-color: #1F1F1F;
@@ -175,6 +181,7 @@ body {
   overflow-x: hidden;
   color: var(--font-color);
   background-color: var(--bg-global-color);
+  transition: background-color 200ms  ease-out;
 }
 
 .modal_open {

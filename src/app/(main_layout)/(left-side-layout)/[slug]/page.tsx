@@ -51,8 +51,12 @@ function UserProfile() {
 
       }
     }
-
-    AuthService.getProfile().then(response => response.data.username == username ? setIsOwner(true) : null)
+    try {
+      
+      AuthService.getProfile().then(response => response.data.username == username ? setIsOwner(true) : null)
+    } catch (error) {
+      
+    }
     user_store.getUserProfile(username)
   }, [fetching,auth_store, content_store, user_store, username])
 

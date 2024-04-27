@@ -117,6 +117,22 @@ export default class ContentStore {
                 return;
 
             });
+            this.myWall.forEach(function (obj) {
+                if (obj.Posts.id === itemId && obj.hasAuthorLike === 0 && typeId !== '985449ce-ebe9-4214-a161-a6a51e9059bc') {
+                    obj.hasAuthorLike = 1
+                    obj.Posts.likes_count += 1
+                    console.log('Прибавляем в ленте')
+                    return;
+                }
+                if (obj.Posts.id === itemId && obj.hasAuthorLike === 1 && typeId !== '985449ce-ebe9-4214-a161-a6a51e9059bc') {
+                    obj.hasAuthorLike = 0
+                    obj.Posts.likes_count -= 1
+                    console.log('Убавляем в ленте ')
+                    return;
+                }
+                return;
+
+            });
 
 
 
@@ -186,8 +202,13 @@ export default class ContentStore {
     async addNewComment(itemId: string, text: string, parentCommntId: string | null, user_id: string, username: string, full_name: string | null) {
         try {
             const newComment = await ContentService.addNewComment(itemId, text, parentCommntId)
-  
+
             this.userWall.forEach(function (obj) {
+                if (obj.Posts.id === itemId) {
+                    obj.Posts.comments_count += 1
+                }
+            })
+            this.myWall.forEach(function (obj) {
                 if (obj.Posts.id === itemId) {
                     obj.Posts.comments_count += 1
                 }
@@ -256,21 +277,20 @@ export default class ContentStore {
                 const wall = await ContentService.getUserWall(username, user.data.id, page)
                 this.setMyWall([...this.myWall, ...wall.data])
                 return wall
-            } else {
-                const wall = await ContentService.getUserWall(username, null, page)
-                this.setUserWall([...this.userWall, ...wall.data])
-                return wall
             }
         } catch (error) {
-
+            const wall = await ContentService.getUserWall(username, null, page)
+            this.setUserWall([...this.userWall, ...wall.data])
+            return wall
         }
     }
 
-    async createNewPost(id: string, parentPostId: string | null, text: string, user_id: string, username: string, full_name: string, url: string) {
+    async createNewPost(id: string, parentPostId: string | null, text: string, user_id: string, username: string, full_name: string) {
         this.setLoading(true);
         try {
             const postData = await ContentService.CreateNewPost(id, parentPostId, text);
             if (parentPostId === null) {
+                console.log('Добавляем пост')
                 this.myWall.unshift({
                     Posts: {
                         ...postData.data, parent_post_data: null, author_data: {
@@ -282,6 +302,8 @@ export default class ContentStore {
                 })
             }
             if (parentPostId !== null) {
+                console.log('Добавляем репост')
+
                 var foundObject = this.myWall.filter(function (item) {
                     return item.Posts.id === parentPostId;
                 })[0];

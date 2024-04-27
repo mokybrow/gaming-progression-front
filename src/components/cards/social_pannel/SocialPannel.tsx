@@ -25,12 +25,10 @@ export interface CardProps {
 function SocialButtonCard({ postId, likeCount, commentCount, hasAuthorLike, setIsShowRepost }: CardProps) {
     const { content_store } = useContext(Context);
 
-    const [active, setActive] = useState(false)
     const [showComment, setShowComment] = useState(false)
 
     const likeCommentHandler = () => {
-        // setActive(!active)
-        console.log(hasAuthorLike)
+
         content_store.likeContent(postId, '9cc629c8-898a-4d16-b65e-25d0d37f9633', true)
 
     }

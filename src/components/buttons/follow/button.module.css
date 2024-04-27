@@ -4,11 +4,15 @@
     border: none;
     border-radius: 6px;
     padding: 6px 12px;
-    background-color: var(--follow-button-color);
+    background-color: var( --blue-button-color);
     font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
     font-style: normal;
-    color: #e8e8ed;
+    color: var(--ligth-button-font-color);
     cursor: pointer;
+    transition: 140ms all ease-out;
+}
+.follow_button:hover{
+    background-color:var(--blue-button-hover) ;
 }
 
 .follow_button_active {
@@ -17,10 +21,15 @@
     border: none;
     border-radius: 6px;
     padding: 6px 12px;
-    background-color: var(--service-button-color);
+    background-color: var(--red-button-color);
     font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
     font-style: normal;
-    color: var(--font-color);
+    color: var(--ligth-button-font-color);
     cursor: pointer;
+    transition: 140ms all ease-out;
 
+}
+
+.follow_button_active:hover{
+    background-color: var(--red-button-hover);
 }

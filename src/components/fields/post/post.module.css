@@ -1,30 +1,55 @@
-.post_text_filed {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    box-sizing: border-box;
+.send_button_wrapper {
+    display: block;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    z-index: 5;
+}
+
+.input {
     width: 100%;
-    background-color: var(--card-bg-color);
+    min-height: 10px;
+    pointer-events: all;
+    caret-color: var(--font-color);
+    z-index: 3;
+    padding: 12px;
+    padding-right: 30px;
     border-radius: 6px;
-    gap: 12px;
-    align-items: flex-start;
-    min-height: 44px;
+    background-color: var(--post-input-color);
+    transition: 140ms all ease-out;
 }
 
-.border_line {
-    width: 100%;
-    background-color: var(--hr-color);
-    height: 1px;
-    transform: scaleY(0.8);
+.input:hover {
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(179, 218, 249, 0.6);
+    -moz-box-shadow: 0px 0px 2px 2px rgba(179, 218, 249, 0.6);
+    box-shadow: 0px 0px 2px 2px rgba(179, 218, 249, 0.6);
+    background-color: var(--bg-card-color);
 }
 
-.button_wrapper {
+.input:focus {
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(179, 218, 249, 0.6);
+    -moz-box-shadow: 0px 0px 2px 2px rgba(179, 218, 249, 0.6);
+    box-shadow: 0px 0px 2px 2px rgba(179, 218, 249, 0.6);
+    background-color: var(--bg-card-color);
+}
+
+.input a {
+    color: var(--link-color);
+}
+
+.input:empty::before {
+    content: attr(data-placeholder);
+    color: grey;
+    display: block;
+    /* Важное требование для комфортной работы в Firefox */
+    pointer-events: none;
+    /* Исключаем взаимодействие с подсказкой */
+}
+
+
+.func_button_wrapper {
     display: flex;
-    justify-content: right;
-    width: 100%;
-    padding-bottom: 12px;
-    padding-left: 24px;
-    padding-right: 24px;
+    gap: 6px;
 }
 
 .item_temlate_span {
@@ -33,6 +58,16 @@
     padding: 6px;
 }
 
+.post_field_wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+    max-width: 100%;
+    gap: 12px;
+    background-color: var(--bg-card-color);
+    border-radius: 6px;
+}
 
 .game_item_wrapper {
     display: flex;
@@ -47,16 +82,33 @@
     object-fit: cover;
 }
 
+.button_wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: right;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 12px;
 
-.mention textarea {
-    background-color: var(--card-bg-color);
-    border: none;
-    padding: 12px 24px;
-    font-weight: 400;
-    font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
-    height: auto;
 }
 
-.mention textarea:focus {
-    outline: none;
+.send_button_wrapper {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    z-index: 50;
+}
+
+.icon_wrapper {
+    display: flex;
+    width: 24px;
+    height: 24px;
+}
+
+.border_line {
+    width: 100%;
+    background-color: var(--hr-color);
+    height: 1px;
+    transform: scaleY(0.8);
 }
