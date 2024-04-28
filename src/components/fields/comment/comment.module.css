@@ -16,6 +16,8 @@
     border-radius: 6px;
     background-color: var(--input-color);
     transition: 140ms all ease-out;
+    font-family: "Montserrat Regular", sans-serif;
+
 }
 
 .input:hover {

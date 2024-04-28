@@ -12,12 +12,14 @@
     pointer-events: all;
     caret-color: var(--font-color);
     z-index: 3;
-    padding: 12px;
+    padding: 12px 24px 12px 24px;
     padding-right: 30px;
     border-radius: 6px;
     background-color: var(--post-input-color);
     transition: 140ms all ease-out;
     transition:  background-color 0.2s linear;
+    font-family: "Montserrat Regular", sans-serif;
+
 }
 
 .input:hover {
@@ -42,6 +44,8 @@
     content: attr(data-placeholder);
     color: grey;
     display: block;
+    font-family: "Montserrat Regular", sans-serif;
+
     /* Важное требование для комфортной работы в Firefox */
     pointer-events: none;
     /* Исключаем взаимодействие с подсказкой */

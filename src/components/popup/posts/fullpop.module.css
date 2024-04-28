@@ -31,6 +31,6 @@
     .modal_content{
         margin: 0;
         min-height: 100%;
-        background-color: var(--card-bg-color);
+        background-color: var(--bg-card-color);
     }
 }

@@ -30,22 +30,34 @@ export function Header() {
     const [isShow, setIsShow] = useState(false);
     const [isAuthShow, setIsAuthShow] = useState(false);
     const [isRegShow, setIsRegShow] = useState(false);
+    const [currentTheme, setCurrentTheme] = useState(false);
     const { auth_store } = useContext(Context);
 
     useEffect(() => {
         if (getLocalToken()) {
             auth_store.checkAuth()
         }
-
+        if (typeof window !== 'undefined') {
+            // Perform localStorage action
+            const item = localStorage.getItem('app-theme')
+            if (item == 'light') {
+                setCurrentTheme(true)
+            }
+            else {
+                setCurrentTheme(false)
+            }
+        }
     }, [auth_store])
 
     function themeToggle() {
+        setCurrentTheme(!currentTheme)
         if (theme == 'light') {
             setTheme('dark')
         }
         else {
             setTheme('light')
         }
+
     }
 
     const popupRef = useRef(null)
@@ -85,23 +97,25 @@ export function Header() {
                     </div>
                     <div className={styles.toggle_wrapper_mobile}>
                         <div className={styles.container}>
-                            {typeof window !== "undefined" ?
-                                <label id="switch" className={styles.switch}>
-                                    <input type="checkbox" id="slider" onChange={() => themeToggle()} defaultChecked={localStorage!.getItem('app-theme') === 'light' ? true : false} />
-                                    <span className={styles.slider} ></span>
-                                </label>
-                                : null}
+
+                            <label id="switch" className={styles.switch}>
+                                <input type="checkbox" id="slider" onChange={() => themeToggle()} checked={currentTheme} />
+                                <span className={styles.slider} >
+
+                                </span>
+                            </label>
+
                         </div>
                     </div>
                     <div className={styles.profile_section}>
                         <div className={styles.toggle_wrapper}>
                             <div className={styles.container}>
-                                {typeof window !== "undefined" ?
-                                    <label id="switch" className={styles.switch}>
-                                        <input type="checkbox" id="slider" onChange={() => themeToggle()} defaultChecked={localStorage!.getItem('app-theme') === 'light' ? true : false} />
-                                        <span className={styles.slider} ></span>
-                                    </label>
-                                    : null}
+
+                                <label id="switch" className={styles.switch}>
+                                    <input type="checkbox" id="slider" onChange={() => themeToggle()} checked={currentTheme} />
+                                    <span className={styles.slider} ></span>
+                                </label>
+
                             </div>
                         </div>
                         {auth_store.isAuth ?

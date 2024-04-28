@@ -1,3 +1,12 @@
+@font-face {
+  font-family: "Montserrat Regular";
+  font-style: normal;
+  font-weight: 400;
+  /* Браузер сначала попробует найти шрифт локально */
+  src: url("../fonts/Montserrat-Regular.ttf") format("ttf"),
+}
+
+
 :root {
   --link-color: #0066CC;
   --blue-button-color: #0071E3;
@@ -119,6 +128,7 @@ html[data-theme='dark'] {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: "Montserrat Regular", sans-serif;
 
 }
 

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import "./styles.css";
 import "./icon-styles.css";
@@ -7,7 +6,6 @@ import Header from "@/components/header/Header";
 import { Providers } from "./providers";
 import BottomMenu from "@/components/menu/BottomMenu";
 
-const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
 export const metadata: Metadata = {
   title: "MBRW - играй, делись, общайся",
@@ -22,7 +20,7 @@ export default function RootLayout({
 
   return (
     <html lang="ru">
-      <body className={inter.className}>
+      <body>
         <div id="app">
           <Providers>
             <Header />
