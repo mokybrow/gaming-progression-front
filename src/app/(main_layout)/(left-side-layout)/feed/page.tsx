@@ -1,13 +1,11 @@
 'use client'
 
-import $api from "@/api/api";
 import { Context } from "@/app/providers";
 import Card from "@/components/cards/posts/Card";
 import { observer } from "mobx-react";
 import { useContext, useEffect, useState } from "react";
 
 function Feed() {
-    const { auth_store } = useContext(Context);
     const { content_store } = useContext(Context);
 
 

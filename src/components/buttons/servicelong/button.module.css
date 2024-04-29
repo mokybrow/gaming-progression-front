@@ -6,7 +6,6 @@
     width: 100%;
     border:  none;
     border-radius: 6px;
-    font-size: 18px;
     padding: 6px;
     cursor: pointer;
     background-color: var(--service-button-color);

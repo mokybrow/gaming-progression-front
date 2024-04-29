@@ -4,7 +4,7 @@
   font-size: 14px;
   text-align: left;
   width: 100%;
-  font-family: "Inter", sans-serif;
+  font-family: "Montserrat Regular", sans-serif;
   background-color: var(--input-color);
   color: var(--font-color);
   border-radius: 6px;
@@ -29,7 +29,7 @@
   color: var(--font-color);
   opacity: .6;
   font-weight: 300;
-  font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
+  font-family: "Montserrat Regular", sans-serif;
 }
 
 .textarea_control[data-view="fake"] {

@@ -1,6 +1,5 @@
 .loader_wrapper{
-    background-color: var(--card-bg-color);
+    background-color: var(--bg-card-color);
     padding: 25px;
     border-radius: 20px;
-    box-shadow: var(--box-shadow);
 }

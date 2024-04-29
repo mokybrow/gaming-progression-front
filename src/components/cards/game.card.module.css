@@ -8,7 +8,7 @@
 
 @media (min-width: 1240px) {
     .item:hover {
-        transform: scale(1.1);
+        transform: scale(1.05);
         transition: all 0.2s ease;
         z-index: 5;
     }
@@ -20,9 +20,6 @@
         z-index: 5;
     }
 }
-
-
-
 
 .cover_wrapper {
     position: relative;
@@ -37,6 +34,11 @@
 .game_title{
     font-weight: 600;
     font-size: 20px;
+    transition: color 100ms linear;
+}
+
+.game_title:hover{
+    color: var(--link-color);
 }
 
 .game_cover {
@@ -49,7 +51,8 @@
 }
 
 .hidden {
-    position: absolute;
+    display: flex;
+    position: relative;
     top: 100%;
     width: 100%;
     margin-top: -1px;
@@ -59,13 +62,13 @@
     font-size: 12px;
 }
 
-.hidden {
+/* .hidden {
     display: none;
     visibility: hidden;
     opacity: 0;
     background-color: #1E1D1F;
     z-index: 5;
-}
+} */
 
 .flex {
     padding: 16px 16px 16px;
@@ -75,11 +78,11 @@
     border-bottom-right-radius: 6px;
 }
 
-.item:hover .hidden {
+/* .item:hover .hidden {
     display: flex;
     visibility: visible;
     opacity: 1;
-}
+} */
 
 .item:hover .flex {
     border-radius: 0;

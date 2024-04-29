@@ -1,7 +1,7 @@
 .filters_wrapper {
     display: block;
     position: sticky;
-    top: 48px;
+    top: 58px;
     height: calc(100vh - 150px);
     font-weight: 300;
     background-color: var(--bg-card-color);
@@ -34,7 +34,7 @@
     background-color: var(--input-color);
     padding: 6px;
     overflow-y: scroll;
-    min-height: 100px;
+    min-height: 60px;
     gap: 6px;
     transition: background-color 0.2s linear;
 

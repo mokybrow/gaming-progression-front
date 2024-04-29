@@ -28,6 +28,7 @@ function FiltersCard({ setIsShow }: ModalProps) {
         setSelectedPlatforms([...games_store.platforms])
 
     }, [games_store])
+    
     const handleGenresChange = (key: any) => {
 
         if (!selectedGenres.find((i) => i === key)) {
@@ -66,7 +67,7 @@ function FiltersCard({ setIsShow }: ModalProps) {
         games_store.setGenre(selectedGenres)
         games_store.setPlatform(selectedPlatforms)
         games_store.setLimit(21)
-        games_store.getAllGames(games_store.genres, games_store.platforms, null, games_store.release_date, games_store.limit, 0, games_store.sort)
+        games_store.filterGames(games_store.genres, games_store.platforms, null, games_store.release_date,  0, games_store.sort)
     }
 
     const ClearFilter = () => {
@@ -77,7 +78,7 @@ function FiltersCard({ setIsShow }: ModalProps) {
         setSelectedGenres([])
         setSelectedPlatforms([])
 
-        games_store.getAllGames([], [], null, [], games_store.limit, 0, games_store.sort)
+        games_store.filterGames([], [], null, [],  0, games_store.sort)
 
     }
     return (

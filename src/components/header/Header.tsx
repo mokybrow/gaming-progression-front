@@ -21,6 +21,7 @@ import MainLogoIcon from '../icons/MainLogo';
 import SettingsIcon from '../icons/settings';
 import LeaveIcon from '../icons/leave';
 import UserIcon from '../icons/user';
+import ServiceButtonLong from '../buttons/servicelong/ServiceButtonLong';
 
 
 export function Header() {
@@ -127,9 +128,11 @@ export function Header() {
                             </UserProfileButton>
 
                             :
-                            <div onClick={() => setIsAuthShow(true)} className={styles.login_button}>
+                            <UserProfileButton onClick={() => setIsAuthShow(true)} type={'submit'}>
                                 Войти
-                            </div>
+
+                            </UserProfileButton>
+
                         }
 
                         <ProfilePopup active={isShow} innerRef={popupRef}>

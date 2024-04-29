@@ -17,8 +17,8 @@ export default class GamesStore {
     release_date = [] as number[]
     games = [] as GamesResponse[];
     searchedGames = [] as SearchGamesModel[];
-    gamesCount = {} as GamesCount;
-    gamesSearchCount = {} as SearchGamesCountModel;
+    gamesCount = 0;
+    gamesSearchCount = 0;
     comments = [] as CommentsResponseModel[];
     commentsLikes = [] as UserCommentsLikes[];
     gamePage = {} as GamePageResponse;
@@ -57,11 +57,11 @@ export default class GamesStore {
         this.searchedGames = games;
     }
 
-    setGamesCount(gamesCount: GamesCount) {
+    setGamesCount(gamesCount: number) {
         this.gamesCount = gamesCount;
     }
-    setSearchGamesCount(count: SearchGamesCountModel) {
-        this.gamesSearchCount= count;
+    setSearchGamesCount(count: number) {
+        this.gamesSearchCount = count;
     }
     setComments(comments: CommentsResponseModel[]) {
         this.comments = comments;
@@ -107,21 +107,36 @@ export default class GamesStore {
         this.sort['type'] = type
     }
 
-    async getAllGames(genre: string[] | null, platform: string[] | null, age: string | null, release: number[] | null, limit: number, offset: number, sort: any) {
+    async getAllGames(genre: string[] | null, platform: string[] | null, age: string | null, release: number[] | null, offset: number, sort: any) {
         this.setLoading(true);
         try {
-            const response = await GameService.getAllGames(genre, platform, age, release, limit, offset, sort);
-            this.setGames(response.data)
+            const response = await GameService.getAllGames(genre, platform, age, release, offset, sort);
+            if (this.games.includes(response.data[0])) {
 
-        } catch {
-            this.setGames([] as GamesResponse[])
-        }
-        try {
-            const gameCount = await GameService.getGamesCount(genre, platform, age, release);
-            this.setGamesCount(gameCount.data)
+                this.setGames(response.data)
+            }
+            else {
+                this.setGames([...this.games, ...response.data])
 
+            }
+            this.setGamesCount(response.headers['x-games-count'])
         } catch (error) {
-            this.setGamesCount({ game_count: 0 })
+            this.setGamesCount(0)
+        }
+        finally {
+            this.setLoading(false);
+        }
+    }
+
+    async filterGames(genre: string[] | null, platform: string[] | null, age: string | null, release: number[] | null, offset: number, sort: any) {
+        this.setLoading(true);
+        try {
+            const response = await GameService.getAllGames(genre, platform, age, release, offset, sort);
+            this.setGames(response.data)
+  
+            this.setGamesCount(response.headers['x-games-count'])
+        } catch (error) {
+            this.setGamesCount(0)
         }
         finally {
             this.setLoading(false);
@@ -129,6 +144,7 @@ export default class GamesStore {
         }
 
     }
+
 
     async getGamePage(slug: string) {
         this.setLoading(true);
@@ -204,9 +220,10 @@ export default class GamesStore {
     async searchGames(searchString: string, limit: number) {
         try {
             const result = await ContentService.SearchGames(searchString, limit)
-            const count = await ContentService.SearchGamesCount(searchString)
+            console.log(result.headers['x-games-count'])
             this.setSearchedGames(result.data)
-            this.setSearchGamesCount(count.data)
+            this.setSearchGamesCount(result.headers['x-games-count'])
+
         } catch (error) {
 
         }

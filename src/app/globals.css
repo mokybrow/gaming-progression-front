@@ -6,6 +6,14 @@
   src: url("../fonts/Montserrat-Regular.ttf") format("ttf"),
 }
 
+@font-face {
+  font-family: "Montserrat Black";
+  font-style: normal;
+  font-weight: 900;
+  /* Браузер сначала попробует найти шрифт локально */
+  src: url("../fonts/Montserrat-Black.ttf") format("ttf"),
+}
+
 
 :root {
   --link-color: #0066CC;
@@ -267,6 +275,14 @@ body {
   align-items: center;
 }
 
+.main_content_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 41px;
+  padding-bottom: 24px;
+}
+
 .content_wrapper {
   display: flex;
   flex-direction: column;
@@ -278,8 +294,8 @@ body {
 .right_side_wrapper {
   display: block;
   position: sticky;
-  top: 48px;
-  height: calc(100vh - 48px);
+  top: 58px;
+  height: calc(100vh - 58px);
   padding: 41px 0 16px 0;
 }
 

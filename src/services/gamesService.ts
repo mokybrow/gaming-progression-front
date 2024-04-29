@@ -4,7 +4,7 @@ import axios, { AxiosResponse } from "axios";
 
 export default class GameService {
 
-    static async getAllGames(genre: string[] | null, platform: string[] | null, age: string | null, release: number[] | null, limit: number, offset: number, sort: any): Promise<AxiosResponse<GamesResponse[]>> {
+    static async getAllGames(genre: string[] | null, platform: string[] | null, age: string | null, release: number[] | null,  page: number, sort: any): Promise<AxiosResponse<GamesResponse[]>> {
         const url = process.env.API_URL + 'games'
         return axios.post<GamesResponse[]>(url,
             {
@@ -12,8 +12,7 @@ export default class GameService {
                 platform: platform,
                 age: age,
                 release: release,
-                limit: limit,
-                offset: offset,
+                page: page,
                 sort: sort,
             },
         )

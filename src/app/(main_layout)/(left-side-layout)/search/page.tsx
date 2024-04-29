@@ -62,7 +62,7 @@ const Search = () => {
                     {searchQuery ?
 
                         <div className={styles.send_button_wrapper}>
-                            <div className={styles.clear_field_button} onClick={() => (setSearchQuery(''), setIsShow(false), games_store.setSearchGamesCount({ game_count: 0 }),
+                            <div className={styles.clear_field_button} onClick={() => (setSearchQuery(''), setIsShow(false), games_store.setSearchGamesCount(0),
                                 games_store.setSearchLimit(10))}>
                             </div>
                         </div>
@@ -72,7 +72,7 @@ const Search = () => {
                 </div>
                 <div>
                     {isShow ?
-                        <span>Найдено совпадений {games_store.gamesSearchCount.game_count}</span>
+                        <span>Найдено совпадений {games_store.gamesSearchCount}</span>
                         : null}
                 </div>
                 <div className={styles.search_result}>
@@ -94,7 +94,7 @@ const Search = () => {
                         </>}
                     <div className={styles.show_more_button}>
 
-                        {games_store.gamesSearchCount.game_count > 10 && games_store.searchLimit < games_store.gamesSearchCount.game_count ?
+                        {games_store.gamesSearchCount > 10 && games_store.searchLimit < games_store.gamesSearchCount ?
                             <SubmitButton type={'button'} onClick={() => NewOffset()}>Показать ещё</SubmitButton>
                             : null}
                     </div>

@@ -22,9 +22,13 @@ export default function GameCard({ title, cover, release_date, avg_rate, platfor
 
         <div className={styles.item}>
             <div className={styles.content} >
-                <div className={styles.cover_wrapper}>
-                    <img src={cover} alt={title} className={styles.game_cover} />
-                </div>
+                <Link href={`/games/${slug}`}>
+
+                    <div className={styles.cover_wrapper}>
+                        <img src={cover} alt={title} className={styles.game_cover} />
+                    </div>
+                </Link>
+
                 <div className={styles.flex}>
                     <Link href={`/games/${slug}`}>
                         <span className={styles.game_title}>{title}</span>

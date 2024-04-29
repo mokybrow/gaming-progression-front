@@ -1,0 +1,54 @@
+.main_grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.main_card {
+    background-color: var(--bg-card-color);
+    display: flex;
+    width: 100%;
+    border-radius: 6px;
+    padding: 24px;
+    transition: background-color .2s linear;
+}
+
+.brand_name {
+    font-size: clamp(3rem, 25vmin, 8rem);
+    background: linear-gradient(to right,
+            #7953cd 20%,
+            #00affa 30%,
+            #0190cd 70%,
+            #764ada 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 500% auto;
+    animation: textShine 10s ease-in-out infinite alternate;
+    font-family: "Montserrat Black", sans-serif;
+    font-weight: 900;
+
+}
+.sub_text{
+    font-family: "Montserrat Black", sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 12vmin, 3rem);
+
+}
+
+@keyframes textShine {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+@media (max-width: 840px) {
+    .main_grid{
+        padding: 12px;
+    }
+    
+}
