@@ -9,13 +9,7 @@ import { FunctionalGameButton } from '@/components/buttons/FunctionalGameButton'
 import useOutside from '@/hooks/useOutside';
 import LoginForm from '@/components/forms/login_form/LoginForm';
 import { FullScreenPopup } from '@/components/popup/FullScreenPopup';
-import ReactMarkdown from "react-markdown";
 
-import { Mention } from 'primereact/mention';
-
-import Link from 'next/link';
-import LikeIcon from '@/components/icons/like';
-import { SearchUserModel } from '@/models/userModel';
 import CircleLoader from '@/components/loader/circle';
 import CommentField from '@/components/fields/comment/CommentField';
 import CommentCard from '@/components/cards/comment/CommentCard';
@@ -59,7 +53,7 @@ function GamePage() {
 
 
     useEffect(() => {
-        games_store.getGamePage(pathname.substring(pathname.lastIndexOf('/') + 1))
+        content_store.getGamePage(pathname.substring(pathname.lastIndexOf('/') + 1))
 
     }, [games_store, auth_store])
 
@@ -75,7 +69,7 @@ function GamePage() {
 
     return (
         <>
-            {games_store.isLoading ? <><div className='loader_wrapper'>
+            {content_store.isLoading ? <><div className='loader_wrapper'>
                 <CircleLoader />
             </div></> : null}
             <FullScreenPopup active={isShow} setActive={setIsShow}>
@@ -108,7 +102,7 @@ function GamePage() {
                                 </ServiceButtonLong>
                             </> : null}
                         {games_store.rate || rating != 0 ? <>
-                            <ServiceButtonLong type={'button'} 
+                            <ServiceButtonLong type={'button'}
                                 onClick={() => (rateButtonCount > 0 || games_store.rate > 0 ? games_store.delGameGrade(games_store.gamePage.id) : null,
                                     setHover(0), setRating(0), setRateButtonCount(0), games_store.setGameRate(0))}>
                                 Удалить
@@ -170,7 +164,7 @@ function GamePage() {
                 <div className={styles.game_description}>
                     <span className={styles.block_header}>Об игре</span>
                     <span>
-                        {games_store.gamePage.description !== null ? games_store.gamePage.description :
+                        {content_store.gamePage.description !== null ? content_store.gamePage.description :
 
                             <>Информаци пока нет</>}
                     </span>
@@ -178,14 +172,14 @@ function GamePage() {
                 <div className={styles.comments_block}>
                     <span className={styles.block_header}>Рецензии</span>
 
-                    <CommentField contentID={games_store.gamePage.id} parentCommentId={null} setShowComment={setShowComment} />
+                    <CommentField contentID={content_store.gamePage.id} parentCommentId={null} setShowComment={setShowComment} uniqueId={content_store.gamePage.id} />
 
-                    {games_store.comments == null ?
-                        <span>Информаци пока нет </span> : null}
+                    {!content_store.comments.length ?
+                        <span>Информаци пока нет </span> :
 
-                    <CommentCard postId={games_store.gamePage.id} comments={games_store.comments} commentLikes={[]} />
+                        <CommentCard postId={content_store.gamePage.id} comments={content_store.comments} commentLikes={content_store.commentLikes} />
 
-
+                    }
                 </div>
 
             </main >
@@ -196,7 +190,7 @@ function GamePage() {
                     <ServiceButtonLong type={'button'} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setIsShowRating(true), games_store.rate != 0 ? (setHover(games_store.rate), setRating(games_store.rate)) : null) }}>
                         <div className={styles.button_data_wrapper}>
                             <div className={styles.star_icon}>
-                                <StarIcon className='general-icon'/>
+                                <StarIcon className='general-icon' />
                             </div>
                             <span>Оценить игру</span>
                         </div>
@@ -206,9 +200,9 @@ function GamePage() {
                         <div className={styles.other_info_card}>
                             <h3>Жанр</h3>
                             <div className={styles.information_text}>
-                                {games_store.gamePage.genres?.map((genre, index) =>
+                                {content_store.gamePage.genres?.map((genre, index) =>
                                     <span key={genre.genre.id}>
-                                        {genre.genre.name + ((games_store.gamePage.genres.length > 0 && index !== games_store.gamePage.genres.length - 1) ? ', ' : '')}
+                                        {genre.genre.name + ((content_store.gamePage?.genres?.length > 0 && index !== games_store.gamePage?.genres?.length - 1) ? ', ' : '')}
                                     </span>
                                 )}
                             </div>
@@ -216,9 +210,9 @@ function GamePage() {
                         <div className={styles.other_info_card}>
                             <h3>Платформа</h3>
                             <div className={styles.information_text}>
-                                {games_store.gamePage.platforms?.map((platform, index) =>
+                                {content_store.gamePage?.platforms?.map((platform, index) =>
                                     <span key={platform.platform.id}>
-                                        {platform.platform.platform_name + ((games_store.gamePage.platforms.length > 0 && index !== games_store.gamePage.platforms.length - 1) ? ', ' : '')}
+                                        {platform.platform.platform_name + ((content_store.gamePage?.platforms?.length > 0 && index !== games_store.gamePage?.platforms?.length - 1) ? ', ' : '')}
                                     </span>
                                 )}
                             </div>

@@ -83,6 +83,17 @@ export default class AuthService {
         return $api.post(url + `auth/change/password/request`,)
     }
 
+    static async changePasswordReset(token: string, newPassword: string): Promise<AxiosResponse> {
+        const url = process.env.API_URL
+        return axios.post(url + `auth/change/password/reset`,
+            {
+                token: token,
+                password: newPassword
+            }
+        )
+    }
+
+
     static async getUserFeed(page: number): Promise<AxiosResponse<PostResponseModel[]>> {
         const url = process.env.API_URL
         return axios.get<PostResponseModel[]>(url + `feeds/personal?page=${page}`,

@@ -21,22 +21,18 @@ export default function GameCard({ title, cover, release_date, avg_rate, platfor
     return (
 
         <div className={styles.item}>
-            <div className={styles.content} >
-                <Link href={`/games/${slug}`}>
 
-                    <div className={styles.cover_wrapper}>
-                        <img src={cover} alt={title} className={styles.game_cover} />
-                    </div>
-                </Link>
-
-                <div className={styles.flex}>
-                    <Link href={`/games/${slug}`}>
-                        <span className={styles.game_title}>{title}</span>
-                    </Link>
-                </div>
-            </div>
-
-            <div className={styles.hidden}>
+            <figure className={styles.figure}>
+                {cover ?
+                    <img src={cover} alt="A windmill" className={styles.img} />
+                    :
+                    null
+                }
+            </figure>
+            <figcaption className={styles.figcaption}>
+                <Link href={`/games/${slug}`}>{title}</Link>
+            </figcaption>
+            <Link href={`/games/${slug}`} className={styles.game_info}>
                 <div className={styles.other_information}>
                     <div className={styles.description}>
                         <span className={styles.nowrap_header}>Год:&nbsp;</span>
@@ -55,12 +51,15 @@ export default function GameCard({ title, cover, release_date, avg_rate, platfor
                     <div className={styles.description}>
                         <span className={styles.nowrap_header}>Платформы:&nbsp;</span>
                         <div className={styles.left_text} key={title}>
-                            {platforms.map((platform, index) =>
-
-                                <span key={platform.platform.id}>
-                                    {platform.platform.platform_name + ((platforms.length > 0 && index !== platforms.length - 1) ? ', ' : '')}
-                                </span>
-                            )}
+                            {platforms.length ?
+                                <>
+                                    {platforms.map((platform, index) =>
+                                        <span key={platform.platform.id}>
+                                            {platform.platform.platform_name + ((platforms.length > 0 && index !== platforms.length - 1) ? ', ' : '')}
+                                        </span>
+                                    )}
+                                </>
+                                : <>N/A</>}
                         </div>
 
                     </div>
@@ -68,19 +67,21 @@ export default function GameCard({ title, cover, release_date, avg_rate, platfor
                     <div className={styles.description}>
                         <span className={styles.nowrap_header}>Жанр:&nbsp;</span>
                         <div className={styles.left_text}>
-                            {genres.map((genre, index) =>
-                                <span key={genre.genre.id}>
-                                    {genre.genre.name + ((genres.length > 0 && index !== genres.length - 1) ? ', ' : '')}
-                                </span>
-                            )}
+                            {genres.length ?
+                                <>
+                                    {genres.map((genre, index) =>
+                                        <span key={genre.genre.id}>
+                                            {genre.genre.name + ((genres.length > 0 && index !== genres.length - 1) ? ', ' : '')}
+                                        </span>
+                                    )}
+                                </>
+                                : <>N/A</>}
                         </div>
                     </div>
 
                 </div>
-            </div>
+            </Link>
         </div>
-
-
 
     )
 

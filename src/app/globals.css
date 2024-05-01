@@ -293,9 +293,9 @@ body {
 
 .right_side_wrapper {
   display: block;
-  position: sticky;
+  /* position: sticky; */
   top: 58px;
-  height: calc(100vh - 58px);
+  /* height: calc(100vh - 58px); */
   padding: 41px 0 16px 0;
 }
 

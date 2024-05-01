@@ -14,6 +14,7 @@ import { FullScreenPopup } from "@/components/popup/FullScreenPopup";
 import CircleLoader from "@/components/loader/circle";
 import FilterIcon from "@/components/icons/filter";
 import SortIcon from "@/components/icons/sort";
+import SortButton from "@/components/buttons/sort/SortButton";
 
 
 
@@ -55,7 +56,7 @@ function Games() {
 
     const SubmitSort = (name: string, type: string) => {
         games_store.setSort(name, type)
-        games_store.filterGames(games_store.genres, games_store.platforms, null, games_store.release_date,  0, games_store.sort)
+        games_store.filterGames(games_store.genres, games_store.platforms, null, games_store.release_date, 0, games_store.sort)
     }
 
     useEffect(() => {
@@ -100,16 +101,7 @@ function Games() {
             <main className="content_wrapper">
                 <div className={styles.sort_wrapper} >
                     <div className={styles.sort_button_wrapper} >
-                        <div className={styles.sort_button} onClick={() => setIsShow(!isShow)}>
-                            <div className={styles.icon_wrapper}>
-                                <SortIcon className="general-icon" />
-                            </div>
-                            {games_store.sort.name == 'title' && games_store.sort.type == "asc" ? <><span>Сначала на А</span></>
-                                : games_store.sort.name == 'title' && games_store.sort.type == "desc" ? <><span>Сначала на Я</span></>
-                                    : games_store.sort.name == 'release_date' && games_store.sort.type == "asc" ? <><span>Сначала старые</span></> :
-                                        <><span>Сначала новые</span></>}
-                            {/* <span>Сортировка</span> */}
-                        </div>
+                        <SortButton onClick={() => setPage(0)}/>
 
                         <div className={styles.finded_games}>Найдено игр {games_store.gamesCount}</div>
                         <div className={styles.right_side_flex_mobile}>
@@ -124,14 +116,6 @@ function Games() {
                         </div>
                     </div>
 
-                    <div className={styles.popup_wrapper}>
-                        <ProfilePopup active={isShow} innerRef={popupRef}>
-                            <div className={styles.popup_elem} onClick={() => { SubmitSort('title', 'asc'), setIsShow(!isShow) }}>от А до Я</div>
-                            <div className={styles.popup_elem} onClick={() => { SubmitSort('title', 'desc'), setIsShow(!isShow) }}>от Я до А</div>
-                            <div className={styles.popup_elem} onClick={() => { SubmitSort('release_date', 'asc'), setIsShow(!isShow) }}>Сначала старые</div>
-                            <div className={styles.popup_elem} onClick={() => { SubmitSort('release_date', 'desc'), setIsShow(!isShow) }}>Сначала новые</div>
-                        </ProfilePopup>
-                    </div>
 
                 </div>
                 <div className={styles.right_side_flex_mobile}>
@@ -182,16 +166,7 @@ function Games() {
                 </div>
                 <div className={styles.sort_wrapper_mobile} >
                     <div className={styles.sort_button_wrapper} >
-                        <div className={styles.sort_button} onClick={() => setIsShow(!isShow)}>
-
-                            <div className={styles.icon_wrapper}>
-                                <SortIcon className="general-icon" />
-                            </div>
-                            {games_store.sort.name == 'title' && games_store.sort.type == "asc" ? <><span>Сначала на А</span></>
-                                : games_store.sort.name == 'title' && games_store.sort.type == "desc" ? <><span>Сначала на Я</span></>
-                                    : games_store.sort.name == 'release_date' && games_store.sort.type == "asc" ? <><span>Сначала старые</span></> :
-                                        <><span>Сначала новые</span></>}
-                        </div>
+                        <SortButton />
 
                         <div className={styles.finded_games}>Найдено игр {games_store.gamesCount}</div>
                         <div className={styles.right_side_flex_mobile}>
@@ -204,15 +179,6 @@ function Games() {
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div className={styles.popup_wrapper}>
-                        <ProfilePopup active={isShow} innerRef={popupRef}>
-                            <div className={styles.popup_elem} onClick={() => { SubmitSort('title', 'asc'), setIsShow(!isShow) }}>от А до Я</div>
-                            <div className={styles.popup_elem} onClick={() => { SubmitSort('title', 'desc'), setIsShow(!isShow) }}>от Я до А</div>
-                            <div className={styles.popup_elem} onClick={() => { SubmitSort('release_date', 'asc'), setIsShow(!isShow) }}>Сначала старые</div>
-                            <div className={styles.popup_elem} onClick={() => { SubmitSort('release_date', 'desc'), setIsShow(!isShow) }}>Сначала новые</div>
-                        </ProfilePopup>
                     </div>
 
                 </div>

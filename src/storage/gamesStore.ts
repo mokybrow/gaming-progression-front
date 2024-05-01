@@ -133,7 +133,8 @@ export default class GamesStore {
         try {
             const response = await GameService.getAllGames(genre, platform, age, release, offset, sort);
             this.setGames(response.data)
-  
+           
+            console.log('Установили игры')
             this.setGamesCount(response.headers['x-games-count'])
         } catch (error) {
             this.setGamesCount(0)

@@ -48,7 +48,7 @@ function SocialButtonCard({ postId, likeCount, commentCount, hasAuthorLike, setI
                         </div>
                         <span>{ likeCount}</span>
                     </div>
-                    <div className={styles.action_button} onClick={() => setShowComment(true)}>
+                    <div className={styles.action_button} onClick={() => setShowComment(!showComment)}>
                         <div className={styles.icon_wrapper}>
                             <CommentIcon className='general-icon' />
                         </div>
@@ -63,7 +63,7 @@ function SocialButtonCard({ postId, likeCount, commentCount, hasAuthorLike, setI
             </div>
             {
                 showComment ?
-                    <CommentField contentID={postId} parentCommentId={null} setShowComment={setShowComment} />
+                    <CommentField contentID={postId} uniqueId={postId} parentCommentId={null} setShowComment={setShowComment} />
                     : null
             }
         </>

@@ -107,8 +107,9 @@ function OneCard({ post, comments, commentLikes, setIsShowRepost, setIsShowPost 
                 commentCount={post.Posts?.comments_count}
                 hasAuthorLike={post.hasAuthorLike}
                 setIsShowRepost={setIsShowRepost} />
+
             <div className={styles.comments_header}>Комментарии</div>
-            {comments.length == 0 ? <>Пока пусто</> :
+            {!comments.length ? <>Пока пусто</> :
                 <CommentCard postId={post.Posts?.id} comments={comments} commentLikes={commentLikes} />
             }
 

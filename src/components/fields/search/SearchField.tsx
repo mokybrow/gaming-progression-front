@@ -9,6 +9,7 @@ import { observer } from 'mobx-react-lite';
 import { SearchPopup } from '@/components/popup/SearchPopup';
 import Link from 'next/link';
 import Image from 'next/image'
+import CrossIcon from '@/components/icons/cross';
 
 
 const SearchField = forwardRef<HTMLInputElement, TypeInputProps>(
@@ -54,6 +55,7 @@ const SearchField = forwardRef<HTMLInputElement, TypeInputProps>(
 
                         <div className={styles.send_button_wrapper}>
                             <div className={styles.clear_field_button} onClick={() => setSearchQuery('')}>
+                                <CrossIcon className='general-icon'/>
                             </div>
                         </div>
                         : null

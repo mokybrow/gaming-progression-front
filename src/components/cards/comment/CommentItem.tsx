@@ -12,6 +12,7 @@ import LikeIcon from "@/components/icons/like";
 import { observer } from "mobx-react";
 import DotsIcon from "@/components/icons/dots";
 import UserIcon from "@/components/icons/user";
+import { formatDate } from "@/services/dateFormat";
 
 
 export interface CommentProps {
@@ -56,11 +57,7 @@ function CommentItem({ commentId, fullName, username, text, likeCount, created, 
                             fullName : username}
                     </Link>
                     <div className={styles.comment_time_wrapper}>
-                        {/* <FormattedDate
-                            value={created}
-                            year='numeric'
-                            month='short'
-                            day='numeric' /> */}
+                        {formatDate(created)}
                     </div>
                 </div>
             </div>
@@ -89,7 +86,7 @@ function CommentItem({ commentId, fullName, username, text, likeCount, created, 
             </div>
             {
                 showComment ?
-                    <CommentField contentID={postId} parentCommentId={parentCommentId} setShowComment={setShowComment} />
+                    <CommentField contentID={postId} uniqueId={commentId} parentCommentId={parentCommentId} setShowComment={setShowComment} />
                     : null
             }
         </div>

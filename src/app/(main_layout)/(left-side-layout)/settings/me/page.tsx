@@ -1,28 +1,22 @@
 "use client"
 
 import { Context } from "@/app/providers";
-import { usePathname } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import styles from './page.module.css'
 import Link from "next/link";
 import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { ruRU } from '@mui/x-date-pickers/locales';
 
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Dayjs } from "dayjs";
 import { observer } from "mobx-react-lite";
 import SettingsField from "@/components/fields/settings/SettingsField";
 import { formatDate } from "@/services/dateFormat";
 import ArrowLeftIcon from "@/components/icons/arrowLeft";
+import Calendar from "@/components/calendar/Calendar";
 
 function SettingsMe() {
-    const [fullName, setFullName] = useState("");
-    const [biography, setBiography] = useState("");
-    const [birthDate, setBirthDate] = useState<Dayjs | null>();
     const { auth_store } = useContext(Context);
-
+    const [fullName, setFullName] = useState(auth_store.user.full_name !== undefined ? auth_store.user.full_name : "");
+    const [biography, setBiography] = useState(auth_store.user.biography !== undefined ? auth_store.user.biography : "");
+    
     const [birthOpen, setBirthOpen] = useState(false);
 
     return (
@@ -91,21 +85,8 @@ function SettingsMe() {
                             <small className={styles.change_link_color} onClick={() => setBirthOpen(true)}>Изменить</small>
                         </div>
                         <div className={birthOpen ? styles.birth_open : styles.birth_close}>
-                            <div className={styles.date_and_cross}>
-
-                                <LocalizationProvider dateAdapter={AdapterDayjs} localeText={ruRU.components.MuiLocalizationProvider.defaultProps.localeText}>
-                                    <DatePicker value={birthDate} onChange={(newValue) => (setBirthDate(newValue))} />
-                                </LocalizationProvider>
-                                <div className={styles.x_icon} onClick={() => (setBirthOpen(false), setBirthDate(null))}></div>
-                            </div>
-                            {birthDate != null ?
-                                <>
-                                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={16}
-                                        onClick={() => (auth_store.patchMe(null, null, birthDate.toJSON()), setBirthDate(null), setBirthOpen(false))}>
-                                        Обновить
-                                    </FunctionalGameButton>
-                                </>
-                                : <></>}
+                                <Calendar birthdate={auth_store.user.birthdate} setBirthOpen={setBirthOpen}/>
+                      
                         </div>
                     </div>
                 </div>

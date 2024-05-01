@@ -1,10 +1,12 @@
 import { CommentsResponseModel, CommentModel } from "@/models/commentsModels";
+import { GamePageResponse } from "@/models/gamesModel";
 import { PostResponseModel } from "@/models/postsModel";
 import { CommentsResponse, UserCommentsLikes } from "@/models/serviceModel";
 import { SearchUserModel } from "@/models/userModel";
 import { WallResponseModel } from "@/models/wallsModels";
 import AuthService from "@/services/authService";
 import ContentService from "@/services/contentService";
+import GameService from "@/services/gamesService";
 import { makeAutoObservable } from "mobx"
 
 
@@ -25,6 +27,11 @@ export default class ContentStore {
     // Пользовательская стена 
     userWall = [] as WallResponseModel[];
     myWall = [] as WallResponseModel[];
+
+
+    // Страница игры
+    gamePage = {} as GamePageResponse;
+    rate = 0
 
     constructor() {
         makeAutoObservable(this);
@@ -63,6 +70,13 @@ export default class ContentStore {
 
     setTotalPostCount(count: number) {
         this.totalPostCount = count;
+    }
+    // Game
+    setGamePage(games: GamePageResponse) {
+        this.gamePage = games;
+    }
+    setGameRate(rate: number) {
+        this.rate = rate;
     }
 
     async searchUser(value: string) {
@@ -203,25 +217,9 @@ export default class ContentStore {
         try {
             const newComment = await ContentService.addNewComment(itemId, text, parentCommntId)
 
-            this.userWall.forEach(function (obj) {
-                if (obj.Posts.id === itemId) {
-                    obj.Posts.comments_count += 1
-                }
-            })
-            this.myWall.forEach(function (obj) {
-                if (obj.Posts.id === itemId) {
-                    obj.Posts.comments_count += 1
-                }
-            })
-            this.userFeed.forEach(function (obj) {
-                if (obj.Posts.id === itemId) {
-                    obj.Posts.comments_count += 1
-                }
-            })
-
-            this.post.Posts.comments_count += 1
-
+            console.log(parentCommntId)
             if (parentCommntId == null) {
+                console.log('Добавляем комментарий к пулу')
                 this.comments.unshift(
                     {
                         id: newComment.data.id,
@@ -242,6 +240,9 @@ export default class ContentStore {
                 )
             }
             else {
+
+                console.log('Добавляем комментарий к пулу')
+
                 this.comments.find(function (comm) {
                     if (comm.id === parentCommntId) {
                         comm.child_comment.push(
@@ -265,6 +266,24 @@ export default class ContentStore {
                     }
                 })
             }
+
+            this.userWall.forEach(function (obj) {
+                if (obj.Posts.id === itemId) {
+                    obj.Posts.comments_count += 1
+                }
+            })
+            this.myWall.forEach(function (obj) {
+                if (obj.Posts.id === itemId) {
+                    obj.Posts.comments_count += 1
+                }
+            })
+            this.userFeed.forEach(function (obj) {
+                if (obj.Posts.id === itemId) {
+                    obj.Posts.comments_count += 1
+                }
+            })
+
+            this.post.Posts.comments_count += 1
         } catch (error) {
 
         }
@@ -275,7 +294,15 @@ export default class ContentStore {
             const user = await AuthService.getProfile();
             if (user.data.username === username) {
                 const wall = await ContentService.getUserWall(username, user.data.id, page)
-                this.setMyWall([...this.myWall, ...wall.data])
+                if (this.myWall.includes( wall.data[0])){
+                    console.log('Условие 1')
+                    this.setMyWall(wall.data)
+                }
+                else{
+                    console.log('Условие 2')
+                    this.setMyWall([...this.myWall, ...wall.data])
+
+                }
                 return wall
             }
         } catch (error) {
@@ -289,8 +316,8 @@ export default class ContentStore {
         this.setLoading(true);
         try {
             const postData = await ContentService.CreateNewPost(id, parentPostId, text);
+            console.log('Добавляем пост')
             if (parentPostId === null) {
-                console.log('Добавляем пост')
                 this.myWall.unshift({
                     Posts: {
                         ...postData.data, parent_post_data: null, author_data: {
@@ -343,6 +370,37 @@ export default class ContentStore {
         this.setUserFeed([...this.userFeed, ...response.data])
         this.setLoading(false);
         return response
+    }
+
+    // Эксперимент
+
+    async getGamePage(slug: string) {
+        this.setLoading(true);
+        try {
+            const userId = await AuthService.getProfile()
+
+            const game = await GameService.getGamePage(slug);
+            this.setGamePage(game.data)
+
+            const result = await ContentService.getComments(game.data.id, userId.data.id)
+            this.setComments(result.data)
+
+
+            const likes = await ContentService.getUserCommentsLikes(this.gamePage.id)
+            this.setCommentsLikes(likes.data)
+
+        } catch {
+            const game = await GameService.getGamePage(slug);
+            this.setGamePage(game.data)
+
+            const result = await ContentService.getComments(game.data.id, null)
+            this.setComments(result.data)
+        }
+        finally {
+            this.setLoading(false);
+
+        }
+
     }
 }
 

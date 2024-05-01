@@ -1,0 +1,29 @@
+.form_wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.show_pass_wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    cursor: pointer;
+    gap: 6px;
+}
+
+.icon_wrapper{
+    width: 16px;
+    height: 16px;
+    opacity: .8;
+}
+
+
+.buttons_wrapper {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+    justify-content: right;
+    width: 280px;
+}

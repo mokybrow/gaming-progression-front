@@ -78,3 +78,24 @@
     border-radius: 100px;
     object-fit: cover;
 }
+
+.send_button_wrapper {
+    display: flex;
+
+    position: absolute;
+
+    top: 4px;
+    gap: 6px;
+    right: 5px;
+    z-index: 50;
+}
+
+.icon_wrapper {
+    display: flex;
+    width: 28px;
+    height: 28px;
+    background-color: var(--social-button-color);
+    border-radius: 100px;
+    transition:  background-color 0.2s linear;
+    padding: 4px;
+}

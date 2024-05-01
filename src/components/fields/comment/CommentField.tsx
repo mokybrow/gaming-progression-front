@@ -13,16 +13,19 @@ import React from "react";
 import { MentionPopup } from "@/components/popup/mention/MentionPopUp";
 import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 import { MentionButton } from "@/components/buttons/mention/MentionButton";
+import CrossIcon from "@/components/icons/cross";
+import SendIcon from "@/components/icons/send";
 
 
 export interface CommentProps {
   contentID: string
+  uniqueId: any
   parentCommentId: string | null
   setShowComment: any
 }
 
 
-function CommentField({ contentID, parentCommentId, setShowComment }: CommentProps) {
+function CommentField({ contentID, parentCommentId, setShowComment, uniqueId }: CommentProps) {
 
   const { content_store } = useContext(Context);
   const { auth_store } = useContext(Context);
@@ -87,8 +90,9 @@ function CommentField({ contentID, parentCommentId, setShowComment }: CommentPro
   })
 
   const addCommentHandler = () => {
-    var el = document.getElementById("content");
+    var el = document.getElementById(uniqueId);
     setCommentText(el!.innerHTML)
+    console.log(el!.innerHTML)
     content_store.addNewComment(contentID, el!.innerHTML, parentCommentId, auth_store.user.id, auth_store.user.username, auth_store.user.full_name)
   }
 
@@ -116,10 +120,10 @@ function CommentField({ contentID, parentCommentId, setShowComment }: CommentPro
 
   const handleClearField = () => {
 
-    const el = document.getElementById("content");
+    const el = document.getElementById(uniqueId);
 
-    el!.innerHTML =  '';
- 
+    el!.innerHTML = '';
+
   };
   function getCaretCharacterOffsetWithin(element: any) {
     var caretOffset = 0;
@@ -216,7 +220,7 @@ function CommentField({ contentID, parentCommentId, setShowComment }: CommentPro
     var range = getCurrentRange()
     var range2 = getCurrentRange()
     const textw = e.target.innerText
-    var el = document.getElementById("content");
+    var el = document.getElementById(uniqueId);
     setCommentText(e.target.innerHTML)
     const position = getCaretCharacterOffsetWithin(el)
     if (startSearch) {
@@ -254,7 +258,7 @@ function CommentField({ contentID, parentCommentId, setShowComment }: CommentPro
 
     <div className={styles.comment_field_wrapper}
       data-placeholder="Введите текст...">
-      <div id="content" contentEditable className={styles.input}
+      <div id={uniqueId} contentEditable className={styles.input}
         data-placeholder="Введите текст..."
         onClick={() => toggleByDistance(getCurrentRange())}
         onKeyUp={(e) => onKeyUp(e)}>
@@ -295,24 +299,17 @@ function CommentField({ contentID, parentCommentId, setShowComment }: CommentPro
       <div className={styles.send_button_wrapper} >
 
         {commentText !== "" && commentText.replace(/\s+/g, ' ').trim() !== "" ?
-          <div className={styles.func_button_wrapper}>
-            <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-              onClick={() => (addCommentHandler(), setShowComment(false), setCommentText(''), handleClearField())}
-            >
-              Отправить
-            </FunctionalGameButton>
-            <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-              onClick={() => (setShowComment(false), setCommentText(''), handleClearField())}>
-              Отмена
-            </FunctionalGameButton>
+          <div className={styles.send_button_wrapper} >
+            <div className={styles.icon_wrapper} onClick={() => (addCommentHandler(), setShowComment(false), setCommentText(''), handleClearField())} >
+              <SendIcon className="general-icon" />
+            </div>
+            <div className={styles.icon_wrapper} onClick={() => (setShowComment(false), setCommentText(''), handleClearField())}>
+              <CrossIcon className="general-icon" />
+            </div>
           </div>
+
           :
-          <div className={styles.func_button_wrapper}>
-            <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-              onClick={() => (setShowComment(false), setCommentText(''), handleClearField())}>
-              Отмена
-            </FunctionalGameButton>
-          </div>
+          null
         }
       </div>
 
