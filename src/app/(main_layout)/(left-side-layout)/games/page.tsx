@@ -54,10 +54,6 @@ function Games() {
         }
     })
 
-    const SubmitSort = (name: string, type: string) => {
-        games_store.setSort(name, type)
-        games_store.filterGames(games_store.genres, games_store.platforms, null, games_store.release_date, 0, games_store.sort)
-    }
 
     useEffect(() => {
         if (fetching) {
@@ -85,7 +81,6 @@ function Games() {
             (e.target.documentElement.scrollTop + window.innerHeight) < 500
             && games_store.games.length < games_store.gamesCount
         ) {
-            console.log('кручу')
             setFetching(true)
         }
 

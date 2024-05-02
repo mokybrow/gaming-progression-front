@@ -252,7 +252,7 @@ body {
   gap: 48px;
   height: 100%;
   box-sizing: inherit;
-  margin-top: 58px;
+  /* margin-top: 58px; */
 }
 
 .nested_layout {

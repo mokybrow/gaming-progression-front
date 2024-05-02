@@ -45,10 +45,10 @@ function GamePage() {
     })
 
 
-    const findStatusStart = auth_store.user.user_activity?.find(product => product.game_data.id == games_store.gamePage.id && product.activity_data.code == 200000)
-    const findStatusWish = auth_store.user.user_activity?.find(product => product.game_data.id == games_store.gamePage.id && product.activity_data.code == 210000)
-    const findStatusComplete = auth_store.user.user_activity?.find(product => product.game_data.id == games_store.gamePage.id && product.activity_data.code == 220000)
-    const findStatusFavorite = auth_store.user.user_favorite?.find(product => product.game_data.id == games_store.gamePage.id)
+    const findStatusStart = auth_store.user.user_activity?.find(product => product.game_data.id == content_store.gamePage.id && product.activity_data.code == 200000)
+    const findStatusWish = auth_store.user.user_activity?.find(product => product.game_data.id == content_store.gamePage.id && product.activity_data.code == 210000)
+    const findStatusComplete = auth_store.user.user_activity?.find(product => product.game_data.id == content_store.gamePage.id && product.activity_data.code == 220000)
+    const findStatusFavorite = auth_store.user.user_favorite?.find(product => product.game_data.id == content_store.gamePage.id)
 
 
 
@@ -59,13 +59,11 @@ function GamePage() {
 
 
     const changeGameStatus = (activityType: string) => {
-        auth_store.changeGameStatus(games_store.gamePage.id, activityType)
+        auth_store.changeGameStatus(content_store.gamePage.id, activityType)
     }
     const addGameToFavorite = () => {
-        auth_store.addGameToFavorite(games_store.gamePage.id)
+        auth_store.addGameToFavorite(content_store.gamePage.id)
     }
-
-
 
     return (
         <>
@@ -114,17 +112,17 @@ function GamePage() {
             <main className="content_wrapper">
                 <div className={styles.main_info_wrapper}>
                     <div className={styles.cover_wrapper}>
-                        <img src={games_store.gamePage.cover} alt={games_store.gamePage.title} className={styles.game_cover} />
+                        <img src={content_store.gamePage.cover} alt={content_store.gamePage.title} className={styles.game_cover} />
                     </div>
                     <div className={styles.right_side}>
                         <div className={styles.title_wrapper}>
                             <h1>
-                                {games_store.gamePage.title}
+                                {content_store.gamePage.title}
                             </h1>
                             <span>
 
                                 <span>
-                                    {formatDate(games_store.gamePage.release_date)}
+                                    {formatDate(content_store.gamePage.release_date)}
                                 </span>
                             </span>
 
@@ -202,7 +200,7 @@ function GamePage() {
                             <div className={styles.information_text}>
                                 {content_store.gamePage.genres?.map((genre, index) =>
                                     <span key={genre.genre.id}>
-                                        {genre.genre.name + ((content_store.gamePage?.genres?.length > 0 && index !== games_store.gamePage?.genres?.length - 1) ? ', ' : '')}
+                                        {genre.genre.name + ((content_store.gamePage?.genres?.length > 0 && index !== content_store.gamePage?.genres?.length - 1) ? ', ' : '')}
                                     </span>
                                 )}
                             </div>
@@ -212,7 +210,7 @@ function GamePage() {
                             <div className={styles.information_text}>
                                 {content_store.gamePage?.platforms?.map((platform, index) =>
                                     <span key={platform.platform.id}>
-                                        {platform.platform.platform_name + ((content_store.gamePage?.platforms?.length > 0 && index !== games_store.gamePage?.platforms?.length - 1) ? ', ' : '')}
+                                        {platform.platform.platform_name + ((content_store.gamePage?.platforms?.length > 0 && index !== content_store.gamePage?.platforms?.length - 1) ? ', ' : '')}
                                     </span>
                                 )}
                             </div>
@@ -221,13 +219,16 @@ function GamePage() {
                     <div className={styles.stats_info_card}>
                         <h3>Статистика</h3>
                         <div>
-                            <span>Прошли</span> <span>{games_store.gamePage.completed_count != null ? games_store.gamePage.completed_count : 0}</span>
+                            <span>Начали</span> <span>{content_store.gamePage.start_count != null ? content_store.gamePage.start_count : 0}</span>
                         </div>
                         <div>
-                            <span>Понравилась</span> <span>{games_store.gamePage.favorite_count != null ? games_store.gamePage.favorite_count : 0}</span>
+                            <span>Прошли</span> <span>{content_store.gamePage.completed_count != null ? content_store.gamePage.completed_count : 0}</span>
                         </div>
                         <div>
-                            <span>Отложили</span> <span>{games_store.gamePage.wishlist_count != null ? games_store.gamePage.wishlist_count : 0}</span>
+                            <span>Понравилась</span> <span>{content_store.gamePage.favorite_count != null ? content_store.gamePage.favorite_count : 0}</span>
+                        </div>
+                        <div>
+                            <span>Отложили</span> <span>{content_store.gamePage.wishlist_count != null ? content_store.gamePage.wishlist_count : 0}</span>
                         </div>
                     </div>
                 </div>

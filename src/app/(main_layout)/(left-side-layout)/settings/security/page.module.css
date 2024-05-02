@@ -46,16 +46,9 @@
 
 
 .x_icon {
-    display: flex;
     width: 18px;
     height: 18px;
-    justify-content: center;
-    align-items: center;
-    background-image: var(--x-icon);
-    background-repeat: no-repeat;
-    background-size: 100%;
-    background-position: center;
-    cursor: pointer;
+
 }
 
 .comment_field_wrapper {

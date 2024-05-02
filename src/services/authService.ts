@@ -85,7 +85,7 @@ export default class AuthService {
 
     static async changePasswordReset(token: string, newPassword: string): Promise<AxiosResponse> {
         const url = process.env.API_URL
-        return axios.post(url + `auth/change/password/reset`,
+        return axios.post(url + `auth/password/reset`,
             {
                 token: token,
                 password: newPassword

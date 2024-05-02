@@ -1,80 +1,109 @@
 'use client'
 import AuthService from '@/services/authService'
-import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { redirect, useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 import styles from './page.module.css'
 import InputField from '@/components/fields/InputField'
 import EyeIcon from '@/components/icons/eye'
 import ClosedEyeIcon from '@/components/icons/closedEye'
-import ServiceButton from '@/components/buttons/service/ServiceButton'
 import ServiceButtonLong from '@/components/buttons/servicelong/ServiceButtonLong'
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form'
+import ReactToast from '@/components/toast/Toast'
+import { SubmitButton } from '@/components/buttons/SubmitButton'
 
-let validationSchema = yup.object({
-	password: yup.string().required().matches(/^[a-zA-Z0-9]+$/,
-    "This field cannot contain white space and special character"),
-	confirmPassword: yup.string().required()
-});
 
 export default function ChangePassword() {
     const searchParams = useSearchParams()
     const tokenParam = searchParams.get('token')
     const [token, setToken] = useState<string>(String(tokenParam))
+
     const [password, SetPassword] = useState<string>('')
+
+
     const [confirm, setConfirm] = useState<string>('')
+
     const [fieldType, setFieldType] = useState('password')
     const [danger, setDanger] = useState<string>()
+    const router = useRouter()
 
-	const { setError, reset, register, handleSubmit, formState: { errors } } = useForm({
-		resolver: yupResolver(validationSchema)
-	});
 
 
     const changePassword = () => {
         if (password !== confirm) {
             setDanger('Пароли не совпадают')
         }
+        else if (password.length < 8) {
+            setDanger('Пароль должен быть длиннее 8 символов')
+        }
         else {
-
-            AuthService.changePasswordReset(token, password).then(resp => resp.status !== 200 ? setDanger('Время действия токена истекло') : null)
+            AuthService.changePasswordReset(token, password).then(function (resp) {
+                console.log(resp.status)
+                if (resp.status === 200) {
+                    router.push('/')
+                }
+                else {
+                    setDanger('Время действия токена истекло')
+                }
+            })
         }
     }
-    return (
-        <main className="content_wrapper">
-            <div className={styles.form_wrapper}>
-                <InputField {...register('password')} placeholder={'Начните вводить'}
-                    type={fieldType} id={'password'} width={280} labelname={'Пароль'}
-                    autoComplete="password" onChange={(e) => SetPassword(e.target.value)} />
-                <InputField {...register('confirmPassword')} placeholder={'Начните вводить'}
-                    type={fieldType} id={'confirmPassword'} width={280} labelname={'Подтверждение пароля'}
-                    autoComplete="confirmPassword" onChange={(e) => setConfirm(e.target.value)} />
-                <div>
-                    {danger}
-                </div>
-                {fieldType == 'password' ?
 
-                    <div onClick={() => (setFieldType('text'))} className={styles.show_pass_wrapper}>
-                        <span>Показать пароль</span>
-                        <div className={styles.icon_wrapper}>
-                            <EyeIcon className='general-icon' />
+    function handleInput(e: any) {
+        setDanger('')
+        let text = e.target.value.replace(/[^a-z0-9$@-]/gi, '');
+        SetPassword(text);
+    }
+    function handleInputConfirm(e: any) {
+        setDanger('')
+        let text = e.target.value.replace(/[^a-z0-9$@-]/gi, '');
+        setConfirm(text);
+    }
+
+
+    return (
+        <>
+
+            <main className="content_wrapper">
+                <div className={styles.page_main}>
+
+
+                    <div className={styles.form_wrapper}>
+                        <InputField placeholder={'Начните вводить'}
+                            type={fieldType} id={'password'} width={280} labelname={'Пароль'}
+                            autoComplete="password" onChange={(e) => handleInput(e)} value={password} />
+                        <InputField placeholder={'Начните вводить'}
+                            type={fieldType} id={'confirmPassword'} width={280} labelname={'Подтверждение пароля'}
+                            autoComplete="confirmPassword" onChange={(e) => handleInputConfirm(e)} value={confirm} />
+                        <div className={styles.danger}>
+                            <small>
+                                {danger}
+
+                            </small>
                         </div>
+                        {fieldType == 'password' ?
+
+                            <div onClick={() => (setFieldType('text'))} className={styles.show_pass_wrapper}>
+                                <span>Показать пароль</span>
+                                <div className={styles.icon_wrapper}>
+                                    <EyeIcon className='general-icon' />
+                                </div>
+                            </div>
+                            :
+                            <div onClick={() => (setFieldType('password'))} className={styles.show_pass_wrapper}>
+                                <span>Скрыть пароль</span>
+                                <div className={styles.icon_wrapper}>
+                                    <ClosedEyeIcon className='general-icon' />
+                                </div>
+                            </div>
+                        }
+                        <SubmitButton type={'submit'} onClick={() => changePassword()}>
+                            Обновить пароль
+                        </SubmitButton>
                     </div>
-                    :
-                    <div onClick={() => (setFieldType('password'))} className={styles.show_pass_wrapper}>
-                        <span>Скрыть пароль</span>
-                        <div className={styles.icon_wrapper}>
-                            <ClosedEyeIcon className='general-icon' />
-                        </div>
-                    </div>
-                }
-                <div className={styles.buttons_wrapper}>
-                    <ServiceButtonLong type={'submit'} onClick={() => changePassword()}>
-                        Обновить пароль
-                    </ServiceButtonLong>
                 </div>
-            </div>
-        </main>
+            </main>
+            <main className="right_side_wrapper">
+
+            </main>
+        </>
     );
 }

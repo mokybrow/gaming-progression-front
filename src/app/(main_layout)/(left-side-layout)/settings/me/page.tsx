@@ -66,7 +66,7 @@ function SettingsMe() {
                                         <small>{biography.length}/50</small>
                                     </div>
                                     <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                        onClick={() => (auth_store.patchMe(null, biography, null), setBiography(''))}>
+                                        onClick={() => (auth_store.patchMe(null, biography, null))}>
                                         Обновить
                                     </FunctionalGameButton>
                                 </div>

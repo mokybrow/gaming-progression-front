@@ -88,8 +88,7 @@ export default class AuthStore {
 
             this.setLoading(false);
         } catch (error) {
-            this.setUser({} as IUserModel)
-            removeLocalToken();
+      
         }
     }
 
@@ -104,8 +103,7 @@ export default class AuthStore {
             this.setLoading(false);
 
         } catch (error) {
-            this.setUser({} as IUserModel)
-            removeLocalToken();
+   
         }
     }
 

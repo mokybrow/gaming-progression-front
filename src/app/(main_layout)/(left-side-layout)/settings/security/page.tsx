@@ -6,63 +6,39 @@ import { useContext, useEffect, useState } from "react";
 import styles from './page.module.css'
 import Link from "next/link";
 import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
-import * as yup from 'yup';
 
 import { observer } from "mobx-react-lite";
 import InputField from "@/components/fields/InputField";
-import { Bounce, ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import ArrowLeftIcon from "@/components/icons/arrowLeft";
+import ReactToast from "@/components/toast/Toast";
+import CrossIcon from "@/components/icons/cross";
 
 
 function SettingsSecurity() {
     const [newEmail, setNewEmail] = useState("");
     const { auth_store } = useContext(Context);
-    const notify = async () => {
+
+    const [active, setActive] = useState(false)
+    const [toastText, setToastText] = useState<string>('')
+
+    const changeEmailRequest = async () => {
         const response = await auth_store.changeEmailRequest(newEmail)
         if (response) {
-            toast(`Вам направлена инструкция на почту ${auth_store.user.email}!`, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
-            setEmailOpen(false)
-
+            setToastText(`Вам направлена инструкция на почту ${auth_store.user.email}!`)
+            setActive(true)
         }
         else {
-            toast.warn('Вы уже используете данную почту!', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                transition: Bounce,
-            });
+            setToastText('Вы уже используете данную почту!')
+            setActive(true)
+
         }
     }
 
     const changePassNotify = async () => {
         const response = await auth_store.changePasswordRequest()
         if (response) {
-            toast(`Вам направлена инструкция по смене пароля на почту ${auth_store.user.email}!`, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
+            setToastText(`Вам направлена инструкция по смене пароля на почту ${auth_store.user.email}!`)
+            setActive(true)
 
         }
 
@@ -77,7 +53,7 @@ function SettingsSecurity() {
                         <Link href={'/settings/'}>
                             <div className={styles.icon_wrapper}>
                                 <ArrowLeftIcon className='general-icon' />
-                            </div>                            
+                            </div>
                             <span>Назад</span>
                         </Link>
                     </div>
@@ -96,7 +72,9 @@ function SettingsSecurity() {
                                     type={'text'} id={'email'} height={44} labelname={'Почта'}
                                     onChange={(e) => setNewEmail(e.target.value)} required />
 
-                                <div className={styles.x_icon} onClick={() => (setEmailOpen(false), setNewEmail(''))}></div>
+                                <div className={styles.x_icon} onClick={() => (setEmailOpen(false), setNewEmail(''))}>
+                                    <CrossIcon className="general-icon"/>
+                                </div>
                             </div>
                             {newEmail !== "" && newEmail.replace(/\s+/g, ' ').trim() !== "" && newEmail.match(
                                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -104,11 +82,12 @@ function SettingsSecurity() {
                                 <div className={styles.send_button_wrapper}>
 
                                     <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
-                                        onClick={() => (setNewEmail(''), notify())}>
+                                        onClick={() => (setNewEmail(''), changeEmailRequest(), setEmailOpen(false))}>
                                         Обновить
                                     </FunctionalGameButton>
                                 </div>
-                            </> : null}
+                            </>
+                                : null}
                         </div>
 
 
@@ -122,21 +101,12 @@ function SettingsSecurity() {
                     </div>
 
                 </div>
-                <ToastContainer
-                    position="top-right"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="light" />
+                <ReactToast timeout={5000} active={active} setActive={setActive} toastText={toastText} setToastText={setToastText} />
+
 
             </main>
             <main className="right_side_wrapper">
-         
+
             </main>
 
         </>

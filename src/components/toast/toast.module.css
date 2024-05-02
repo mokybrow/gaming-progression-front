@@ -1,0 +1,15 @@
+.react_toast_container {
+    background-color: var(--bg-card-color);
+    position: fixed;
+    top: 80px;
+    right: 80px;
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 1000;
+    max-width: 250px;
+}
+
+.react_toast_container_hide{
+    display: none;
+}
+

@@ -24,6 +24,7 @@ export interface GamePageResponse {
   release_date: string
   playtime: number
   completed_count: any
+  start_count: any
   wishlist_count: any
   favorite_count: any
   avg_rate: any
