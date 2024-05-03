@@ -17,7 +17,6 @@
 .send_button_wrapper {
     display: block;
     position: absolute;
-
     right: 5px;
     z-index: 5;
 }
@@ -35,7 +34,6 @@
 .input_wrapper input {
     width: 100%;
     padding: 10px;
-    /* border: 1px solid #1E1D1F; */
     outline: none;
     color: var(--font-color);
     background-color: var(--search-color);
@@ -43,6 +41,7 @@
     font-size: 18px;
     transition: all 0.2s ease;
     height: var(--header-items-height);
+    font-family: "Montserrat", sans-serif;
 
 }
 
@@ -91,7 +90,7 @@
 
 .game_list_item:hover {
     background-color: var(--list-item-hover);
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
 
 }
 
@@ -100,7 +99,7 @@
     width: 50px;
     height: 50px;
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
 }
 
 .game_cover_wrapper img {

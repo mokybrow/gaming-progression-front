@@ -34,7 +34,7 @@
     align-items: center;
     width: 100%;
     padding: 4px 10px;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     cursor: pointer;
     font-size: 16px;
 

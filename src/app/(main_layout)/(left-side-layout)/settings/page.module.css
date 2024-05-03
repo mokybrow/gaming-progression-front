@@ -1,6 +1,6 @@
 .main_wrapper {
     background-color: var(--bg-card-color);
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     transition: background-color 0.2s linear;
 }
 
@@ -45,7 +45,7 @@
 
 .settings_menu_item:hover{
     background-color: var(--list-item-hover);
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
 }
 
 .text_wrapper {
@@ -74,7 +74,7 @@
     flex-direction: column;
     background-color: var(--card-bg-color);
     padding: 10px;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     font-weight: 600;
 }
 
@@ -97,7 +97,7 @@
     justify-content: space-between;
     background-color: var(--card-bg-color);
     padding: 10px;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
 }
 
 .rocket_logo,

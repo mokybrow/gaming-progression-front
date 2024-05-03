@@ -5,7 +5,7 @@
     min-width: fit-content;
     width: 100%;
     border:  none;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     padding: 6px;
     cursor: pointer;
     background-color: var(--service-button-color);

@@ -13,13 +13,13 @@ import Link from "next/link";
 import SettingsIcon from "@/components/icons/settings";
 import UserIcon from "@/components/icons/user";
 import LeaveIcon from "@/components/icons/leave";
+import AuthCard from "@/components/cards/auth_card/AuthCard";
 
 
 
 function Games() {
     const { auth_store } = useContext(Context);
     const [isAuthShow, setIsAuthShow] = useState(false);
-    const [isRegShow, setIsRegShow] = useState(false);
 
     const popupRef = useRef(null)
     useOutside(popupRef, () => {
@@ -27,20 +27,13 @@ function Games() {
         if (isAuthShow) {
             setTimeout(() => setIsAuthShow(false), 50)
         }
-        if (isRegShow) {
-            setTimeout(() => setIsRegShow(false), 50)
-        }
+     
     })
     return (
         <>
-            <FullScreenPopup active={isRegShow} setActive={setIsRegShow}>
-                <RegistrationForm />
-            </FullScreenPopup>
+
             <FullScreenPopup active={isAuthShow} setActive={setIsAuthShow}>
-                <LoginForm />
-                <div className={styles.form_elem}>
-                    <div >Нет аккаунта? <span className={styles.reglink} onClick={() => (setIsAuthShow(false), setIsRegShow(true))}>Зарегистрироваться</span></div>
-                </div>
+                <AuthCard setIsShow={setIsAuthShow}/>
             </FullScreenPopup>
             <main className="content_wrapper">
                 <div className={styles.menu_items}>

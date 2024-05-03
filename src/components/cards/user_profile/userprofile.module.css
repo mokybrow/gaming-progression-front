@@ -3,7 +3,7 @@
     grid-template-columns: 1fr 1fr;
     background-color: var( --bg-card-color);
     padding: 12px 24px;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     gap: 10px;
     transition: background-color 0.2s linear;
 
@@ -60,7 +60,7 @@
     text-align: center;
     justify-content: space-between;
     background-color: var( --bg-card-color);
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     padding: 12px;
     transition: background-color 0.2s linear;
 

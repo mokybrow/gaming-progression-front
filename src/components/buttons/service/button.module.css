@@ -3,7 +3,7 @@
     width: 28px;
     height: 28px;
     border:  none;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     padding: 6px;
     cursor: pointer;
     background-color: var(--service-button-color);

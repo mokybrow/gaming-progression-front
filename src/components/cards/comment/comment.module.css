@@ -17,7 +17,7 @@
   flex-direction: column;
   position: relative;
   background-color: var(--card-bg-color);
-  border-radius: 6px;
+  border-radius: var(--border-radius-main);
   gap: 12px;
   width: 100%;
 }

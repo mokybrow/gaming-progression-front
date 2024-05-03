@@ -80,7 +80,7 @@
 
 .actve {
     background-color: var(--input-color);
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
 }
 
 

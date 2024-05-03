@@ -1,8 +1,5 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import styles from './page.module.css'
 import Link from 'next/link';
 import { useContext, useState } from 'react';

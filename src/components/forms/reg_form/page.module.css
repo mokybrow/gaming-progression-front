@@ -24,3 +24,15 @@
     grid-template-columns: 1fr;
     gap: 6px;
 }
+
+@media (max-width: 450px) {
+    .auth_form {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+        flex-direction: column;
+        border-radius: 6px;
+        padding: 12px;
+        width: 100%;
+    }    
+}

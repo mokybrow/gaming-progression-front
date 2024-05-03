@@ -17,11 +17,12 @@
 .input_wrapper input {
     width: 100%;
     padding: 20px 20px 10px 10px;
-    /* border: 1px solid #1E1D1F; */
     outline: none;
     font-weight: 500;
     font-size: 18px;
-    font-family: "Montserrat Regular", sans-serif;
+    font-family: "Montserrat", sans-serif;
+    outline: none;
+    
 }
 
 .input_wrapper input:hover,

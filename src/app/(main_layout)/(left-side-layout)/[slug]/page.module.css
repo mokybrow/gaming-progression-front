@@ -11,8 +11,9 @@
     justify-content: space-between;
     background-color: var( --bg-card-color);
     padding: 12px 24px 12px 24px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border-top-left-radius: var(--border-radius-main);
+    border-top-right-radius: var(--border-radius-main);
+
     margin-bottom: -12px;
     z-index: 2;
     transition: background-color 0.2s linear;
@@ -60,7 +61,7 @@
     background-color: var( --bg-card-color);
     margin-bottom: 12px;
     padding: 50px 24px;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     gap: 6px;
     transform: 200ms all linear;
 }
@@ -91,7 +92,7 @@
     flex-direction: column;
     background-color: var(--card-bg-color);
     padding: 10px;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     font-weight: 600;
 }
 

@@ -6,7 +6,7 @@
     transition: background-color 0.2s linear;
     margin-bottom: 12px;
     padding: 24px 24px;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     gap: 6px;
 }
 
@@ -16,7 +16,7 @@
     height: 0;
     padding-bottom: 56.25%;
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
 }
 
 .cover_wrapper img {

@@ -14,7 +14,7 @@
     z-index: 3;
     padding: 12px 24px 12px 24px;
     padding-right: 30px;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     background-color: var(--post-input-color);
     transition: 140ms all ease-out;
     transition:  background-color 0.2s linear;
@@ -70,7 +70,7 @@
     box-sizing: border-box;
     max-width: 100%;
     gap: 12px;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
 }
 
 .game_item_wrapper {

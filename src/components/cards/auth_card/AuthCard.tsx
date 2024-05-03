@@ -35,7 +35,7 @@ function AuthCard({ setIsShow }: ModalProps) {
             </div>
             <div className={styles.brand_header}>
                 <div>mbrw ID </div>
-                {!isOpen ? <div>Вход</div> : <div>Регистрация</div>}
+                {!isOpen ? <div>Вход в аккаунт</div> : <div>Регистрация</div>}
 
             </div>
             {!isOpen && remember ?

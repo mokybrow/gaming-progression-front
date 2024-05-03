@@ -1,6 +1,6 @@
 .main_wrapper {
     background-color: var(--bg-card-color);
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     transition: background-color 0.2s linear;
 }
 
@@ -113,14 +113,6 @@
     gap: 12px;
 }
 
-.stat_card {
-    display: flex;
-    flex-direction: column;
-    background-color: var(--card-bg-color);
-    padding: 10px;
-    border-radius: 6px;
-    font-weight: 600;
-}
 
 .button_data_wrapper {
     display: flex;
@@ -133,38 +125,4 @@
 .button_data_wrapper span {
     font-weight: 600;
     font-size: 22px;
-}
-
-.stat_card_icons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: var(--card-bg-color);
-    padding: 10px;
-    border-radius: 6px;
-}
-
-.rocket_logo,
-.finish_logo,
-.heart_logo,
-.bag_logo {
-    background-size: 28px 28px;
-    width: 28px;
-    height: 28px;
-}
-
-.rocket_logo {
-    background-image: var(--rocket-icon);
-}
-
-.finish_logo {
-    background-image: var(--finish-flag-icon);
-}
-
-.heart_logo {
-    background-image: var(--heart-favorite-icon);
-}
-
-.bag_logo {
-    background-image: var(--bag-icon);
 }
