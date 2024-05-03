@@ -1,6 +1,17 @@
+.toast_wrapper {
+    width: 100vh;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    pointer-events: all;
+}
+
 .react_toast_container {
     background-color: var(--bg-card-color);
-    position: fixed;
+    position: absolute;
     top: 80px;
     right: 80px;
     padding: 15px;
@@ -9,7 +20,6 @@
     max-width: 250px;
 }
 
-.react_toast_container_hide{
+.react_toast_container_hide {
     display: none;
 }
-

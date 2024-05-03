@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 import { FunctionalGameButton } from '@/components/buttons/FunctionalGameButton';
 import useOutside from '@/hooks/useOutside';
 import LoginForm from '@/components/forms/login_form/LoginForm';
-import { FullScreenPopup } from '@/components/popup/FullScreenPopup';
+import { FullScreenPopup } from '@/components/popup/main_popup/FullScreenPopup';
 
 import CircleLoader from '@/components/loader/circle';
 import CommentField from '@/components/fields/comment/CommentField';
@@ -67,12 +67,6 @@ function GamePage() {
 
     return (
         <>
-            {content_store.isLoading ? <><div className='loader_wrapper'>
-                <CircleLoader />
-            </div></> : null}
-            <FullScreenPopup active={isShow} setActive={setIsShow}>
-                <LoginForm />
-            </FullScreenPopup>
             <FullScreenPopup active={isShowRating} setActive={setIsShowRating}>
                 <div className={styles.rate_wrapper}>
 
@@ -128,8 +122,6 @@ function GamePage() {
 
                         </div>
                         <div className={styles.active_button_wrapper}>
-
-
                             <FunctionalGameButton type={'button'} bg_color={findStatusStart ? '#FFFAA3' : '#D6D6D6'} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('start') }} fontSize={18}>
                                 <div className={styles.button_data_wrapper}>
                                     <div className={styles.rocket_logo}></div>

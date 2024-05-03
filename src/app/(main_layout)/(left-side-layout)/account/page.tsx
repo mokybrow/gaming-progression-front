@@ -6,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import styles from './page.module.css'
 import { Context } from "@/app/providers";
 import useOutside from "@/hooks/useOutside";
-import { FullScreenPopup } from "@/components/popup/FullScreenPopup";
+import { FullScreenPopup } from "@/components/popup/main_popup/FullScreenPopup";
 import LoginForm from "@/components/forms/login_form/LoginForm";
 import { RegistrationForm } from "@/components/forms/reg_form/RegistrationForm";
 import Link from "next/link";

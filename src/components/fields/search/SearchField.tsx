@@ -1,6 +1,6 @@
 import { forwardRef, useContext, useEffect, useRef, useState } from 'react'
 import styles from './search.module.css'
-import { TypeInputProps } from '../field.type'
+import { TypeInputProps } from '../input/field.type'
 import { ProfilePopup } from '@/components/popup/profile/ProfilePopup';
 import useOutside from '@/hooks/useOutside';
 import { Context } from '@/app/providers';

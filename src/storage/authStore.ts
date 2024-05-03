@@ -52,16 +52,18 @@ export default class AuthStore {
 
 
 
-    async login(response: AxiosResponse<AuthResponse, any>) {
+    async login(username: string, password: string) {
         try {
+            const response = await AuthService.login(username, password);
             saveLocalToken(response.data.access_token);
             this.setAuth(true);
             const userProfile = await AuthService.getProfile();
             this.setUser(userProfile.data);
+            return response
 
         } catch (e) {
             const error = e as AxiosError;
-            return error
+            return false
         }
     }
 
@@ -192,7 +194,19 @@ export default class AuthStore {
         this.setLoading(true);
         try {
             await AuthService.changePasswordRequest()
-            this.setAuth(true);
+            this.setLoading(false);
+            return true
+        }
+
+        catch (error) {
+            return false
+        }
+    }
+
+    async passwordRecovery(email: string) {
+        this.setLoading(true);
+        try {
+            await AuthService.passwordRecovery(email)
             this.setLoading(false);
             return true
         }

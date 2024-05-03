@@ -10,7 +10,7 @@ import { observer } from "mobx-react-lite";
 import { ProfilePopup } from "@/components/popup/profile/ProfilePopup";
 import useOutside from "@/hooks/useOutside";
 
-import { FullScreenPopup } from "@/components/popup/FullScreenPopup";
+import { FullScreenPopup } from "@/components/popup/main_popup/FullScreenPopup";
 import CircleLoader from "@/components/loader/circle";
 import FilterIcon from "@/components/icons/filter";
 import SortIcon from "@/components/icons/sort";
@@ -82,21 +82,20 @@ function Games() {
             && games_store.games.length < games_store.gamesCount
         ) {
             setFetching(true)
+            games_store.setLoading(true)
         }
 
     }
     return (
         <>
-            {games_store.isLoading ? <><div className='loader_wrapper'>
-                <CircleLoader />
-            </div></> : null}
+
             <FullScreenPopup active={isShowFilter} setActive={setIsShowFilter}>
                 <FiltersCard setIsShow={setIsShowFilter} />
             </FullScreenPopup>
             <main className="content_wrapper">
                 <div className={styles.sort_wrapper} >
                     <div className={styles.sort_button_wrapper} >
-                        <SortButton onClick={() => setPage(0)}/>
+                        <SortButton onClick={() => setPage(0)} />
 
                         <div className={styles.finded_games}>Найдено игр {games_store.gamesCount}</div>
                         <div className={styles.right_side_flex_mobile}>
@@ -142,7 +141,10 @@ function Games() {
                     </div>
 
                 </div >
+                {games_store.isLoading ? <>
 
+                    <CircleLoader />
+                </> : null}
             </main >
 
             <main className="right_side_wrapper">

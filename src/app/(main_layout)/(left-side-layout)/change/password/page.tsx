@@ -3,7 +3,7 @@ import AuthService from '@/services/authService'
 import { redirect, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import styles from './page.module.css'
-import InputField from '@/components/fields/InputField'
+import InputField from '@/components/fields/input/InputField'
 import EyeIcon from '@/components/icons/eye'
 import ClosedEyeIcon from '@/components/icons/closedEye'
 import ServiceButtonLong from '@/components/buttons/servicelong/ServiceButtonLong'
@@ -68,10 +68,10 @@ export default function ChangePassword() {
 
                     <div className={styles.form_wrapper}>
                         <InputField placeholder={'Начните вводить'}
-                            type={fieldType} id={'password'} width={280} labelname={'Пароль'}
+                            type={fieldType} id={'password'}  labelname={'Пароль'}
                             autoComplete="password" onChange={(e) => handleInput(e)} value={password} />
                         <InputField placeholder={'Начните вводить'}
-                            type={fieldType} id={'confirmPassword'} width={280} labelname={'Подтверждение пароля'}
+                            type={fieldType} id={'confirmPassword'} labelname={'Подтверждение пароля'}
                             autoComplete="confirmPassword" onChange={(e) => handleInputConfirm(e)} value={confirm} />
                         <div className={styles.danger}>
                             <small>

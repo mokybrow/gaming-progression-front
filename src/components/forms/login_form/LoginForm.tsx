@@ -5,70 +5,83 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import styles from './page.module.css'
 import Link from 'next/link';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Context } from '@/app/providers';
 import { SubmitButton } from '@/components/buttons/SubmitButton';
-import InputField from '@/components/fields/InputField';
+import InputField from '@/components/fields/input/InputField';
 import { API_URL } from '@/api/api';
 import { useRouter } from 'next/navigation';
 import AuthService from '@/services/authService';
+import { LoginButton } from '@/components/buttons/login/LoginButton';
 
-let validationSchema = yup.object({
-	username: yup.string().required(),
-	password: yup.string().required()
-});
 
-const LoginForm = () => {
+
+export interface FormProps {
+	setIsOpen: any,
+	setRemember: any,
+}
+
+const LoginForm = ({ setIsOpen, setRemember }: FormProps) => {
 	const { auth_store } = useContext(Context);
 	const router = useRouter();
 
+	const [username, setUsername] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
 
-	const { setError, reset, register, handleSubmit, formState: { errors } } = useForm({
-		resolver: yupResolver(validationSchema)
-	});
+	const [error, setError] = useState<string>('');
 
-	const handleFormSubmit = async (data: { username: any; password: any; }) => {
-		try {
-			const response = await AuthService.login(data.username, data.password);
-			await auth_store.login(response);
-			router.refresh()
-			window.location.reload()
+	const handleFormSubmit = async () => {
+		if (username === '' || password === '') {
+			setError('Заполните все поля')
 		}
-		catch {
-			setError('username', { message: "Неверный логин или пароль", type: "error" })
+		else {
+			try {
+				const response = await auth_store.login(username, password)
+				console.log(response)
+				if (!response) {
+					setError('Неверный логин или пароль')
+				}
+				else {
+					router.refresh()
+				}
+			}
+			catch {
+			}
 		}
 
 	}
 
 	return (<>
+		{ }
+		<form autoComplete="on" className={styles.auth_form}>
+			<InputField type={'username'} id={'username'} labelname={'Имя пользователя'}
+				autoComplete="username" value={username} onChange={(e) => (setUsername(e.target.value), setError(''), setRemember(false)
+				)} />
 
-		<form onSubmit={handleSubmit(handleFormSubmit)} autoComplete="on" className={styles.auth_form}>
-			<div className={styles.form_elem}>
-				<InputField {...register('username')} placeholder={'Начните вводить'}
-					type={'username'} id={'username'} width={280} labelname={'Имя пользователя'}
-					autoComplete="username" />
-
+			<InputField
+				type={'password'} id={'password'} labelname={'Пароль'}
+				autoComplete="current-password" value={password} onChange={(e) => (setPassword(e.target.value), setError(''), setRemember(false)
+				)} />
+			{error != '' ?
+				<div className={styles.error_block}>
+					<span>{error}</span>
+				</div>
+				: null
+			}
+			{error != '' ?
+				<div className={styles.remember_pass_block} onClick={()=> setRemember(true)}>
+					<span>Забыли пароль? Вспомнить.</span>
+				</div>
+				: null
+			}
+			<div className={styles.button_wrapper}>
+				<LoginButton type={'button'} onClick={() => handleFormSubmit()}>
+					Войти
+				</LoginButton>
+				<LoginButton type={'button'} onClick={() => ((setIsOpen(true), setRemember(false)))}>
+					Зарегистрироваться
+				</LoginButton>
 			</div>
-
-			<div className={styles.form_elem}>
-				<InputField {...register('password')} placeholder={'Начните вводить'}
-					type={'password'} id={'password'} width={280} labelname={'Пароль'} 
-					autoComplete="current-password"/>
-
-				{errors['password'] ? (
-					<div className={styles.errormsg}>{errors['password'].message}</div>
-				) : null}
-				{errors['username'] ? (
-					<div className={styles.errormsg}>{errors['username'].message}</div>
-				) : null}
-		
-			</div>
-
-
-			<SubmitButton type={'submit'} width={280} height={44}>
-				Войти
-			</SubmitButton>
-
 		</form>
 	</>)
 }

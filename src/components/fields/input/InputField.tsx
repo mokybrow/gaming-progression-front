@@ -4,12 +4,12 @@ import { TypeInputProps } from './field.type'
 
 
 const InputField = forwardRef<HTMLInputElement, TypeInputProps>(
-	({ type, placeholder, id, width,height, labelname, ...rest }, ref) => {
+	({ type, id,  labelname, ...rest }, ref) => {
 		return (
 			<div className={styles.input_wrapper}>
 				<input ref={ref} {...rest} className={styles.form_input}
 					type={type} 
-					id={id} style={{ width: `${width}px`, height: `${height}px` }} required />
+					id={id}  required />
 				<label htmlFor={id}>{labelname}</label>
 
 			</div>

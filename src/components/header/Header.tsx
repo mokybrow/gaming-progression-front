@@ -11,7 +11,7 @@ import { observer } from 'mobx-react';
 import { getLocalToken } from '@/utils/tokenUtils';
 import userpic from '@/assets/icons/general/userpic.svg'
 import { UserProfileButton } from '../buttons/profile/UserProfileButton';
-import { FullScreenPopup } from '../popup/FullScreenPopup';
+import { FullScreenPopup } from '../popup/main_popup/FullScreenPopup';
 import LoginForm from '../forms/login_form/LoginForm';
 import { RegistrationForm } from '../forms/reg_form/RegistrationForm';
 import SearchField from '../fields/search/SearchField';
@@ -22,6 +22,8 @@ import SettingsIcon from '../icons/settings';
 import LeaveIcon from '../icons/leave';
 import UserIcon from '../icons/user';
 import ServiceButtonLong from '../buttons/servicelong/ServiceButtonLong';
+import AuthCard from '../cards/auth_card/AuthCard';
+import { LoginButton } from '../buttons/login/LoginButton';
 
 
 export function Header() {
@@ -69,22 +71,16 @@ export function Header() {
         if (isAuthShow) {
             setTimeout(() => setIsAuthShow(false), 50)
         }
-        if (isRegShow) {
-            setTimeout(() => setIsRegShow(false), 50)
-        }
+  
     })
 
     return (
         <>
-            <FullScreenPopup active={isRegShow} setActive={setIsRegShow}>
-                <RegistrationForm />
-            </FullScreenPopup>
+
             <FullScreenPopup active={isAuthShow} setActive={setIsAuthShow}>
-                <LoginForm />
-                <div className={styles.form_elem}>
-                    <div >Нет аккаунта? <span className={styles.reglink} onClick={() => (setIsAuthShow(false), setIsRegShow(true))}>Зарегистрироваться</span></div>
-                </div>
+                <AuthCard setIsShow={setIsAuthShow}/>
             </FullScreenPopup>
+
             <header className={styles.header}>
                 <div className={styles.header_layout}>
                     <div className={styles.logo_wrapper}>
@@ -94,7 +90,7 @@ export function Header() {
                     </div>
 
                     <div className={styles.search_wrapper}>
-                        <SearchField placeholder={'Поиск'} type={'text'} id={''} labelname={'Поиск'} height={32} />
+                        <SearchField placeholder={'Поиск'} type={'text'} id={''} labelname={'Поиск'} />
                     </div>
                     <div className={styles.toggle_wrapper_mobile}>
                         <div className={styles.container}>
@@ -120,7 +116,7 @@ export function Header() {
                             </div>
                         </div>
                         {auth_store.isAuth ?
-                            <UserProfileButton type={'button'} onClick={() => setIsShow(!isShow)} height={32}>
+                            <UserProfileButton type={'button'} onClick={() => setIsShow(!isShow)}>
                                 {auth_store.user.username}
                                 <div className={styles.icon_wrapper}>
                                     <UserIcon className='general-icon' />
@@ -128,10 +124,9 @@ export function Header() {
                             </UserProfileButton>
 
                             :
-                            <UserProfileButton onClick={() => setIsAuthShow(true)} type={'submit'}>
+                            <LoginButton onClick={() => setIsAuthShow(true)} type={'button'}>
                                 Войти
-
-                            </UserProfileButton>
+                            </LoginButton>
 
                         }
 

@@ -1,21 +1,17 @@
 .auth_form {
     display: flex;
-    gap: 18px;
+    gap: 24px;
     align-items: flex-start;
     flex-direction: column;
-    background-color: #fff;
     border-radius: 6px;
     padding: 24px;
-    -webkit-box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
-    box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
-    font-size: 18px;
+    width: 100%;
 }
 
-.form_elem {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+
+.reglink {
+    color: var(--link-color);
+    cursor: pointer;
 }
 
 .form_input {
@@ -28,9 +24,19 @@
 }
 
 
-.errormsg {
-    position: relative;
-    color: brown;
-    font-size: 12px;
-    bottom: 0;
+.error_block {
+    color: var(--alert-color);
+    font-size: 16px;
+}
+.remember_pass_block{
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--link-color);
+}
+
+.button_wrapper {
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto auto;
+    gap: 12px;
 }

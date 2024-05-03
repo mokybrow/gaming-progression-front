@@ -1,7 +1,6 @@
 import { InputHTMLAttributes } from "react"
 
 export interface IFieldProps {
-    placeholder: string
     type: string
     id: string
     labelname: string

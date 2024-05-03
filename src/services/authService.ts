@@ -82,6 +82,13 @@ export default class AuthService {
         const url = process.env.API_URL
         return $api.post(url + `auth/change/password/request`,)
     }
+    static async passwordRecovery(email: string): Promise<AxiosResponse> {
+        const url = process.env.API_URL
+        return axios.post(url + `auth/password/recovery`,{
+            email: email
+        })
+    }
+
 
     static async changePasswordReset(token: string, newPassword: string): Promise<AxiosResponse> {
         const url = process.env.API_URL

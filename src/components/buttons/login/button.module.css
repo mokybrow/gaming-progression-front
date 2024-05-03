@@ -1,0 +1,16 @@
+.button {
+    background-color: var(--blue-button-color);
+    border-radius: var(--border-radius-button);
+    border: none;
+    height: var(--header-items-height);
+    padding: 0 14px;
+    color: var(--ligth-button-font-color);
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.button:hover {
+    background-color: var(--blue-button-hover);
+}

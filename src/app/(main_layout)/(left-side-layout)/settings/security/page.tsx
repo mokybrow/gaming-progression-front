@@ -8,7 +8,7 @@ import Link from "next/link";
 import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 
 import { observer } from "mobx-react-lite";
-import InputField from "@/components/fields/InputField";
+import InputField from "@/components/fields/input/InputField";
 import ArrowLeftIcon from "@/components/icons/arrowLeft";
 import ReactToast from "@/components/toast/Toast";
 import CrossIcon from "@/components/icons/cross";
@@ -39,9 +39,7 @@ function SettingsSecurity() {
         if (response) {
             setToastText(`Вам направлена инструкция по смене пароля на почту ${auth_store.user.email}!`)
             setActive(true)
-
         }
-
     }
     const [emailOpen, setEmailOpen] = useState(false);
 
@@ -66,12 +64,10 @@ function SettingsSecurity() {
                         </div>
                         <div className={emailOpen ? styles.item_open : styles.item_close}>
                             <div className={styles.field_wrapper}>
-
                                 <InputField placeholder={'Начните вводить'}
                                     value={newEmail}
                                     type={'text'} id={'email'} height={44} labelname={'Почта'}
                                     onChange={(e) => setNewEmail(e.target.value)} required />
-
                                 <div className={styles.x_icon} onClick={() => (setEmailOpen(false), setNewEmail(''))}>
                                     <CrossIcon className="general-icon"/>
                                 </div>

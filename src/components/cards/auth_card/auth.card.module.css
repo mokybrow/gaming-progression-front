@@ -1,0 +1,41 @@
+.card_header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 58px;
+}
+
+.card_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background-color: var(--bg-card-color);
+    padding: 24px 24px;
+    border-radius: var(--border-radius-main);
+    min-width: 420px;
+}
+
+.icon_wrapper {
+    width: 32px;
+    height: 32px;
+}
+.cross_icon{
+    width: 28px;
+    height: 28px;  
+}
+
+.exit_button {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    grid-column: 2/3;
+}
+
+.brand_header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-weight: 800;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+}

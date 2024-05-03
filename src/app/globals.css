@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "Montserrat Regular";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
   /* Браузер сначала попробует найти шрифт локально */
@@ -7,7 +7,23 @@
 }
 
 @font-face {
-  font-family: "Montserrat Black";
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  /* Браузер сначала попробует найти шрифт локально */
+  src: url("../fonts/Montserrat-SemiBold.ttf") format("ttf"),
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  /* Браузер сначала попробует найти шрифт локально */
+  src: url("../fonts/Montserrat-Bold.ttf") format("ttf"),
+}
+
+@font-face {
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 900;
   /* Браузер сначала попробует найти шрифт локально */
@@ -36,7 +52,11 @@
   --slider-bg-color: #EFEFEF;
   --sun-color: #EBB50D;
 
-  
+  --border-radius-main: 10px;
+  --border-radius-button: 100px;
+  --header-items-height: 40px;
+
+  --alert-color: #F03030;
 }
 
 
@@ -112,7 +132,7 @@ html[data-theme='dark'] {
   --main-logo-color: #FFAD4A;
   --mobile-menu-color: #1F1F1F;
 
- 
+
   --rocket-icon: url('../assets//icons/general/rocket.svg');
   --finish-flag-icon: url('../assets//icons/general/finish.svg');
   --heart-favorite-icon: url('../assets//icons/general/heart.svg');
@@ -136,8 +156,7 @@ html[data-theme='dark'] {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "Montserrat Regular", sans-serif;
-
+  font-family: "Montserrat", sans-serif;
 }
 
 
@@ -176,11 +195,14 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--popup-bg-color);
-  backdrop-filter: saturate(180%) blur(20px);
+  /* background-color: var(--popup-bg-color);
+  backdrop-filter: saturate(180%) blur(20px); */
   z-index: 999;
   opacity: 0;
   transition: 200ms all;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  background-color: rgba(51, 51, 51, 0.8);
 }
 
 .modal.activemodal {
@@ -200,7 +222,6 @@ a {
   transform: scale(1.2);
   transition: 400ms all;
   gap: 12px;
-  width: 100%;
 }
 
 .modal_content.activemodal {
