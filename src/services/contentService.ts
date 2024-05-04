@@ -67,11 +67,11 @@ export default class ContentService {
     }
 
 
-    static async SearchGames(searchString: string, limit: number): Promise<AxiosResponse<SearchGamesModel[]>> {
+    static async SearchGames(searchString: string, page: number): Promise<AxiosResponse<SearchGamesModel[]>> {
         const url = process.env.API_URL + `search/games`
         return axios.post<SearchGamesModel[]>(url, {
             search_string: searchString,
-            limit: limit
+            page: page
 
         })
     }

@@ -1,23 +1,26 @@
 .filters_wrapper {
     display: block;
-    /* position: sticky; */
-    top: 58px;
-    min-height: calc(100vh - 150px);
-    font-weight: 300;
+    position: sticky;
+    top: 48px;
+    height: calc(100vh - 150px);
+    font-weight: 400;
     background-color: var(--bg-card-color);
-    border-radius: 6px;
-    padding: 12px 12px;
-    gap: 10px;
+    border-radius: var(--border-radius-main);
     transition: background-color 0.2s linear;
+
 }
+
 
 .filters_wrapper form {
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px;
+    max-height: calc(100vh - 150px);
+
 }
 
 
@@ -30,15 +33,27 @@
 .block_wrapper {
     width: 100%;
     flex-grow: 1;
-    border-radius: 6px;
-    background-color: var(--input-color);
+    border: none;
     padding: 6px;
     overflow-y: scroll;
-    height: 150px;
     gap: 6px;
     transition: background-color 0.2s linear;
-
 }
+
+.block_wrapper::-webkit-scrollbar {
+    width: 6px;
+    /* Ширина всего элемента навигации */
+}
+
+.block_wrapper::-webkit-scrollbar-track {
+    background: none;
+}
+
+.block_wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--stroke-color);
+    border-radius: 100px;
+}
+
 
 .choose_section {
     display: flex;
@@ -67,29 +82,59 @@
     width: 80%;
 }
 
+.item_wrapper {
+    font-size: 14px;
+}
+
+.card_header {
+    display: none;
+
+}
+
+.icon_wrapper {
+    width: 32px;
+    height: 32px;
+}
+
+.cross_icon {
+    width: 28px;
+    height: 28px;
+}
+
+.exit_button {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    grid-column: 2/3;
+}
 
 @media (max-width: 1280px) {
     .filters_wrapper {
         display: block;
         height: 100vh;
-        width: 100%;
-        font-weight: 300;
+        width: 100vw;
         border-radius: 0;
     }
-
-    .filters_wrapper form {
-        padding-top: 35px;
-
-    }
-
 
     .block_wrapper {
         width: 100%;
         flex-grow: 1;
         overflow-y: scroll;
-        min-height: 100px;
         gap: 6px;
     }
+
+    .card_header {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: 58px;
+    }
+
+    .filters_wrapper form {
+
+        max-height: 100vh;
+    
+    }
+
 
 }
 

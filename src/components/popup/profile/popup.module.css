@@ -13,14 +13,24 @@
     border-radius: var(--border-radius-main);
     padding: 12px 12px 8px;
     position: absolute;
-    top: 48px;
+    top: 54px;
     font-size: 18px;
-    gap: 10px;
+    gap: 4px;
     z-index: 12;
+    min-width: 200px;
 }
 
 
 .modal_content_active a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+    padding: 12px;
+    border-radius: var(--border-radius-main);
+}
+
+.modal_content_active div {
     display: flex;
     align-items: center;
     width: 100%;
@@ -37,5 +47,7 @@
 
 .modal_content_active div:hover {
     background-color: var(--list-item-hover);
+    border-radius: var(--border-radius-main);
+
 }
 

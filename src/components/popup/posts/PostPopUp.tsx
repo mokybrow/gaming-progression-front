@@ -15,12 +15,10 @@ export const PostPopUp = observer(({ active, children, setActive, ...rest }: Mod
 
     if (active) {
         if (typeof document !== 'undefined') {
-            console.log('Запрещаем скролл')    
             document.body.classList.add('modal_open')
         }
     } else {
         if (typeof document !== 'undefined') {
-            console.log('Разрешаем')
             document.body.classList.remove('modal_open')
         }
 

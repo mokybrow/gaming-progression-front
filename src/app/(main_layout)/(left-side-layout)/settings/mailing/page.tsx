@@ -8,8 +8,8 @@ import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton"
 
 
 import { observer } from "mobx-react-lite";
-import 'react-toastify/dist/ReactToastify.css';
 import ArrowLeftIcon from "@/components/icons/arrowLeft";
+import CustomCheckbox from "@/components/fields/checkbox/CustomCheckbox";
 
 
 const SettingsMailing = observer(() => {
@@ -46,19 +46,7 @@ const SettingsMailing = observer(() => {
                         {points.map(item => (
 
                             <div key={item.id} className={styles.item_wrapper}>
-                                {item.checked ? <>
-                                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={14}
-                                        onClick={() => auth_store.updateMailingSettings([item.id])}>
-                                        Отписаться
-                                    </FunctionalGameButton>
-                                </> : <>
-                                    <FunctionalGameButton type={'button'} bg_color={'#0368CD'} color={'#E8E8ED'} fontSize={14}
-                                        onClick={() => auth_store.updateMailingSettings([item.id])}>
-                                        Подписаться
-                                    </FunctionalGameButton></>}
-                                <span><strong>{item.label}</strong></span>
-
-
+                                <CustomCheckbox id={item.id} checked={item.checked} onClick={() => auth_store.updateMailingSettings([item.id])} labelname={item.label}/>
                             </div>
                         ))}
 

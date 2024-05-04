@@ -10,19 +10,13 @@ export interface ModalProps {
 export function FullScreenPopup({ active, children, setActive, ...rest }: ModalProps) {
     if (active) {
         if (typeof document !== 'undefined') {
-            const body = document.body;
-            body.style.height = '100vh';
-            body.style.overflowY = 'hidden';
-
+            document.body.classList.add('modal_open')
         }
     } else {
         if (typeof document !== 'undefined') {
-            const body = document.body;
-            body.style.position = '';
-            body.style.top = '';
-            body.style.height = '';
-            body.style.overflowY = '';
+            document.body.classList.remove('modal_open')
         }
+
     }
     return (
         <div className={active ? 'modal activemodal' : 'modal'}

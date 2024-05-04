@@ -5,7 +5,22 @@ import "./icon-styles.css";
 import Header from "@/components/header/Header";
 import { Providers } from "./providers";
 import BottomMenu from "@/components/menu/BottomMenu";
+import localFont from 'next/font/local'
 
+const montserrat = localFont({
+  src: [
+    {
+      path: '../fonts/Montserrat-VariableFont_wght.ttf',
+      style: "normal"
+    },
+    {
+      path: '../fonts/Montserrat-Italic-VariableFont_wght.ttf',
+      style: "italic"
+    },
+  ],
+  variable: "--font-motserrat"
+
+})
 
 export const metadata: Metadata = {
   title: "MBRW - играй, делись, общайся",
@@ -20,7 +35,7 @@ export default function RootLayout({
 
   return (
     <html lang="ru">
-      <body>
+      <body className={montserrat.className}>
         <div id="app">
           <Providers>
             <Header />

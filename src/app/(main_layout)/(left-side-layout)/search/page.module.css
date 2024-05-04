@@ -1,33 +1,37 @@
-.form_input {
-
-    border-radius: 6px;
-    padding: 5px;
-    /* border: 1px solid rgba(0, 0, 0, 0.2); */
-    border: none;
-    background-color: #F5F5F5;
-
-}
-
 .input_wrapper {
     display: flex;
     align-items: center;
     position: relative;
+    background-color: var(--bg-card-color);
+    padding: 12px;
+    border-radius: var(--border-radius-main);
+    transition: background-color .2s linear;
 }
 
 
 .send_button_wrapper {
     display: block;
     position: absolute;
-    /* bottom: 5px;
-    right: 5px; */
-    right: 5px;
+    right: 24px;
     z-index: 5;
+}
+
+.content_wrapper {
+    display: flex;
+    border-radius: 6px;
+    padding: 5px;
+    border: none;
+    flex-direction: column;
+    gap: 6px;
+    background-color: var(--bg-card-color);
+    padding: 12px;
+    border-radius: var(--border-radius-main);
+    transition: background-color .2s linear;
+
 }
 
 .clear_field_button {
     display: flex;
-    background-image: var(--x-icon);
-    background-size: 100%;
     height: 16px;
     width: 16px;
     cursor: pointer;
@@ -35,51 +39,19 @@
     transition: 100ms all ease;
 }
 
+.game_cover_not_fount{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--service-button-color);
+    width: 100%;
+    height: 100%;
+}
+
 .clear_field_button:hover {
     opacity: 1;
 }
 
-.input_wrapper input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid var(--hr-color);
-    outline: none;
-    color: var(--font-color);
-    background-color: var(--input-color);
-    font-weight: 500;
-    font-size: 18px;
-    transition: all 0.2s ease;
-
-}
-
-.input_wrapper label {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    padding: 10px;
-    pointer-events: none;
-    font-size: 16px;
-    transition: all 0.2s ease;
-}
-
-.input_wrapper input:focus,
-.input_wrapper input:valid {
-    background-color: var(--input-color);
-
-}
-
-.input_wrapper input:focus~label {
-    opacity: 0;
-    font-size: 12px;
-}
-
-.input_wrapper input:valid~label {
-    opacity: 0;
-    font-size: 12px;
-
-}
 
 .search_result {
     display: flex;
@@ -92,18 +64,15 @@
 
 .game_list_item {
     display: flex;
-    padding: 6px;
+    padding: 12px;
     gap: 12px;
-    background-color: var(--card-bg-color);
-    border-radius: 6px;
-
 }
 
-/* .game_list_item:hover {
-    background-color: var(--search-popup-menu-hover);
-    border-radius: 6px;
+.game_list_item:hover {
+    background-color: var( --list-item-hover);
+    border-radius: var(--border-radius-main);
 
-} */
+}
 
 .game_cover_wrapper {
     position: relative;

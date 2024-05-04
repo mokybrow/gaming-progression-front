@@ -5,23 +5,18 @@ import styles from './header.module.css'
 import { useContext, useEffect, useRef, useState } from 'react';
 import useOutside from '@/hooks/useOutside'
 import { ProfilePopup } from '../popup/profile/ProfilePopup';
-import Image from 'next/image'
 import { Context } from '@/app/providers';
 import { observer } from 'mobx-react';
 import { getLocalToken } from '@/utils/tokenUtils';
-import userpic from '@/assets/icons/general/userpic.svg'
 import { UserProfileButton } from '../buttons/profile/UserProfileButton';
 import { FullScreenPopup } from '../popup/main_popup/FullScreenPopup';
-import LoginForm from '../forms/login_form/LoginForm';
-import { RegistrationForm } from '../forms/reg_form/RegistrationForm';
+
 import SearchField from '../fields/search/SearchField';
-import { useRouter } from 'next/navigation';
 import { useTheme } from '@/hooks/useTheme';
 import MainLogoIcon from '../icons/MainLogo';
 import SettingsIcon from '../icons/settings';
 import LeaveIcon from '../icons/leave';
 import UserIcon from '../icons/user';
-import ServiceButtonLong from '../buttons/servicelong/ServiceButtonLong';
 import AuthCard from '../cards/auth_card/AuthCard';
 import { LoginButton } from '../buttons/login/LoginButton';
 
@@ -32,7 +27,6 @@ export function Header() {
 
     const [isShow, setIsShow] = useState(false);
     const [isAuthShow, setIsAuthShow] = useState(false);
-    const [isRegShow, setIsRegShow] = useState(false);
     const [currentTheme, setCurrentTheme] = useState(false);
     const { auth_store } = useContext(Context);
 
@@ -132,19 +126,18 @@ export function Header() {
 
                         <ProfilePopup active={isShow} innerRef={popupRef}>
 
-
                             <a href={'/' + auth_store.user.username} onClick={() => setIsShow(!isShow)}>
-                                <div className={styles.icon_wrapper}>
+                                <span className={styles.icon_wrapper}>
                                     <UserIcon className='general-icon' />
-                                </div>
+                                </span>
                                 <span>
                                     {auth_store.user.full_name}
                                 </span>
                             </a>
                             <a href={'/settings'} onClick={() => setIsShow(!isShow)}>
-                                <div className={styles.icon_wrapper}>
+                                <span className={styles.icon_wrapper}>
                                     <SettingsIcon className="general-icon" />
-                                </div>
+                                </span>
                                 <span>
                                     Настройки
                                 </span>
@@ -152,9 +145,9 @@ export function Header() {
 
                             <a href={'/'} onClick={() => { auth_store.logout(), setIsShow(!isShow) }}>
 
-                                <div className={styles.icon_wrapper}>
+                                <span className={styles.icon_wrapper}>
                                     <LeaveIcon className="general-icon" />
-                                </div>
+                                </span>
                                 <span>
                                     Выход
                                 </span>

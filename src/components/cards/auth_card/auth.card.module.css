@@ -34,13 +34,59 @@
 .brand_header {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 12px;
     width: 100%;
-    font-weight: 800;
     justify-content: center;
     align-items: center;
     font-size: 32px;
 }
+
+.logo_wrapper {
+    background: linear-gradient(to right,
+            #FFAD4A 20%,
+            #00affa 30%,
+            #7FC7FF 70%,
+            #FFAD4A 80%);
+
+    background-size: 500% auto;
+    animation: textShine 10s ease-in-out infinite alternate;
+    padding: 1px;
+    border-radius: var(--border-radius-main);
+    aspect-ratio: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo_text{
+    display: flex;
+    font-weight: 900;
+    background-color: var(--bg-card-color);
+    border-radius: var(--border-radius-main);
+    aspect-ratio: 1;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    font-size: 18px;
+}
+
+@keyframes textShine {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+@media (max-width: 840px) {
+    .main_grid {
+        padding: 12px;
+    }
+
+}
+
 
 @media (max-width: 450px) {
     .card_wrapper {
@@ -53,6 +99,11 @@
         width: 100vw;
         height: 100vh;
         min-width: 0;
+    }
+
+    .logo_text{
+
+        font-size: 32px;
     }
 
 }

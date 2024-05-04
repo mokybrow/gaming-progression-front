@@ -5,13 +5,10 @@ import AuthService from "@/services/authService";
 import ContentService from "@/services/contentService";
 import GameService from "@/services/gamesService";
 import { makeAutoObservable } from "mobx"
-import { date } from "yup";
 
 
 export default class GamesStore {
     isLoading = false;
-    limit = 20
-    searchLimit = 10
     genres = [] as string[]
     platforms = [] as string[]
     release_date = [] as number[]
@@ -29,24 +26,10 @@ export default class GamesStore {
         "type": "asc"
     }
 
-    incrementLimit = () => {
-        this.limit += 20;
-    };
 
-    incrementSearchLimit = () => {
-        this.searchLimit += 10;
-    };
 
     constructor() {
         makeAutoObservable(this);
-    }
-
-    setLimit(set: number) {
-        this.limit = set
-    }
-
-    setSearchLimit(set: number) {
-        this.searchLimit = set
     }
 
     setGames(games: GamesResponse[]) {
@@ -73,8 +56,6 @@ export default class GamesStore {
     setGameRate(rate: number) {
         this.rate = rate;
     }
-
-
 
 
     setGamePage(games: GamePageResponse) {
@@ -133,7 +114,7 @@ export default class GamesStore {
         try {
             const response = await GameService.getAllGames(genre, platform, age, release, offset, sort);
             this.setGames(response.data)
-           
+
             console.log('Установили игры')
             this.setGamesCount(response.headers['x-games-count'])
         } catch (error) {
@@ -218,13 +199,12 @@ export default class GamesStore {
         }
     }
 
-    async searchGames(searchString: string, limit: number) {
+    async searchGames(searchString: string, page: number) {
         try {
-            const result = await ContentService.SearchGames(searchString, limit)
-            console.log(result.headers['x-games-count'])
-            this.setSearchedGames(result.data)
+            const result = await ContentService.SearchGames(searchString, page)
+            this.setSearchedGames([...this.searchedGames, ...result.data])
             this.setSearchGamesCount(result.headers['x-games-count'])
-
+            return result
         } catch (error) {
 
         }

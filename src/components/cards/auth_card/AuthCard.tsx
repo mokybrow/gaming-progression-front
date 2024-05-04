@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { RegistrationForm } from '@/components/forms/reg_form/RegistrationForm'
 import ArrowLeftIcon from '@/components/icons/arrowLeft'
 import { RememberForm } from '@/components/forms/remember/RememberPass'
+import MainLogoIcon from '@/components/icons/MainLogo'
 
 export interface ModalProps {
     setIsShow: any,
@@ -34,7 +35,14 @@ function AuthCard({ setIsShow }: ModalProps) {
                 </div>
             </div>
             <div className={styles.brand_header}>
-                <div>mbrw ID </div>
+                <div className={styles.logo_wrapper}>
+                    <div className={styles.logo_text}>
+                        <div>mbrw</div>
+                        <div>ID</div>
+                    </div>
+
+                </div>
+
                 {!isOpen ? <div>Вход в аккаунт</div> : <div>Регистрация</div>}
 
             </div>

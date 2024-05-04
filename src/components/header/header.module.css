@@ -33,8 +33,16 @@
 
 
 .logo_wrapper {
-    display: flex;
+    display: block;
     align-items: flex-start;
+    cursor: pointer;
+    width: 120px;
+}
+
+@media (min-width: 840px) {
+    .logo_wrapper:hover {
+        opacity: .8;
+    }
 }
 
 

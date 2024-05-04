@@ -124,16 +124,22 @@
     display: none;
     flex-direction: column;
     gap: 12px;
+    font-weight: 500;
 }
 
 .filter_button_wrapper_desk {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    font-weight: 500;
 }
 
 .sort_wrapper_mobile {
     display: none;
+}
+
+.finded_games {
+    font-weight: 500;
 }
 
 @media (max-width: 1280px) {
@@ -157,6 +163,7 @@
     }
 
     .sort_wrapper_mobile {
+        font-weight: 500;
         display: block;
         font-size: 20px;
     }
