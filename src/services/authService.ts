@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import $api from "@/api/api";
 import { AuthResponse, IGeneralUserModel, IUserModel, MailingSettingsModel, RegistrResponse } from "@/models/userModel";
-import { Dayjs } from "dayjs";
 import { getLocalToken } from "@/utils/tokenUtils";
 import { PostResponseModel } from "@/models/postsModel";
 

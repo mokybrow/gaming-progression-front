@@ -57,7 +57,7 @@ function Feed() {
     return (
         <>
 
-            <main className="content_wrapper" >
+            <main className="main_content_wrapper" >
                 {auth_store.isAuth ?
                     <Card
                         postData={content_store.userFeed}

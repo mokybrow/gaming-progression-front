@@ -1,6 +1,7 @@
 'use client'
 
 import styles from './header.module.css'
+import { Suspense } from 'react'
 
 import { useContext, useEffect, useRef, useState } from 'react';
 import useOutside from '@/hooks/useOutside'
@@ -65,102 +66,105 @@ export function Header() {
         if (isAuthShow) {
             setTimeout(() => setIsAuthShow(false), 50)
         }
-  
+
     })
 
     return (
         <>
+            <Suspense>
 
-            <FullScreenPopup active={isAuthShow} setActive={setIsAuthShow}>
-                <AuthCard setIsShow={setIsAuthShow}/>
-            </FullScreenPopup>
+                <FullScreenPopup active={isAuthShow} setActive={setIsAuthShow}>
+                    <AuthCard setIsShow={setIsAuthShow} />
+                </FullScreenPopup>
 
-            <header className={styles.header}>
-                <div className={styles.header_layout}>
-                    <div className={styles.logo_wrapper}>
-                        <a href="/">
-                            <MainLogoIcon className='main-logo' />
-                        </a>
-                    </div>
-
-                    <div className={styles.search_wrapper}>
-                        <SearchField placeholder={'Поиск'} type={'text'} id={''} labelname={'Поиск'} />
-                    </div>
-                    <div className={styles.toggle_wrapper_mobile}>
-                        <div className={styles.container}>
-
-                            <label id="switch" className={styles.switch}>
-                                <input type="checkbox" id="slider" onChange={() => themeToggle()} checked={currentTheme} />
-                                <span className={styles.slider} >
-
-                                </span>
-                            </label>
-
+                <header className={styles.header}>
+                    <div className={styles.header_layout}>
+                        <div className={styles.logo_wrapper}>
+                            <a href="/">
+                                <MainLogoIcon className='main-logo' />
+                            </a>
                         </div>
-                    </div>
-                    <div className={styles.profile_section}>
-                        <div className={styles.toggle_wrapper}>
+
+                        <div className={styles.search_wrapper}>
+                            <SearchField placeholder={'Поиск'} type={'text'} id={''} labelname={'Поиск'} />
+                        </div>
+                        <div className={styles.toggle_wrapper_mobile}>
                             <div className={styles.container}>
 
                                 <label id="switch" className={styles.switch}>
                                     <input type="checkbox" id="slider" onChange={() => themeToggle()} checked={currentTheme} />
-                                    <span className={styles.slider} ></span>
+                                    <span className={styles.slider} >
+
+                                    </span>
                                 </label>
 
                             </div>
                         </div>
-                        {auth_store.isAuth ?
-                            <UserProfileButton type={'button'} onClick={() => setIsShow(!isShow)}>
-                                {auth_store.user.username}
-                                <div className={styles.icon_wrapper}>
-                                    <UserIcon className='general-icon' />
+                        <div className={styles.profile_section}>
+                            <div className={styles.toggle_wrapper}>
+                                <div className={styles.container}>
+
+                                    <label id="switch" className={styles.switch}>
+                                        <input type="checkbox" id="slider" onChange={() => themeToggle()} checked={currentTheme} />
+                                        <span className={styles.slider} ></span>
+                                    </label>
+
                                 </div>
-                            </UserProfileButton>
+                            </div>
+                            {auth_store.isAuth ?
+                                <UserProfileButton type={'button'} onClick={() => setIsShow(!isShow)}>
+                                    {auth_store.user.username}
+                                    <div className={styles.icon_wrapper}>
+                                        <UserIcon className='general-icon' />
+                                    </div>
+                                </UserProfileButton>
 
-                            :
-                            <LoginButton onClick={() => setIsAuthShow(true)} type={'button'}>
-                                Войти
-                            </LoginButton>
+                                :
+                                <LoginButton onClick={() => setIsAuthShow(true)} type={'button'}>
+                                    Войти
+                                </LoginButton>
 
-                        }
+                            }
 
-                        <ProfilePopup active={isShow} innerRef={popupRef}>
+                            <ProfilePopup active={isShow} innerRef={popupRef}>
 
-                            <a href={'/' + auth_store.user.username} onClick={() => setIsShow(!isShow)}>
-                                <span className={styles.icon_wrapper}>
-                                    <UserIcon className='general-icon' />
-                                </span>
-                                <span>
-                                    {auth_store.user.full_name}
-                                </span>
-                            </a>
-                            <a href={'/settings'} onClick={() => setIsShow(!isShow)}>
-                                <span className={styles.icon_wrapper}>
-                                    <SettingsIcon className="general-icon" />
-                                </span>
-                                <span>
-                                    Настройки
-                                </span>
-                            </a>
+                                <a href={'/' + auth_store.user.username} onClick={() => setIsShow(!isShow)}>
+                                    <span className={styles.icon_wrapper}>
+                                        <UserIcon className='general-icon' />
+                                    </span>
+                                    <span>
+                                        {auth_store.user.full_name}
+                                    </span>
+                                </a>
+                                <a href={'/settings'} onClick={() => setIsShow(!isShow)}>
+                                    <span className={styles.icon_wrapper}>
+                                        <SettingsIcon className="general-icon" />
+                                    </span>
+                                    <span>
+                                        Настройки
+                                    </span>
+                                </a>
 
-                            <a href={'/'} onClick={() => { auth_store.logout(), setIsShow(!isShow) }}>
+                                <a href={'/'} onClick={() => { auth_store.logout(), setIsShow(!isShow) }}>
 
-                                <span className={styles.icon_wrapper}>
-                                    <LeaveIcon className="general-icon" />
-                                </span>
-                                <span>
-                                    Выход
-                                </span>
-                            </a>
+                                    <span className={styles.icon_wrapper}>
+                                        <LeaveIcon className="general-icon" />
+                                    </span>
+                                    <span>
+                                        Выход
+                                    </span>
+                                </a>
 
-                        </ProfilePopup>
+                            </ProfilePopup>
+                        </div>
+
                     </div>
 
-                </div>
+                </header >
 
-            </header >
-
+            </Suspense >
         </>
+
     );
 }
 

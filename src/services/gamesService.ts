@@ -4,7 +4,7 @@ import axios, { AxiosResponse } from "axios";
 
 export default class GameService {
 
-    static async getAllGames(genre: string[] | null, platform: string[] | null, age: string | null, release: number[] | null,  page: number, sort: any): Promise<AxiosResponse<GamesResponse[]>> {
+    static async getAllGames(genre: number[] | null, platform: number[] | null, age: number[] | null, release: number[] | null,  page: number, sort: any): Promise<AxiosResponse<GamesResponse[]>> {
         const url = process.env.API_URL + 'games'
         return axios.post<GamesResponse[]>(url,
             {

@@ -13,11 +13,10 @@ import MailIcon from "@/components/icons/mail";
 
 function Settings() {
 
-    const { auth_store } = useContext(Context);
 
     return (
         <>
-            <main className="content_wrapper">
+            <main className="main_content_wrapper">
                 <div className={styles.main_wrapper}>
                     <div className={styles.settings_header}>
                         <span >Настройки</span>

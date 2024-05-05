@@ -9,9 +9,10 @@ import { makeAutoObservable } from "mobx"
 
 export default class GamesStore {
     isLoading = false;
-    genres = [] as string[]
-    platforms = [] as string[]
-    release_date = [] as number[]
+    genres = [] as number[]
+    platforms = [] as number[]
+    releaseDate = [] as number[]
+    ageRating = [] as number[]
     games = [] as GamesResponse[];
     searchedGames = [] as SearchGamesModel[];
     gamesCount = 0;
@@ -66,16 +67,20 @@ export default class GamesStore {
         this.isLoading = bool;
     }
 
-    setGenre(genre: string[]) {
+    setGenre(genre: number[]) {
         this.genres = genre;
     }
 
-    setPlatform(platform: string[]) {
+    setPlatform(platform: number[]) {
         this.platforms = platform;
     }
 
     setRelease(release: number[]) {
-        this.release_date = release;
+        this.releaseDate = release;
+    }
+
+    setAgeRating(age: number[]) {
+        this.ageRating = age;
     }
 
     setSliderValues(slider_values: number[]) {
@@ -88,10 +93,10 @@ export default class GamesStore {
         this.sort['type'] = type
     }
 
-    async getAllGames(genre: string[] | null, platform: string[] | null, age: string | null, release: number[] | null, offset: number, sort: any) {
+    async getAllGames(genre: number[] | null, platform: number[] | null, age: number[] | null, release: number[] | null, page: number, sort: any) {
         this.setLoading(true);
         try {
-            const response = await GameService.getAllGames(genre, platform, age, release, offset, sort);
+            const response = await GameService.getAllGames(genre, platform, age, release, page, sort);
             if (this.games.includes(response.data[0])) {
 
                 this.setGames(response.data)
@@ -109,13 +114,13 @@ export default class GamesStore {
         }
     }
 
-    async filterGames(genre: string[] | null, platform: string[] | null, age: string | null, release: number[] | null, offset: number, sort: any) {
+    async filterGames(genre: number[] | null, platform: number[] | null, age: number[] | null, release: number[] | null, page: number, sort: any) {
         this.setLoading(true);
         try {
-            const response = await GameService.getAllGames(genre, platform, age, release, offset, sort);
+            const response = await GameService.getAllGames(genre, platform, age, release, page, sort);
+
             this.setGames(response.data)
 
-            console.log('Установили игры')
             this.setGamesCount(response.headers['x-games-count'])
         } catch (error) {
             this.setGamesCount(0)
@@ -127,43 +132,6 @@ export default class GamesStore {
 
     }
 
-
-    async getGamePage(slug: string) {
-        this.setLoading(true);
-        try {
-            const game = await GameService.getGamePage(slug);
-            try {
-                const userId = await AuthService.getProfile()
-                const result = await ContentService.getComments(game.data.id, userId.data.id)
-                this.setComments(result.data)
-
-            } catch (error) {
-                const result = await ContentService.getComments(game.data.id, null)
-                this.setComments(result.data)
-            }
-            this.setGamePage(game.data)
-
-        } catch {
-            this.setGamePage({} as GamePageResponse)
-        }
-        try {
-            const likes = await ContentService.getUserCommentsLikes(this.gamePage.id)
-            this.setCommentsLikes(likes.data)
-        } catch (error) {
-
-        }
-        try {
-            const rate = await ContentService.getUserGameRate(this.gamePage.id)
-            this.setGameRate(rate.data)
-
-        } catch (error) {
-
-        }
-        finally {
-
-            this.setLoading(false);
-        }
-    }
 
     async addNewComment(itemId: string, text: string, parentCommntId?: string | null) {
         this.setLoading(true);
@@ -179,9 +147,9 @@ export default class GamesStore {
     }
 
 
-
     async addGameGrade(gameId: string, grade: number) {
         try {
+            console.log(gameId, grade)
             await GameService.addRateGame(gameId, grade)
 
 

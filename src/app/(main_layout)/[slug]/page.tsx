@@ -88,7 +88,7 @@ function UserProfile() {
 
   return (
     <>
-      <main className="content_wrapper">
+      <main className="main_content_wrapper">
         {
           isOwner ?
             <>
@@ -157,7 +157,6 @@ function UserProfile() {
                         :
                         <div className={styles.card_wrapper}>
 
-                          <div className={styles.feed_icon}></div>
                           <span>Здесь пока ничего нет</span>
                         </div>
                     }
@@ -174,7 +173,6 @@ function UserProfile() {
                         :
                         <div className={styles.card_wrapper}>
 
-                          <div className={styles.feed_icon}></div>
                           <span>Здесь пока ничего нет</span>
                         </div>
                     }

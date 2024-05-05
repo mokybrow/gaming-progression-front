@@ -1,13 +1,10 @@
 "use client";
 
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+
 import { useContext, useState } from 'react';
 import styles from './page.module.css'
 import axios, { AxiosError } from 'axios';
 import InputField from '@/components/fields/input/InputField';
-import { SubmitButton } from '@/components/buttons/SubmitButton';
 
 import AuthService from '@/services/authService';
 import { RegistrResponse } from '@/models/userModel';

@@ -389,6 +389,9 @@ export default class ContentStore {
             const likes = await ContentService.getUserCommentsLikes(this.gamePage.id)
             this.setCommentsLikes(likes.data)
 
+            const rate = await ContentService.getUserGameRate(this.gamePage.id)
+            this.setGameRate(rate.data)
+            
         } catch {
             const game = await GameService.getGamePage(slug);
             this.setGamePage(game.data)

@@ -4,7 +4,7 @@
     top: 58px;
     height: calc(100vh - 58px);
     padding: 41px 0 16px 0;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .sidebar {
@@ -58,7 +58,7 @@
 
 
 
-@media (max-width: 840px) {
+@media (max-width: 1024px) {
     .sidebar_left {
         display: none;
     }

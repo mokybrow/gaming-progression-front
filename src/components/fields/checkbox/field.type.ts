@@ -1,7 +1,7 @@
 import { InputHTMLAttributes } from "react"
 
 export interface IFieldProps {
-    id: string
+    id: string | number
     labelname: string
 }
 

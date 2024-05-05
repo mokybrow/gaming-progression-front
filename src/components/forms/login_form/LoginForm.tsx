@@ -4,7 +4,6 @@ import styles from './page.module.css'
 import Link from 'next/link';
 import { useContext, useState } from 'react';
 import { Context } from '@/app/providers';
-import { SubmitButton } from '@/components/buttons/SubmitButton';
 import InputField from '@/components/fields/input/InputField';
 import { API_URL } from '@/api/api';
 import { useRouter } from 'next/navigation';

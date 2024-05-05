@@ -1,7 +1,7 @@
 export default function Playlists() {
     return (
-        <div>
+        <main className="main_content_wrapper">
             Playlists
-        </div>
+        </main>
     );
 }

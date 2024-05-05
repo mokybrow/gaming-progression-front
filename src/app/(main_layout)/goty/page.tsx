@@ -2,8 +2,8 @@
 
 export default function Goty() {
     return (
-        <div>
+        <main className="main_content_wrapper">
             GOTYS
-        </div>
+        </main>
     );
 }

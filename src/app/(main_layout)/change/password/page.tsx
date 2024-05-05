@@ -1,17 +1,17 @@
 'use client'
+
 import AuthService from '@/services/authService'
 import { redirect, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import styles from './page.module.css'
 import InputField from '@/components/fields/input/InputField'
 import EyeIcon from '@/components/icons/eye'
 import ClosedEyeIcon from '@/components/icons/closedEye'
 import ServiceButtonLong from '@/components/buttons/servicelong/ServiceButtonLong'
-import ReactToast from '@/components/toast/Toast'
-import { SubmitButton } from '@/components/buttons/SubmitButton'
 
 
-export default function ChangePassword() {
+
+function ChangePassword() {
     const searchParams = useSearchParams()
     const tokenParam = searchParams.get('token')
     const [token, setToken] = useState<string>(String(tokenParam))
@@ -61,14 +61,13 @@ export default function ChangePassword() {
 
     return (
         <>
-
             <main className="content_wrapper">
                 <div className={styles.page_main}>
 
 
                     <div className={styles.form_wrapper}>
                         <InputField placeholder={'Начните вводить'}
-                            type={fieldType} id={'password'}  labelname={'Пароль'}
+                            type={fieldType} id={'password'} labelname={'Пароль'}
                             autoComplete="password" onChange={(e) => handleInput(e)} value={password} />
                         <InputField placeholder={'Начните вводить'}
                             type={fieldType} id={'confirmPassword'} labelname={'Подтверждение пароля'}
@@ -95,15 +94,21 @@ export default function ChangePassword() {
                                 </div>
                             </div>
                         }
-                        <SubmitButton type={'submit'} onClick={() => changePassword()}>
+                        <ServiceButtonLong type={'submit'} onClick={() => changePassword()}>
                             Обновить пароль
-                        </SubmitButton>
+                        </ServiceButtonLong>
                     </div>
                 </div>
             </main>
-            <main className="right_side_wrapper">
-
-            </main>
         </>
     );
+}
+
+export default function ChangePasswordPage() {
+    return (
+        // You could have a loading skeleton as the `fallback` too
+        <Suspense>
+            <ChangePassword />
+        </Suspense>
+    )
 }

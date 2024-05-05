@@ -19,20 +19,22 @@ import StarIcon from '@/components/icons/star';
 
 
 function GamePage() {
+
+    const { games_store } = useContext(Context);
+    const { auth_store } = useContext(Context);
+    const { content_store } = useContext(Context);
+
     const pathname = usePathname()
     const [isShow, setIsShow] = useState(false);
     const [isShowRating, setIsShowRating] = useState(false);
     const popupRef = useRef(null)
 
-    const [rating, setRating] = useState<number>(0);
-    const [hover, setHover] = useState<number>(0);
+    const [rating, setRating] = useState<number>(content_store.rate);
+    const [hover, setHover] = useState<number>(content_store.rate);
     const [showComment, setShowComment] = useState(false)
 
     const [rateButtonCount, setRateButtonCount] = useState<number>(0);
 
-    const { games_store } = useContext(Context);
-    const { auth_store } = useContext(Context);
-    const { content_store } = useContext(Context);
 
     useOutside(popupRef, () => {
         if (isShow) {
@@ -54,7 +56,8 @@ function GamePage() {
 
     useEffect(() => {
         content_store.getGamePage(pathname.substring(pathname.lastIndexOf('/') + 1))
-
+        setRating(content_store.rate)
+        setHover(content_store.rate)
     }, [games_store, auth_store])
 
 
@@ -89,21 +92,21 @@ function GamePage() {
                         {rating != 0 ?
                             <>
                                 <ServiceButtonLong type={'button'}
-                                    onClick={() => (games_store.addGameGrade(games_store.gamePage.id, rating), games_store.setGameRate(rating), setRateButtonCount(rateButtonCount + 1), setIsShowRating(false))}>
+                                    onClick={() => (games_store.addGameGrade(content_store.gamePage.id, rating), content_store.setGameRate(rating), setRateButtonCount(rateButtonCount + 1), setIsShowRating(false))}>
                                     Отправить
                                 </ServiceButtonLong>
                             </> : null}
-                        {games_store.rate || rating != 0 ? <>
+                        {content_store.rate || rating != 0 ? <>
                             <ServiceButtonLong type={'button'}
-                                onClick={() => (rateButtonCount > 0 || games_store.rate > 0 ? games_store.delGameGrade(games_store.gamePage.id) : null,
-                                    setHover(0), setRating(0), setRateButtonCount(0), games_store.setGameRate(0))}>
+                                onClick={() => (rateButtonCount > 0 || content_store.rate > 0 ? games_store.delGameGrade(content_store.gamePage.id) : null,
+                                    setHover(0), setRating(0), setRateButtonCount(0), content_store.setGameRate(0))}>
                                 Удалить
                             </ServiceButtonLong>
                         </> : null}
                     </div>
                 </div>
             </FullScreenPopup >
-            <main className="content_wrapper">
+            <main className="main_content_wrapper">
                 <div className={styles.main_info_wrapper}>
                     <div className={styles.cover_wrapper}>
                         <img src={content_store.gamePage.cover} alt={content_store.gamePage.title} className={styles.game_cover} />
@@ -177,7 +180,7 @@ function GamePage() {
 
             <main className="right_side_wrapper">
                 <div className={styles.information_card_wrapper}>
-                    <ServiceButtonLong type={'button'} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setIsShowRating(true), games_store.rate != 0 ? (setHover(games_store.rate), setRating(games_store.rate)) : null) }}>
+                    <ServiceButtonLong type={'button'} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setIsShowRating(true), content_store.rate != 0 ? (setHover(content_store.rate), setRating(content_store.rate)) : null) }}>
                         <div className={styles.button_data_wrapper}>
                             <div className={styles.star_icon}>
                                 <StarIcon className='general-icon' />

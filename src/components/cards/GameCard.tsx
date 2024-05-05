@@ -71,7 +71,7 @@ export default function GameCard({ title, cover, release_date, avg_rate, platfor
                                 <>
                                     {genres.map((genre, index) =>
                                         <span key={genre.genre.id}>
-                                            {genre.genre.name + ((genres.length > 0 && index !== genres.length - 1) ? ', ' : '')}
+                                            {genre.genre.name_ru + ((genres.length > 0 && index !== genres.length - 1) ? ', ' : '')}
                                         </span>
                                     )}
                                 </>

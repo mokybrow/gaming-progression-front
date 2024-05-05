@@ -58,7 +58,7 @@ function Games() {
     useEffect(() => {
         if (fetching) {
             try {
-                games_store.getAllGames(games_store.genres, games_store.platforms, null, games_store.release_date, page, games_store.sort).then(resp => {
+                games_store.getAllGames(games_store.genres, games_store.platforms, null, games_store.releaseDate, page, games_store.sort).then(resp => {
                     setPage(page + 20)
                 }).finally(() => setFetching(false))
             } catch (error) {
@@ -92,12 +92,16 @@ function Games() {
             <FullScreenPopup active={isShowFilter} setActive={setIsShowFilter}>
                 <FiltersCard setIsShow={setIsShowFilter} />
             </FullScreenPopup>
-            <main className="content_wrapper">
+            <main className="main_content_wrapper">
                 <div className={styles.sort_wrapper} >
                     <div className={styles.sort_button_wrapper} >
                         <SortButton onClick={() => setPage(0)} />
+                        {games_store.gamesCount > 0 ?
+                            <div className={styles.finded_games}>Найдено игр {games_store.gamesCount}</div>
+                            :
+                            <div className={styles.finded_games}>Игры не найдены</div>
 
-                        <div className={styles.finded_games}>Найдено игр {games_store.gamesCount}</div>
+                        }
                         <div className={styles.right_side_flex_mobile}>
                             <div className={styles.filter_button_wrapper_desk} >
                                 <div className={styles.filter_button} onClick={() => setIsShowFilter(true)}>
@@ -109,8 +113,6 @@ function Games() {
                             </div>
                         </div>
                     </div>
-
-
                 </div>
                 <div className={styles.right_side_flex_mobile}>
                     <div>Найдено игр {games_store.gamesCount}</div>
@@ -147,7 +149,7 @@ function Games() {
                 </> : null}
             </main >
 
-            <main className="right_side_wrapper">
+            <div className="right_side_wrapper">
                 <div className={styles.right_side_flex}>
                     <div className={styles.filter_button_wrapper_desk} >
                         <div className={styles.filter_button}>
@@ -163,9 +165,13 @@ function Games() {
                 </div>
                 <div className={styles.sort_wrapper_mobile} >
                     <div className={styles.sort_button_wrapper} >
-                        <SortButton />
+                        <SortButton onClick={() => setPage(0)} />
+                        {games_store.gamesCount > 0 ?
+                            <div className={styles.finded_games}>Найдено игр {games_store.gamesCount}</div>
+                            :
+                            <div className={styles.finded_games}>Игры не найдены</div>
 
-                        <div className={styles.finded_games}>Найдено игр {games_store.gamesCount}</div>
+                        }
                         <div className={styles.right_side_flex_mobile}>
                             <div className={styles.filter_button_wrapper_desk} >
                                 <div className={styles.filter_button} onClick={() => setIsShowFilter(true)}>
@@ -181,7 +187,7 @@ function Games() {
                 </div>
 
 
-            </main>
+            </div>
 
         </>
 

@@ -3,7 +3,6 @@
 import { Context } from "@/app/providers";
 import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 import { SearchUserModel } from "@/models/userModel";
-import { Mention, MentionItemTemplateOptions, MentionSearchEvent } from "primereact/mention";
 import { useContext, useEffect, useRef, useState } from "react";
 import styles from './repost.module.css'
 import { observer } from "mobx-react-lite";

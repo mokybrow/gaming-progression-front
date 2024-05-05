@@ -22,7 +22,7 @@ function SortButton({...rest }) {
 
     const SubmitSort = (name: string, type: string) => {
         games_store.setSort(name, type)
-        games_store.filterGames(games_store.genres, games_store.platforms, null, games_store.release_date, 0, games_store.sort)
+        games_store.filterGames(games_store.genres, games_store.platforms, null, games_store.releaseDate, 0, games_store.sort)
     }
 
     return (

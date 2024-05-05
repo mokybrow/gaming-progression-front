@@ -10,11 +10,11 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation'; import Link from 'next/link';
 
 import InputField from '@/components/fields/input/InputField';
-import ServiceButtonLong from '@/components/buttons/servicelong/ServiceButtonLong';
 import CrossIcon from '@/components/icons/cross';
+import { Suspense } from 'react'
 
 
-const Search = () => {
+const Search = observer(() => {
 
     const searchParams = useSearchParams();
     const search = searchParams.get('query')
@@ -101,7 +101,7 @@ const Search = () => {
 
     return (
         <>
-            <main className="content_wrapper">
+            <main className="main_content_wrapper">
                 <div className={styles.input_wrapper}>
                     <InputField type={'text'} id={'search'} labelname={'Поиск'}
                         onChange={(e) => (setSearchQuery(e.target.value), handleSearch(e.target.value))}
@@ -110,8 +110,8 @@ const Search = () => {
                     {searchQuery ?
 
                         <div className={styles.send_button_wrapper}>
-                            <div className={styles.clear_field_button} onClick={() => (handleSearch(''), setSearchQuery(''),  
-                            games_store.setSearchedGames([]))}>
+                            <div className={styles.clear_field_button} onClick={() => (handleSearch(''), setSearchQuery(''),
+                                games_store.setSearchedGames([]))}>
                                 <CrossIcon className='general-icon' />
                             </div>
                         </div>
@@ -133,9 +133,9 @@ const Search = () => {
                                 {games_store.searchedGames.map(game => (
                                     <Link href={`/games/${game.slug}`} className={styles.game_list_item} key={game.id}>
                                         <div className={styles.game_cover_wrapper}>
-                                            {game.cover ? 
-                                            <img src={game.cover} alt={'game cover'} width={50} height={50}/>
-                                        : <div className={styles.game_cover_not_fount}><small>N/A</small></div>}
+                                            {game.cover ?
+                                                <img src={game.cover} alt={'game cover'} width={50} height={50} />
+                                                : <div className={styles.game_cover_not_fount}><small>N/A</small></div>}
                                         </div>
                                         {game.title}
                                     </Link>
@@ -150,12 +150,15 @@ const Search = () => {
                     </div>
                     : null}
             </main>
-            <main className="right_side_wrapper">
-            </main>
         </>
     )
+})
+
+export default function SearchPage() {
+    return (
+        // You could have a loading skeleton as the `fallback` too
+        <Suspense>
+            <Search />
+        </Suspense>
+    )
 }
-
-
-
-export default observer(Search)

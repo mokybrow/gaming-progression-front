@@ -3,7 +3,7 @@
 
 }
 
-@media (max-width: 840px) {
+@media (max-width: 1024px) {
     .menu {
         display: flex;
         position: sticky;
@@ -24,6 +24,13 @@
         margin-right: auto;
         align-items: center;
         padding: 24px;
+    }
+}
+
+@media (max-width: 450px) {
+    .menulimit {
+
+        padding: 24px 12px;
     }
 }
 

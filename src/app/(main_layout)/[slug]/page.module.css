@@ -72,14 +72,7 @@
     font-weight: 600;
 }
 
-.feed_icon {
-    display: flex;
-    width: 60px;
-    height: 60px;
-    background-image: var(--feed-big-icon);
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
+
 
 .cards_wrapper {
     display: flex;

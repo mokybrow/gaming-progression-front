@@ -142,7 +142,7 @@
     font-weight: 500;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 1024px) {
 
     .filter_button {
         cursor: pointer;
@@ -168,11 +168,7 @@
         font-size: 20px;
     }
 
-    .sort_wrapper_mobile .sort_button_wrapper {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-    }
+ 
 
     .filter_icon,
     .sort_icon {

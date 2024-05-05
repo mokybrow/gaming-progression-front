@@ -31,7 +31,7 @@ const SettingsMailing = observer(() => {
 
     return (
         <>
-            <main className="content_wrapper">
+            <main className="main_content_wrapper">
                 <div className={styles.main_wrapper}>
                     <div className={styles.settings_header}>
                         <Link href={'/settings/'}>

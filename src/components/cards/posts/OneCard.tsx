@@ -81,8 +81,9 @@ function OneCard({ post, comments, commentLikes, setIsShowRepost, setIsShowPost 
                                         {post.Posts?.parent_post_data?.author_data?.full_name ?
                                             post.Posts.parent_post_data?.author_data?.full_name : post.Posts?.author_data?.username}
                                     </Link>
+                                    
                                     <div className={styles.one_post_time_wrapper}>
-                                        {formatDate(post.Posts?.parent_post_data?.created_at)}
+                                        {formatDate(post.Posts?.parent_post_data?.created_at.toString())}
                                     </div>
                                 </div>
                             </div>
