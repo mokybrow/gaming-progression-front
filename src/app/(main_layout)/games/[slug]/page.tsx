@@ -16,6 +16,9 @@ import CommentCard from '@/components/cards/comment/CommentCard';
 import { formatDate } from '@/services/dateFormat';
 import ServiceButtonLong from '@/components/buttons/servicelong/ServiceButtonLong';
 import StarIcon from '@/components/icons/star';
+import CreateListIcon from '@/components/icons/createList';
+import AddGameToList from '@/components/cards/add_game_to_ist/AddGameToList';
+import ReactToast from '@/components/toast/Toast';
 
 
 function GamePage() {
@@ -34,7 +37,8 @@ function GamePage() {
     const [showComment, setShowComment] = useState(false)
 
     const [rateButtonCount, setRateButtonCount] = useState<number>(0);
-
+    const [active, setActive] = useState(false)
+    const [toastText, setToastText] = useState<string>('')
 
     useOutside(popupRef, () => {
         if (isShow) {
@@ -58,6 +62,8 @@ function GamePage() {
         content_store.getGamePage(pathname.substring(pathname.lastIndexOf('/') + 1))
         setRating(content_store.rate)
         setHover(content_store.rate)
+        content_store.getUserPlaylistsMe()
+
     }, [games_store, auth_store])
 
 
@@ -106,6 +112,10 @@ function GamePage() {
                     </div>
                 </div>
             </FullScreenPopup >
+            <FullScreenPopup active={isShow} setActive={setIsShow}>
+                <AddGameToList setIsShow={setIsShow} setToastText={undefined} setActive={undefined}
+                    gamePage={content_store.gamePage} />
+            </FullScreenPopup>
             <main className="main_content_wrapper">
                 <div className={styles.main_info_wrapper}>
                     <div className={styles.cover_wrapper}>
@@ -158,34 +168,37 @@ function GamePage() {
                     <span className={styles.block_header}>Об игре</span>
                     <span>
                         {content_store.gamePage.description !== null ? content_store.gamePage.description :
-
                             <>Информаци пока нет</>}
                     </span>
                 </div>
                 <div className={styles.comments_block}>
                     <span className={styles.block_header}>Рецензии</span>
-
                     <CommentField contentID={content_store.gamePage.id} parentCommentId={null} setShowComment={setShowComment} uniqueId={content_store.gamePage.id} />
-
                     {!content_store.comments.length ?
                         <span>Информаци пока нет </span> :
-
                         <CommentCard postId={content_store.gamePage.id} comments={content_store.comments} commentLikes={content_store.commentLikes} />
-
                     }
                 </div>
 
             </main >
 
 
-            <main className="right_side_wrapper">
+            <div className="right_side_wrapper">
                 <div className={styles.information_card_wrapper}>
-                    <ServiceButtonLong type={'button'} onClick={() => { !auth_store.isAuth ? setIsShow(true) : (setIsShowRating(true), content_store.rate != 0 ? (setHover(content_store.rate), setRating(content_store.rate)) : null) }}>
+                    <ServiceButtonLong type={'button'} onClick={() => { !auth_store.isAuth ? (setToastText('Авторизуйтесь, чтобы выполнить данное действие'), setActive(true)) : (setIsShowRating(true), content_store.rate != 0 ? (setHover(content_store.rate), setRating(content_store.rate)) : null) }}>
                         <div className={styles.button_data_wrapper}>
-                            <div className={styles.star_icon}>
+                            <div className={styles.icon_wrapper}>
                                 <StarIcon className='general-icon' />
                             </div>
                             <span>Оценить игру</span>
+                        </div>
+                    </ServiceButtonLong>
+                    <ServiceButtonLong type={'button'} onClick={() => { !auth_store.isAuth ? (setToastText('Авторизуйтесь, чтобы выполнить данное действие'), setActive(true)) : setIsShow(true) }} >
+                        <div className={styles.button_data_wrapper}>
+                            <div className={styles.icon_wrapper}>
+                                <CreateListIcon className='general-icon-fill' />
+                            </div>
+                            <span>Добавить игру в список</span>
                         </div>
                     </ServiceButtonLong>
                     <div className={styles.other_information_grid}>
@@ -228,7 +241,8 @@ function GamePage() {
                     </div>
                 </div>
 
-            </main>
+            </div>
+            <ReactToast timeout={5000} active={active} setActive={setActive} toastText={toastText} setToastText={setToastText} />
 
         </>
 

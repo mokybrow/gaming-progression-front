@@ -9,7 +9,7 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
-    background-color: var( --bg-card-color);
+    background-color: var(--bg-card-color);
     padding: 12px 24px 12px 24px;
     border-top-left-radius: var(--border-radius-main);
     border-top-right-radius: var(--border-radius-main);
@@ -58,7 +58,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    background-color: var( --bg-card-color);
+    background-color: var(--bg-card-color);
     margin-bottom: 12px;
     padding: 50px 24px;
     border-radius: var(--border-radius-main);
@@ -101,12 +101,92 @@
 
 
 .user_stats_desk {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    max-width: 100%;
 }
 
-@media (max-width: 1280px) {
+.user_data_card_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: var(--bg-card-color);
+    border-radius: var(--border-radius-main);
+    gap: 12px;
+    padding: 12px;
+    width: 100%;
+    transition: background-color .2s linear;
+}
+
+.block_header {
+    font-weight: 600;
+}
+
+.people_wrapper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    width: 100%;
+    max-width: 100%;
+}
+
+.people_data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    background-color: var(--input-color);
+    border-radius: 100px;
+    transition: background-color .2s linear;
+    width: calc(100% - 6px) ;
+    aspect-ratio: 1/1;
+
+}
+
+.playlist_data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    background-color: var(--input-color);
+    border-radius: var(--border-radius-main);
+    transition: background-color .2s linear;
+    width: calc(100% - 6px) ;
+    aspect-ratio: 1/1;
+}
+
+.last_elem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    background-color: var(--input-color);
+    border-radius: var(--border-radius-main);
+    transition: background-color .2s linear;
+    width: calc(100% - 6px) ;
+    aspect-ratio: 1/1;
+    color: var(--link-color);
+}
+
+.user_social_data_mobile {
+    display: none;
+}
+
+@media (max-width: 1024px) {
     .user_stats_desk {
         display: none;
     }
 
+    .user_social_data_mobile {
+        display: flex;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .user_social_data_mobile {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
 }

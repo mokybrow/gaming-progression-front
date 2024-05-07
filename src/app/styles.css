@@ -24,74 +24,35 @@
   color: green;
 }
 
-.p-mention {
-  display: flex;
-  width: 100%;
-  position: relative;
-}
-
-.p-mention textarea {
-  display: flex;
-  width: 100%;
-  position: relative;
-  padding: 12px;
-  padding-bottom: 35px;
-  border-radius: 6px;
-  background-color: var(--input-color);
-  color: var(--font-color);
-  font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
-  font-style: normal;
-  font-size: 16px;
-  outline: none;
-  border: none;
-}
-
-
-.p-mention-panel {
-  display: flex;
-  width: 100%;
-  position: relative;
-
-}
-
-.p-mention-items {
-  background-color: var(--card-bg-color);
-  padding: 6px;
-  border-radius: 6px;
-  max-height: 150px;
-  overflow-y: scroll;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-
-}
-
-.p-mention-item {
-  padding: 6px;
-}
-
-.p-mention-item:hover {
-  padding: 6px;
-  border-radius: 6px;
-  background-color: var(--input-color);
-}
-
 
 .bottom_popup {
   width: 100vw;
-  height: 80vh;
+  height: 60vh;
   position: fixed;
   left: 0;
   pointer-events: none;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   background-color: var(--mobile-menu-color);
   z-index: 999;
   transition: 500ms all;
   bottom: 0;
-  transform: translateY(80vh);
+  transform: translateY(60vh);
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 0 15px rgba(0, 0, 0, .15), 0 0 0 1px rgba(0, 0, 0, .1);
+  overflow-y: scroll;
+  padding: 20px;
+  padding-top: 60px;
+  gap: 24px;
+}
+
+.bottom_popup a{
+  display: flex;
+  gap: 12px;
+  font-size: 28px;
+  align-items: center;
+
 }
 
 .bottom_popup.menu_active {

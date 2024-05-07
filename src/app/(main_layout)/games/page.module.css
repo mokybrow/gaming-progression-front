@@ -200,7 +200,7 @@
 
 }
 
-@media (max-width: 460px) {
+@media (max-width: 450px) {
     .cards_layout_three {
         display: none;
     }

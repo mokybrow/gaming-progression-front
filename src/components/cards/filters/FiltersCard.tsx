@@ -236,7 +236,7 @@ function FiltersCard({ setIsShow }: ModalProps) {
                 <div className={styles.block_wrapper}>
                     {genres.map(item => (
                         <div key={item.id} className={styles.item_wrapper}>
-                            <CustomCheckbox id={String(item.id)} checked={item.checked} onClick={() => handleGenresChange(item.id)} labelname={item.label} />
+                            <CustomCheckbox id={String(item.id)} checked={item.checked} onChange={() => handleGenresChange(item.id)} labelname={item.label} />
                         </div>
                     ))}
 
@@ -247,7 +247,7 @@ function FiltersCard({ setIsShow }: ModalProps) {
                 <div className={styles.block_wrapper}>
                     {platforms.map(item => (
                         <div key={item.id} className={styles.item_wrapper}>
-                            <CustomCheckbox id={String(item.id)} checked={item.checked} onClick={() => handlePlatformsChange(item.id)} labelname={item.label} />
+                            <CustomCheckbox id={String(item.id)} checked={item.checked} onChange={() => handlePlatformsChange(item.id)} labelname={item.label} />
                         </div>
                     ))}
                 </div>
@@ -257,7 +257,7 @@ function FiltersCard({ setIsShow }: ModalProps) {
                 <div className={styles.block_wrapper}>
                     {ageRating.map(item => (
                         <div key={item.id} className={styles.item_wrapper}>
-                            <CustomCheckbox id={String(item.id)} checked={item.checked} onClick={() => handleAgeRatingChange(item.id)} labelname={String(item.label)} />
+                            <CustomCheckbox id={String(item.id)} checked={item.checked} onChange={() => handleAgeRatingChange(item.id)} labelname={String(item.label)} />
                         </div>
                     ))}
                 </div>
@@ -268,7 +268,7 @@ function FiltersCard({ setIsShow }: ModalProps) {
 
                     {years.map(item => (
                         <div key={item.id} className={styles.item_wrapper}>
-                            <CustomCheckbox id={String(item.id)} checked={item.checked} onClick={() => handleYearChange(item.id)} labelname={String(item.label)} />
+                            <CustomCheckbox id={String(item.id)} checked={item.checked} onChange={() => handleYearChange(item.id)} labelname={String(item.label)} />
                         </div>
                     ))}
                 </div>

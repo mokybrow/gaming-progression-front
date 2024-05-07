@@ -1,25 +1,35 @@
-.toast_wrapper {
-    width: 100vh;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    pointer-events: all;
-}
-
 .react_toast_container {
     background-color: var(--bg-card-color);
-    position: absolute;
-    top: 80px;
-    right: 80px;
+    position: fixed;
+    top: 10%;
+    right: 5%;
     padding: 15px;
-    border-radius: 5px;
+    border-radius: 6px;
     z-index: 1000;
     max-width: 250px;
+    -webkit-box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
 }
 
 .react_toast_container_hide {
     display: none;
+}
+
+.card_header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.exit_button {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    grid-column: 2/3;
+}
+
+.cross_icon {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
 }

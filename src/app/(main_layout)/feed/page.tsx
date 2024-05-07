@@ -12,16 +12,29 @@ function Feed() {
     const { auth_store } = useContext(Context);
 
 
-    const [page, setPage] = useState<number>(0)
-    const [fetching, setFetching] = useState(true)
+    const [page, setPage] = useState<number>(10)
+    const [fetching, setFetching] = useState(false)
     const [isShowRepost, setIsShowRepost] = useState(false);
     const [isShowPost, setIsShowPost] = useState(false);
+
+
+    useEffect(() => {
+        if (auth_store.isAuth) {
+            if (content_store.userFeed.length < 10) {
+
+                content_store.getUserFeed(0).then(resp => {
+                    content_store.setTotalPostCount(resp.headers['x-post-count'])
+                }).finally(() => setFetching(false))
+            }
+        }
+
+    }, [content_store])
 
     useEffect(() => {
         if (fetching) {
             try {
                 if (auth_store.isAuth) {
-                    content_store.getUserFeed(page).then(resp => {
+                    content_store.getUserFeedSCroll(page).then(resp => {
                         setPage(page + 10)
                         content_store.setTotalPostCount(resp.headers['x-post-count'])
                     }).finally(() => setFetching(false))

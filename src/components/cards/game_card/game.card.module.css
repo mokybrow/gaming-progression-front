@@ -6,7 +6,7 @@
     background-color: var(--bg-card-color);
     overflow: hidden;
     position: relative;
-    transition:background-color .2s linear;
+    transition: background-color .2s linear;
 }
 
 .cover_wrapper {
@@ -46,6 +46,7 @@
 .figure>img {
     grid-row: 1 / -1;
     grid-column: 1;
+    width: 100%;
 }
 
 .figure a {
@@ -76,7 +77,7 @@
     bottom: 0;
     background: rgba(0, 0, 0, .6);
     opacity: 0;
-    color: #fff;
+    color: var(--ligth-button-font-color);
     transition: opacity .1s linear;
     font-size: 12px;
 }

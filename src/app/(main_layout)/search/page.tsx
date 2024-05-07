@@ -42,6 +42,14 @@ const Search = observer(() => {
         }
         if (debouncedSearch) {
             fetchData()
+            const params = new URLSearchParams(searchParams);
+            if (debouncedSearch) {
+                params.set('query', String(debouncedSearch));
+            } else {
+                params.delete('query');
+            }
+    
+            replace(`${pathname}?${params.toString()}`);
         }
         else {
             games_store.setSearchedGames([])
@@ -104,7 +112,7 @@ const Search = observer(() => {
             <main className="main_content_wrapper">
                 <div className={styles.input_wrapper}>
                     <InputField type={'text'} id={'search'} labelname={'Поиск'}
-                        onChange={(e) => (setSearchQuery(e.target.value), handleSearch(e.target.value))}
+                        onChange={(e) => (setSearchQuery(e.target.value))}
 
                         value={searchQuery} />
                     {searchQuery ?

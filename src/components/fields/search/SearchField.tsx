@@ -94,7 +94,7 @@ const SearchField = forwardRef<HTMLInputElement, TypeInputProps>(
                                         <ServiceButtonLong type={'button'}
                                             onClick={() =>
                                                 // <pathname>?sort=asc
-                                                ((router.push('search' + '?' + createQueryString(searchQuery)), setSearchQuery(''), setIsShow(false)))
+                                                ((router.push('/search' + '?' + createQueryString(searchQuery)), setSearchQuery(''), setIsShow(false)))
                                             }>
                                             Показать ещё
                                         </ServiceButtonLong>

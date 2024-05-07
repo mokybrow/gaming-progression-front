@@ -46,7 +46,7 @@ const SettingsMailing = observer(() => {
                         {points.map(item => (
 
                             <div key={item.id} className={styles.item_wrapper}>
-                                <CustomCheckbox id={item.id} checked={item.checked} onClick={() => auth_store.updateMailingSettings([item.id])} labelname={item.label}/>
+                                <CustomCheckbox id={item.id} checked={item.checked} onChange={() => auth_store.updateMailingSettings([item.id])} labelname={item.label}/>
                             </div>
                         ))}
 

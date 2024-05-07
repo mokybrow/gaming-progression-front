@@ -1,5 +1,6 @@
 import React, { useState, forwardRef, useImperativeHandle } from "react"
 import styles from './toast.module.css'
+import CrossIcon from "../icons/cross";
 
 
 export interface ModalProps {
@@ -14,7 +15,6 @@ function ReactToast({ timeout, toastText, active, setActive, setToastText }: Mod
 
     if (active) {
         setTimeout(() => {
-            console.log("Hello, World!");
             setActive(false)
             setToastText('')
         }, timeout);
@@ -22,11 +22,16 @@ function ReactToast({ timeout, toastText, active, setActive, setToastText }: Mod
 
 
     return (
-        <div className={active ? styles.toast_wrapper : styles.react_toast_container_hide}>
 
-            <div className={active ? styles.react_toast_container : styles.react_toast_container_hide}>
-                {toastText}
+        <div className={active ? styles.react_toast_container : styles.react_toast_container_hide}>
+            <div className={styles.card_header}>
+                <div className={styles.exit_button} >
+                    <div onClick={() => (setActive(false))} className={styles.cross_icon}>
+                        <CrossIcon className='general-icon' />
+                    </div>
+                </div>
             </div>
+            {toastText}
         </div>
     )
 }

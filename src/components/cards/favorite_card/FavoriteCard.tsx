@@ -18,7 +18,7 @@ export default function FavoriteCard({ title, cover, release_date, description, 
     return (
         <div className={styles.card_wrapper}>
             <div className={styles.title_wrapper}>
-                <span>Понавилась - <Link href={`games/${slug}`}>{title}</Link></span>
+                <span>Понравилась - <Link href={`games/${slug}`}>{title}</Link></span>
             </div>
             <div className={styles.cover_wrapper}>
                 <img src={cover} alt={''} />

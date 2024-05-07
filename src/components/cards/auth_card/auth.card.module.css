@@ -17,11 +17,13 @@
 .icon_wrapper {
     width: 32px;
     height: 32px;
+    cursor: pointer;
 }
 
 .cross_icon {
     width: 28px;
     height: 28px;
+    cursor: pointer;
 }
 
 .exit_button {

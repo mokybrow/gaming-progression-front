@@ -4,7 +4,7 @@ export interface GamesResponse {
   cover: string
   description: any
   slug: string
-  release_date: Date | null
+  release_date: string | null
   playtime: number
   completed_count: any
   wishlist_count: any

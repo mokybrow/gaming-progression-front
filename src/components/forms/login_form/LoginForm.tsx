@@ -9,6 +9,8 @@ import { API_URL } from '@/api/api';
 import { useRouter } from 'next/navigation';
 import AuthService from '@/services/authService';
 import { LoginButton } from '@/components/buttons/login/LoginButton';
+import EyeIcon from '@/components/icons/eye';
+import ClosedEyeIcon from '@/components/icons/closedEye';
 
 
 
@@ -23,6 +25,7 @@ const LoginForm = ({ setIsOpen, setRemember }: FormProps) => {
 
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
+	const [passwordShow, setPasswordShow] = useState<boolean>(false);
 
 	const [error, setError] = useState<string>('');
 
@@ -33,7 +36,6 @@ const LoginForm = ({ setIsOpen, setRemember }: FormProps) => {
 		else {
 			try {
 				const response = await auth_store.login(username, password)
-				console.log(response)
 				if (!response) {
 					setError('Неверный логин или пароль')
 				}
@@ -53,11 +55,21 @@ const LoginForm = ({ setIsOpen, setRemember }: FormProps) => {
 			<InputField type={'username'} id={'username'} labelname={'Имя пользователя'}
 				autoComplete="username" value={username} onChange={(e) => (setUsername(e.target.value), setError(''), setRemember(false)
 				)} />
-
-			<InputField
-				type={'password'} id={'password'} labelname={'Пароль'}
-				autoComplete="current-password" value={password} onChange={(e) => (setPassword(e.target.value), setError(''), setRemember(false)
-				)} />
+			<div className={styles.field_wrapper}>
+				<InputField
+					type={!passwordShow ? 'password' : 'text'} id={'password'} labelname={'Пароль'}
+					autoComplete="current-password" value={password} onChange={(e) => (setPassword(e.target.value), setError(''), setRemember(false)
+					)} />
+				<div className={styles.char_count_wrapper}>
+					<div className={styles.icon_wrapper} onClick={() => setPasswordShow(!passwordShow)}>
+						{!passwordShow ?
+							<EyeIcon className='general-icon' />
+							:
+							<ClosedEyeIcon className='general-icon' />
+						}
+					</div>
+				</div>
+			</div>
 			{error != '' ?
 				<div className={styles.error_block}>
 					<span>{error}</span>
@@ -65,7 +77,7 @@ const LoginForm = ({ setIsOpen, setRemember }: FormProps) => {
 				: null
 			}
 			{error != '' ?
-				<div className={styles.remember_pass_block} onClick={()=> setRemember(true)}>
+				<div className={styles.remember_pass_block} onClick={() => setRemember(true)}>
 					<span>Забыли пароль? Вспомнить.</span>
 				</div>
 				: null

@@ -32,7 +32,6 @@ export interface CardProps {
 
 function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepost }: CardProps) {
     const { content_store } = useContext(Context);
-
     const getPostCommentsHandler = (postId: string) => {
         setIsShowPost(true)
         content_store.getPostData(postId)

@@ -21,9 +21,8 @@ export interface IUserModel {
 	birthdate: string
 	user_activity: UserActivity[]
 	user_favorite: UserFavorite[]
-	followers: any[]
+	followers: Followers[]
 	subscriptions: Subscription[]
-	lists: List[]
 	created_at: string
 }
 
@@ -35,9 +34,8 @@ export interface IGeneralUserModel {
 	created_at: string
 	user_activity: UserActivity[]
 	user_favorite: UserFavorite[]
-	followers: any[]
+	followers: Followers[]
 	subscriptions: Subscription[]
-	lists: List[]
 }
 
 
@@ -74,6 +72,9 @@ export interface GameData2 {
 	cover: string
 }
 
+export interface Followers {
+	follower_data: SubData
+}
 
 export interface Subscription {
 	sub_data: SubData
@@ -85,20 +86,7 @@ export interface SubData {
 	full_name: string
 }
 
-export interface List {
-	playlists: Playlists
-}
-
-export interface Playlists {
-	id: string
-	owner_id: string
-	name: string
-	about?: string
-	is_private: boolean
-	created_at: string
-}
-
-
+	
 
 export interface SearchUserModel {
 	id: string,
@@ -109,12 +97,12 @@ export interface SearchUserModel {
 
 // Настройки почты
 export interface MailingSettingsModel {
-  user_id: string
-  type_data: TypeData
+	user_id: string
+	type_data: TypeData
 }
 
 export interface TypeData {
-  id: string
-  name: string
-  code: number
+	id: string
+	name: string
+	code: number
 }

@@ -4,19 +4,20 @@ import { Genre, Platform } from '@/models/gamesModel';
 import styles from './game.card.module.css'
 import Link from 'next/link';
 import { formatDate } from '@/services/dateFormat';
+import { observer } from 'mobx-react';
 
 
 export interface CardProps {
     title: string,
-    cover: string,
-    release_date: Date | null,
+    cover: string | null,
+    release_date: string | null,
     avg_rate: number | null,
     platforms: Platform[],
     genres: Genre[],
     slug: string,
 }
 
-export default function GameCard({ title, cover, release_date, avg_rate, platforms, genres, slug }: CardProps) {
+function GameCard({ title, cover, release_date, avg_rate, platforms, genres, slug }: CardProps) {
 
     return (
 
@@ -86,3 +87,5 @@ export default function GameCard({ title, cover, release_date, avg_rate, platfor
     )
 
 }
+
+export default observer(GameCard)

@@ -13,6 +13,8 @@
     align-items: flex-start;
     text-align: left;
     color: var(--font-color);
+    font-family: var(--font-motserrat);
+
 }
 
 .func_button:hover {

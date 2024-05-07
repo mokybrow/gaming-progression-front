@@ -17,18 +17,7 @@ export default class GameService {
             },
         )
     }
-    static async getGamesCount(genre: string[] | null, platform: string[] | null, age: string | null, release: number[] | null): Promise<AxiosResponse<GamesCount>> {
-        const url = process.env.API_URL + 'games/count'
-        return axios.post<GamesCount>(url,
-            {
-                genre: genre,
-                platform: platform,
-                age: age,
-                release: release,
-      
-            },
-        )
-    }
+
     static async getGamePage(slug: string): Promise<AxiosResponse<GamePageResponse>> {
         const url = process.env.API_URL + 'games'
         return axios.get<GamePageResponse>(url + `/${slug}`,

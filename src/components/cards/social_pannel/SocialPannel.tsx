@@ -28,9 +28,7 @@ function SocialButtonCard({ postId, likeCount, commentCount, hasAuthorLike, setI
     const [showComment, setShowComment] = useState(false)
 
     const likeCommentHandler = () => {
-
         content_store.likeContent(postId, '9cc629c8-898a-4d16-b65e-25d0d37f9633', true)
-
     }
     const getPostCommentsHandler = (postId: string) => {
         setIsShowRepost(true)

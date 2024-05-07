@@ -4,32 +4,33 @@
     border: none;
     border-radius: 6px;
     padding: 6px 12px;
-    background-color: var( --blue-button-color);
-    font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
-    font-style: normal;
+    background-color: var(--blue-button-color);
+    font-family: var(--font-motserrat);
     color: var(--ligth-button-font-color);
     cursor: pointer;
     transition: 140ms all ease-out;
+    font-weight: 600;
 }
-.follow_button:hover{
-    background-color:var(--blue-button-hover) ;
+
+.follow_button:hover {
+    background-color: var(--blue-button-hover);
 }
 
 .follow_button_active {
     display: flex;
     height: 28px;
     border: none;
-    border-radius: 6px;
+    border-radius: var(--border-radius-main);
     padding: 6px 12px;
     background-color: var(--red-button-color);
-    font-family: '__Inter_a943a7', '__Inter_Fallback_a943a7';
+    font-family: var(--font-motserrat);
     font-style: normal;
     color: var(--ligth-button-font-color);
     cursor: pointer;
     transition: 140ms all ease-out;
-
+    font-weight: 600;
 }
 
-.follow_button_active:hover{
+.follow_button_active:hover {
     background-color: var(--red-button-hover);
 }

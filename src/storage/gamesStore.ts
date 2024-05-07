@@ -97,14 +97,26 @@ export default class GamesStore {
         this.setLoading(true);
         try {
             const response = await GameService.getAllGames(genre, platform, age, release, page, sort);
-            if (this.games.includes(response.data[0])) {
 
-                this.setGames(response.data)
-            }
-            else {
-                this.setGames([...this.games, ...response.data])
+            this.setGames(response.data)
 
-            }
+
+            this.setGamesCount(response.headers['x-games-count'])
+        } catch (error) {
+            this.setGamesCount(0)
+        }
+        finally {
+            this.setLoading(false);
+        }
+    }
+    async getAllGamesScroll(genre: number[] | null, platform: number[] | null, age: number[] | null, release: number[] | null, page: number, sort: any) {
+        this.setLoading(true);
+        try {
+            const response = await GameService.getAllGames(genre, platform, age, release, page, sort);
+
+            this.setGames([...this.games, ...response.data])
+
+
             this.setGamesCount(response.headers['x-games-count'])
         } catch (error) {
             this.setGamesCount(0)

@@ -7,7 +7,6 @@ import { useState } from 'react'
 import { RegistrationForm } from '@/components/forms/reg_form/RegistrationForm'
 import ArrowLeftIcon from '@/components/icons/arrowLeft'
 import { RememberForm } from '@/components/forms/remember/RememberPass'
-import MainLogoIcon from '@/components/icons/MainLogo'
 
 export interface ModalProps {
     setIsShow: any,

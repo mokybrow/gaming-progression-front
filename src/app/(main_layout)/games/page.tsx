@@ -3,7 +3,7 @@
 import { Context } from "@/app/providers";
 import { useContext, useEffect, useRef, useState } from "react";
 import styles from './page.module.css'
-import GameCard from "@/components/cards/GameCard";
+import GameCard from "@/components/cards/game_card/GameCard";
 import React from "react";
 import FiltersCard from "@/components/cards/filters/FiltersCard";
 import { observer } from "mobx-react-lite";
@@ -15,17 +15,17 @@ import CircleLoader from "@/components/loader/circle";
 import FilterIcon from "@/components/icons/filter";
 import SortIcon from "@/components/icons/sort";
 import SortButton from "@/components/buttons/sort/SortButton";
+import { GamesResponse } from "@/models/gamesModel";
 
 
 
-const columnGenerator = (start: number, every: number, games: string | any[]) => {
+const columnGenerator = (start: number, every: number, games: GamesResponse[]) => {
     let content = [];
     for (let i = start; i < games.length; i += every) {
         const game = games[i];
         content.push(
             <div key={game.id} >
-
-                <GameCard key={game.id} title={game.title} cover={game.cover}
+                <GameCard  title={game.title} cover={game.cover}
                     release_date={game.release_date} avg_rate={game.avg_rate}
                     platforms={game.platforms} genres={game.genres} slug={game.slug} />
             </div>
@@ -42,8 +42,8 @@ function Games() {
 
     const [isShowFilter, setIsShowFilter] = useState(false);
     const popupRef = useRef(null)
-    const [page, setPage] = useState<number>(0)
-    const [fetching, setFetching] = useState(true)
+    const [page, setPage] = useState<number>(20)
+    const [fetching, setFetching] = useState(false)
 
     useOutside(popupRef, () => {
         if (isShow) {
@@ -54,17 +54,26 @@ function Games() {
         }
     })
 
+    useEffect(() => {
+        if (games_store.games.length < 20) {
+
+            games_store.getAllGames(games_store.genres, games_store.platforms, null, games_store.releaseDate, 0, games_store.sort)
+        }
+
+
+    }, [games_store])
 
     useEffect(() => {
         if (fetching) {
             try {
-                games_store.getAllGames(games_store.genres, games_store.platforms, null, games_store.releaseDate, page, games_store.sort).then(resp => {
+                games_store.getAllGamesScroll(games_store.genres, games_store.platforms, null, games_store.releaseDate, page, games_store.sort).then(resp => {
                     setPage(page + 20)
                 }).finally(() => setFetching(false))
             } catch (error) {
 
             }
         }
+
     }, [fetching])
 
     useEffect(() => {
@@ -115,34 +124,43 @@ function Games() {
                     </div>
                 </div>
                 <div className={styles.right_side_flex_mobile}>
-                    <div>Найдено игр {games_store.gamesCount}</div>
+                    {games_store.gamesCount > 0 ?
+                        <div className={styles.finded_games}>Найдено игр {games_store.gamesCount}</div>
+                        :
+                        <div className={styles.finded_games}>Игры не найдены</div>
+
+                    }
                 </div>
-                <div className={styles.cards_layout_three}>
-                    <div className={styles.column_layout} id="firs_column">
-                        {columnGenerator(0, 3, games_store.games)}
-                    </div>
-                    <div className={styles.column_layout} id="second_column">
-                        {columnGenerator(1, 3, games_store.games)}
-                    </div>
-                    <div className={styles.column_layout} id="third_column">
-                        {columnGenerator(2, 3, games_store.games)}
-                    </div>
+                {games_store.gamesCount > 0 ?
+                    <>
+                        <div className={styles.cards_layout_three}>
+                            <div className={styles.column_layout} id="firs_column">
+                                {columnGenerator(0, 3, games_store.games)}
+                            </div>
+                            <div className={styles.column_layout} id="second_column">
+                                {columnGenerator(1, 3, games_store.games)}
+                            </div>
+                            <div className={styles.column_layout} id="third_column">
+                                {columnGenerator(2, 3, games_store.games)}
+                            </div>
 
-                </div >
-                <div className={styles.cards_layout_two}>
-                    <div className={styles.column_layout} id="second_column">
-                        {columnGenerator(0, 2, games_store.games)}
-                    </div>
-                    <div className={styles.column_layout} id="third_column">
-                        {columnGenerator(1, 2, games_store.games)}
-                    </div>
-                </div >
-                <div className={styles.cards_layout_one}>
-                    <div className={styles.column_layout} id="second_column">
-                        {columnGenerator(0, 1, games_store.games)}
-                    </div>
+                        </div >
+                        <div className={styles.cards_layout_two}>
+                            <div className={styles.column_layout} id="second_column">
+                                {columnGenerator(0, 2, games_store.games)}
+                            </div>
+                            <div className={styles.column_layout} id="third_column">
+                                {columnGenerator(1, 2, games_store.games)}
+                            </div>
+                        </div >
+                        <div className={styles.cards_layout_one}>
+                            <div className={styles.column_layout} id="second_column">
+                                {columnGenerator(0, 1, games_store.games)}
+                            </div>
 
-                </div >
+                        </div >
+                    </>
+                    : <><div>Игры не найдены</div></>}
                 {games_store.isLoading ? <>
 
                     <CircleLoader />

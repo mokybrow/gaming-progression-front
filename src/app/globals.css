@@ -156,7 +156,7 @@ body {
 
 .active {
   background-color: var(--side-bar-hover);
-  border-radius: 6px;
+  border-radius: var(--border-radius-main);
 }
 
 a {
@@ -230,7 +230,7 @@ a {
   margin-left: auto;
   margin-right: auto;
   justify-content: space-between;
-  position: relative;
+  /* position: relative; */
   gap: 48px;
   height: 100%;
   box-sizing: inherit;
@@ -307,6 +307,7 @@ a {
     position: static;
     grid-row: 1/1;
     height: 100%;
+    padding: 0 12px;
     padding-top: 12px;
   }
 

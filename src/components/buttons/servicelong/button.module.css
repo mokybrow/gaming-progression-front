@@ -11,6 +11,8 @@
     background-color: var(--service-button-color);
     color: var(--font-color);
     transition: all .2s linear;
+    font-family: var(--font-motserrat);
+    font-weight: 500;
 }
 
 .service_button:hover{
