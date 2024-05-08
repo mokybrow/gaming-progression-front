@@ -34,8 +34,8 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="ru">
-      <body className={montserrat.className}>
+    <html lang="ru"  className={montserrat.className}>
+      <body>
         <div id="app">
           <Providers>
             <Header />

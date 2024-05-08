@@ -20,7 +20,7 @@ export interface CardProps {
     about: string | null;
     owner_data: OwnerData;
     list_games: ListGame[];
-    addedPlaylist: number;
+    addedPlaylist: number | null;
     setToastText: any;
     setActive: any;
 
@@ -48,6 +48,10 @@ function PlaylistCard({ id, owner_id, name, about, owner_data, list_games,
     return (
         <div className={styles.card_wrapper}>
             <div className={styles.playlist_cover}>
+                {list_games?.length === 0 ?
+                    <div className={styles.empty_list}>
+                        Список пустой
+                    </div> : null}
                 {list_games.slice(0, 3).map(item => (
                     <div className={styles.cover_wrapper} key={item.game_data.id}>
                         {item.game_data.cover !== null ?
@@ -55,6 +59,7 @@ function PlaylistCard({ id, owner_id, name, about, owner_data, list_games,
                             : null}
                     </div>
                 ))}
+
                 <div className={styles.cover_wrapper}>
                     {list_games.length > 3 ?
                         <>
@@ -70,8 +75,11 @@ function PlaylistCard({ id, owner_id, name, about, owner_data, list_games,
                     <div className={styles.games_count}>
                         {list_games.length > 3 ? <>+{list_games.length - 3} </> : null}
                     </div>
+
                 </div>
+
             </div>
+
             <Link href={`/playlists/${id}`} className={styles.playlist_info}>
                 <div className={styles.other_information}>
                     <span>{name}</span>
@@ -80,7 +88,7 @@ function PlaylistCard({ id, owner_id, name, about, owner_data, list_games,
             {owner_id !== auth_store.user.id ?
                 <div className={styles.add_playlist_wrapper}>
 
-                    {addedPlaylist === 1 ?
+                    {addedPlaylist === 1 && addedPlaylist != null ?
                         <ServiceButtonLong type={'button'} onClick={() => AddPlaylistHandler(id)} >
                             <div className={styles.button_data_wrapper}>
                                 <div className={styles.icon_wrapper}>

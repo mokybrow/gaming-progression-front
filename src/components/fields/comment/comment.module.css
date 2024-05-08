@@ -17,6 +17,8 @@
     background-color: var(--input-color);
     transition: 140ms all ease-out;
     outline: none;
+    transition: background-color .2s linear;
+
 }
 
 .input:hover {

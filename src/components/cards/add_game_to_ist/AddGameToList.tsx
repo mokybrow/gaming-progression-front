@@ -77,7 +77,7 @@ function AddGameToList({ setIsShow, setToastText, setActive, gamePage }: ModalPr
                         list.Playlists.list_games.splice(index, 1);
                     }
                 })
-       
+
             }
         })
 
@@ -97,12 +97,18 @@ function AddGameToList({ setIsShow, setToastText, setActive, gamePage }: ModalPr
             <div className={styles.list_form}>
                 {content_store.myPlaylists.map(list => (
 
-                    <div key={list.id}>
+                    <div key={list.id} className={styles.item_wrapper}>
                         {list.owner_id === auth_store.user.id ?
-                            < CustomCheckbox id={list.id} labelname={list.name}
-                                onChange={() => handleAddGameToList(list.id, gamePage.id)}
-                                checked={list.list_games.some(item => item.game_data.id === gamePage.id)} />
+                            <>
+                                < CustomCheckbox id={list.id} labelname={list.name}
+                                    onChange={() => handleAddGameToList(list.id, gamePage.id)}
+                                    checked={list.list_games.some(item => item.game_data.id === gamePage.id)} 
+                                    disabled={list.list_games.length == 20 && !list.list_games.some(item => item.game_data.id === gamePage.id) ? true : false}/>
+                                {list.list_games.length}/20 игр
+                            </>
                             : null}
+
+
                     </div>
                 ))}
             </div>

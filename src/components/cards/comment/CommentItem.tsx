@@ -5,14 +5,14 @@ import { useContext, useState } from "react";
 import styles from './comment.module.css'
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
-import userImage from '@/assets/icons/general/user.png'
-import Image from 'next/image'
 import CommentField from "../../fields/comment/CommentField";
 import LikeIcon from "@/components/icons/like";
 import { observer } from "mobx-react";
 import DotsIcon from "@/components/icons/dots";
 import UserIcon from "@/components/icons/user";
 import { formatDate } from "@/services/dateFormat";
+import ReportButton from "@/components/buttons/report/ReportButton";
+import ReactToast from "@/components/toast/Toast";
 
 
 export interface CommentProps {
@@ -33,6 +33,9 @@ function CommentItem({ commentId, fullName, username, text, likeCount, created, 
     const { content_store } = useContext(Context);
     const { auth_store } = useContext(Context);
     const [showComment, setShowComment] = useState(false)
+
+    const [activeToast, setActiveToast] = useState(false)
+    const [toastText, setToastText] = useState<string>('')
 
     const [active, setActive] = useState(false)
 
@@ -79,8 +82,8 @@ function CommentItem({ commentId, fullName, username, text, likeCount, created, 
                         onClick={() => setShowComment(true)}>
                         Ответить
                     </div>
-                    <div className={styles.icon_wrapper}>
-                        <DotsIcon className='general-icon-fill' />
+                    <div>
+                    <ReportButton contentId={commentId} contentType={"comments"} setToastText={setToastText} setActive={setActiveToast} />
                     </div>
                 </div>
             </div>
@@ -89,6 +92,8 @@ function CommentItem({ commentId, fullName, username, text, likeCount, created, 
                     <CommentField contentID={postId} uniqueId={commentId} parentCommentId={parentCommentId} setShowComment={setShowComment} />
                     : null
             }
+            <ReactToast timeout={5000} active={activeToast} setActive={setActiveToast} toastText={toastText} setToastText={setToastText} />
+
         </div>
 
 

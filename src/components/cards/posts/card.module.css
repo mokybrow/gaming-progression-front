@@ -99,9 +99,8 @@
 
 .icon_wrapper {
     display: flex;
-    height: 18px;
-    width: 18px;
-    opacity: 0.8;
+    height: 12px;
+    width: 12px;
     cursor: pointer;
 
 }
@@ -194,6 +193,8 @@ label.tree_label {
     width: 0;
     border-left: 1px solid var(--font-color);
     content: "";
+    transition: all .2s linear;
+
 }
 
 .tree_label:after {
@@ -207,6 +208,8 @@ label.tree_label {
     border-left: 1px solid var(--font-color);
     border-radius: 0 0 0 .3em;
     content: '';
+    transition: all .2s linear;
+
 }
 
 label.tree_label:after {
@@ -222,6 +225,8 @@ label.tree_label:after {
     bottom: 0;
     top: 0.5em;
     height: auto;
+    transition: all .2s linear;
+
 }
 
 .tree li:last-child:before {

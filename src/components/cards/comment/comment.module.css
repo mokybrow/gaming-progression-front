@@ -20,6 +20,8 @@
   border-radius: var(--border-radius-main);
   gap: 12px;
   width: 100%;
+  transition: background-color .2s linear;
+
 }
 
 .comment_header {
@@ -42,6 +44,8 @@
   justify-content: center;
   background-color: var(--profile-button);
   border-radius: 100px;
+  transition: background-color .2s linear;
+
 }
 
 .comment_time_wrapper {
@@ -62,7 +66,6 @@
   display: grid;
   grid-template-columns: auto auto auto;
   gap: 22px;
-  opacity: 0.8;
 }
 
 .action_button {
@@ -83,6 +86,7 @@
 
 
 /* ДАЛЬШЕ ИДЁТ ДЕРЕВО */
+
 /* ————————————————————–
   Tree core styles
 */
@@ -114,13 +118,17 @@
 */
 .tree_label {
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   width: 100%;
 }
 
 label.tree_label {
   cursor: pointer;
 }
+
+
 
 
 
@@ -134,8 +142,10 @@ label.tree_label {
   left: -.5em;
   display: block;
   width: 0;
-  border-left: 1px solid #777;
+  border-left: 1px solid var(--font-color);
   content: "";
+  transition: all .2s linear;
+
 }
 
 .tree_label:after {
@@ -145,10 +155,12 @@ label.tree_label {
   display: block;
   height: 0.5em;
   width: 1em;
-  border-bottom: 1px solid #777;
-  border-left: 1px solid #777;
+  border-bottom: 1px solid var(--font-color);
+  border-left: 1px solid var(--font-color);
   border-radius: 0 0 0 .3em;
   content: '';
+  transition: all .2s linear;
+
 }
 
 label.tree_label:after {
@@ -157,13 +169,15 @@ label.tree_label:after {
 
 :checked~label.tree_label:after {
   border-radius: 0 .3em 0 0;
-  border-top: 1px solid #777;
-  border-right: 1px solid #777;
+  border-top: 1px solid var(--font-color);
+  border-right: 1px solid var(--font-color);
   border-bottom: 0;
   border-left: 0;
   bottom: 0;
   top: 0.5em;
   height: auto;
+  transition: all .2s linear;
+
 }
 
 .tree li:last-child:before {

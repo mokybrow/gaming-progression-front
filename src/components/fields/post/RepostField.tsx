@@ -1,7 +1,6 @@
 'use client'
 
 import { Context } from "@/app/providers";
-import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 import { SearchUserModel } from "@/models/userModel";
 import { useContext, useEffect, useRef, useState } from "react";
 import styles from './repost.module.css'
@@ -12,6 +11,7 @@ import useDebounce from "@/hooks/useDebounce";
 import useOutside from "@/hooks/useOutside";
 import { MentionPopup } from "@/components/popup/mention/MentionPopUp";
 import { MentionButton } from "@/components/buttons/mention/MentionButton";
+import ServiceButtonLong from "@/components/buttons/servicelong/ServiceButtonLong";
 
 export interface PostFieldProps {
     parentPostId: string | null
@@ -286,10 +286,10 @@ function RepostField({ parentPostId, setIsShowRepost }: PostFieldProps) {
             </div>
             <div className={styles.button_wrapper}>
 
-                <FunctionalGameButton type={'button'} bg_color={'#0368CD'} fontSize={14} color={'#E8E8ED'}
+                <ServiceButtonLong type={'button'}
                     onClick={() => (addPostHandler(), setPostText(''), setIsShowRepost(false))}>
                     Опубликовать
-                </FunctionalGameButton>
+                </ServiceButtonLong>
             </div>
 
         </div>

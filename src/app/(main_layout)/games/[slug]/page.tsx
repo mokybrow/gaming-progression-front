@@ -5,12 +5,9 @@ import styles from './page.module.css'
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Context } from '@/app/providers';
 import { observer } from 'mobx-react-lite';
-import { FunctionalGameButton } from '@/components/buttons/FunctionalGameButton';
 import useOutside from '@/hooks/useOutside';
-import LoginForm from '@/components/forms/login_form/LoginForm';
 import { FullScreenPopup } from '@/components/popup/main_popup/FullScreenPopup';
 
-import CircleLoader from '@/components/loader/circle';
 import CommentField from '@/components/fields/comment/CommentField';
 import CommentCard from '@/components/cards/comment/CommentCard';
 import { formatDate } from '@/services/dateFormat';

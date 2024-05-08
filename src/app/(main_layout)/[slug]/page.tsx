@@ -2,7 +2,7 @@
 
 import { Context } from "@/app/providers";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styles from './page.module.css'
 import { observer } from "mobx-react-lite";
 
@@ -14,6 +14,11 @@ import UserProfileCard from '@/components/cards/user_profile/UserProfile'
 import UserStatsCard from '@/components/cards/user_profile/UserStats'
 import PostField from "@/components/fields/post/PostField";
 import Link from "next/link";
+import useOutside from "@/hooks/useOutside";
+import { FullScreenPopup } from "@/components/popup/main_popup/FullScreenPopup";
+import UniversalCard from "@/components/cards/universal_card/UniversalCard";
+import PlaylistCard from "@/components/cards/playlists/PlaylistCard";
+import { PostPopUp } from "@/components/popup/posts/PostPopUp";
 
 function UserProfile() {
 
@@ -35,7 +40,12 @@ function UserProfile() {
   ];
 
   let [activeTab, setActiveTab] = useState(tabs[0].id);
-
+  const [showLists, setShowLists] = useState(false);
+  const [showFollower, setShowFollowers] = useState(false);
+  const [showSubscribers, setShowSubscribers] = useState(false);
+  const popupRef = useRef(null)
+  const [active, setActive] = useState(false)
+  const [toastText, setToastText] = useState<string>('')
   // useEffect(() => {
   //   if (auth_store.user.username === username) {
   //     if (content_store.myWall.length < 10) {
@@ -150,13 +160,126 @@ function UserProfile() {
 
   }
 
+  useOutside(popupRef, () => {
+    if (showLists) {
+      setTimeout(() => setShowLists(false), 50)
+    }
+    if (showFollower) {
+      setTimeout(() => setShowFollowers(false), 50)
+    }
+    if (showSubscribers) {
+      setTimeout(() => setShowSubscribers(false), 50)
+    }
+
+  })
+
   return (
     <>
+      <PostPopUp active={showLists} setActive={setShowLists}>
+        <UniversalCard setIsShow={setShowLists}>
+          {auth_store.user.username === username ?
+            <div className={styles.playlists_grid}>
+              {content_store.myPlaylists.map(item => (
+                <div key={item.id}>
+                  <PlaylistCard
+                    id={item.id}
+                    owner_id={item.owner_id}
+                    name={item.name}
+                    owner_data={item.owner_data}
+                    list_games={item.list_games}
+                    addedPlaylist={content_store.myPlaylists.some(list => list.id == item.id) ? 1 : 0}
+                    setActive={setActive}
+                    setToastText={setToastText}
+                    about={item.about} />
+                </div>
+              ))}
+            </div>
+            :
+            <div className={styles.playlists_grid}>
+              {content_store.userPlaylists.map(item => (
+                <div key={item.Playlists.id}>
+                  <PlaylistCard
+                    id={item.Playlists.id}
+                    owner_id={item.Playlists.owner_id}
+                    name={item.Playlists.name}
+                    about={item.Playlists.about}
+                    owner_data={item.Playlists.owner_data}
+                    list_games={item.Playlists.list_games}
+                    addedPlaylist={item.addedPlaylist}
+                    setActive={setActive}
+                    setToastText={setToastText}
+                  />
+                </div>
+              ))}
+            </div>
+          }
+        </UniversalCard>
+      </PostPopUp>
+      <PostPopUp active={showSubscribers} setActive={setShowSubscribers}>
+        <UniversalCard setIsShow={setShowSubscribers}>
+          {auth_store.user.username === username ?
+            <div className={styles.users_grid}>
+              {auth_store.user.subscriptions?.map(user => (
+                <div className={styles.user_wrapper} key={user.sub_data.id}>
+                  <Link href={'/' + user.sub_data.username} className={styles.user_cover_wrapper}>
+                    <div>{user.sub_data.username.slice(0, 1)}</div>
+                  </Link>
+                  <Link href={'/' + user.sub_data.username} >
+                    <div>{user.sub_data.full_name ? <>{user.sub_data.full_name}</> : <>{user.sub_data.username}</>}</div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+            :
+            <div className={styles.users_grid}>
+              {user_store.user.subscriptions?.map(user => (
+                <div className={styles.user_wrapper} key={user.sub_data.id}>
+                  <Link href={'/' + user.sub_data.username} className={styles.user_cover_wrapper}>
+                    <div>{user.sub_data.username.slice(0, 1)}</div>
+                  </Link>
+                  <Link href={'/' + user.sub_data.username} >
+                    <div>{user.sub_data.full_name ? <>{user.sub_data.full_name}</> : <>{user.sub_data.username}</>}</div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          }
+        </UniversalCard>
+      </PostPopUp>
+      <PostPopUp active={showFollower} setActive={setShowFollowers}>
+        <UniversalCard setIsShow={setShowFollowers}>
+          {auth_store.user.username === username ?
+            <div className={styles.users_grid}>
+              {auth_store.user.followers?.map(user => (
+                <div className={styles.user_wrapper} key={user.follower_data.id}>
+                  <Link href={'/' + user.follower_data.username} className={styles.user_cover_wrapper}>
+                    <div>{user.follower_data.id.slice(0, 1)}</div>
+                  </Link>
+                  <Link href={'/' + user.follower_data.username} >
+                    <div>{user.follower_data.full_name ? <>{user.follower_data.full_name}</> : <>{user.follower_data.username}</>}</div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+            :
+            <div className={styles.users_grid}>
+              {user_store.user.followers?.map(user => (
+                <div className={styles.user_wrapper} key={user.follower_data.id}>
+                  <Link href={'/' + user.follower_data.username} className={styles.user_cover_wrapper}>
+                    <div>{user.follower_data.username.slice(0, 1)}</div>
+                  </Link>
+                  <Link href={'/' + user.follower_data.username} >
+                    <div>{user.follower_data.full_name ? <>{user.follower_data.full_name}</> : <>{user.follower_data.username}</>}</div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          }
+        </UniversalCard>
+      </PostPopUp>
       <main className="main_content_wrapper">
         {
           auth_store.user.username === username ?
-
-
             <UserProfileCard
               username={auth_store.user.username}
               fullName={auth_store.user.full_name}
@@ -167,11 +290,7 @@ function UserProfile() {
               followersCount={auth_store.user.followers?.length}
               subscriptionsCount={auth_store.user.subscriptions?.length}
               isOwner={auth_store.user.username === username} />
-
-
             :
-
-
             <UserProfileCard
               username={user_store.user.username}
               fullName={user_store.user.full_name}
@@ -198,7 +317,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {auth_store.user.followers.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowFollowers(true)}>
                       <div>+{auth_store.user.followers.length - 4}</div>
                     </div>
                     : null}
@@ -213,7 +332,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {auth_store.user.subscriptions.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowSubscribers(true)}>
                       <div>+{auth_store.user.subscriptions.length - 4}</div>
                     </div>
                     : null}
@@ -228,7 +347,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {content_store.myPlaylists?.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowLists(true)}>
                       <div>+{content_store.myPlaylists?.length - 4}</div>
                     </div>
                     : null}
@@ -247,7 +366,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {user_store.user.followers?.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowFollowers(true)}>
                       <div>+{user_store.user.followers?.length - 4}</div>
                     </div>
                     : null}
@@ -262,7 +381,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {user_store.user.subscriptions?.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowSubscribers(true)}>
                       <div>+{user_store.user.subscriptions?.length - 4}</div>
                     </div>
                     : null}
@@ -277,7 +396,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {content_store.userPlaylists?.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowLists(true)}>
                       <div>+{content_store.userPlaylists?.length - 4}</div>
                     </div>
                     : null}
@@ -451,7 +570,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {auth_store.user.followers.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowFollowers(true)}>
                       <div>+{auth_store.user.followers.length - 4}</div>
                     </div>
                     : null}
@@ -466,7 +585,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {auth_store.user.subscriptions.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowSubscribers(true)}>
                       <div>+{auth_store.user.subscriptions.length - 4}</div>
                     </div>
                     : null}
@@ -481,7 +600,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {content_store.myPlaylists?.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowLists(true)}>
                       <div>+{content_store.myPlaylists?.length - 4}</div>
                     </div>
                     : null}
@@ -503,7 +622,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {user_store.user.followers?.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowFollowers(true)}>
                       <div>+{user_store.user.followers?.length - 4}</div>
                     </div>
                     : null}
@@ -518,7 +637,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {user_store.user.subscriptions?.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowSubscribers(true)}>
                       <div>+{user_store.user.subscriptions?.length - 4}</div>
                     </div>
                     : null}
@@ -533,7 +652,7 @@ function UserProfile() {
                     </Link>
                   ))}
                   {content_store.userPlaylists?.length > 4 ?
-                    <div className={styles.last_elem}>
+                    <div className={styles.last_elem} onClick={() => setShowLists(true)}>
                       <div>+{content_store.userPlaylists?.length - 4}</div>
                     </div>
                     : null}

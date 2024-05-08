@@ -1,0 +1,25 @@
+.user_card_wrapper{
+   background-color: var(--input-color);
+   padding: 12px;
+   border-radius: var(--border-radius-main);
+   margin: 12px 0;
+
+}
+
+.card_header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 58px;
+}
+.exit_button {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    grid-column: 2/3;
+}
+
+.cross_icon {
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}

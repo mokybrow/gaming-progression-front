@@ -521,12 +521,14 @@ export default class ContentStore {
                 }
             })
             if (this.myPlaylists.some(item => item.id == listId)) {
-                const index = this.myPlaylists.findIndex(n => n.id === listId && this.playlistData.id === listId)
+                const index = this.myPlaylists.findIndex(n => n.id === listId )
                 if (index !== -1) {
                     this.myPlaylists.splice(index, 1);
+                    return
                 }
             }
             else {
+
                 this.myPlaylists.push(
                     {
                         id: this.playlistData.id,

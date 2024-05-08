@@ -19,6 +19,8 @@ import LeavePostCard from '../service/LeavePostCard';
 import DotsIcon from '@/components/icons/dots';
 import { formatDate } from '@/services/dateFormat';
 import UserIcon from '@/components/icons/user';
+import ReportButton from '@/components/buttons/report/ReportButton';
+import ReactToast from '@/components/toast/Toast';
 
 
 
@@ -32,6 +34,10 @@ export interface CardProps {
 
 function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepost }: CardProps) {
     const { content_store } = useContext(Context);
+    const { auth_store } = useContext(Context);
+    const [active, setActive] = useState(false)
+    const [toastText, setToastText] = useState<string>('')
+
     const getPostCommentsHandler = (postId: string) => {
         setIsShowPost(true)
         content_store.getPostData(postId)
@@ -78,10 +84,9 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
                                 </div>
                             </div>
                             <div className={styles.service_wrapper}>
-                                {/* <span>Пожаловаться</span> */}
-                                <div className={styles.icon_wrapper}>
-                                    <DotsIcon className='general-icon-fill' />
-                                </div>
+                                {auth_store.user.id !== post.Posts.author_data.id ?
+                                    <ReportButton contentId={post.Posts.id} contentType={'posts'} setToastText={setToastText} setActive={setActive} />
+                                    : null}
                             </div>
                         </div>
                         <div>
@@ -143,6 +148,9 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
                 ))}
 
             </div>
+
+            <ReactToast timeout={5000} active={active} setActive={setActive} toastText={toastText} setToastText={setToastText} />
+
         </>
     )
 

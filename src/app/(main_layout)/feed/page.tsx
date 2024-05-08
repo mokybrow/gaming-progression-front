@@ -17,26 +17,26 @@ function Feed() {
 
 
     useEffect(() => {
-        if (auth_store.isAuth) {
-            if (content_store.userFeed.length < 10) {
 
-                content_store.getUserFeed(0).then(resp => {
-                    content_store.setTotalPostCount(resp.headers['x-post-count'])
-                }).finally(() => setFetching(false))
-            }
+        if (content_store.userFeed.length < 10) {
+
+            content_store.getUserFeed(0).then(resp => {
+                content_store.setTotalPostCount(resp.headers['x-post-count'])
+            }).finally(() => setFetching(false))
         }
+
 
     }, [content_store])
 
     useEffect(() => {
         if (fetching) {
             try {
-                if (auth_store.isAuth) {
-                    content_store.getUserFeedSCroll(content_store.feedPage).then(resp => {
-                        content_store.setFeedPage(content_store.feedPage + 10)
-                        content_store.setTotalPostCount(resp.headers['x-post-count'])
-                    }).finally(() => setFetching(false))
-                }
+
+                content_store.getUserFeedSCroll(content_store.feedPage).then(resp => {
+                    content_store.setFeedPage(content_store.feedPage + 10)
+                    content_store.setTotalPostCount(resp.headers['x-post-count'])
+                }).finally(() => setFetching(false))
+
             } catch (error) {
 
             }
