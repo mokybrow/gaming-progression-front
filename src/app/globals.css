@@ -5,8 +5,9 @@
   --red-button-color: #FF0A15;
   --red-button-hover: #FF4049;
   --ligth-button-font-color: #E5E5E5;
-  --complete-button-color: #30B63D;
+  --dark-button-font-color: #1E1D1F;
 
+  --complete-button-color: #30B63D;
   --complete-button-hover: #97E88A;
 
   --start-button-color: #FFF763;
@@ -14,6 +15,7 @@
 
   --favorite-button-color: #FF9C93;
   --favorite-button-hover: #FFC0BA;
+
   --wishlist-button-color: #34A1C7;
   --wishlist-button-hover: #58B0CF;
   --slider-bg-color: #EFEFEF;

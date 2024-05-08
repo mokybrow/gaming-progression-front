@@ -18,7 +18,6 @@ function Playlists() {
     const { content_store } = useContext(Context);
     const { auth_store } = useContext(Context);
 
-    const [page, setPage] = useState<number>(20)
     const [fetching, setFetching] = useState(false)
     const [active, setActive] = useState(false)
     const [toastText, setToastText] = useState<string>('')
@@ -30,17 +29,17 @@ function Playlists() {
                 content_store.setTotalPlaylistsCount(resp.headers['x-playlists-count'])
             })
         }
-        if (auth_store.isAuth){
-            content_store.getUserPlaylistsMe()
-        }
+
+        content_store.getUserPlaylistsMe()
+
     }, [content_store])
 
     useEffect(() => {
 
         if (fetching) {
             try {
-                content_store.getPlaylistsScroll(page).then(resp => {
-                    setPage(page + 20)
+                content_store.getPlaylistsScroll(content_store.playlistPage).then(resp => {
+                    content_store.setPlaylistPage(content_store.playlistPage + 20)
                     content_store.setTotalPlaylistsCount(resp.headers['x-playlists-count'])
                 }).finally(() => setFetching(false))
 
@@ -87,7 +86,8 @@ function Playlists() {
                 <div className={styles.playlists_grid}>
                     {content_store.pagePlaylists.map(item => (
                         <div key={item.Playlists.id}>
-                            <PlaylistCard id={item.Playlists.id}
+                            <PlaylistCard
+                                id={item.Playlists.id}
                                 owner_id={item.Playlists.owner_id}
                                 name={item.Playlists.name}
                                 about={item.Playlists.about}

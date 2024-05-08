@@ -19,6 +19,10 @@ import StarIcon from '@/components/icons/star';
 import CreateListIcon from '@/components/icons/createList';
 import AddGameToList from '@/components/cards/add_game_to_ist/AddGameToList';
 import ReactToast from '@/components/toast/Toast';
+import WishButton from '@/components/buttons/game_activities/wish/WishButton';
+import FavoriteButton from '@/components/buttons/game_activities/favorite/FavoriteButton';
+import FinishButton from '@/components/buttons/game_activities/finish/FinishButton';
+import StartButton from '@/components/buttons/game_activities/start/StartButton';
 
 
 function GamePage() {
@@ -51,10 +55,10 @@ function GamePage() {
     })
 
 
-    const findStatusStart = auth_store.user.user_activity?.find(product => product.game_data.id == content_store.gamePage.id && product.activity_data.code == 200000)
-    const findStatusWish = auth_store.user.user_activity?.find(product => product.game_data.id == content_store.gamePage.id && product.activity_data.code == 210000)
-    const findStatusComplete = auth_store.user.user_activity?.find(product => product.game_data.id == content_store.gamePage.id && product.activity_data.code == 220000)
-    const findStatusFavorite = auth_store.user.user_favorite?.find(product => product.game_data.id == content_store.gamePage.id)
+    const findStatusStart = auth_store.user.user_activity?.some(product => product.game_data.id == content_store.gamePage.id && product.activity_data.code == 200000)
+    const findStatusWish = auth_store.user.user_activity?.some(product => product.game_data.id == content_store.gamePage.id && product.activity_data.code == 210000)
+    const findStatusComplete = auth_store.user.user_activity?.some(product => product.game_data.id == content_store.gamePage.id && product.activity_data.code == 220000)
+    const findStatusFavorite = auth_store.user.user_favorite?.some(product => product.game_data.id == content_store.gamePage.id)
 
 
 
@@ -135,30 +139,22 @@ function GamePage() {
 
                         </div>
                         <div className={styles.active_button_wrapper}>
-                            <FunctionalGameButton type={'button'} bg_color={findStatusStart ? '#FFFAA3' : '#D6D6D6'} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('start') }} fontSize={18}>
-                                <div className={styles.button_data_wrapper}>
-                                    <div className={styles.rocket_logo}></div>
-                                    <span>Начал</span>
-                                </div>
-                            </FunctionalGameButton>
-                            <FunctionalGameButton type={'button'} bg_color={findStatusComplete ? '#97E88A' : '#D6D6D6'} fontSize={18} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('complete') }}>
-                                <div className={styles.button_data_wrapper}>
-                                    <div className={styles.finish_logo}></div>
-                                    <span>Прошёл</span>
-                                </div>
-                            </FunctionalGameButton>
-                            <FunctionalGameButton type={'button'} bg_color={findStatusFavorite ? '#FFC0BA' : '#D6D6D6'} fontSize={18} onClick={() => { !auth_store.isAuth ? setIsShow(true) : addGameToFavorite() }}>
-                                <div className={styles.button_data_wrapper}>
-                                    <div className={styles.heart_logo}></div>
-                                    <span>Любимая</span>
-                                </div>
-                            </FunctionalGameButton>
-                            <FunctionalGameButton type={'button'} bg_color={findStatusWish ? '#58B0CF' : '#D6D6D6'} fontSize={18} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('wish') }}>
-                                <div className={styles.button_data_wrapper}>
-                                    <div className={styles.bag_logo}></div>
-                                    <span>Отложил</span>
-                                </div>
-                            </FunctionalGameButton>
+                            <StartButton type={'button'} active={findStatusStart} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('start') }}>
+                                <div className={styles.rocket_logo}></div>
+                                <span>Начато</span>
+                            </StartButton>
+                            <FinishButton type={'button'} active={findStatusComplete} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('complete') }}>
+                                <div className={styles.finish_logo}></div>
+                                <span>Пройдено</span>
+                            </FinishButton>
+                            <FavoriteButton type={'button'} active={findStatusFavorite} onClick={() => { !auth_store.isAuth ? setIsShow(true) : addGameToFavorite() }}>
+                                <div className={styles.heart_logo}></div>
+                                <span>Любимая</span>
+                            </FavoriteButton>
+                            <WishButton type={'button'} onClick={() => { !auth_store.isAuth ? setIsShow(true) : changeGameStatus('wish'); }} active={findStatusWish}>
+                                <div className={styles.bag_logo}></div>
+                                <span>На потом</span>
+                            </WishButton>
 
                         </div>
 
@@ -185,30 +181,31 @@ function GamePage() {
 
             <div className="right_side_wrapper">
                 <div className={styles.information_card_wrapper}>
-                    <ServiceButtonLong type={'button'} onClick={() => { !auth_store.isAuth ? (setToastText('Авторизуйтесь, чтобы выполнить данное действие'), setActive(true)) : (setIsShowRating(true), content_store.rate != 0 ? (setHover(content_store.rate), setRating(content_store.rate)) : null) }}>
-                        <div className={styles.button_data_wrapper}>
-                            <div className={styles.icon_wrapper}>
-                                <StarIcon className='general-icon' />
+                    <div className={styles.buttons_wrapper}>
+                        <ServiceButtonLong type={'button'} onClick={() => { !auth_store.isAuth ? (setToastText('Авторизуйтесь, чтобы выполнить данное действие'), setActive(true)) : (setIsShowRating(true), content_store.rate != 0 ? (setHover(content_store.rate), setRating(content_store.rate)) : null) }}>
+                            <div className={styles.button_data_wrapper}>
+                                <div className={styles.icon_wrapper}>
+                                    <StarIcon className='general-icon' />
+                                </div>
+                                <span>Оценить игру</span>
                             </div>
-                            <span>Оценить игру</span>
-                        </div>
-                    </ServiceButtonLong>
-                    <ServiceButtonLong type={'button'} onClick={() => { !auth_store.isAuth ? (setToastText('Авторизуйтесь, чтобы выполнить данное действие'), setActive(true)) : setIsShow(true) }} >
-                        <div className={styles.button_data_wrapper}>
-                            <div className={styles.icon_wrapper}>
-                                <CreateListIcon className='general-icon-fill' />
+                        </ServiceButtonLong>
+                        <ServiceButtonLong type={'button'} onClick={() => { !auth_store.isAuth ? (setToastText('Авторизуйтесь, чтобы выполнить данное действие'), setActive(true)) : setIsShow(true) }} >
+                            <div className={styles.button_data_wrapper}>
+                                <div className={styles.icon_wrapper}>
+                                    <CreateListIcon className='general-icon-fill' />
+                                </div>
+                                <span>Добавить игру в список</span>
                             </div>
-                            <span>Добавить игру в список</span>
-                        </div>
-                    </ServiceButtonLong>
+                        </ServiceButtonLong>
+                    </div>
                     <div className={styles.other_information_grid}>
-
                         <div className={styles.other_info_card}>
                             <h3>Жанр</h3>
                             <div className={styles.information_text}>
                                 {content_store.gamePage.genres?.map((genre, index) =>
                                     <span key={genre.genre.id}>
-                                        {genre.genre.name + ((content_store.gamePage?.genres?.length > 0 && index !== content_store.gamePage?.genres?.length - 1) ? ', ' : '')}
+                                        {genre.genre.name_ru + ((content_store.gamePage?.genres?.length > 0 && index !== content_store.gamePage?.genres?.length - 1) ? ', ' : '')}
                                     </span>
                                 )}
                             </div>
@@ -225,17 +222,16 @@ function GamePage() {
                         </div>
                     </div>
                     <div className={styles.stats_info_card}>
-                        <h3>Статистика</h3>
-                        <div>
+                        <div className={styles.stat_wrapper}>
                             <span>Начали</span> <span>{content_store.gamePage.start_count != null ? content_store.gamePage.start_count : 0}</span>
                         </div>
-                        <div>
+                        <div className={styles.stat_wrapper}>
                             <span>Прошли</span> <span>{content_store.gamePage.completed_count != null ? content_store.gamePage.completed_count : 0}</span>
                         </div>
-                        <div>
+                        <div className={styles.stat_wrapper}>
                             <span>Понравилась</span> <span>{content_store.gamePage.favorite_count != null ? content_store.gamePage.favorite_count : 0}</span>
                         </div>
-                        <div>
+                        <div className={styles.stat_wrapper}>
                             <span>Отложили</span> <span>{content_store.gamePage.wishlist_count != null ? content_store.gamePage.wishlist_count : 0}</span>
                         </div>
                     </div>

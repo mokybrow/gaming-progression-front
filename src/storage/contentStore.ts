@@ -32,7 +32,10 @@ export default class ContentStore {
     // Пользовательская стена 
     userWall = [] as WallResponseModel[];
     myWall = [] as WallResponseModel[];
-
+    myPage = 10
+    userPage = 10
+    feedPage = 10
+    playlistPage = 20
 
     // Страница игры
     gamePage = {} as GamePageResponse;
@@ -104,6 +107,19 @@ export default class ContentStore {
     }
     setTotalPlaylistsCount(count: number) {
         this.totalPlaylistsCount = count;
+    }
+    //Счётчик страниц для ленты
+    setMyPage(count: number) {
+        this.myPage = count;
+    }
+    setUserPage(count: number) {
+        this.userPage = count;
+    }
+    setFeedPage(count: number) {
+        this.feedPage = count;
+    }
+    setPlaylistPage(count: number) {
+        this.feedPage = count;
     }
     // Game
     setGamePage(games: GamePageResponse) {
@@ -310,6 +326,7 @@ export default class ContentStore {
 
     async getUserWall(username: string, page: number, authUsername: string | null, userId: string | null) {
         try {
+            console.log(username, page, authUsername, userId)
             if (authUsername === username && authUsername !== null) {
                 const wall = await ContentService.getUserWall(username, userId, page)
                 this.setMyWall(wall.data)
@@ -322,7 +339,7 @@ export default class ContentStore {
                 this.setTotalPostCount(wall.headers['x-post-count'])
                 return wall
             } else {
-           
+
                 const wall = await ContentService.getUserWall(username, null, page)
                 this.setUserWall(wall.data)
                 this.setTotalPostCount(wall.headers['x-post-count'])
@@ -343,7 +360,7 @@ export default class ContentStore {
                 this.setTotalPostCountMe(wall.headers['x-post-count'])
                 return wall
             }
-            else if (authUsername !== null && userId !== null  && userId !== undefined && authUsername !== undefined) {
+            else if (authUsername !== null && userId !== null && userId !== undefined && authUsername !== undefined) {
                 const wall = await ContentService.getUserWall(username, userId, page)
                 this.setUserWall([...this.userWall, ...wall.data])
                 this.setTotalPostCount(wall.headers['x-post-count'])
@@ -356,7 +373,7 @@ export default class ContentStore {
                 return wall
             }
         } catch (error) {
-      
+
         }
     }
 
@@ -497,12 +514,33 @@ export default class ContentStore {
             this.pagePlaylists.forEach(function (item) {
                 if (item.addedPlaylist === 1 && item.Playlists.id === listId) {
                     item.addedPlaylist = 0
-
+                    return
                 }
-                else {
+                if (item.addedPlaylist === 0 && item.Playlists.id === listId) {
                     item.addedPlaylist = 1
                 }
             })
+            if (this.myPlaylists.some(item => item.id == listId)) {
+                const index = this.myPlaylists.findIndex(n => n.id === listId && this.playlistData.id === listId)
+                if (index !== -1) {
+                    this.myPlaylists.splice(index, 1);
+                }
+            }
+            else {
+                this.myPlaylists.push(
+                    {
+                        id: this.playlistData.id,
+                        owner_id: this.playlistData.owner_id,
+                        name: this.playlistData.name,
+                        about: this.playlistData.about,
+                        created_at: this.playlistData.created_at,
+                        owner_data: this.playlistData.owner_data,
+                        list_games: this.playlistData.list_games
+                    }
+                )
+            }
+
+
         } catch (error) {
 
         }

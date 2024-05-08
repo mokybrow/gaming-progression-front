@@ -27,6 +27,7 @@ export default class GamesStore {
         "type": "asc"
     }
 
+    page = 20
 
 
     constructor() {
@@ -58,7 +59,9 @@ export default class GamesStore {
         this.rate = rate;
     }
 
-
+    setPage(count: number) {
+        this.page = count;
+    }
     setGamePage(games: GamePageResponse) {
         this.gamePage = games;
     }

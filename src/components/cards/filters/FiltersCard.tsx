@@ -206,10 +206,12 @@ function FiltersCard({ setIsShow }: ModalProps) {
         }
     }
     const SubmitFilter = () => {
+        games_store.setPage(20)
         games_store.filterGames(games_store.genres, games_store.platforms, games_store.ageRating, games_store.releaseDate, 0, games_store.sort)
     }
 
     const ClearFilter = () => {
+        games_store.setPage(20)
         games_store.setGenre([])
         games_store.setPlatform([])
         games_store.setRelease([])

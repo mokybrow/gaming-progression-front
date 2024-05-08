@@ -121,6 +121,7 @@
 
 .block_header {
     font-weight: 600;
+    -webkit-font-smoothing: auto;
 }
 
 .people_wrapper {

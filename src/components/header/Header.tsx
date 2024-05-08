@@ -132,9 +132,15 @@ export function Header() {
                                     <span className={styles.icon_wrapper}>
                                         <UserIcon className='general-icon' />
                                     </span>
-                                    <span>
-                                        {auth_store.user.full_name}
-                                    </span>
+                                    {auth_store.user.full_name ?
+                                        <span>
+                                            {auth_store.user.full_name}
+                                        </span>
+                                        :
+                                        <span>
+                                            {auth_store.user.username}
+                                        </span>
+                                    }
                                 </a>
                                 <a href={'/settings'} onClick={() => setIsShow(!isShow)}>
                                     <span className={styles.icon_wrapper}>

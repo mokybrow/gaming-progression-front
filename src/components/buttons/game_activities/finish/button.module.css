@@ -1,0 +1,47 @@
+.active_button,
+.inactive_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: none;
+    font-weight: 500;
+    font-size: 18px;
+    padding: 6px;
+    cursor: pointer;
+    transition: all .2s linear;
+    gap: 6px;
+}
+
+.active_button {
+
+    border-radius: var(--border-radius-main);
+    background-color: var(--complete-button-color);
+    color: var(--ligth-button-font-color);
+    font-family: var(--font-motserrat);
+}
+
+.inactive_button {
+
+    border-radius: var(--border-radius-main);
+    background-color: var(--service-button-color);
+    color: var(--font-color);
+    font-family: var(--font-motserrat);
+
+}
+
+.active_button:hover,
+.inactive_button:hover {
+    background-color: var(--complete-button-hover);
+    color: var(--dark-button-font-color);
+
+}
+
+@media (max-width: 550px) {
+
+    .active_button span,
+    .inactive_button span {
+        display: none;
+    }
+
+}

@@ -7,13 +7,11 @@ import GameCard from "@/components/cards/game_card/GameCard";
 import React from "react";
 import FiltersCard from "@/components/cards/filters/FiltersCard";
 import { observer } from "mobx-react-lite";
-import { ProfilePopup } from "@/components/popup/profile/ProfilePopup";
 import useOutside from "@/hooks/useOutside";
 
 import { FullScreenPopup } from "@/components/popup/main_popup/FullScreenPopup";
 import CircleLoader from "@/components/loader/circle";
 import FilterIcon from "@/components/icons/filter";
-import SortIcon from "@/components/icons/sort";
 import SortButton from "@/components/buttons/sort/SortButton";
 import { GamesResponse } from "@/models/gamesModel";
 
@@ -66,8 +64,8 @@ function Games() {
     useEffect(() => {
         if (fetching) {
             try {
-                games_store.getAllGamesScroll(games_store.genres, games_store.platforms, null, games_store.releaseDate, page, games_store.sort).then(resp => {
-                    setPage(page + 20)
+                games_store.getAllGamesScroll(games_store.genres, games_store.platforms, null, games_store.releaseDate, games_store.page, games_store.sort).then(resp => {
+                    games_store.setPage(games_store.page + 20)
                 }).finally(() => setFetching(false))
             } catch (error) {
 
@@ -104,7 +102,7 @@ function Games() {
             <main className="main_content_wrapper">
                 <div className={styles.sort_wrapper} >
                     <div className={styles.sort_button_wrapper} >
-                        <SortButton onClick={() => setPage(0)} />
+                        <SortButton onClick={() => games_store.setPage(20)} />
                         {games_store.gamesCount > 0 ?
                             <div className={styles.finded_games}>Найдено игр {games_store.gamesCount}</div>
                             :
@@ -183,7 +181,7 @@ function Games() {
                 </div>
                 <div className={styles.sort_wrapper_mobile} >
                     <div className={styles.sort_button_wrapper} >
-                        <SortButton onClick={() => setPage(0)} />
+                        <SortButton onClick={() => games_store.setPage(20)} />
                         {games_store.gamesCount > 0 ?
                             <div className={styles.finded_games}>Найдено игр {games_store.gamesCount}</div>
                             :

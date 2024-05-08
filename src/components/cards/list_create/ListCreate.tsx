@@ -66,7 +66,10 @@ function ListCreateCard({ setIsShow, setToastText, setActive }: ModalProps) {
     return (
         <div className={styles.card_wrapper}>
             <div className={styles.card_header}>
-
+                <div>
+                    {content_store.myPlaylists.length}/15
+                    Списков
+                </div>
                 <div className={styles.exit_button} >
                     <div onClick={() => (setIsShow(false), setListName(''), setListDescription(''), setError(''))} className={styles.cross_icon}>
                         <CrossIcon className='general-icon' />
@@ -102,7 +105,7 @@ function ListCreateCard({ setIsShow, setToastText, setActive }: ModalProps) {
                     </div>
                     : null
                 }
-                <LoginButton type={'button'} onClick={() => createPlaylist()}>
+                <LoginButton type={'button'} onClick={() => createPlaylist()} disabled={content_store.myPlaylists.length === 15 ? true : false}>
                     Создать
                 </LoginButton>
             </div>

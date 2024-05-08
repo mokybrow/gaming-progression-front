@@ -11,8 +11,6 @@ function Feed() {
     const { content_store } = useContext(Context);
     const { auth_store } = useContext(Context);
 
-
-    const [page, setPage] = useState<number>(10)
     const [fetching, setFetching] = useState(false)
     const [isShowRepost, setIsShowRepost] = useState(false);
     const [isShowPost, setIsShowPost] = useState(false);
@@ -34,8 +32,8 @@ function Feed() {
         if (fetching) {
             try {
                 if (auth_store.isAuth) {
-                    content_store.getUserFeedSCroll(page).then(resp => {
-                        setPage(page + 10)
+                    content_store.getUserFeedSCroll(content_store.feedPage).then(resp => {
+                        content_store.setFeedPage(content_store.feedPage + 10)
                         content_store.setTotalPostCount(resp.headers['x-post-count'])
                     }).finally(() => setFetching(false))
                 }

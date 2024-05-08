@@ -13,6 +13,8 @@ import ContentStore from "@/storage/contentStore";
 import { formatDate } from "@/services/dateFormat";
 import Link from "next/link";
 import AuthStore from "@/storage/authStore";
+import ListAddIcon from "@/components/icons/listAdd";
+import ReactToast from "@/components/toast/Toast";
 
 
 const columnGenerator = (start: number, every: number, games: ListGame[], content_store: ContentStore, auth_store: AuthStore) => {
@@ -25,7 +27,7 @@ const columnGenerator = (start: number, every: number, games: ListGame[], conten
         <GameCard title={game.game_data.title} cover={game.game_data.cover}
           release_date={game.game_data.release_date} avg_rate={null}
           platforms={[]} genres={[]} slug={game.game_data.slug} />
-        {auth_store.isAuth && content_store.playlistData.owner_id === auth_store.user.id ? 
+        {auth_store.isAuth && content_store.playlistData.owner_id === auth_store.user.id ?
           <ServiceButtonLong type={'button'} onClick={() => content_store.removeGameFormPlaylist(content_store.playlistData.id, game.game_data.id)} >
             <div className={styles.button_data_wrapper}>
               <div className={styles.icon_wrapper}>
@@ -47,25 +49,39 @@ const columnGenerator = (start: number, every: number, games: ListGame[], conten
 
 function PlaylistPage() {
 
-  const [page, setPage] = useState<number>(20)
-  const [fetching, setFetching] = useState(false)
-  const [active, setActive] = useState(false)
-  const [toastText, setToastText] = useState<string>('')
-  const [isShow, setIsShow] = useState(false);
-
   const pathname = usePathname()
   const listId = pathname.substring(pathname.lastIndexOf('/') + 1)
 
+  const [active, setActive] = useState(false)
+  const [toastText, setToastText] = useState<string>('')
 
   const { content_store } = useContext(Context);
   const { auth_store } = useContext(Context);
 
   useEffect(() => {
     content_store.getPlaylistData(listId)
+    try {
+      content_store.getUserPlaylistsMe()
+    } catch (error) {
+
+    }
 
   }, [content_store])
 
-
+  function AddPlaylistHandler(id: string) {
+    console.log(id)
+    if (!auth_store.isAuth) {
+      setToastText('Авторизуйтесь, чтобы выполнить данное действие')
+      setActive(true)
+    }
+    else if (content_store.playlistData.owner_id === auth_store.user.id) {
+      setToastText('Вы не можете удалить свой плейлист из коллекции')
+      setActive(true)
+    }
+    else {
+      content_store.addPlaylistToCollection(id)
+    }
+  }
   return (
     <>
       <main className="main_content_wrapper">
@@ -118,8 +134,35 @@ function PlaylistPage() {
           <div className={styles.playlist_data_card_wrapper}>
             <div className={styles.block_header}>Всего игр </div> <div>{content_store.playlistData.list_games?.length}</div>
           </div>
+          {content_store.playlistData.owner_id !== auth_store.user.id ?
+            <>
+              {content_store.myPlaylists.some(item => item.id == content_store.playlistData.id) ?
+                <ServiceButtonLong type={'button'} onClick={() => AddPlaylistHandler(content_store.playlistData.id)} >
+                  <div className={styles.button_data_wrapper}>
+                    <div className={styles.icon_wrapper}>
+                      <ListRemoveIcon className='general-icon-fill' />
+                    </div>
+                    <div>
+                      Удалить список из коллекции
+                    </div>
+                  </div>
+                </ServiceButtonLong>
+                :
+                <ServiceButtonLong type={'button'} onClick={() => AddPlaylistHandler(content_store.playlistData.id)} disabled={content_store.playlistData.owner_id === auth_store.user.id}>
+                  <div className={styles.button_data_wrapper}>
+                    <div className={styles.icon_wrapper}>
+                      <ListAddIcon className='general-icon-fill' />
+                    </div>
+                    <div>
+                      Добавить список в коллекцию
+                    </div>
+                  </div>
+                </ServiceButtonLong>}
+            </> : null}
         </div>
       </div >
+      <ReactToast timeout={5000} active={active} setActive={setActive} toastText={toastText} setToastText={setToastText} />
+
     </>
   );
 }

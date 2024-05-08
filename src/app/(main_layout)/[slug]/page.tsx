@@ -26,7 +26,6 @@ function UserProfile() {
   const [isShowRepost, setIsShowRepost] = useState(false);
   const [isShowPost, setIsShowPost] = useState(false);
 
-  const [page, setPage] = useState<number>(10)
   const [fetching, setFetching] = useState(false)
 
   let tabs = [
@@ -56,19 +55,29 @@ function UserProfile() {
   // }, [auth_store, content_store])
 
   useEffect(() => {
-
     if (fetching && activeTab == 'posts') {
       try {
-        content_store.getUserWallScroll(username, page, auth_store.user.username, auth_store.user.id).then(resp => {
-          setPage(page + 10)
+        if (auth_store.user.username === username) {
+          content_store.getUserWallScroll(username, content_store.myPage, auth_store.user.username, auth_store.user.id).then(resp => {
+            content_store.setMyPage(content_store.myPage + 10)
 
-        }).finally(() => setFetching(false))
+          }).finally(() => setFetching(false))
+        }
+        if (auth_store.user.username !== username) {
+          content_store.getUserWallScroll(username, content_store.userPage, auth_store.user.username, auth_store.user.id).then(resp => {
+            content_store.setUserPage(content_store.userPage + 10)
+
+          }).finally(() => setFetching(false))
+        }
 
       } catch (error) {
 
       }
     }
 
+  }, [fetching, auth_store, content_store, user_store, username])
+
+  useEffect(() => {
 
     if (!fetching) {
       AuthService.getProfile().then(function (response) {
@@ -88,6 +97,7 @@ function UserProfile() {
           finally {
             if (user_store.user.username !== username) {
               content_store.getUserWall(username, 0, response.data.username, response.data.id)
+              content_store.setUserPage(10)
             }
             if (user_store.user.username === username) {
               if (content_store.userWall.length < 10) {
@@ -115,10 +125,7 @@ function UserProfile() {
 
     }
 
-
-
-  }, [fetching, auth_store, content_store, user_store, username])
-
+  }, [])
 
   useEffect(() => {
     document.addEventListener('scroll', scrollHandler)
@@ -148,39 +155,36 @@ function UserProfile() {
       <main className="main_content_wrapper">
         {
           auth_store.user.username === username ?
-            <>
-              {
-                auth_store.isLoading ? null :
-                  <UserProfileCard
-                    username={auth_store.user.username}
-                    fullName={auth_store.user.full_name}
-                    biorgaphy={auth_store.user.biography}
-                    createdAt={auth_store.user.created_at}
-                    activity={auth_store.user.user_activity}
-                    favorite={auth_store.user.user_favorite}
-                    followersCount={auth_store.user.followers?.length}
-                    subscriptionsCount={auth_store.user.subscriptions?.length}
-                    isOwner={auth_store.user.username === username} />
-              }
-            </>
+
+
+            <UserProfileCard
+              username={auth_store.user.username}
+              fullName={auth_store.user.full_name}
+              biorgaphy={auth_store.user.biography}
+              createdAt={auth_store.user.created_at}
+              activity={auth_store.user.user_activity}
+              favorite={auth_store.user.user_favorite}
+              followersCount={auth_store.user.followers?.length}
+              subscriptionsCount={auth_store.user.subscriptions?.length}
+              isOwner={auth_store.user.username === username} />
+
+
             :
 
-            <>
-              {
-                user_store.isLoading ? null :
-                  <UserProfileCard
-                    username={user_store.user.username}
-                    fullName={user_store.user.full_name}
-                    biorgaphy={user_store.user.biography}
-                    createdAt={user_store.user.created_at}
-                    activity={user_store.user.user_activity}
-                    favorite={user_store.user.user_favorite}
-                    followersCount={user_store.user.followers?.length}
-                    subscriptionsCount={user_store.user.subscriptions?.length}
-                    isOwner={auth_store.user.username === username}
-                    isFollow={auth_store.user?.subscriptions?.find((obj) => obj.sub_data.username == username) ? true : false} />
-              }
-            </>}
+
+            <UserProfileCard
+              username={user_store.user.username}
+              fullName={user_store.user.full_name}
+              biorgaphy={user_store.user.biography}
+              createdAt={user_store.user.created_at}
+              activity={user_store.user.user_activity}
+              favorite={user_store.user.user_favorite}
+              followersCount={user_store.user.followers?.length}
+              subscriptionsCount={user_store.user.subscriptions?.length}
+              isOwner={auth_store.user.username === username}
+              isFollow={auth_store.user?.subscriptions?.find((obj) => obj.sub_data.username == username) ? true : false} />
+        }
+
 
         <div className={styles.user_social_data_mobile}>
           {auth_store.user.username === username ?

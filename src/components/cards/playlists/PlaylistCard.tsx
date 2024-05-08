@@ -31,7 +31,6 @@ function PlaylistCard({ id, owner_id, name, about, owner_data, list_games,
     const { auth_store } = useContext(Context);
     const { content_store } = useContext(Context);
 
-
     function AddPlaylistHandler(id: string) {
         if (!auth_store.isAuth) {
             setToastText('Авторизуйтесь, чтобы выполнить данное действие')
@@ -42,7 +41,6 @@ function PlaylistCard({ id, owner_id, name, about, owner_data, list_games,
             setActive(true)
         }
         else {
-
             content_store.addPlaylistToCollection(id)
         }
     }
@@ -79,30 +77,33 @@ function PlaylistCard({ id, owner_id, name, about, owner_data, list_games,
                     <span>{name}</span>
                 </div>
             </Link>
-            <div className={styles.add_playlist_wrapper}>
-                {addedPlaylist === 1 ?
-                    <ServiceButtonLong type={'button'} onClick={() => AddPlaylistHandler(id)} >
-                        <div className={styles.button_data_wrapper}>
-                            <div className={styles.icon_wrapper}>
-                                <ListRemoveIcon className='general-icon-fill' />
+            {owner_id !== auth_store.user.id ?
+                <div className={styles.add_playlist_wrapper}>
+
+                    {addedPlaylist === 1 ?
+                        <ServiceButtonLong type={'button'} onClick={() => AddPlaylistHandler(id)} >
+                            <div className={styles.button_data_wrapper}>
+                                <div className={styles.icon_wrapper}>
+                                    <ListRemoveIcon className='general-icon-fill' />
+                                </div>
+                                <div>
+                                    Удалить список из коллекции
+                                </div>
                             </div>
-                            <div>
-                                Удалить список из коллекции
+                        </ServiceButtonLong>
+                        :
+                        <ServiceButtonLong type={'button'} onClick={() => AddPlaylistHandler(id)} disabled={owner_data.id === auth_store.user.id}>
+                            <div className={styles.button_data_wrapper}>
+                                <div className={styles.icon_wrapper}>
+                                    <ListAddIcon className='general-icon-fill' />
+                                </div>
+                                <div>
+                                    Добавить список в коллекцию
+                                </div>
                             </div>
-                        </div>
-                    </ServiceButtonLong>
-                    :
-                    <ServiceButtonLong type={'button'} onClick={() => AddPlaylistHandler(id)} disabled={owner_data.id === auth_store.user.id}>
-                        <div className={styles.button_data_wrapper}>
-                            <div className={styles.icon_wrapper}>
-                                <ListAddIcon className='general-icon-fill' />
-                            </div>
-                            <div>
-                                Добавить список в коллекцию
-                            </div>
-                        </div>
-                    </ServiceButtonLong>}
-            </div>
+                        </ServiceButtonLong>}
+
+                </div> : null}
         </div>
     )
 

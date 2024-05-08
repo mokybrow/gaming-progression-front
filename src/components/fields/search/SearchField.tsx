@@ -86,7 +86,7 @@ const SearchField = forwardRef<HTMLInputElement, TypeInputProps>(
                                                     <img src={game.cover} alt={'game cover'} />
                                                 </div>
 
-                                                <Link href={`/games/${game.slug}`} onClick={() => setIsShow(false)}>
+                                                <Link href={`/games/${game.slug}`} onClick={() => (setIsShow(false), setSearchQuery(''))}>
                                                     {game.title}
                                                 </Link>
                                             </div>
