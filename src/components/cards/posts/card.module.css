@@ -8,7 +8,7 @@
     border-radius: var(--border-radius-main);
     gap: 12px;
     width: 100%;
-    
+
     transition: background-color 0.2s linear;
 }
 
@@ -119,6 +119,11 @@
     cursor: pointer;
 }
 
+.show_more_button {
+    color: var(--link-color);
+    margin-top: 10px;
+    cursor: pointer;
+}
 
 @media (max-width: 450px) {
     .one_card_wrapper {

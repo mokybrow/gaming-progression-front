@@ -5,13 +5,16 @@ import { usePathname } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import styles from './page.module.css'
 import Link from "next/link";
-import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 
 import { observer } from "mobx-react-lite";
 import InputField from "@/components/fields/input/InputField";
 import ArrowLeftIcon from "@/components/icons/arrowLeft";
 import ReactToast from "@/components/toast/Toast";
 import CrossIcon from "@/components/icons/cross";
+import ServiceButtonLong from "@/components/buttons/servicelong/ServiceButtonLong";
+import AuthService from "@/services/authService";
+import { AxiosError } from "axios";
+import { ErrorModel } from "@/models/serviceModel";
 
 
 function SettingsSecurity() {
@@ -22,16 +25,25 @@ function SettingsSecurity() {
     const [toastText, setToastText] = useState<string>('')
 
     const changeEmailRequest = async () => {
-        const response = await auth_store.changeEmailRequest(newEmail)
-        if (response) {
-            setToastText(`Вам направлена инструкция на почту ${auth_store.user.email}!`)
-            setActive(true)
-        }
-        else {
-            setToastText('Вы уже используете данную почту!')
-            setActive(true)
 
-        }
+        AuthService.changeEmailRequest(newEmail).then(function (resp) {
+            if (resp.status === 200) {
+                setToastText(`Вам направлена инструкция на почту ${auth_store.user.email}!`)
+                setActive(true)
+            }
+        }).catch(function (err: AxiosError<ErrorModel>) {
+            
+            if (err.response?.data.detail === 'This email are same') {
+                setToastText(`Вы уже пользуетесь данной почтой`)
+                setActive(true)
+            }
+            if (err.response?.data.detail === 'User with this email already exist') {
+                setToastText(`Пользователь с такой почтой уже существует`)
+                setActive(true)
+            }
+        })
+
+
     }
 
     const changePassNotify = async () => {
@@ -64,12 +76,12 @@ function SettingsSecurity() {
                         </div>
                         <div className={emailOpen ? styles.item_open : styles.item_close}>
                             <div className={styles.field_wrapper}>
-                                <InputField placeholder={'Начните вводить'}
+                                <InputField
                                     value={newEmail}
                                     type={'text'} id={'email'} height={44} labelname={'Почта'}
                                     onChange={(e) => setNewEmail(e.target.value)} required />
                                 <div className={styles.x_icon} onClick={() => (setEmailOpen(false), setNewEmail(''))}>
-                                    <CrossIcon className="general-icon"/>
+                                    <CrossIcon className="general-icon" />
                                 </div>
                             </div>
                             {newEmail !== "" && newEmail.replace(/\s+/g, ' ').trim() !== "" && newEmail.match(
@@ -77,10 +89,10 @@ function SettingsSecurity() {
                             ) ? <>
                                 <div className={styles.send_button_wrapper}>
 
-                                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
+                                    <ServiceButtonLong type={'button'}
                                         onClick={() => (setNewEmail(''), changeEmailRequest(), setEmailOpen(false))}>
                                         Обновить
-                                    </FunctionalGameButton>
+                                    </ServiceButtonLong>
                                 </div>
                             </>
                                 : null}

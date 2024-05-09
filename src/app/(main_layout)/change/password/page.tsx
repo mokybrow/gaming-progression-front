@@ -61,15 +61,15 @@ function ChangePassword() {
 
     return (
         <>
-            <main className="content_wrapper">
+            <main className="main_content_wrapper" >
                 <div className={styles.page_main}>
 
 
                     <div className={styles.form_wrapper}>
-                        <InputField placeholder={'Начните вводить'}
+                        <InputField 
                             type={fieldType} id={'password'} labelname={'Пароль'}
                             autoComplete="password" onChange={(e) => handleInput(e)} value={password} />
-                        <InputField placeholder={'Начните вводить'}
+                        <InputField 
                             type={fieldType} id={'confirmPassword'} labelname={'Подтверждение пароля'}
                             autoComplete="confirmPassword" onChange={(e) => handleInputConfirm(e)} value={confirm} />
                         <div className={styles.danger}>

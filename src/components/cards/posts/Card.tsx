@@ -21,6 +21,7 @@ import { formatDate } from '@/services/dateFormat';
 import UserIcon from '@/components/icons/user';
 import ReportButton from '@/components/buttons/report/ReportButton';
 import ReactToast from '@/components/toast/Toast';
+import PostCard from './PostCard';
 
 
 
@@ -38,6 +39,7 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
     const [active, setActive] = useState(false)
     const [toastText, setToastText] = useState<string>('')
 
+    const [showMoreText, setShowMoreText] = useState<boolean>(false)
     const getPostCommentsHandler = (postId: string) => {
         setIsShowPost(true)
         content_store.getPostData(postId)
@@ -64,87 +66,7 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
             <div>
 
                 {postData.map(post => (
-                    <div key={post.Posts.id} className={styles.card_wrapper}>
-                        <div className={styles.post_header}>
-                            <div className={styles.post_data_wrapper}>
-                                <div className={styles.post_author_image}>
-                                    <div className={styles.icon_wrapper}>
-                                        <UserIcon className='general-icon' />
-                                    </div>
-                                </div>
-                                <div className={styles.user_data_wrapper}>
-                                    <Link className={styles.author_name} href={`/${post.Posts.author_data.username}`}>
-                                        {post.Posts.author_data.full_name ?
-                                            post.Posts.author_data.full_name : post.Posts.author_data.username}
-                                    </Link>
-                                    <div className={styles.post_time_wrapper} onClick={() => getPostCommentsHandler(post.Posts.id)}>
-
-                                        {formatDate(post.Posts.created_at)}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.service_wrapper}>
-                                {auth_store.user.id !== post.Posts.author_data.id ?
-                                    <ReportButton contentId={post.Posts.id} contentType={'posts'} setToastText={setToastText} setActive={setActive} />
-                                    : null}
-                            </div>
-                        </div>
-                        <div>
-                            <div className={styles.markdown_text}>
-                                <ReactMarkdown>
-                                    {post.Posts.text}
-                                </ReactMarkdown>
-                            </div>
-
-                        </div>
-                        {post.Posts.parent_post_data != null ?
-                            <ul className={styles.tree}>
-                                <span className={styles.tree_label}>
-                                    <div className={styles.post_header}>
-                                        <div className={styles.post_data_wrapper}>
-                                            <div className={styles.post_author_image}>
-                                                <div className={styles.icon_wrapper}>
-                                                    <UserIcon className='general-icon' />
-                                                </div>
-                                            </div>
-                                            <div className={styles.user_data_wrapper}>
-                                                <Link className={styles.author_name} href={`/${post.Posts.parent_post_data.author_data.username}`}>
-                                                    {post.Posts.parent_post_data.author_data.full_name ?
-                                                        post.Posts.parent_post_data.author_data.full_name : post.Posts.author_data.username}
-                                                </Link>
-                                                <div className={styles.post_time_wrapper} onClick={() => getPostCommentsHandler(String(post.Posts.parent_post_id))}>
-
-                                                    {formatDate(post.Posts.created_at)}
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className={styles.service_wrapper}>
-
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className={styles.markdown_text}>
-                                            <ReactMarkdown>
-                                                {post.Posts.parent_post_data.text}
-                                            </ReactMarkdown>
-                                        </div>
-
-                                    </div>
-
-                                </span>
-                            </ul>
-                            :
-                            null
-                        }
-                        <SocialButtonCard
-                            postId={post.Posts.id}
-                            likeCount={post.Posts.likes_count}
-                            commentCount={post.Posts.comments_count}
-                            hasAuthorLike={post.hasAuthorLike}
-                            setIsShowRepost={setIsShowRepost} />
-
-                    </div>
+                    <PostCard post={post} setIsShowRepost={setIsShowRepost} setIsShowPost={setIsShowPost}/>
                 ))}
 
             </div>

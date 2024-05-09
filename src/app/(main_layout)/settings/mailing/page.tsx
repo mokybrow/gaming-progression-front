@@ -4,7 +4,6 @@ import { Context } from "@/app/providers";
 import { useContext, useEffect } from "react";
 import styles from './page.module.css'
 import Link from "next/link";
-import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 
 
 import { observer } from "mobx-react-lite";

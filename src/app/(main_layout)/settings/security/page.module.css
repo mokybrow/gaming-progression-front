@@ -41,13 +41,14 @@
     height: 28px;
     justify-content: center;
     align-items: center;
-
+    cursor: pointer;
 }
 
 
 .x_icon {
     width: 18px;
     height: 18px;
+    cursor: pointer;
 
 }
 

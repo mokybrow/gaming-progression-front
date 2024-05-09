@@ -76,6 +76,13 @@ export default class AuthService {
 
         })
     }
+    static async changeEmail(token: string): Promise<AxiosResponse> {
+        const url = process.env.API_URL
+        return axios.post(url + `auth/change/email`, {
+            "token": token,
+        })
+    }
+
 
     static async changePasswordRequest(): Promise<AxiosResponse> {
         const url = process.env.API_URL

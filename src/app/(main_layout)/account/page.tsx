@@ -35,7 +35,7 @@ function Games() {
             <FullScreenPopup active={isAuthShow} setActive={setIsAuthShow}>
                 <AuthCard setIsShow={setIsAuthShow}/>
             </FullScreenPopup>
-            <main className="content_wrapper">
+            <main className="main_content_wrapper" >
                 <div className={styles.menu_items}>
                     {auth_store.isAuth ?
                         <Link href={'/' + auth_store.user.username} className={styles.username_item}>

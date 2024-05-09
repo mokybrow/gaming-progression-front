@@ -4,13 +4,13 @@ import { Context } from "@/app/providers";
 import { useContext, useEffect, useState } from "react";
 import styles from './page.module.css'
 import Link from "next/link";
-import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 
 import { observer } from "mobx-react-lite";
 import SettingsField from "@/components/fields/settings/SettingsField";
 import { formatDate } from "@/services/dateFormat";
 import ArrowLeftIcon from "@/components/icons/arrowLeft";
 import Calendar from "@/components/calendar/Calendar";
+import ServiceButtonLong from "@/components/buttons/servicelong/ServiceButtonLong";
 
 function SettingsMe() {
     const { auth_store } = useContext(Context);
@@ -45,10 +45,10 @@ function SettingsMe() {
                                     <div>
                                         <small>{fullName.length}/25</small>
                                     </div>
-                                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
+                                    <ServiceButtonLong type={'button'}
                                         onClick={() => (auth_store.patchMe(fullName, null, null), setFullName(''))}>
                                         Обновить
-                                    </FunctionalGameButton>
+                                    </ServiceButtonLong>
 
                                 </div>
                             </> : null}
@@ -65,10 +65,10 @@ function SettingsMe() {
                                     <div>
                                         <small>{biography.length}/50</small>
                                     </div>
-                                    <FunctionalGameButton type={'button'} bg_color={'#D6D6D6'} fontSize={12}
+                                    <ServiceButtonLong type={'button'} 
                                         onClick={() => (auth_store.patchMe(null, biography, null))}>
                                         Обновить
-                                    </FunctionalGameButton>
+                                    </ServiceButtonLong>
                                 </div>
                             </> : null}
                         </div>

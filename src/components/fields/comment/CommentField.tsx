@@ -11,7 +11,6 @@ import useDebounce from "@/hooks/useDebounce";
 import useOutside from "@/hooks/useOutside";
 import React from "react";
 import { MentionPopup } from "@/components/popup/mention/MentionPopUp";
-import { FunctionalGameButton } from "@/components/buttons/FunctionalGameButton";
 import { MentionButton } from "@/components/buttons/mention/MentionButton";
 import CrossIcon from "@/components/icons/cross";
 import SendIcon from "@/components/icons/send";
@@ -253,7 +252,11 @@ function CommentField({ contentID, parentCommentId, setShowComment, uniqueId }: 
       toggleByDistance(range2, 'user');
     }
   }
-
+  function cleanText(e: any) {
+    e.preventDefault()
+    var text = e.clipboardData.getData('text/plain')
+    document.execCommand('insertText', false, text)
+  }
   return (
 
     <div className={styles.comment_field_wrapper}
@@ -261,7 +264,8 @@ function CommentField({ contentID, parentCommentId, setShowComment, uniqueId }: 
       <div id={uniqueId} contentEditable className={styles.input}
         data-placeholder="Введите текст..."
         onClick={() => toggleByDistance(getCurrentRange())}
-        onKeyUp={(e) => onKeyUp(e)}>
+        onKeyUp={(e) => onKeyUp(e)}
+        onPaste={(e)=>cleanText(e)}>
 
       </div>
 

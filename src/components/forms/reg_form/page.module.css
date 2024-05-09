@@ -25,6 +25,30 @@
     gap: 6px;
 }
 
+.field_wrapper {
+    display: flex;
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.char_count_wrapper {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    height: 100%;
+    right: 10px;
+    z-index: 5;
+}
+
+.icon_wrapper {
+    height: 22px;
+    width: 22px;
+    cursor: pointer;
+}
+
 @media (max-width: 450px) {
     .auth_form {
         display: flex;
@@ -34,5 +58,5 @@
         border-radius: 6px;
         padding: 12px;
         width: 100%;
-    }    
+    }
 }

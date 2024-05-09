@@ -240,7 +240,11 @@ function PostField({ parentPostId }: PostFieldProps) {
             toggleByDistance(range2, 'user');
         }
     }
-
+    function cleanText (e: any) {
+        e.preventDefault()
+        var text = e.clipboardData.getData('text/plain')
+        document.execCommand('insertText', false, text)
+      }
 
     return (
 
@@ -249,7 +253,8 @@ function PostField({ parentPostId }: PostFieldProps) {
             <div id="post" contentEditable className={styles.input}
                 data-placeholder="Введите текст..."
                 onClick={() => toggleByDistance(getCurrentRange())}
-                onKeyUp={(e) => onKeyUp(e)}>
+                onKeyUp={(e) => onKeyUp(e)}
+                onPaste={(e)=>cleanText(e)}>
 
             </div>
 

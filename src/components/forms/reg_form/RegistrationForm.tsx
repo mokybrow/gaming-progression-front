@@ -9,6 +9,8 @@ import AuthService from '@/services/authService';
 import { RegistrResponse } from '@/models/userModel';
 import { useRouter } from 'next/navigation';
 import { LoginButton } from '@/components/buttons/login/LoginButton';
+import EyeIcon from '@/components/icons/eye';
+import ClosedEyeIcon from '@/components/icons/closedEye';
 
 
 export function RegistrationForm() {
@@ -16,6 +18,7 @@ export function RegistrationForm() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
+    const [passwordShow, setPasswordShow] = useState<boolean>(false);
 
     const router = useRouter();
 
@@ -75,9 +78,19 @@ export function RegistrationForm() {
 
                 <InputField
                     type={'text'} id={'username'} labelname={'Имя пользователя'} onChange={(e) => handleInputUsername(e)} value={username} />
-
-                <InputField
-                    type={'password'} id={'password'} labelname={'Пароль'} onChange={(e) => handleInputPassword(e)} value={password} />
+                <div className={styles.field_wrapper}>
+                    <InputField
+                        type={!passwordShow ? 'password' : 'text'} id={'password'} labelname={'Пароль'} onChange={(e) => handleInputPassword(e)} value={password} />
+                    <div className={styles.char_count_wrapper}>
+                        <div className={styles.icon_wrapper} onClick={() => setPasswordShow(!passwordShow)}>
+                            {!passwordShow ?
+                                <EyeIcon className='general-icon' />
+                                :
+                                <ClosedEyeIcon className='general-icon' />
+                            }
+                        </div>
+                    </div>
+                </div>
                 {error != '' ?
                     <div className={styles.error_block}>
                         <span>{error}</span>

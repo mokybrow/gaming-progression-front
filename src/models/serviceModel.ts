@@ -56,3 +56,8 @@ export interface SearchGamesModel {
 export interface SearchGamesCountModel {
   game_count: number
 }
+
+
+export interface ErrorModel {
+  detail: string
+}

@@ -176,19 +176,7 @@ export default class AuthStore {
         }
     }
 
-    async changeEmailRequest(email: string) {
-        this.setLoading(true);
-        try {
-            await AuthService.changeEmailRequest(email)
-            this.setAuth(true);
-            this.setLoading(false);
-            return true
-        }
 
-        catch (error) {
-            return false
-        }
-    }
 
     async changePasswordRequest() {
         this.setLoading(true);

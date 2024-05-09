@@ -40,7 +40,6 @@ function Games() {
 
     const [isShowFilter, setIsShowFilter] = useState(false);
     const popupRef = useRef(null)
-    const [page, setPage] = useState<number>(20)
     const [fetching, setFetching] = useState(false)
 
     useOutside(popupRef, () => {
@@ -103,7 +102,7 @@ function Games() {
                 <div className={styles.sort_wrapper} >
                     <div className={styles.sort_button_wrapper} >
                         <SortButton onClick={() => games_store.setPage(20)} />
-                        {games_store.gamesCount > 0 ?
+                        {games_store.gamesCount > 0 && !games_store.isLoading ?
                             <div className={styles.finded_games}>Найдено игр {games_store.gamesCount}</div>
                             :
                             <div className={styles.finded_games}>Игры не найдены</div>
