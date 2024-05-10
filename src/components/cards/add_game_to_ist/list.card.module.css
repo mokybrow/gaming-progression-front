@@ -32,7 +32,8 @@
     grid-column: 2/3;
 }
 .item_wrapper{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
     gap: 12px;
 }
 
@@ -64,17 +65,18 @@
 }
 
 
-@media (max-width: 450px) {
+@media (max-width: 550px) {
     .card_wrapper {
         display: flex;
         flex-direction: column;
         gap: 24px;
         background-color: var(--bg-card-color);
-        padding: 24px 24px;
         border-radius: 0;
         width: 100vw;
         height: 100vh;
         min-width: 0;
+        overflow-y: scroll;
+        max-width: none;
     }
 
     .logo_text{

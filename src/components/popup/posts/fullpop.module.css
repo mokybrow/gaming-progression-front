@@ -26,7 +26,7 @@
     margin-right: 12px;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 550px) {
 
     .modal_content{
         margin: 0;

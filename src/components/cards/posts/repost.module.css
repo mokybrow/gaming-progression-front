@@ -9,6 +9,7 @@
     gap: 12px;
     width: 100%;
     transition:background-color 0.2s linear;
+    margin-top: 24px;
 
 }
 
@@ -62,7 +63,6 @@
     display: flex;
     font-size: 20px;
     font-weight: 500;
-    margin-top: 12px;
 }
 .repost_wrapper{
     display: flex;
@@ -71,6 +71,8 @@
     padding-top: 0;
     padding-bottom: 24px;
     gap: 12px;
+    margin-top: 10px;
+
 }
 
 .cross_icon{
@@ -80,8 +82,14 @@
     cursor: pointer;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 550px) {
     .repost_card_wrapper{
+        margin-top: 60px;
+
         border-radius: 0;
+
+    }
+    .cross_icon{
+        display: none;
     }
 }

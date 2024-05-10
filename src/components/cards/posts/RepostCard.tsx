@@ -14,6 +14,7 @@ import ReactMarkdown from 'react-markdown';
 import RepostField from '@/components/fields/post/RepostField';
 import CrossIcon from '@/components/icons/cross';
 import { formatDate } from '@/services/dateFormat';
+import LeavePostCard from '../service/LeavePostCard';
 
 
 export interface CardProps {
@@ -25,6 +26,7 @@ function RepostCard({ post, setIsShowRepost }: CardProps) {
 
     return (
         <>
+            <LeavePostCard setIsShow={setIsShowRepost} />
 
             <div className={styles.repost_card_wrapper}>
 
@@ -39,7 +41,7 @@ function RepostCard({ post, setIsShowRepost }: CardProps) {
                                     post.Posts?.author_data?.full_name : post.Posts?.author_data?.username}
                             </Link>
                             <div className={styles.post_time_wrapper}>
-                     
+
                                 {formatDate(post.Posts?.created_at)}
 
 
@@ -47,7 +49,7 @@ function RepostCard({ post, setIsShowRepost }: CardProps) {
                         </div>
                     </div>
                     <div className={styles.service_wrapper}>
-                            <div className={styles.cross_icon} onClick={() => (setIsShowRepost(false))}><CrossIcon className='general-icon' /></div>
+                        <div className={styles.cross_icon} onClick={() => (setIsShowRepost(false))}><CrossIcon className='general-icon' /></div>
                     </div>
                 </div>
                 <div>

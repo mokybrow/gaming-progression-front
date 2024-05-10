@@ -104,7 +104,7 @@ function AddGameToList({ setIsShow, setToastText, setActive, gamePage }: ModalPr
                                     onChange={() => handleAddGameToList(list.id, gamePage.id)}
                                     checked={list.list_games.some(item => item.game_data.id === gamePage.id)} 
                                     disabled={list.list_games.length == 20 && !list.list_games.some(item => item.game_data.id === gamePage.id) ? true : false}/>
-                                {list.list_games.length}/20 игр
+                                <div>{list.list_games.length}/20 игр</div>
                             </>
                             : null}
 
