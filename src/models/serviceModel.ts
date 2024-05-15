@@ -61,3 +61,9 @@ export interface SearchGamesCountModel {
 export interface ErrorModel {
   detail: string
 }
+
+
+export interface PicturesModel {
+  file: File
+  picture_path: string
+}

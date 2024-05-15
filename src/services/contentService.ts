@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from "axios";
 import $api from "@/api/api";
-import { CommentsResponse, SearchGamesCountModel, SearchGamesModel, UserCommentsLikes } from "@/models/serviceModel";
+import { CommentsResponse, PicturesModel, SearchGamesCountModel, SearchGamesModel, UserCommentsLikes } from "@/models/serviceModel";
 import { SearchUserModel } from "@/models/userModel";
 import { WallResponseModel } from "@/models/wallsModels";
 import { FeedResponseModel } from "@/models/feedsModels";
 import { PostCreateResponseModel, PostResponseModel } from "@/models/postsModel";
 import { CommentsResponseModel, CommentModel } from "@/models/commentsModels";
+import * as fs from 'fs';
 
 export default class ContentService {
 
@@ -86,14 +87,28 @@ export default class ContentService {
     }
 
 
-    static async CreateNewPost(id: string, parentPostId: string | null, text: string): Promise<AxiosResponse<PostCreateResponseModel>> {
+    static async CreateNewPost(id: string, parentPostId: string | null, text: string, files: PicturesModel[] | null): Promise<AxiosResponse<PostResponseModel>> {
         const url = process.env.API_URL + `posts`
-        return $api.post<PostCreateResponseModel>(url, {
-            id: id,
-            parent_post_id: parentPostId,
-            text: text
+        const formData = new FormData();
+    
+        if (files) {
+            for (const file of files)
+                formData.append('file', file.file, file.file.name);
 
+        }
+        formData.set('id', id)
+        if (parentPostId) {
+            formData.set('parent_post_id', parentPostId)
+        }
+        formData.set('text', text)
+
+        return $api.post<PostResponseModel>(url, formData, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data'
+            }
         })
+
     }
 
 
@@ -123,6 +138,13 @@ export default class ContentService {
     static async getUserFeed(page: number): Promise<AxiosResponse<WallResponseModel[]>> {
         const url = process.env.API_URL
         return $api.get<WallResponseModel[]>(url + `feeds?page=${page}`,)
+    }
+
+    static async uploadImage(file: File, item_id: string, author_id: string): Promise<AxiosResponse> {
+        const url = process.env.API_URL
+        const formData = new FormData();
+        formData.set('file', file);
+        return $api.post(url + `pictures/add?item_id=${item_id}&author_id=${author_id}`, formData)
     }
 
 }

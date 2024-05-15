@@ -90,7 +90,7 @@ function RepostField({ parentPostId, setIsShowRepost }: PostFieldProps) {
     const addPostHandler = () => {
         var el = document.getElementById("REpost");
         // setPostText(el!.innerHTML)
-        content_store.createNewPost(uuidv4(), parentPostId, el!.innerHTML, auth_store.user.id, auth_store.user.username, auth_store.user.full_name)
+        content_store.createNewPost(uuidv4(), parentPostId, el!.innerHTML, auth_store.user.id, auth_store.user.username, auth_store.user.full_name, null)
         el!.innerHTML = '';
 
     }

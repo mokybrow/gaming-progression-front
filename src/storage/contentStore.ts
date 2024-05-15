@@ -2,7 +2,7 @@ import { CommentsResponseModel, CommentModel } from "@/models/commentsModels";
 import { GamePageResponse } from "@/models/gamesModel";
 import { PlaylistModel, PlaylistsResponseModel } from "@/models/playlistsModels";
 import { PostResponseModel } from "@/models/postsModel";
-import { CommentsResponse, UserCommentsLikes } from "@/models/serviceModel";
+import { CommentsResponse, PicturesModel, UserCommentsLikes } from "@/models/serviceModel";
 import { SearchUserModel } from "@/models/userModel";
 import { WallResponseModel } from "@/models/wallsModels";
 import AuthService from "@/services/authService";
@@ -28,6 +28,8 @@ export default class ContentStore {
 
     // Лента новостей
     userFeed = [] as WallResponseModel[];
+
+    images = [] as PicturesModel[]
 
     // Пользовательская стена 
     userWall = [] as WallResponseModel[];
@@ -127,6 +129,9 @@ export default class ContentStore {
     }
     setGameRate(rate: number) {
         this.rate = rate;
+    }
+    setImages(images: PicturesModel[]) {
+        this.images = images;
     }
 
     async searchUser(value: string) {
@@ -377,33 +382,54 @@ export default class ContentStore {
         }
     }
 
-    async createNewPost(id: string, parentPostId: string | null, text: string, user_id: string, username: string, full_name: string) {
+    async createNewPost(id: string, parentPostId: string | null, text: string, user_id: string, username: string, full_name: string, files: PicturesModel[] | null) {
         this.setLoading(true);
         try {
-            const postData = await ContentService.CreateNewPost(id, parentPostId, text);
+            const postData = await ContentService.CreateNewPost(id, parentPostId, text, files);
             if (parentPostId === null) {
                 this.myWall.unshift({
                     Posts: {
-                        ...postData.data, parent_post_data: null, author_data: {
+                        id: postData.data.Posts.id,
+                        user_id: postData.data.Posts.user_id,
+                        wall_id: postData.data.Posts.wall_id,
+                        parent_post_id: postData.data.Posts.parent_post_id,
+                        text: postData.data.Posts.text,
+                        likes_count: postData.data.Posts.likes_count,
+                        comments_count: postData.data.Posts.comments_count,
+                        disabled: postData.data.Posts.disabled,
+                        created_at: postData.data.Posts.created_at,
+                        updated_at: postData.data.Posts.updated_at,
+                        parent_post_data: postData.data.Posts.parent_post_data,
+                        author_data: {
                             id: user_id,
                             username: username,
-                            full_name: full_name
+                            full_name: full_name,
                         },
+                        pictures: postData.data.Posts.pictures,
                     }, hasAuthorLike: 0,
                 })
             }
             if (parentPostId !== null) {
-                var foundObject = this.myWall.filter(function (item) {
-                    return item.Posts.id === parentPostId;
-                })[0];
+
                 this.myWall.unshift({
                     Posts: {
-                        ...postData.data,
-                        parent_post_data: foundObject.Posts, author_data: {
+                        id: postData.data.Posts.id,
+                        user_id: postData.data.Posts.user_id,
+                        wall_id: postData.data.Posts.wall_id,
+                        parent_post_id: postData.data.Posts.parent_post_id,
+                        text: postData.data.Posts.text,
+                        likes_count: postData.data.Posts.likes_count,
+                        comments_count: postData.data.Posts.comments_count,
+                        disabled: postData.data.Posts.disabled,
+                        created_at: postData.data.Posts.created_at,
+                        updated_at: postData.data.Posts.updated_at,
+                        parent_post_data: postData.data.Posts.parent_post_data,
+                        author_data: {
                             id: user_id,
                             username: username,
-                            full_name: full_name
+                            full_name: full_name,
                         },
+                        pictures: postData.data.Posts.pictures
                     }, hasAuthorLike: 0,
                 })
 
@@ -521,7 +547,7 @@ export default class ContentStore {
                 }
             })
             if (this.myPlaylists.some(item => item.id == listId)) {
-                const index = this.myPlaylists.findIndex(n => n.id === listId )
+                const index = this.myPlaylists.findIndex(n => n.id === listId)
                 if (index !== -1) {
                     this.myPlaylists.splice(index, 1);
                     return

@@ -52,6 +52,7 @@ html[data-theme='light'] {
   --hr-color: rgba(30, 29, 31, .6);
   --main-logo-color: #000;
   --mobile-menu-color: #FFFFFF;
+  --icon-bg-color: rgba(255, 255, 255, 0.5);
 
 
   --rocket-icon: url('../assets//icons/general/rocket.svg');
@@ -100,6 +101,7 @@ html[data-theme='dark'] {
 
   --main-logo-color: #FFAD4A;
   --mobile-menu-color: #1F1F1F;
+  --icon-bg-color: rgba(0, 0, 0, 0.5);
 
 
   --rocket-icon: url('../assets//icons/general/rocket.svg');

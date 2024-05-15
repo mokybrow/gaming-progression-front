@@ -1,3 +1,5 @@
+import { Pictures } from "./wallsModels"
+
 export interface PostResponseModel {
   Posts: Posts
   hasAuthorLike: number
@@ -16,6 +18,8 @@ export interface Posts {
   updated_at: string
   parent_post_data: ParentPostData | null
   author_data: AuthorData
+  pictures: Pictures[]
+
 }
 
 export interface ParentPostData {
@@ -30,6 +34,8 @@ export interface ParentPostData {
   created_at: string
   updated_at: string
   author_data: AuthorData
+  pictures: Pictures[]
+
 }
 
 export interface AuthorData {

@@ -1,15 +1,15 @@
 .repost_card_wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
     flex-direction: column;
     position: relative;
     background-color: var(--bg-card-color);
+    margin-top: 24px;
+    margin-bottom: 24px;
     padding: 24px 24px 12px 24px;
     border-radius: var(--border-radius-main);
     gap: 12px;
     width: 100%;
-    transition:background-color 0.2s linear;
-    margin-top: 24px;
+    transition: background-color 0.2s linear;
 
 }
 

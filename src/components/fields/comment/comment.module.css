@@ -1,10 +1,4 @@
-.send_button_wrapper {
-    display: block;
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    z-index: 5;
-}
+
 
 .input {
     width: 100%;
@@ -13,6 +7,7 @@
     caret-color: var(--font-color);
     z-index: 3;
     padding: 12px;
+    padding-bottom: 38px;
     border-radius: var(--border-radius-main);
     background-color: var(--input-color);
     transition: 140ms all ease-out;
@@ -82,14 +77,14 @@
 
 .send_button_wrapper {
     display: flex;
-
-    position: absolute;
-
-    top: 4px;
     gap: 6px;
+    position: absolute;
+    bottom: 4px;
     right: 5px;
     z-index: 50;
+    height: 28px;
 }
+
 
 .icon_wrapper {
     display: flex;

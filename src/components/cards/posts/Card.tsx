@@ -35,7 +35,6 @@ export interface CardProps {
 
 function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepost }: CardProps) {
     const { content_store } = useContext(Context);
-    const { auth_store } = useContext(Context);
     const [active, setActive] = useState(false)
     const [toastText, setToastText] = useState<string>('')
 
@@ -51,22 +50,26 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
 
             <PostPopUp active={isShowPost} setActive={setIsShowPost}>
                 <LeavePostCard setIsShow={setIsShowPost} />
-                <OneCard
-                    post={content_store.post}
-                    comments={content_store.comments}
-                    commentLikes={content_store.commentLikes}
-                    setIsShowRepost={setIsShowRepost}
-                    setIsShowPost={setIsShowPost} />
+                {content_store.isLoading ? null :
+                    <OneCard
+                        comments={content_store.comments}
+                        commentLikes={content_store.commentLikes}
+                        setIsShowRepost={setIsShowRepost}
+                        setIsShowPost={setIsShowPost} />
+                }
             </PostPopUp>
 
-            <RepostPopUp active={isShowRepost} setActive={setIsShowRepost}>
+            <PostPopUp active={isShowRepost} setActive={setIsShowRepost}>
                 <RepostCard post={content_store.post} setIsShowRepost={setIsShowRepost} />
-            </RepostPopUp>
+            </PostPopUp>
 
             <div>
 
                 {postData.map(post => (
-                    <PostCard post={post} setIsShowRepost={setIsShowRepost} setIsShowPost={setIsShowPost}/>
+                    <div key={post.Posts.id}>
+
+                        <PostCard post={post} setIsShowRepost={setIsShowRepost} setIsShowPost={setIsShowPost} />
+                    </div>
                 ))}
 
             </div>

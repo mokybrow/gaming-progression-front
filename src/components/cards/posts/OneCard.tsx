@@ -21,10 +21,10 @@ import CrossIcon from '@/components/icons/cross';
 import { Context } from '@/app/providers';
 import { formatDate } from '@/services/dateFormat';
 import UserIcon from '@/components/icons/user';
+import Carousel from '@/components/carousel/Carousel';
 
 
 export interface CardProps {
-    post: PostResponseModel
     comments: CommentsResponseModel[]
     commentLikes: UserCommentsLikes[]
     setIsShowRepost: any
@@ -32,90 +32,105 @@ export interface CardProps {
 
 }
 
-function OneCard({ post, comments, commentLikes, setIsShowRepost, setIsShowPost }: CardProps) {
+function OneCard({ comments, commentLikes, setIsShowRepost, setIsShowPost }: CardProps) {
+
+    const { content_store } = useContext(Context);
 
 
     return (
-
-        <div className={styles.one_card_wrapper}>
-            <div className={styles.post_header}>
-                <div className={styles.post_data_wrapper}>
-                    <div className={styles.post_author_image}>
-                        <div className={styles.icon_wrapper}>
-                            <UserIcon className='general-icon' />
-                        </div>
-                    </div>
-                    <div className={styles.user_data_wrapper}>
-                        <Link className={styles.author_name} href={`/${post.Posts?.author_data?.username}`}>
-                            {post.Posts?.author_data?.full_name ?
-                                post.Posts?.author_data?.full_name : post.Posts?.author_data?.username}
-                        </Link>
-                        <div className={styles.one_post_time_wrapper}>
-
-                            {formatDate(post.Posts?.parent_post_data?.created_at)}
-
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.service_wrapper}>
-                    <div className={styles.cross_icon} onClick={() => (setIsShowPost(false))}><CrossIcon className='general-icon' /></div>
-                </div>
-            </div>
-            <div>
-                <ReactMarkdown>
-                    {post.Posts?.text}
-                </ReactMarkdown>
-            </div>
-            {post.Posts?.parent_post_data !== null ?
-                <ul className={styles.tree}>
-                    <span className={styles.tree_label}>
-                        <div className={styles.post_header}>
-                            <div className={styles.post_data_wrapper}>
-                                <div className={styles.post_author_image}>
-                                    <div className={styles.icon_wrapper}>
-                                        <UserIcon className='general-icon' />
-                                    </div>
-                                </div>
-                                <div className={styles.user_data_wrapper}>
-                                    <Link className={styles.author_name} href={`/${post.Posts?.parent_post_data?.author_data?.username}`}>
-                                        {post.Posts?.parent_post_data?.author_data?.full_name ?
-                                            post.Posts.parent_post_data?.author_data?.full_name : post.Posts?.author_data?.username}
-                                    </Link>
-                                    
-                                    <div className={styles.one_post_time_wrapper}>
-                                        {formatDate(post.Posts?.parent_post_data?.created_at.toString())}
-                                    </div>
+        <>
+            {content_store.post ?
+                <div className={styles.one_card_wrapper}>
+                    <div className={styles.post_header}>
+                        <div className={styles.post_data_wrapper}>
+                            <div className={styles.post_author_image}>
+                                <div className={styles.icon_wrapper}>
+                                    <UserIcon className='general-icon' />
                                 </div>
                             </div>
-                            <div className={styles.service_wrapper}>
-
+                            <div className={styles.user_data_wrapper}>
+                                <Link className={styles.author_name} href={`/${content_store.post.Posts?.author_data?.username}`}>
+                                    {content_store.post.Posts?.author_data?.full_name ?
+                                        content_store.post.Posts?.author_data?.full_name : content_store.post.Posts?.author_data?.username}
+                                </Link>
+                                <div className={styles.one_post_time_wrapper}>
+                                    {formatDate(content_store.post?.Posts?.created_at)}
+                                </div>
                             </div>
                         </div>
+                        <div className={styles.service_wrapper}>
+                            <div className={styles.cross_icon} onClick={() => (setIsShowPost(false))}><CrossIcon className='general-icon' /></div>
+                        </div>
+                    </div>
+                    <div>
+                        <ReactMarkdown>
+                            {content_store.post.Posts?.text}
+                        </ReactMarkdown>
+                    </div>
+                    {content_store.post?.Posts?.pictures.length > 0 ?
                         <div>
-                            <div className={styles.markdown_text}>
-                                <ReactMarkdown>
-                                    {post.Posts?.parent_post_data?.text}
-                                </ReactMarkdown>
-                            </div>
-
+                            <Carousel images={content_store.post?.Posts?.pictures} status={false} />
                         </div>
+                        : null}
+                    {content_store.post.Posts?.parent_post_data !== null ?
+                        <ul className={styles.tree}>
+                            <span className={styles.tree_label}>
+                                <div className={styles.post_header}>
+                                    <div className={styles.post_data_wrapper}>
+                                        <div className={styles.post_author_image}>
+                                            <div className={styles.icon_wrapper}>
+                                                <UserIcon className='general-icon' />
+                                            </div>
+                                        </div>
+                                        <div className={styles.user_data_wrapper}>
+                                            <Link className={styles.author_name} href={`/${content_store.post.Posts?.parent_post_data?.author_data?.username}`}>
+                                                {content_store.post.Posts?.parent_post_data?.author_data?.full_name ?
+                                                    content_store.post.Posts.parent_post_data?.author_data?.full_name : content_store.post.Posts?.author_data?.username}
+                                            </Link>
 
-                    </span>
-                </ul> : null}
-            <SocialButtonCard
-                postId={post.Posts?.id}
-                likeCount={post.Posts?.likes_count}
-                commentCount={post.Posts?.comments_count}
-                hasAuthorLike={post.hasAuthorLike}
-                setIsShowRepost={setIsShowRepost} />
+                                            <div className={styles.one_post_time_wrapper}>
+                                                {formatDate(content_store.post.Posts?.parent_post_data?.created_at)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={styles.service_wrapper}>
 
-            <div className={styles.comments_header}>Комментарии</div>
-            {!comments.length ? <>Пока пусто</> :
-                <CommentCard postId={post.Posts?.id} comments={comments} commentLikes={commentLikes} />
-            }
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className={styles.markdown_text}>
+                                        <ReactMarkdown>
+                                            {content_store.post.Posts?.parent_post_data?.text}
+                                        </ReactMarkdown>
+                                    </div>
 
-        </div>
+                                </div>
+                                <div>
+                                    {content_store.post.Posts?.parent_post_data.pictures.length > 0 ?
+                                        <div>
+                                            <Carousel images={content_store.post.Posts?.parent_post_data.pictures} status={false} />
+                                        </div>
+                                        : null}
+                                </div>
 
+
+                            </span>
+                        </ul> : null}
+                    <SocialButtonCard
+                        postId={content_store.post.Posts?.id}
+                        likeCount={content_store.post.Posts?.likes_count}
+                        commentCount={content_store.post.Posts?.comments_count}
+                        hasAuthorLike={content_store.post.hasAuthorLike}
+                        setIsShowRepost={setIsShowRepost} />
+
+                    <div className={styles.comments_header}>Комментарии</div>
+                    {!comments.length ? <>Пока пусто</> :
+                        <CommentCard postId={content_store.post.Posts?.id} comments={comments} commentLikes={commentLikes} />
+                    }
+
+                </div>
+                : null}
+        </>
 
     )
 

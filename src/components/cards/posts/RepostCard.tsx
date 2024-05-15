@@ -15,6 +15,7 @@ import RepostField from '@/components/fields/post/RepostField';
 import CrossIcon from '@/components/icons/cross';
 import { formatDate } from '@/services/dateFormat';
 import LeavePostCard from '../service/LeavePostCard';
+import Carousel from '@/components/carousel/Carousel';
 
 
 export interface CardProps {
@@ -41,10 +42,7 @@ function RepostCard({ post, setIsShowRepost }: CardProps) {
                                     post.Posts?.author_data?.full_name : post.Posts?.author_data?.username}
                             </Link>
                             <div className={styles.post_time_wrapper}>
-
                                 {formatDate(post.Posts?.created_at)}
-
-
                             </div>
                         </div>
                     </div>
@@ -53,12 +51,20 @@ function RepostCard({ post, setIsShowRepost }: CardProps) {
                     </div>
                 </div>
                 <div>
-                    <ReactMarkdown>
-                        {post.Posts?.text}
-                    </ReactMarkdown>
+                    <div className={styles.markdown_text}>
 
+                        <ReactMarkdown>
+                            {post.Posts?.text}
+                        </ReactMarkdown>
+
+                    </div>
                 </div>
 
+                {post.Posts?.pictures?.length > 0 ?
+                    <div>
+                        <Carousel images={post.Posts?.pictures} status={false} />
+                    </div>
+                    : null}
                 <RepostField parentPostId={post.Posts?.id} setIsShowRepost={setIsShowRepost} />
             </div>
 

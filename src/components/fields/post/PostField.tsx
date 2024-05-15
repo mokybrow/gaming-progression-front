@@ -2,7 +2,7 @@
 
 import { Context } from "@/app/providers";
 
-import { useContext, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import styles from './post.module.css'
 import { observer } from "mobx-react-lite";
 import { v4 as uuidv4 } from 'uuid';
@@ -12,6 +12,10 @@ import { MentionButton } from "@/components/buttons/mention/MentionButton";
 import useDebounce from "@/hooks/useDebounce";
 import useOutside from "@/hooks/useOutside";
 import SendIcon from "@/components/icons/send";
+import ImageIcon from "@/components/icons/image";
+import Carousel from "@/components/carousel/Carousel";
+import ContentService from "@/services/contentService";
+import { PicturesModel } from "@/models/serviceModel";
 
 export interface PostFieldProps {
     parentPostId: string | null
@@ -36,8 +40,7 @@ function PostField({ parentPostId }: PostFieldProps) {
     const [startValueUsers, setStartValueUsers] = useState(0);
     const [endValue, setEndValue] = useState(0);
     const [endValueUsers, setEndValueUsers] = useState(0);
-
-
+    
     const debouncedSearch = useDebounce(searchQuery, 500);
     const debouncedSearchUser = useDebounce(searchQueryUser, 500);
 
@@ -87,9 +90,14 @@ function PostField({ parentPostId }: PostFieldProps) {
     const addPostHandler = () => {
         var el = document.getElementById("post");
         // setPostText(el!.innerHTML)
-        content_store.createNewPost(uuidv4(), parentPostId, el!.innerHTML, auth_store.user.id, auth_store.user.username, auth_store.user.full_name)
+        const postId = uuidv4()
+        content_store.createNewPost(postId, parentPostId, el!.innerHTML, auth_store.user.id, auth_store.user.username, auth_store.user.full_name,
+            content_store.images
+        )
+        content_store.setImages([])
         el!.innerHTML = '';
     }
+
 
 
     const handleInsertGame = (name: string, link: string) => {
@@ -240,62 +248,84 @@ function PostField({ parentPostId }: PostFieldProps) {
             toggleByDistance(range2, 'user');
         }
     }
-    function cleanText (e: any) {
+    function cleanText(e: any) {
         e.preventDefault()
         var text = e.clipboardData.getData('text/plain')
         document.execCommand('insertText', false, text)
-      }
+    }
+    const selectImages = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let images: Array<PicturesModel> = [];
+        let files = event.target.files;
+
+        if (files) {
+            for (let i = 0; i < files.length; i++) {
+                images.push({file: files[i], picture_path: URL.createObjectURL(files[i])});
+                console.log(files[i])
+            }
+            content_store.setImages([...content_store.images, ...images]);
+        }
+    };
+
 
     return (
+        <>
+            <div className={styles.post_field_wrapper}>
 
-        <div className={styles.post_field_wrapper}>
-
-            <div id="post" contentEditable className={styles.input}
-                data-placeholder="Введите текст..."
-                onClick={() => toggleByDistance(getCurrentRange())}
-                onKeyUp={(e) => onKeyUp(e)}
-                onPaste={(e)=>cleanText(e)}>
-
-            </div>
+                <div id="post" contentEditable className={styles.input}
+                    data-placeholder="Введите текст..."
+                    onClick={() => toggleByDistance(getCurrentRange())}
+                    onKeyUp={(e) => onKeyUp(e)}
+                    onPaste={(e) => cleanText(e)}>
+                </div>
 
 
-            {games_store.searchedGames.length ?
-                <MentionPopup active={isShow} innerRef={popupRef}>
-                    {games_store.searchedGames.map(game => (
-                        <div key={game.id}>
+                <div className={styles.image_wrapper}>
+                    <input type="file" accept="image/*" multiple id="icon-button-file"
+                        className={styles.file_upload} onChange={selectImages} />
+                    <label htmlFor="icon-button-file" className={styles.icon_wrapper}>
+                        <ImageIcon className="general-icon" />
+                    </label>
+                </div>
+                {games_store.searchedGames.length ?
+                    <MentionPopup active={isShow} innerRef={popupRef}>
+                        {games_store.searchedGames.map(game => (
+                            <div key={game.id}>
 
-                            <MentionButton onClick={() => (handleInsertGame(game.title, game.slug), setIsShow(false))} type={"button"}>
-                                {game.title}
-                            </MentionButton>
-                        </div>
+                                <MentionButton onClick={() => (handleInsertGame(game.title, game.slug), setIsShow(false))} type={"button"}>
+                                    {game.title}
+                                </MentionButton>
+                            </div>
 
-                    ))}
-                </MentionPopup>
-                : null}
-
-            {content_store.users.length ?
-                <MentionPopup active={isShowUsers} innerRef={popupRef}>
-                    {content_store.users.map(user => (
-                        <div key={user.id}>
-
-                            <MentionButton onClick={() => (handleInsertUser(user.username, user.username), setIsShowUsers(false))} type={"button"}>
-                                {user.username}
-                            </MentionButton>
-                        </div>
-
-                    ))}
-                </MentionPopup>
-                : null
-            }
-            {
-                postText.replace(/\s+/g, ' ').trim() != '' ?
-                    <div className={styles.send_button_wrapper} onClick={() => (addPostHandler(), setPostText(''))}>
-                        <div className={styles.icon_wrapper}>
-                            <SendIcon className="general-icon" />
-                        </div>
-                    </div>
+                        ))}
+                    </MentionPopup>
                     : null}
-        </div>
+
+                {content_store.users.length ?
+                    <MentionPopup active={isShowUsers} innerRef={popupRef}>
+                        {content_store.users.map(user => (
+                            <div key={user.id}>
+                                <MentionButton onClick={() => (handleInsertUser(user.username, user.username), setIsShowUsers(false))} type={"button"}>
+                                    {user.username}
+                                </MentionButton>
+                            </div>
+
+                        ))}
+                    </MentionPopup>
+                    : null
+                }
+                {
+                    postText.replace(/\s+/g, ' ').trim() != '' || content_store.images.length ?
+                        <div className={styles.send_button_wrapper} onClick={() => (addPostHandler(), setPostText(''))}>
+                            <div className={styles.icon_wrapper}>
+                                <SendIcon className="general-icon" />
+                            </div>
+                        </div>
+                        : null}
+            </div>
+            {content_store.images.length > 0 ?
+                <Carousel images={content_store.images} status={true} />
+                : null}
+        </>
     )
 
 }
