@@ -193,5 +193,16 @@ export default class GamesStore {
         }
     }
 
+    async searchGamesMention(searchString: string, page: number) {
+        try {
+            const result = await ContentService.SearchGames(searchString, page)
+            this.setSearchedGames(result.data)
+            this.setSearchGamesCount(result.headers['x-games-count'])
+            return result
+        } catch (error) {
+
+        }
+    }
+
 }
 

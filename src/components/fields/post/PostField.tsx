@@ -40,7 +40,7 @@ function PostField({ parentPostId }: PostFieldProps) {
     const [startValueUsers, setStartValueUsers] = useState(0);
     const [endValue, setEndValue] = useState(0);
     const [endValueUsers, setEndValueUsers] = useState(0);
-    
+
     const debouncedSearch = useDebounce(searchQuery, 500);
     const debouncedSearchUser = useDebounce(searchQueryUser, 500);
 
@@ -157,6 +157,7 @@ function PostField({ parentPostId }: PostFieldProps) {
         range.setStart(range.startContainer, Math.max(0, range.startOffset - (distance || 0)));
         range.setEnd(range.startContainer, range.startOffset + 1);
         // var rect = range.getBoundingClientRect();
+
         setIsShow(true)
     }
 
@@ -181,33 +182,33 @@ function PostField({ parentPostId }: PostFieldProps) {
         else {
             key = 'user'
         }
+
         if (key === 'user') {
 
             var distanceUser = prevUser != -1 ? range.startOffset - prevUser : -1;
-            if (distanceUser < 0 || distanceUser > 10) {
-                //for example
-                setStartSearchUser(false)
-                setSearchQueryUser('')
-
-            } else {
+            if (distanceUser !== -1 && distanceUser < 10) {
                 showPopupAtUsers(range, distanceUser);
                 setStartSearchUser(true)
+            }
+            else {
+                setStartSearchUser(false)
+                setSearchQueryUser('')
             }
         }
         else {
             setIsShowUsers(false)
 
             var distance = prev != -1 ? range.startOffset - prev : -1;
-
-            if (distance < 0 || distance > 10) {
-                //for example
-                setStartSearch(false)
-                setSearchQuery('')
-                return
-            } else {
+            
+            if (distance !== -1 && distance < 10) {
                 showPopupAt(range, distance);
                 setStartSearch(true)
             }
+            else {
+                setStartSearch(false)
+                setSearchQuery('')
+            }
+           
         }
     }
 
@@ -218,16 +219,27 @@ function PostField({ parentPostId }: PostFieldProps) {
         var el = document.getElementById("post");
         setPostText(e.target.innerHTML)
         const position = getCaretCharacterOffsetWithin(el)
+        console.log(startValue, endValue)
+
         if (startSearch) {
             const index = textw.replace(/\s+/g, ' ').trim().lastIndexOf('#', position)
             const query = textw.replace(/\s+/g, ' ').trim().slice(index + 1, position)
-
-            setSearchQuery(query)
+            if (!query.trim().includes(" ")) {
+                setSearchQuery(query)
+            }
+            else {
+                setStartSearch(false)
+            }
         }
         if (startSearchUser) {
             const index = textw.replace(/\s+/g, ' ').trim().lastIndexOf('@', position)
             const query = textw.replace(/\s+/g, ' ').trim().slice(index + 1, position)
-            setSearchQueryUser(query)
+            if (!query.trim().includes(" ")) {
+                setSearchQueryUser(query)
+            }
+            else {
+                setStartSearchUser(false)
+            }
         }
         if (e.key == '#') {
             setIsShowUsers(false)
@@ -247,19 +259,45 @@ function PostField({ parentPostId }: PostFieldProps) {
         } else {
             toggleByDistance(range2, 'user');
         }
+
+        if (e.keyCode == 32 || e.which == 32) {
+            setStartSearch(false)
+            setIsShow(false)
+            setIsShowUsers(false)
+            setStartSearchUser(false)
+
+
+        }
     }
+
     function cleanText(e: any) {
+        var el = document.getElementById("post");
+
         e.preventDefault()
         var text = e.clipboardData.getData('text/plain')
-        document.execCommand('insertText', false, text)
+        var range = getCurrentRange()
+        var re = /([^\"=]{2}|^)((https?|ftp|http):\/\/\S+[^\s.,> )\];'\"!?])/g;
+        var subst = '$1<a href="$2" target="_blank">$2</a>';
+        var withlink = text.replace(re, subst);
+        const newElement = document.createElement('span');
+        newElement.innerHTML = withlink;
+        range?.insertNode(newElement);
+        // range.insertNode(document.createTextNode(text));
+        range.selectNodeContents(el!);
+        range.collapse(false);
+        const sel = window.getSelection();
+        sel!.removeAllRanges();
+        sel!.addRange(range);
+
     }
+
     const selectImages = (event: React.ChangeEvent<HTMLInputElement>) => {
         let images: Array<PicturesModel> = [];
         let files = event.target.files;
 
         if (files) {
             for (let i = 0; i < files.length; i++) {
-                images.push({file: files[i], picture_path: URL.createObjectURL(files[i])});
+                images.push({ file: files[i], picture_path: URL.createObjectURL(files[i]) });
                 console.log(files[i])
             }
             content_store.setImages([...content_store.images, ...images]);

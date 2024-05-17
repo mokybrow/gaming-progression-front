@@ -78,19 +78,19 @@ function PostCard({ post, setIsShowRepost, setIsShowPost }: CardProps) {
                 </div>
                 <div>
                     <div className={styles.markdown_text}>
-                        {post.Posts.text.length > 200 && !showMoreText ?
+                        {post.Posts?.text?.length > 200 && !showMoreText ?
                             <>
                                 <ReactMarkdown>
-                                    {post.Posts.text.slice(0, 200) + '...'}
+                                    {post.Posts?.text?.slice(0, 200) + '...'}
                                 </ReactMarkdown>
                                 <div onClick={() => setShowMoreText(true)} className={styles.show_more_button}>Показать ещё</div>
                             </>
                             :
                             <>
                                 <ReactMarkdown>
-                                    {post.Posts.text}
+                                    {post.Posts?.text}
                                 </ReactMarkdown>
-                                {post.Posts.text.length > 200 ?
+                                {post.Posts?.text?.length > 200 ?
                                     < div onClick={() => setShowMoreText(false)} className={styles.show_more_button}>Скрыть</div>
                                     : null}
                             </>
@@ -133,19 +133,19 @@ function PostCard({ post, setIsShowRepost, setIsShowPost }: CardProps) {
                                     <ReactMarkdown>
                                     </ReactMarkdown>
                                 </div>
-                                {post.Posts.parent_post_data.text.length > 200 && !showMoreTextParent ?
+                                {post.Posts.parent_post_data?.text?.length > 200 && !showMoreTextParent ?
                                     <>
                                         <ReactMarkdown>
-                                        {post.Posts.parent_post_data.text.slice(0, 200) + '...'}
+                                        {post.Posts.parent_post_data?.text?.slice(0, 200) + '...'}
                                         </ReactMarkdown>
                                         <div onClick={() => setShowMoreTextParent(true)} className={styles.show_more_button}>Показать ещё</div>
                                     </>
                                     :
                                     <>
                                         <ReactMarkdown>
-                                        {post.Posts.parent_post_data.text}
+                                        {post.Posts.parent_post_data?.text}
                                         </ReactMarkdown>
-                                        {post.Posts.parent_post_data.text.length > 200 ?
+                                        {post.Posts.parent_post_data?.text?.length > 200 ?
                                             < div onClick={() => setShowMoreTextParent(false)} className={styles.show_more_button}>Скрыть</div>
                                             : null}
                                     </>

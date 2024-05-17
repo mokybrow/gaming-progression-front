@@ -6,7 +6,8 @@ import { WallResponseModel } from "@/models/wallsModels";
 import { FeedResponseModel } from "@/models/feedsModels";
 import { PostCreateResponseModel, PostResponseModel } from "@/models/postsModel";
 import { CommentsResponseModel, CommentModel } from "@/models/commentsModels";
-import * as fs from 'fs';
+import imageCompression from 'browser-image-compression';
+
 
 export default class ContentService {
 
@@ -90,10 +91,25 @@ export default class ContentService {
     static async CreateNewPost(id: string, parentPostId: string | null, text: string, files: PicturesModel[] | null): Promise<AxiosResponse<PostResponseModel>> {
         const url = process.env.API_URL + `posts`
         const formData = new FormData();
-    
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        }
         if (files) {
             for (const file of files)
-                formData.append('file', file.file, file.file.name);
+                try {
+                    const compressedFile = await imageCompression(file.file, options);
+                    formData.append('file', compressedFile, file.file.name);
+
+                    console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
+                    console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+
+                    // await uploadToServer(compressedFile); // write your own logic
+                } catch (error) {
+                    console.log(error);
+                }
+            // formData.append('file', file.file, file.file.name);
 
         }
         formData.set('id', id)
