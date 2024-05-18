@@ -38,12 +38,6 @@ function Card({ postData, isShowPost, setIsShowPost, setIsShowRepost, isShowRepo
     const [active, setActive] = useState(false)
     const [toastText, setToastText] = useState<string>('')
 
-    const [showMoreText, setShowMoreText] = useState<boolean>(false)
-    const getPostCommentsHandler = (postId: string) => {
-        setIsShowPost(true)
-        content_store.getPostData(postId)
-
-    }
 
     return (
         <>

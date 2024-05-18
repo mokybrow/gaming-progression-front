@@ -16,6 +16,7 @@ import ImageIcon from "@/components/icons/image";
 import Carousel from "@/components/carousel/Carousel";
 import ContentService from "@/services/contentService";
 import { PicturesModel } from "@/models/serviceModel";
+import ReactToast from "@/components/toast/Toast";
 
 export interface PostFieldProps {
     parentPostId: string | null
@@ -40,6 +41,9 @@ function PostField({ parentPostId }: PostFieldProps) {
     const [startValueUsers, setStartValueUsers] = useState(0);
     const [endValue, setEndValue] = useState(0);
     const [endValueUsers, setEndValueUsers] = useState(0);
+
+    const [active, setActive] = useState(false)
+    const [toastText, setToastText] = useState<string>('')
 
     const debouncedSearch = useDebounce(searchQuery, 500);
     const debouncedSearchUser = useDebounce(searchQueryUser, 500);
@@ -199,7 +203,7 @@ function PostField({ parentPostId }: PostFieldProps) {
             setIsShowUsers(false)
 
             var distance = prev != -1 ? range.startOffset - prev : -1;
-            
+
             if (distance !== -1 && distance < 10) {
                 showPopupAt(range, distance);
                 setStartSearch(true)
@@ -208,7 +212,7 @@ function PostField({ parentPostId }: PostFieldProps) {
                 setStartSearch(false)
                 setSearchQuery('')
             }
-           
+
         }
     }
 
@@ -300,13 +304,21 @@ function PostField({ parentPostId }: PostFieldProps) {
                 images.push({ file: files[i], picture_path: URL.createObjectURL(files[i]) });
                 console.log(files[i])
             }
-            content_store.setImages([...content_store.images, ...images]);
+            if (images.length + content_store.images.length < 6) {
+                content_store.setImages([...content_store.images, ...images]);
+            }
+            else {
+                setToastText('Можно загрузить максимум 5 фотографий')
+                setActive(true)
+            }
         }
     };
 
 
     return (
         <>
+            <ReactToast timeout={5000} active={active} setActive={setActive} toastText={toastText} setToastText={setToastText} />
+
             <div className={styles.post_field_wrapper}>
 
                 <div id="post" contentEditable className={styles.input}

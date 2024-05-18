@@ -26,6 +26,11 @@
   --header-items-height: 40px;
 
   --alert-color: #F03030;
+
+  --rocket-icon: url('../assets//icons/general/rocket.svg');
+  --finish-flag-icon: url('../assets//icons/general/finish.svg');
+  --heart-favorite-icon: url('../assets//icons/general/heart.svg');
+  --bag-icon: url('../assets//icons/general/bag.svg');
 }
 
 
@@ -54,12 +59,7 @@ html[data-theme='light'] {
   --mobile-menu-color: #FFFFFF;
   --icon-bg-color: rgba(255, 255, 255, 0.5);
 
-
-  --rocket-icon: url('../assets//icons/general/rocket.svg');
-  --finish-flag-icon: url('../assets//icons/general/finish.svg');
-  --heart-favorite-icon: url('../assets//icons/general/heart.svg');
-  --bag-icon: url('../assets//icons/general/bag.svg');
-
+  --calendar-bg-color: #E1E1E1;
 
   --settings-item-hover: #F5F5F5;
 
@@ -103,11 +103,9 @@ html[data-theme='dark'] {
   --mobile-menu-color: #1F1F1F;
   --icon-bg-color: rgba(0, 0, 0, 0.5);
 
+  --calendar-bg-color: #1F1F1F;
 
-  --rocket-icon: url('../assets//icons/general/rocket.svg');
-  --finish-flag-icon: url('../assets//icons/general/finish.svg');
-  --heart-favorite-icon: url('../assets//icons/general/heart.svg');
-  --bag-icon: url('../assets//icons/general/bag.svg');
+
 
   --popup-bg-color: rgba(51, 51, 51, 0.8);
   --search-popup-bg-color: rgba(51, 51, 51, 0.6);
