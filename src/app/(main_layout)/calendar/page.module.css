@@ -16,6 +16,7 @@
     padding: 6px;
     border-bottom: 1px solid  var(--font-color);
     border-right: 1px solid  var(--font-color);  
+    cursor: pointer;
 }
 
 .calendar_grid_week_days {
@@ -36,28 +37,121 @@
 }
 
 
-
-/* 
-.day_wrapper:first-child {
-    border-top-left-radius: var(--border-radius-main);
+.day_number{
+    display: flex;
+    width: 100%;
+    justify-content: right;
 }
 
-.day_wrapper:nth-child(7){
-  
-    border-top-right-radius: var(--border-radius-main);
+.calendar_block_wrapper{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.day_wrapper:last-child {
-    border-bottom-right-radius: var(--border-radius-main);
-}
 
-.day_wrapper:nth-child(36){
-    border-bottom-left-radius: var(--border-radius-main);
-} */
+
+.game_title{
+    font-size: 12px;
+}
 
 .control_wrapper{
     width: 100%;
     justify-content: center;
     display: flex;
     gap: 24px;
+}
+
+
+.game_list_item {
+    display: flex;
+    padding: 12px;
+    gap: 12px;
+}
+
+.game_list_item:hover {
+    background-color: var( --list-item-hover);
+    border-radius: var(--border-radius-main);
+
+}
+.games_list_wrapper{
+    width: 100%;
+    justify-content: left;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.game_cover_wrapper {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+.game_cover_wrapper img {
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.game_cover_wrapper_calendar {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 100px;
+    border: 2px solid white;
+}
+
+.game_cover_wrapper_calendar img {
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.more_items{
+    background-color: var(--input-color);
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    /* left: 26px; */
+}
+.block{
+    display: flex;
+    
+}
+.card_wrapper {
+    display: flex;
+    flex-direction: column;
+    /* position: relative; */
+    background-color: var(--bg-card-color);
+    margin-bottom: 12px;
+    padding: 24px 24px 12px 24px;
+    border-radius: var(--border-radius-main);
+    gap: 12px;
+    width: 100%;
+    transition: background-color 0.2s linear;
+}
+
+@media (max-width: 550px) {
+    .card_wrapper {
+        margin: 0;
+        margin-top: 60px;
+        border-radius: 0;
+        height: 100%;
+        padding-bottom: 50px;
+    }
 }

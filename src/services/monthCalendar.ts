@@ -49,7 +49,7 @@ const generateCalendarBoard: CalendarBoard = (year, month) => {
     return calendarBoard;
 };
 
-const toFirstUpperCase: UpperCase = (word) => `${word[0].toUpperCase()}${word.slice(1)}`;
+// const toFirstUpperCase: UpperCase = (word) => `${word[0].toUpperCase()}${word.slice(1)}`;
 
 
 const monthNames = [
@@ -68,7 +68,7 @@ const monthNames = [
 
 const monthCalendar: Calendar = (year, month) => {
     const board = generateCalendarBoard(year, month);
-    const monthName = toFirstUpperCase(monthNames[month]);
+    // const monthName = toFirstUpperCase(monthNames[month]);
 
     return { month: board, year };
 };

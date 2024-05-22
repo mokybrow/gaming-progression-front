@@ -1,3 +1,8 @@
+export interface GamesResponseCalendar {
+  [key: number]: GamesResponse[]
+
+}
+
 export interface GamesResponse {
   id: string
   title: string

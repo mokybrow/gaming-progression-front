@@ -7,6 +7,7 @@ import { FeedResponseModel } from "@/models/feedsModels";
 import { PostCreateResponseModel, PostResponseModel } from "@/models/postsModel";
 import { CommentsResponseModel, CommentModel } from "@/models/commentsModels";
 import imageCompression from 'browser-image-compression';
+import { GamesResponse, GamesResponseCalendar } from "@/models/gamesModel";
 
 
 export default class ContentService {
@@ -161,6 +162,16 @@ export default class ContentService {
         const formData = new FormData();
         formData.set('file', file);
         return $api.post(url + `pictures/add?item_id=${item_id}&author_id=${author_id}`, formData)
+    }
+
+
+    static async getGamesByMonth(date: string, days: number): Promise<AxiosResponse<GamesResponseCalendar[]>> {
+        const url = process.env.API_URL
+
+        return $api.post<GamesResponseCalendar[]>(url + `calendar`, {
+            date: date,
+            days: days
+        })
     }
 
 }
