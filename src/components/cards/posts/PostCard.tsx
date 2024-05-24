@@ -22,7 +22,7 @@ import { Context } from '@/app/providers';
 import { formatDate } from '@/services/dateFormat';
 import UserIcon from '@/components/icons/user';
 import { WallResponseModel } from '@/models/wallsModels';
-import ReportButton from '@/components/buttons/report/ReportButton';
+import CommandButton from '@/components/buttons/report/CommandPostButton';
 import ReactToast from '@/components/toast/Toast';
 import Carousel from '@/components/carousel/Carousel';
 
@@ -71,9 +71,11 @@ function PostCard({ post, setIsShowRepost, setIsShowPost }: CardProps) {
                         </div>
                     </div>
                     <div className={styles.service_wrapper}>
-                        {auth_store.user.id !== post.Posts.author_data.id ?
-                            <ReportButton contentId={post.Posts.id} contentType={'posts'} setToastText={setToastText} setActive={setActive} />
-                            : null}
+                        <CommandButton contentId={post.Posts.id} contentType={'posts'}
+                            setToastText={setToastText} setActive={setActive}
+                            authorID={post.Posts.author_data.id} />
+                        {/* {auth_store.user.id !== post.Posts.author_data.id ?
+                            : null} */}
                     </div>
                 </div>
                 <div>
@@ -105,63 +107,73 @@ function PostCard({ post, setIsShowRepost, setIsShowPost }: CardProps) {
                     </div>
                     : null}
                 {post.Posts.parent_post_data != null ?
-                    <ul className={styles.tree}>
-                        <span className={styles.tree_label}>
-                            <div className={styles.post_header}>
-                                <div className={styles.post_data_wrapper}>
-                                    <div className={styles.post_author_image}>
-                                        <div className={styles.icon_wrapper}>
-                                            <UserIcon className='general-icon' />
+                    <>
+                        {post.Posts.parent_post_data.disabled !== true ?
+                            <ul className={styles.tree}>
+                                <span className={styles.tree_label}>
+                                    <div className={styles.post_header}>
+                                        <div className={styles.post_data_wrapper}>
+                                            <div className={styles.post_author_image}>
+                                                <div className={styles.icon_wrapper}>
+                                                    <UserIcon className='general-icon' />
+                                                </div>
+                                            </div>
+                                            <div className={styles.user_data_wrapper}>
+                                                <Link className={styles.author_name} href={`/${post.Posts.parent_post_data.author_data.username}`}>
+                                                    {post.Posts.parent_post_data.author_data.full_name ?
+                                                        post.Posts.parent_post_data.author_data.full_name : post.Posts.author_data.username}
+                                                </Link>
+                                                <div className={styles.post_time_wrapper} onClick={() => getPostCommentsHandler(String(post.Posts.parent_post_id))}>
+                                                    {formatDate(post.Posts.created_at)}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className={styles.service_wrapper}>
+
                                         </div>
                                     </div>
-                                    <div className={styles.user_data_wrapper}>
-                                        <Link className={styles.author_name} href={`/${post.Posts.parent_post_data.author_data.username}`}>
-                                            {post.Posts.parent_post_data.author_data.full_name ?
-                                                post.Posts.parent_post_data.author_data.full_name : post.Posts.author_data.username}
-                                        </Link>
-                                        <div className={styles.post_time_wrapper} onClick={() => getPostCommentsHandler(String(post.Posts.parent_post_id))}>
-                                            {formatDate(post.Posts.created_at)}
+                                    <div>
+                                        <div className={styles.markdown_text}>
+                                            <ReactMarkdown>
+                                            </ReactMarkdown>
                                         </div>
+                                        {post.Posts.parent_post_data?.text?.length > 200 && !showMoreTextParent ?
+                                            <>
+                                                <ReactMarkdown>
+                                                    {post.Posts.parent_post_data?.text?.slice(0, 200) + '...'}
+                                                </ReactMarkdown>
+                                                <div onClick={() => setShowMoreTextParent(true)} className={styles.show_more_button}>Показать ещё</div>
+                                            </>
+                                            :
+                                            <>
+                                                <ReactMarkdown>
+                                                    {post.Posts.parent_post_data?.text}
+                                                </ReactMarkdown>
+                                                {post.Posts.parent_post_data?.text?.length > 200 ?
+                                                    < div onClick={() => setShowMoreTextParent(false)} className={styles.show_more_button}>Скрыть</div>
+                                                    : null}
+                                            </>
+                                        }
+
                                     </div>
-                                </div>
-                                <div className={styles.service_wrapper}>
 
-                                </div>
-                            </div>
-                            <div>
-                                <div className={styles.markdown_text}>
-                                    <ReactMarkdown>
-                                    </ReactMarkdown>
-                                </div>
-                                {post.Posts.parent_post_data?.text?.length > 200 && !showMoreTextParent ?
-                                    <>
-                                        <ReactMarkdown>
-                                        {post.Posts.parent_post_data?.text?.slice(0, 200) + '...'}
-                                        </ReactMarkdown>
-                                        <div onClick={() => setShowMoreTextParent(true)} className={styles.show_more_button}>Показать ещё</div>
-                                    </>
-                                    :
-                                    <>
-                                        <ReactMarkdown>
-                                        {post.Posts.parent_post_data?.text}
-                                        </ReactMarkdown>
-                                        {post.Posts.parent_post_data?.text?.length > 200 ?
-                                            < div onClick={() => setShowMoreTextParent(false)} className={styles.show_more_button}>Скрыть</div>
-                                            : null}
-                                    </>
-                                }
-
-                            </div>
-
-                            {post.Posts.parent_post_data?.pictures?.length > 0 ?
-                                <div>
-                                    <Carousel images={post.Posts.parent_post_data?.pictures} status={false} />
-                                </div>
-                                : null}
+                                    {post.Posts.parent_post_data?.pictures?.length > 0 ?
+                                        <div>
+                                            <Carousel images={post.Posts.parent_post_data?.pictures} status={false} />
+                                        </div>
+                                        : null}
 
 
-                        </span>
-                    </ul>
+                                </span>
+                            </ul>
+                            :
+                            <ul className={styles.tree}>
+                                <span className={styles.tree_label}>
+                                    Запись удалена
+                                </span>
+                            </ul>
+                        }
+                    </>
                     :
                     null
                 }

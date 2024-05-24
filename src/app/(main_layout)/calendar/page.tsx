@@ -9,6 +9,9 @@ import { GamesResponse, GamesResponseCalendar } from "@/models/gamesModel";
 import { PostPopUp } from "@/components/popup/posts/PostPopUp";
 import LeavePostCard from "@/components/cards/service/LeavePostCard";
 import Link from "next/link";
+import ArrowLeftIcon from "@/components/icons/arrowLeft";
+import ArrowRightIcon from "@/components/icons/arrowRight";
+import Image from 'next/image'
 
 export type CalendarResp = {
     month: Array<Array<number>>,
@@ -42,7 +45,7 @@ export default function CalendarPage() {
         const maxValue = Math.max.apply(null, calendar.month[calendar.month.length - 1]);
         ContentService.getGamesByMonth(jsonDate, maxValue).then(resp =>
             setGames(resp.data)
-        )
+        ).catch(err => setGames([]))
 
 
     }, [currentMonth, currentYear])
@@ -57,25 +60,20 @@ export default function CalendarPage() {
         if (currentMonth > 1) {
             setCurrentMonth(currentMonth - 1)
             // setCurrentDate(currentDate.getMonth() - 1)
-
         }
         else {
             setCurrentMonth(11)
             setCurrentYear(currentYear - 1)
         }
-
     }
     const nextMonth = () => {
         if (currentMonth < 11) {
             setCurrentMonth(currentMonth + 1)
-
         }
         else {
             setCurrentMonth(0)
             setCurrentYear(currentYear + 1)
-
         }
-
     }
     const showGameList = (day: number) => {
         setIsShowPost(true)
@@ -83,108 +81,150 @@ export default function CalendarPage() {
 
     }
     return (
-        <main className="main_content_wrapper">
+        <>
             <PostPopUp active={isShowPost} setActive={setIsShowPost}>
                 <LeavePostCard setIsShow={setIsShowPost} />
                 <div className={styles.card_wrapper}>
                     {games?.map(
-                        game => (
+                        (game, index) => (
                             <>
-                                {game[globlDay]?.map(item => (
-                                    <Link href={`/games/${item.slug}`} className={styles.game_list_item} key={item.id}>
-                                        <div className={styles.game_cover_wrapper}>
-                                            {item.cover ?
-                                                <img src={item.cover} alt={'game cover'} width={50} height={50} />
-                                                : <div className={styles.game_cover_not_fount}><small>N/A</small></div>}
-                                        </div>
-                                        {item.title}
-                                    </Link>
-                                ))}
+                                {
+                                    game[globlDay]?.map(item => (
+                                        <Link href={`/games/${item.slug}`} className={styles.game_list_item} key={item.id}>
+                                            <div className={styles.game_cover_wrapper}>
+                                                {item.cover ?
+                                                    <Image
+                                                        src={item.cover}
+                                                        alt="Picture of the author"
+                                                        width={50}
+                                                        height={50}
+                                                    />
+                                                    : <div className={styles.game_cover_not_fount}><small>N/A</small></div>}
+                                            </div>
+                                            {item.title}
+                                        </Link>
+                                    ))
+                                }
                             </>
                         )
                     )}
                 </div>
             </PostPopUp>
-            <div className={styles.control_wrapper}>
-                <button onClick={() => prevMonth()}>
-                    Назад
-                </button>
-                <div>{today.toLocaleDateString([], options)}</div>
-                <button onClick={() => nextMonth()}>
-                    Вперёд
-                </button>
-            </div>
-            <div>
+            <main className="main_content_wrapper">
+                <div className={styles.control_wrapper}>
+                    <div className={styles.icon_wrapper} onClick={() => prevMonth()}>
+                        <ArrowLeftIcon className='general-icon' />
+                    </div>
 
-                <div className={styles.calendar_grid_week_days}>
-                    {week_days.map(day => (
-                        <div key={day} className={styles.day_wrapper_week}>
-                            {day}
-                        </div>
-                    ))}
+                    <div>{today.toLocaleDateString([], options)}</div>
+
+                    <div className={styles.icon_wrapper} onClick={() => nextMonth()}>
+                        <ArrowRightIcon className='general-icon' />
+                    </div>
                 </div>
-                <div className={styles.calendar_grid}>
-
-                    {calendar?.month?.map(week => (
-                        <>
-                            {week.map((day, index) => (
-                                <div key={index} className={styles.day_wrapper} onClick={() => showGameList(day)}>
-                                    {day === 0 ? null :
-                                        <>
-                                            <div className={styles.calendar_block_wrapper}>
-                                                <div className={styles.day_number}>
-                                                    {day}
-                                                </div>
-                                                <div className={styles.games_list_wrapper}>
-                                                    {games?.map(
-                                                        (game, index) => (
-                                                            <div className={styles.games_list} key={index}>
-                                                                {game[day]?.length > 1 ?
-                                                                    <div className={styles.block}>
-                                                                        {game[day]?.slice(0, 2).map((item, index) => (
-                                                                            <div className={styles.game_cover_wrapper_calendar} key={item.id}
-                                                                                style={{ position: 'absolute', left: `calc(5px + ${index * 18}px)` }}>
-                                                                                {item.cover ?
-                                                                                    <img src={item.cover} alt={'game cover'} width={50} height={50} />
-                                                                                    : <div className={styles.game_cover_not_fount}><small>N/A</small></div>}
+                <div>
+                    <div className={styles.calendar_grid_week_days}>
+                        {week_days.map(day => (
+                            <div key={day} className={styles.day_wrapper_week}>
+                                {day}
+                            </div>
+                        ))}
+                    </div>
+                    <div className={styles.calendar_grid}>
+                        {calendar?.month?.map((week, index) => (
+                            <>
+                                {week.map((day, index) => (
+                                    <div key={index} className={styles.day_wrapper} onClick={() => showGameList(day)}>
+                                        {day === 0 ? null :
+                                            <>
+                                                <div className={styles.calendar_block_wrapper}>
+                                                    <div className={styles.day_number}>
+                                                        {day}
+                                                    </div>
+                                                    <div className={styles.games_list_wrapper}>
+                                                        {games?.map(
+                                                            (game, index) => (
+                                                                <div className={styles.games_list} key={index}>
+                                                                    <div className={styles.desktop_block}>
+                                                                        {game[day]?.length > 1 ?
+                                                                            <div className={styles.block}>
+                                                                                {game[day]?.slice(0, 2).map((item, index) => (
+                                                                                    <div className={styles.game_cover_wrapper_calendar} key={item.id}
+                                                                                        style={{ position: 'absolute', left: `calc(5px + ${index * 18}px)` }}>
+                                                                                        {item.cover ?
+                                                                                            <img src={item.cover} alt={'game cover'} width={50} height={50} />
+                                                                                            : <div className={styles.game_cover_not_fount}><small>N/A</small></div>}
+                                                                                    </div>
+                                                                                ))}
+                                                                                {game[day]?.length > 2 ?
+                                                                                    <div className={styles.more_items} style={{ position: 'absolute', left: `calc(5px + ${2 * 18}px)` }}>
+                                                                                        +{game[day]?.length - 2}
+                                                                                    </div>
+                                                                                    : null}
                                                                             </div>
-                                                                        ))}
-                                                                        {game[day]?.length > 2 ?
-                                                                            <div className={styles.more_items} style={{ position: 'absolute', left: `calc(5px + ${2 * 18}px)` }}>
-                                                                                +{game[day]?.length - 2}
-                                                                            </div>
-                                                                            : null}
+                                                                            :
+                                                                            <>
+                                                                                {game[day]?.slice(0, 1).map(item => (
+                                                                                    <div className={styles.game_cover_wrapper_calendar} key={item.id}>
+                                                                                        {item.cover ?
+                                                                                            <img src={item.cover} alt={'game cover'} width={50} height={50} />
+                                                                                            : <div className={styles.game_cover_not_fount}><small>N/A</small></div>}
+                                                                                    </div>
+                                                                                ))}
+                                                                            </>
+                                                                        }
                                                                     </div>
-                                                                    :
-                                                                    <>
-                                                                        {game[day]?.slice(0, 1).map(item => (
-                                                                            <div className={styles.game_cover_wrapper_calendar} key={item.id}>
-                                                                                {item.cover ?
-                                                                                    <img src={item.cover} alt={'game cover'} width={50} height={50} />
-                                                                                    : <div className={styles.game_cover_not_fount}><small>N/A</small></div>}
+                                                                    <div className={styles.mobile_block}>
+                                                                        {game[day]?.length > 1 ?
+                                                                            <div className={styles.block}>
+                                                                                {game[day]?.slice(0, 1).map((item, index) => (
+                                                                                    <div className={styles.game_cover_wrapper_calendar_mobile} key={item.id}>
+                                                                                        {item.cover ?
+                                                                                            <img src={item.cover} alt={'game cover'} width={50} height={50} />
+                                                                                            : <div className={styles.game_cover_not_fount}><small>N/A</small></div>}
+                                                                                    </div>
+                                                                                ))}
+                                                                                {game[day]?.length > 2 ?
+                                                                                    <div className={styles.more_items_mobile} style={{ position: 'absolute', left: `calc(5px + ${1 * 8}px)` }}>
+                                                                                        +{game[day]?.length - 1}
+                                                                                    </div>
+                                                                                    : null}
                                                                             </div>
-                                                                        ))}
-                                                                    </>
-                                                                }
-                                                            </div>
-                                                        )
-                                                    )}
+                                                                            :
+                                                                            <>
+                                                                                {game[day]?.slice(0, 1).map(item => (
+                                                                                    <div className={styles.game_cover_wrapper_calendar} key={item.id}>
+                                                                                        {item.cover ?
+                                                                                            <img src={item.cover} alt={'game cover'} width={50} height={50} />
+                                                                                            : <div className={styles.game_cover_not_fount}><small>N/A</small></div>}
+                                                                                    </div>
+                                                                                ))}
+                                                                            </>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </>
-                                    }
+                                            </>
+                                        }
 
-                                </div>
-                            ))}
-                        </>
-                    ))}
+                                    </div>
+                                ))}
+                            </>
+
+                        ))}
+                    </div>
                 </div>
+                <div>
+
+
+                </div>
+
+            </main>
+            <div className="right_side_wrapper">
             </div>
-            <div>
-
-
-            </div>
-
-        </main>
+        </>
     );
 }

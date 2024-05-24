@@ -23,19 +23,80 @@
 .icon_wrapper {
     height: 22px;
     width: 22px;
-    background-repeat: no-repeat;
-    background-size: cover;
+    display: flex;
 }
 
-
+.icon_wrapper_report {
+    height: 28px;
+    width: 28px;
+    display: flex;
+}
 
 .popup_elem {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 4px 10px;
+    padding: 10px 10px;
     border-radius: var(--border-radius-main);
     cursor: pointer;
-    font-size: 16px;
+    gap: 12px;
+}
 
+.command_elem_wrapper,
+.del_elem_wrapper {
+    display: flex;
+    width: 100%;
+    gap: 6px;
+    padding: 10px 6px;
+    border-radius: var(--border-radius-main);
+    cursor: pointer;
+}
+
+.del_elem_wrapper {
+    color: var(--red-button-color);
+}
+
+.command_elem_wrapper:hover,
+.del_elem_wrapper:hover,
+.popup_elem:hover {
+    background-color: var(--list-item-hover);
+
+}
+
+.popup_wrapper {
+    background-color: var(--bg-card-color);
+    border-radius: var(--border-radius-main);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.popup_wrapper_delete {
+    background-color: var(--bg-card-color);
+    border-radius: var(--border-radius-main);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: 300px;
+}
+
+.alert_text{
+    padding: 6px;
+    font-size: 20px;
+}
+
+.delete_wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 6px;
+}
+
+.delete_wrapper div {
+    justify-content: center;
+    background-color: var(--list-item-hover);
+    border-radius: var(--border-radius-main);
 }

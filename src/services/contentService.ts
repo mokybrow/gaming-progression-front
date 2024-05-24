@@ -173,5 +173,10 @@ export default class ContentService {
             days: days
         })
     }
+    static async deletePost(postID: string): Promise<AxiosResponse> {
+        const url = process.env.API_URL
+
+        return $api.delete(url + `posts/${postID}`)
+    }
 
 }

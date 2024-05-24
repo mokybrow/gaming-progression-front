@@ -11,7 +11,7 @@ import { observer } from "mobx-react";
 import DotsIcon from "@/components/icons/dots";
 import UserIcon from "@/components/icons/user";
 import { formatDate } from "@/services/dateFormat";
-import ReportButton from "@/components/buttons/report/ReportButton";
+import CommandButton from "@/components/buttons/report/CommandPostButton";
 import ReactToast from "@/components/toast/Toast";
 
 
@@ -83,7 +83,7 @@ function CommentItem({ commentId, fullName, username, text, likeCount, created, 
                         Ответить
                     </div>
                     <div>
-                    <ReportButton contentId={commentId} contentType={"comments"} setToastText={setToastText} setActive={setActiveToast} />
+                    <CommandButton contentId={commentId} contentType={"comments"} setToastText={setToastText} setActive={setActiveToast} authorID={""} />
                     </div>
                 </div>
             </div>

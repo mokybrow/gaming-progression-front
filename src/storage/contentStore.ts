@@ -635,5 +635,36 @@ export default class ContentStore {
             return false
         }
     }
+
+    async deletePost(postID: string) {
+        try {
+            await ContentService.deletePost(postID)
+            if (this.userWall.some(item => item.Posts.id == postID)) {
+                const index = this.userWall.findIndex(n => n.Posts.id === postID)
+                if (index !== -1) {
+                    this.userWall.splice(index, 1);
+                    return true
+                }
+            }
+            if (this.myWall.some(item => item.Posts.id == postID)) {
+                const index = this.myWall.findIndex(n => n.Posts.id === postID)
+                if (index !== -1) {
+                    this.myWall.splice(index, 1);
+                    return true
+                }
+            }
+            if (this.userFeed.some(item => item.Posts.id == postID)) {
+                const index = this.userFeed.findIndex(n => n.Posts.id === postID)
+                if (index !== -1) {
+                    this.userFeed.splice(index, 1);
+                    return true
+                }
+            }
+            return true
+        } catch (e) {
+
+            return false
+        }
+    }
 }
 

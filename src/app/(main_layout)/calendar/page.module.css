@@ -6,17 +6,19 @@
     border-top: 1px solid var(--font-color);
     border-left: 1px solid var(--font-color);
     background-color: var(--calendar-bg-color);
-    transition: .2s linear background-color;
+    transition: .2s linear background-color, border;
 }
-.day_wrapper {  
+
+.day_wrapper {
     display: flex;
     width: 100%;
     height: 100%;
     justify-content: right;
     padding: 6px;
-    border-bottom: 1px solid  var(--font-color);
-    border-right: 1px solid  var(--font-color);  
+    border-bottom: 1px solid var(--font-color);
+    border-right: 1px solid var(--font-color);
     cursor: pointer;
+    transition: border .2s linear;
 }
 
 .calendar_grid_week_days {
@@ -26,9 +28,10 @@
     border-radius: var(--border-radius-main);
     padding: 6px;
     grid-auto-rows: 24px;
-
+    transition: border .2s linear;
 }
-.day_wrapper_week{
+
+.day_wrapper_week {
     display: flex;
     width: 100%;
     height: 100%;
@@ -36,14 +39,13 @@
     padding: 6px;
 }
 
-
-.day_number{
+.day_number {
     display: flex;
     width: 100%;
     justify-content: right;
 }
 
-.calendar_block_wrapper{
+.calendar_block_wrapper {
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -52,14 +54,15 @@
 
 
 
-.game_title{
+.game_title {
     font-size: 12px;
 }
 
-.control_wrapper{
+.control_wrapper {
     width: 100%;
-    justify-content: center;
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 24px;
 }
 
@@ -71,11 +74,12 @@
 }
 
 .game_list_item:hover {
-    background-color: var( --list-item-hover);
+    background-color: var(--list-item-hover);
     border-radius: var(--border-radius-main);
 
 }
-.games_list_wrapper{
+
+.games_list_wrapper {
     width: 100%;
     justify-content: left;
     display: flex;
@@ -118,7 +122,29 @@
     left: 0;
 }
 
-.more_items{
+.game_cover_wrapper_calendar_mobile {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    overflow: hidden;
+    border-radius: 100px;
+    border: 2px solid white;
+}
+
+.game_cover_wrapper_calendar_mobile img {
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.mobile_block {
+    display: none;
+}
+
+.more_items {
     background-color: var(--input-color);
     border-radius: 100px;
     width: 40px;
@@ -127,13 +153,96 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    /* left: 26px; */
+    transition: background-color .2s linear;
 }
-.block{
+
+.more_items_mobile {
+    background-color: var(--input-color);
+    border-radius: 100px;
+    width: 34px;
+    height: 34px;
     display: flex;
-    
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    font-size: 12px;
+    transition: background-color .2s linear;
 }
+
+@media (max-width: 1440px) {
+    .desktop_block {
+        display: none;
+    }
+
+    .mobile_block {
+        display: block;
+    }
+
+}
+
+@media (max-width: 1024px) {
+    .desktop_block {
+        display: block;
+    }
+
+    .mobile_block {
+        display: none;
+    }
+
+}
+
+@media (max-width: 700px) {
+    .desktop_block {
+        display: none;
+    }
+
+    .mobile_block {
+        display: block;
+    }
+}
+
+@media (max-width: 450px) {
+    .day_wrapper {
+        padding: 2px;
+    }
+
+    .game_cover_wrapper_calendar_mobile {
+        width: 28px;
+        height: 28px;
+    }
+
+    .more_items_mobile {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (max-width: 450px) {
+    .day_wrapper {
+        padding: 2px;
+    }
+
+    .game_cover_wrapper_calendar_mobile {
+        width: 22px;
+        height: 22px;
+    }
+
+    .more_items_mobile {
+        width: 22px;
+        height: 22px;
+        font-size: 10px;
+    }
+}
+
+
+
+.block {
+    display: flex;
+
+}
+
 .card_wrapper {
+    margin-top: 24px;
     display: flex;
     flex-direction: column;
     /* position: relative; */
@@ -154,4 +263,11 @@
         height: 100%;
         padding-bottom: 50px;
     }
+}
+
+.icon_wrapper {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
 }

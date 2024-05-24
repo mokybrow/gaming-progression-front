@@ -1,25 +1,13 @@
 'use client'
 
-import styles from './card.module.css'
-import Link from 'next/link';
-import Image from 'next/image'
-
-import userImage from '@/assets/icons/general/user.png'
-import SocialButtonCard from "@/components/cards/social_pannel/SocialPannel";
 import { useContext, useState } from 'react';
 import { Context } from '@/app/providers';
 import OneCard from './OneCard';
-import ReactMarkdown from 'react-markdown';
 import { observer } from 'mobx-react';
 import { WallResponseModel } from '@/models/wallsModels';
 import { PostPopUp } from '@/components/popup/posts/PostPopUp';
-import RepostPopUp from '@/components/popup/repost/RepostPopUp';
 import RepostCard from './RepostCard';
 import LeavePostCard from '../service/LeavePostCard';
-import DotsIcon from '@/components/icons/dots';
-import { formatDate } from '@/services/dateFormat';
-import UserIcon from '@/components/icons/user';
-import ReportButton from '@/components/buttons/report/ReportButton';
 import ReactToast from '@/components/toast/Toast';
 import PostCard from './PostCard';
 

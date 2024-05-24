@@ -1,0 +1,21 @@
+.modal_hide{
+    display: none;
+}
+
+
+.modal_content_active {
+    display: flex;
+    flex-direction: column;  
+    background-color: var(--bg-card-color);  
+    -webkit-box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 5px 4px 24px 0px rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius-main);
+    padding: 12px 12px 8px;
+    position: absolute;
+    top: 50px;
+    font-size: 18px;
+    gap: 4px;
+    z-index: 12;
+    min-width: 200px;
+}

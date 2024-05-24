@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import ArrowRightIcon from '../icons/arroRight'
+import ArrowRightIcon from '../icons/arrowRight'
 import ArrowLeftIcon from '../icons/arrowLeft'
 import styles from './carousel.module.css'
 import CrossIcon from '../icons/cross'
@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite'
 import { Pictures } from '@/models/wallsModels'
 import { PicturesModel } from '@/models/serviceModel'
 import { FullScreenPopup } from '../popup/main_popup/FullScreenPopup'
+import Image from 'next/image'
 
 export interface CardProps {
     images: PicturesModel[] | Pictures[],
@@ -104,7 +105,6 @@ const Carousel = ({ images, status }: CardProps) => {
 
                         <img src={images === null ? '' : image.picture_path} alt="" className={slide === index ? styles.slide_blur : styles.slide_blur_hidden} />
                         <img src={images === null ? '' : image.picture_path} alt="" className={slide === index ? styles.slide : styles.slide_hidden} onClick={() => zoomImage()} />
-
                         {
                             images?.length > 1 ?
                                 <div className={slide === index ? styles.image_counter : styles.slide_hidden}>{index + 1}/{images.length}</div>
