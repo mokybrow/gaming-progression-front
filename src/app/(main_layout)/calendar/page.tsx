@@ -2,7 +2,7 @@
 
 import monthCalendar from "@/services/monthCalendar";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import styles from './page.module.css'
 import ContentService from "@/services/contentService";
 import { GamesResponse, GamesResponseCalendar } from "@/models/gamesModel";
@@ -15,13 +15,12 @@ import Image from 'next/image'
 
 export type CalendarResp = {
     month: Array<Array<number>>,
-
     year: number,
 }
 
 export type Calendar = (_year: number, _month: number) => CalendarResp;
 
-export default function CalendarPage() {
+function CalendarPage() {
     let month = new Date().getMonth();
     let year = new Date().getFullYear();
 
@@ -37,6 +36,7 @@ export default function CalendarPage() {
     today.setFullYear(currentYear);
 
     useEffect(() => {
+        console.log(currentMonth,currentYear )
         const calendar = monthCalendar(Number(currentYear), Number(currentMonth))
         setCalendar(calendar)
         const event = new Date(`${currentMonth + 1}.01.${currentYear}`);
@@ -227,4 +227,15 @@ export default function CalendarPage() {
             </div>
         </>
     );
+}
+
+
+
+export default function ChangeEmailPage() {
+    return (
+        // You could have a loading skeleton as the `fallback` too
+        <Suspense>
+            <CalendarPage />
+        </Suspense>
+    )
 }
